@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft;
-
-using Firebase.Firestore;
-using Firebase.Extensions;
+//using Firebase.Firestore;
+//using Firebase.Extensions;
 
 
 public class DatabaseScript : MonoBehaviour
 {
-    FirebaseFirestore db;
+    //FirebaseFirestore db;
     // Start is called before the first frame update
     void Start()
     {
-        db = FirebaseFirestore.DefaultInstance;
-        print(db);
+        //db = FirebaseFirestore.DefaultInstance;
+        //print(db);
         
         /*
         DocumentReference docRef = db.Collection("GamePlayHistory").Document("Test");
