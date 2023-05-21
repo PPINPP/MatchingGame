@@ -11,21 +11,19 @@ public enum CardState
 
 public class Card : MonoBehaviour
 {
-    public bool canFlip = false;
+    [SerializeField] Image itemImage;
 
-    [SerializeField]
-    private CardState _state;
-    [SerializeField]
-    private int _cardValue;
-    [SerializeField]
-    private bool _initialized = false;
+    public bool canFlip { get; private set; }
     
+    private CardState _state;
+    private bool _initialized = false;
+    private int _cardValue;
     private Sprite _cardBack;
     private Sprite _cardFace;
-
     private GameObject _manager;
     private GameManager gameManager;
     private Image cardImage;
+
 
     public int CardValue
     {

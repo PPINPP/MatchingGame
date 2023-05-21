@@ -1,70 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
-
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Sprite[] cardFace;
-    public Sprite cardBack;
-    public GameObject[] cardObjs;
-    public TextMeshProUGUI matchText;
+    [SerializeField] PairScriptable pairScriptable;
+    [SerializeField] Sprite[] cardFace;
+    [SerializeField] Sprite cardBack;
+    [SerializeField] TextMeshProUGUI matchText;
+    [SerializeField] GameObject cardParent;
+    [SerializeField] GameObject cardPrefab;
 
+    List<GameObject> cardObjs = new List<GameObject>();
     private bool _init = false;
     private int _matches;
-    private Card[] cards;
+    private List<Card> cards = new List<Card>();
     private object sceneName;
+    private GridLayoutGroup gridLayout;
+    private PairConfig pairConfig = new PairConfig();
 
     private void Awake()
     {
-        _matches = cardObjs.Length / 2;
+        pairConfig = pairScriptable.pairConfigs.Find(_ => (int)_.pairType == 3);
+
+        _matches = (int)pairConfig.pairType;
         matchText.text = "Number of Matches: " + _matches;
+        gridLayout = cardParent.GetComponent<GridLayoutGroup>();
     }
 
     private void Start()
     {
-        cards = new Card[cardObjs.Length];
-        for (int i = 0; i < cardObjs.Length; i++)
-        {
-            cards[i] = cardObjs[i].GetComponent<Card>();
-        }
-        if (!_init)
-            initializeCards();
-    }
-
-    void Update()
-    {
-        //if (Input.GetMouseButtonUp(0))
-        //    checkCards();
+        initializeCards();
     }
 
     void initializeCards()
     {
-        for (int id = 0; id < 2; id++)
+        gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);    
+        for (int i = 0; i < _matches * 2; i++)
         {
-            for (int i = 1; i <= cards.Length / 2; i++)
-            {
-                bool isCardInit = false;
-                int choice = 0;
-
-                choice = Random.Range(0, cards.Length);
-                isCardInit = !(cards[choice].Initialized);
-                while (!isCardInit)
-                {
-                    choice = Random.Range(0, cards.Length);
-                    isCardInit = !(cards[choice].Initialized);
-                }
-                var card = cards[choice];
-                card.Init(i);
-                card.setupGraphics(cardBack, getCardFace(card.CardValue));
-            }
+            print("d");
+            GameObject cardObj = Instantiate(cardPrefab, cardParent.transform);
+            cardObjs.Add(cardObj);
+            Card card = cardObj.GetComponent<Card>();
+            cards.Add(card);
         }
 
-        //foreach (Card c in cards)
-        //    c.setupGraphics(cardBack);
+        //TODO : SHUFFLE CARD
+
+        //for (int id = 0; id < 2; id++)
+        //{
+        //    for (int i = 1; i <= cards.Length / 2; i++)
+        //    {
+        //        bool isCardInit = false;
+        //        int choice = 0;
+
+        //        choice = Random.Range(0, cards.Length);
+        //        isCardInit = !(cards[choice].Initialized);
+        //        while (!isCardInit)
+        //        {
+        //            choice = Random.Range(0, cards.Length);
+        //            isCardInit = !(cards[choice].Initialized);
+        //        }
+        //        var card = cards[choice];
+        //        card.Init(i);
+        //        card.setupGraphics(cardBack, getCardFace(card.CardValue));
+        //    }
+        //}
 
         if (!_init)
             _init = true;
@@ -77,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     List<Card> selectedCards = new List<Card>();
 
-    public  void checkCards(Card card)
+    public void checkCards(Card card)
     {
         selectedCards.Add(card);
 
