@@ -24,7 +24,6 @@ public class Card : MonoBehaviour
     private GameManager gameManager;
     private Image cardImage;
 
-
     public int CardValue
     {
         get { return _cardValue; }
@@ -57,7 +56,7 @@ public class Card : MonoBehaviour
         gameManager = _manager.GetComponent<GameManager>();
         _cardBack = cardBack;
         _cardFace = CardFace;
-        cardImage.sprite = _cardFace;
+        itemImage.sprite = _cardFace;
 
         print(CardValue);
         print(_state);
@@ -68,24 +67,27 @@ public class Card : MonoBehaviour
 
     public void CardClick()
     {
-        if (!canFlip) return;
+        print(gameManager.CanFilpCard());
+        if (!canFlip || !gameManager.CanFilpCard()) return;
 
         canFlip = false;
         flipCard();
         gameManager.checkCards(this);
     }
 
-    public void flipCard() {
+    private void flipCard() {
 
         if(_state == CardState.FACEDOWN)
         {
             _state = CardState.FACEUP;
-            cardImage.sprite = _cardFace;
+            cardImage.sprite = null;
+            itemImage.sprite = _cardFace;
         }
         else if (_state == CardState.FACEUP)
         {
             _state = CardState.FACEDOWN;
             cardImage.sprite = _cardBack;
+            itemImage.sprite = null;
         }
     }
 
@@ -98,6 +100,7 @@ public class Card : MonoBehaviour
         yield return new WaitForSeconds(1);
         flipCard();
         canFlip = true;
+        gameManager.ClearCardList();
     }   
 
     IEnumerator DelayShowFaceUp(float time)

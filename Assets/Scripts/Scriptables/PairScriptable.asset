@@ -21,6 +21,7 @@ MonoBehaviour:
       x: 150
       y: 150
     ConstraintRow: 2
+    roundShuffle: 3
   - pairType: 4
     cellSize:
       x: 300
@@ -29,3 +30,4 @@ MonoBehaviour:
       x: 150
       y: 150
     ConstraintRow: 2
+    roundShuffle: 4

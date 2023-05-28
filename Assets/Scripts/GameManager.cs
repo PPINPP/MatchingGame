@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private bool _init = false;
     private int _matches;
     private List<Card> cards = new List<Card>();
+    List<Card> selectedCards = new List<Card>();
     private object sceneName;
     private GridLayoutGroup gridLayout;
     private PairConfig pairConfig = new PairConfig();
@@ -41,7 +42,6 @@ public class GameManager : MonoBehaviour
         gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);    
         for (int i = 0; i < _matches * 2; i++)
         {
-            print("d");
             GameObject cardObj = Instantiate(cardPrefab, cardParent.transform);
             cardObjs.Add(cardObj);
             Card card = cardObj.GetComponent<Card>();
@@ -50,36 +50,59 @@ public class GameManager : MonoBehaviour
 
         //TODO : SHUFFLE CARD
 
-        //for (int id = 0; id < 2; id++)
-        //{
-        //    for (int i = 1; i <= cards.Length / 2; i++)
-        //    {
-        //        bool isCardInit = false;
-        //        int choice = 0;
+        cards = ShuffleCard(cards,pairConfig.roundShuffle);
 
-        //        choice = Random.Range(0, cards.Length);
-        //        isCardInit = !(cards[choice].Initialized);
-        //        while (!isCardInit)
-        //        {
-        //            choice = Random.Range(0, cards.Length);
-        //            isCardInit = !(cards[choice].Initialized);
-        //        }
-        //        var card = cards[choice];
-        //        card.Init(i);
-        //        card.setupGraphics(cardBack, getCardFace(card.CardValue));
-        //    }
-        //}
+        int value = 0;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            Card card = cards[i];
+            card.Init(value);
+            card.setupGraphics(cardBack, getCardFace(card.CardValue));
+
+            if ((i +1) % 2== 0)
+            {
+                value++;
+            }
+        }
 
         if (!_init)
             _init = true;
     }
 
-    public Sprite getCardFace(int i)
+    List<Card> ShuffleCard(List<Card> cardList, int roundShuffle = 1)
     {
-        return cardFace[i - 1];
+        int lastIndex = cardList.Count - 1;
+
+        for (int i = 0; i < roundShuffle;i++)
+        {
+            while (lastIndex > 0)
+            {
+                Card tempValue = cardList[lastIndex];
+                int randomIndex = Random.Range(0, lastIndex);
+                cardList[lastIndex] = cardList[randomIndex];
+                cardList[randomIndex] = tempValue;
+                lastIndex--;
+            }
+        }
+      
+
+        return cardList;
     }
 
-    List<Card> selectedCards = new List<Card>();
+    public Sprite getCardFace(int i)
+    {
+        return cardFace[i];
+    }
+
+    public bool CanFilpCard()
+    {
+        print(selectedCards.Count);
+        if (selectedCards.Count >= 2)
+        {
+            return false;
+        }
+        else return true;
+    }
 
     public void checkCards(Card card)
     {
@@ -91,7 +114,6 @@ public class GameManager : MonoBehaviour
 
     void cardComparison()
     {
-
         if (selectedCards[0].CardValue == selectedCards[1].CardValue)
         {
             _matches--;
@@ -109,7 +131,13 @@ public class GameManager : MonoBehaviour
                 card.falseCheck();
             });
         }
+       
+    }
+
+    public void ClearCardList()
+    {
         selectedCards.Clear();
+
     }
 
     public void LoadSceneWithDelay(string sceneName)

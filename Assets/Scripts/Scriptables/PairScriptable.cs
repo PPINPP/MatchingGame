@@ -15,6 +15,7 @@ public class PairConfig
     public Vector2LayOut cellSize;
     public Vector2LayOut spacing;
     public int ConstraintRow;
+    public int roundShuffle;
 }
 
 [Serializable]
