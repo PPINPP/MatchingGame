@@ -15,19 +15,37 @@ MonoBehaviour:
   pairConfigs:
   - pairType: 3
     cellSize:
-      x: 300
-      y: 300
+      x: 280
+      y: 280
     spacing:
-      x: 150
-      y: 150
+      x: 30
+      y: 30
     ConstraintRow: 2
     roundShuffle: 3
   - pairType: 4
     cellSize:
-      x: 300
-      y: 300
+      x: 250
+      y: 250
     spacing:
-      x: 150
-      y: 150
+      x: 30
+      y: 30
     ConstraintRow: 2
+    roundShuffle: 4
+  - pairType: 6
+    cellSize:
+      x: 250
+      y: 250
+    spacing:
+      x: 30
+      y: 30
+    ConstraintRow: 3
+    roundShuffle: 4
+  - pairType: 8
+    cellSize:
+      x: 210
+      y: 210
+    spacing:
+      x: 30
+      y: 30
+    ConstraintRow: 4
     roundShuffle: 4

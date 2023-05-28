@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
         {
             _matches--;
             matchText.text = "Number of Matches: " + _matches;
-
+            ClearCardList();
             //if (_matches == 0)
             //    //Invoke("LoadScene", 3f, "Menu");
             //    //SceneManager.LoadScene("Menu");
