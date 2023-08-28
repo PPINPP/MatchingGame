@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] PairScriptable pairScriptable;
     [SerializeField] Sprite[] cardFace;
     [SerializeField] Sprite cardBack;
     [SerializeField] TextMeshProUGUI matchText;
@@ -25,21 +24,24 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        pairConfig = pairScriptable.pairConfigs.Find(_ => (int)_.pairType == 3);
-
-        _matches = (int)pairConfig.pairType;
-        matchText.text = "Number of Matches: " + _matches;
+        
         gridLayout = cardParent.GetComponent<GridLayoutGroup>();
     }
 
     private void Start()
     {
+        GameplayResources.Instance.Init();
+        pairConfig = GameplayResources.Instance.GameplayPairSO.pairConfigs.Find(_ => (int)_.pairType == 8);
+
+        _matches = (int)pairConfig.pairType;
+        matchText.text = "Number of Matches: " + _matches;
         initializeCards();
     }
 
     void initializeCards()
     {
-        gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);    
+        gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+        gridLayout.constraintCount = pairConfig.ConstraintRow;
         for (int i = 0; i < _matches * 2; i++)
         {
             GameObject cardObj = Instantiate(cardPrefab, cardParent.transform);
@@ -84,7 +86,6 @@ public class GameManager : MonoBehaviour
                 lastIndex--;
             }
         }
-      
 
         return cardList;
     }

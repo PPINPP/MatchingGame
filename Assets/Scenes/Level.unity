@@ -365,7 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81f8a61c296541afa7345e89c64a6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pairScriptable: {fileID: 11400000, guid: b5850500bcfc69a4897d5cb661c8dd70, type: 2}
   cardFace:
   - {fileID: 21300000, guid: 1ccd0479747a34b40a81f5d52ff977d4, type: 3}
   - {fileID: 21300000, guid: a3bf084df1163b24b9cf854dc283cc1e, type: 3}
@@ -581,7 +580,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &1461008331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 72
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1980, y: 1080}
   m_ScreenMatchMode: 0
@@ -685,7 +684,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1662.2012, y: 840}
+  m_SizeDelta: {x: 1660, y: 840}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1683925903
 MonoBehaviour:
