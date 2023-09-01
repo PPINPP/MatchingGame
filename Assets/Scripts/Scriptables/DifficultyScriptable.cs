@@ -1,12 +1,21 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DifficultyScriptable", order = 2)]
 public class DifficultyScriptable : SerializedScriptableObject
 {
+
+    [ContextMenuItem("Load Image", "LoadImg")]
+    [Header("Load Img Config")]
+    [SerializeField] string type;
+    [SerializeField] string key;
+    [SerializeField] string number;
+    [Space(5)]
+    [Header("Stage Config")]
     public Dictionary<string,StageConfig> stageConfig = new Dictionary<string, StageConfig>();
     [HideInInspector]
     public List<string> easyID = new List<string>();
@@ -16,6 +25,13 @@ public class DifficultyScriptable : SerializedScriptableObject
     public List<string> hardID = new List<string>();
     [HideInInspector]
     public List<string> advanceID = new List<string>();
+
+    public void LoadImg()
+    {
+        var stageConfig = new StageConfig();
+        string easyPath = $"Assets/Texture/{type}/1_Easy/{key}";
+        var easySprite = (Sprite)AssetDatabase.LoadAssetAtPath(easyPath, typeof(Sprite));
+    }
 
     public void SetObjValue()
     {
