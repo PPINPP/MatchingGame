@@ -54,7 +54,7 @@ public class DifficultyScriptable : SerializedScriptableObject
         var hardSprite = (Sprite)AssetDatabase.LoadAssetAtPath(hardPath, typeof(Sprite));
         Config.hardSprite = hardSprite;
 
-        string advancePath = $"Assets/Texture/{category}/3_Hard/{key}_A_{number:0000}.png";
+        string advancePath = $"Assets/Texture/{category}/4_Advance/{key}_A_{number:0000}.png";
         var advanceSprite = (Sprite)AssetDatabase.LoadAssetAtPath(advancePath, typeof(Sprite));
         Config.advanceSprite = advanceSprite;
 
