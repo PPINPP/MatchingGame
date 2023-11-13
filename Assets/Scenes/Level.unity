@@ -365,6 +365,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81f8a61c296541afa7345e89c64a6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   cardFace:
   - {fileID: 21300000, guid: 1ccd0479747a34b40a81f5d52ff977d4, type: 3}
   - {fileID: 21300000, guid: a3bf084df1163b24b9cf854dc283cc1e, type: 3}
@@ -378,6 +387,8 @@ MonoBehaviour:
   matchText: {fileID: 14600296}
   cardParent: {fileID: 1683925901}
   cardPrefab: {fileID: 1365132794314999237, guid: 7adae7fe70fd42c4abc1adc7c1eb5d40, type: 3}
+  gameMode: 0
+  type: home
 --- !u!4 &375574342
 Transform:
   m_ObjectHideFlags: 0

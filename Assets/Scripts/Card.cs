@@ -23,6 +23,7 @@ public class Card : MonoBehaviour
     private GameObject _manager;
     private GameManager gameManager;
     private Image cardImage;
+    private Color faceUpCardColor = Color.white;
 
     public int CardValue
     {
@@ -43,6 +44,10 @@ public class Card : MonoBehaviour
         _state = CardState.FACEUP;
         cardImage = GetComponent<Image>();
         _manager = GameObject.FindGameObjectWithTag("Manager");
+        faceUpCardColor.a = cardImage.color.a;
+        faceUpCardColor.r = cardImage.color.r;
+        faceUpCardColor.g = cardImage.color.g;
+        faceUpCardColor.b = cardImage.color.b;
     }
 
     public void Init(int cardValue)
@@ -81,12 +86,16 @@ public class Card : MonoBehaviour
         {
             _state = CardState.FACEUP;
             cardImage.sprite = null;
+            cardImage.color = faceUpCardColor;
+            itemImage.enabled = true;
             itemImage.sprite = _cardFace;
         }
         else if (_state == CardState.FACEUP)
         {
             _state = CardState.FACEDOWN;
+            cardImage.color = Color.white;
             cardImage.sprite = _cardBack;
+            itemImage.enabled = false;
             itemImage.sprite = null;
         }
     }
