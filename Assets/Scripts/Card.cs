@@ -18,12 +18,12 @@ public class Card : MonoBehaviour
     private CardState _state;
     private bool _initialized = false;
     private int _cardValue;
-    private Sprite _cardBack;
-    private Sprite _cardFace;
+    private Sprite _backCardSprite;
+    private Sprite _faceUpCardSprite;
+    private Sprite _itemSprite;
     private GameObject _manager;
     private GameManager gameManager;
     private Image cardImage;
-    private Color faceUpCardColor = Color.white;
 
     public int CardValue
     {
@@ -44,10 +44,7 @@ public class Card : MonoBehaviour
         _state = CardState.FACEUP;
         cardImage = GetComponent<Image>();
         _manager = GameObject.FindGameObjectWithTag("Manager");
-        faceUpCardColor.a = cardImage.color.a;
-        faceUpCardColor.r = cardImage.color.r;
-        faceUpCardColor.g = cardImage.color.g;
-        faceUpCardColor.b = cardImage.color.b;
+        _faceUpCardSprite = cardImage.sprite;
     }
 
     public void Init(int cardValue)
@@ -57,11 +54,11 @@ public class Card : MonoBehaviour
         _initialized = true;
     }
 
-    public void setupGraphics(Sprite cardBack,Sprite CardFace) {
+    public void setupGraphics(Sprite cardBack,Sprite itemSprite) {
         gameManager = _manager.GetComponent<GameManager>();
-        _cardBack = cardBack;
-        _cardFace = CardFace;
-        itemImage.sprite = _cardFace;
+        _backCardSprite = cardBack;
+        _itemSprite = itemSprite;
+        itemImage.sprite = _itemSprite;
 
         print(CardValue);
         print(_state);
@@ -85,16 +82,14 @@ public class Card : MonoBehaviour
         if(_state == CardState.FACEDOWN)
         {
             _state = CardState.FACEUP;
-            cardImage.sprite = null;
-            cardImage.color = faceUpCardColor;
+            cardImage.sprite = _faceUpCardSprite;
             itemImage.enabled = true;
-            itemImage.sprite = _cardFace;
+            itemImage.sprite = _itemSprite;
         }
         else if (_state == CardState.FACEUP)
         {
             _state = CardState.FACEDOWN;
-            cardImage.color = Color.white;
-            cardImage.sprite = _cardBack;
+            cardImage.sprite = _backCardSprite;
             itemImage.enabled = false;
             itemImage.sprite = null;
         }
