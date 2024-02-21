@@ -20,14 +20,6 @@ public class GameplayResources : SerializedMonoBehaviour
         }
     }
 
-    public void Init()
-    {
-        foreach(DifficultyScriptable difficultyScriptable in gameplayDifficultySODict.Values)
-        {
-            difficultyScriptable.SetObjValue();
-        }
-    }
-
     //public void ReadJson()
     //{
     //    var itemResource = Resources.Load<TextAsset>("PowerupItemResources");
@@ -39,9 +31,17 @@ public class GameplayResources : SerializedMonoBehaviour
     [Space(10)]
     [Header("Gameplay Resource")]
     #endregion
-    [SerializeField] PairScriptable gameplayPairSO;
-    [SerializeField] Dictionary<string,DifficultyScriptable> gameplayDifficultySODict;
+    [SerializeField] PairConfigSO pairConfigData;
+    [SerializeField] Dictionary<ThemeCategory, CardCategoryDataSO> cardCategoryDataDic;
 
-    public PairScriptable GameplayPairSO { get => gameplayPairSO; }
-    public Dictionary<string, DifficultyScriptable> GameplayDifficultySODict { get => gameplayDifficultySODict; }
+    public PairConfigSO PairConfigData { get => pairConfigData; }
+    public Dictionary<ThemeCategory, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
+
+    public void Init()
+    {
+        foreach (CardCategoryDataSO cardCategoryData in cardCategoryDataDic.Values)
+        {
+            cardCategoryData.SetObjValue();
+        }
+    }
 }

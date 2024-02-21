@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum GAMEMODE
-{
-    EASY,
-    NORMAL,
-    HARD,
-    ADVANCE
-}
-
-public class GameManager : SerializedMonoBehaviour
+public class OldGamemanager : MonoBehaviour
 {
     [SerializeField] Sprite[] cardFace;
     [SerializeField] Sprite cardBack;
     [SerializeField] TextMeshProUGUI matchText;
     [SerializeField] GameObject cardParent;
     [SerializeField] GameObject cardPrefab;
-    [SerializeField] GAMEMODE gameMode;
+    [SerializeField] GameDifficult gameMode;
 
     [SerializeField] string type;
 
@@ -30,9 +21,9 @@ public class GameManager : SerializedMonoBehaviour
     private bool _init = false;
     private int _targetPairMatchCount;
     private int _currentMatchCount;
-    private Dictionary<string, StageConfig> currentConfigDict = new Dictionary<string, StageConfig>();
-    private List<Card> cards = new List<Card>();
-    List<Card> selectedCards = new List<Card>();
+    private Dictionary<string, CardDataConfig> currentConfigDict = new Dictionary<string, CardDataConfig>();
+    private List<OldCardScripts> cards = new List<OldCardScripts>();
+    List<OldCardScripts> selectedCards = new List<OldCardScripts>();
     private object sceneName;
     private GridLayoutGroup gridLayout;
     private PairConfig pairConfig = new PairConfig();
@@ -45,8 +36,8 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
-        GameplayResources.Instance.Init();
-        pairConfig = GameplayResources.Instance.GameplayPairSO.pairConfigs.Find(_ => _.pairType == Pair.SIX);
+        //GameplayResources.Instance.Init();
+        pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(_ => _.pairType == PairType.SIX);
 
         _targetPairMatchCount = (int)pairConfig.pairType;
         matchText.text = $"Number of Matches : {_targetPairMatchCount}";
@@ -62,25 +53,25 @@ public class GameManager : SerializedMonoBehaviour
         {
             GameObject cardObj = Instantiate(cardPrefab, cardParent.transform);
             cardObjs.Add(cardObj);
-            Card card = cardObj.GetComponent<Card>();
+            OldCardScripts card = cardObj.GetComponent<OldCardScripts>();
             cards.Add(card);
         }
 
         cards = ShuffleCard(cards, pairConfig.roundShuffle);
-        SettingPair(GameplayResources.Instance.GameplayDifficultySODict[type]);
+        //SettingPair(GameplayResources.Instance.CardCategoryDataDic[type]);
 
         if (!_init)
             _init = true;
     }
 
-    List<Card> ShuffleCard(List<Card> cardList, int roundShuffle = 1)
+    List<OldCardScripts> ShuffleCard(List<OldCardScripts> cardList, int roundShuffle = 1)
     {
         for (int i = 0; i < roundShuffle; i++)
         {
             int lastIndex = cardList.Count - 1;
             while (lastIndex > 0)
             {
-                Card tempValue = cardList[lastIndex];
+                OldCardScripts tempValue = cardList[lastIndex];
                 int randomIndex = Random.Range(0, lastIndex);
                 cardList[lastIndex] = cardList[randomIndex];
                 cardList[randomIndex] = tempValue;
@@ -91,16 +82,16 @@ public class GameManager : SerializedMonoBehaviour
         return cardList;
     }
 
-    public void SettingPair(DifficultyScriptable dataDifficulty)
+    public void SettingPair(CardCategoryDataSO dataDifficulty)
     {
         int value = 0;
         var list = GetStageConfigsFromGameMode(this.gameMode, dataDifficulty);
         var randomList = RandomCard(_targetPairMatchCount, list);
-        currentConfigDict = randomList.ToDictionary(entry => entry.Key,entry => entry.Value);
+        currentConfigDict = randomList.ToDictionary(entry => entry.Key, entry => entry.Value);
 
         for (int i = 0; i < cards.Count; i++)
         {
-            Card card = cards[i];
+            OldCardScripts card = cards[i];
             card.Init(value);
             var data = randomList.First();
 
@@ -114,20 +105,20 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
-    public Dictionary<string, StageConfig> GetStageConfigsFromGameMode(GAMEMODE gameMode, DifficultyScriptable data)
+    public Dictionary<string, CardDataConfig> GetStageConfigsFromGameMode(GameDifficult gameMode, CardCategoryDataSO data)
     {
-        Dictionary<string, StageConfig> stageConfigs = new Dictionary<string, StageConfig>();
-        var list = data.stageConfig.Where(_ =>
+        Dictionary<string, CardDataConfig> stageConfigs = new Dictionary<string, CardDataConfig>();
+        var list = data.cardDataConfigDict.Where(_ =>
         {
             switch (gameMode)
             {
-                case GAMEMODE.EASY:
+                case GameDifficult.EASY:
                     return _.Value.isEasy;
-                case GAMEMODE.NORMAL:
+                case GameDifficult.NORMAL:
                     return _.Value.isNormal;
-                case GAMEMODE.HARD:
+                case GameDifficult.HARD:
                     return _.Value.isHard;
-                case GAMEMODE.ADVANCE:
+                case GameDifficult.ADVANCE:
                     return _.Value.isAdvanced;
             }
 
@@ -138,15 +129,15 @@ public class GameManager : SerializedMonoBehaviour
         return stageConfigs;
     }
 
-    public Dictionary<string, StageConfig> RandomCard(int targetAmount, Dictionary<string, StageConfig> data)
+    public Dictionary<string, CardDataConfig> RandomCard(int targetAmount, Dictionary<string, CardDataConfig> data)
     {
-        Dictionary<string, StageConfig> stageConfigs = new Dictionary<string, StageConfig>();
+        Dictionary<string, CardDataConfig> stageConfigs = new Dictionary<string, CardDataConfig>();
 
         for (int i = 0; i < targetAmount; i++)
         {
-            int ranNum = Random.Range(0,data.Count);
+            int ranNum = Random.Range(0, data.Count);
             var ranConfig = data.ElementAt(ranNum);
-            stageConfigs.Add(ranConfig.Key,ranConfig.Value);
+            stageConfigs.Add(ranConfig.Key, ranConfig.Value);
             data.Remove(ranConfig.Key);
         }
 
@@ -168,7 +159,7 @@ public class GameManager : SerializedMonoBehaviour
         else return true;
     }
 
-    public void checkCards(Card card)
+    public void checkCards(OldCardScripts card)
     {
         selectedCards.Add(card);
 
@@ -184,9 +175,9 @@ public class GameManager : SerializedMonoBehaviour
             matchText.text = $"Number of Matches : {_targetPairMatchCount - _currentMatchCount}";
             ClearCardList();
             if (_targetPairMatchCount - _currentMatchCount == 0)
-            //    //Invoke("LoadScene", 3f, "Menu");
-            //    //SceneManager.LoadScene("Menu");
-               LoadSceneWithDelay("Menu");
+                //    //Invoke("LoadScene", 3f, "Menu");
+                //    //SceneManager.LoadScene("Menu");
+                LoadSceneWithDelay("Menu");
         }
         else
         {
@@ -195,7 +186,7 @@ public class GameManager : SerializedMonoBehaviour
                 card.falseCheck();
             });
         }
-       
+
     }
 
     public void ClearCardList()
@@ -219,5 +210,4 @@ public class GameManager : SerializedMonoBehaviour
         yield return new WaitForSeconds(delayTime);
         SceneManager.LoadScene(sceneName);
     }
-
 }

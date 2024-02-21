@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PairScriptable", order = 1)]
-public class PairScriptable : ScriptableObject
+public class PairConfigSO : ScriptableObject
 {
     public List<PairConfig> pairConfigs = new List<PairConfig>();
 }
@@ -11,7 +11,7 @@ public class PairScriptable : ScriptableObject
 [Serializable]
 public class PairConfig
 {
-    public Pair pairType;
+    public PairType pairType;
     public Vector2LayOut cellSize;
     public Vector2LayOut spacing;
     public int ConstraintRow;
@@ -25,7 +25,7 @@ public class Vector2LayOut
     public int y;
 }
 
-public enum Pair
+public enum PairType
 {
     TWO = 2,
     THREE = 3,

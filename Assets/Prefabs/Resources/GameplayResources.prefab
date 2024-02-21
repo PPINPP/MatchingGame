@@ -56,14 +56,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: gameplayDifficultySODict
+    - Name: cardCategoryDataDic
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[DifficultyScriptable,
+      Data: 0|System.Collections.Generic.Dictionary`2[[ThemeCategory, Assembly-CSharp],[CardCategoryDataSO,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[ThemeCategory, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -74,8 +80,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: home
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 10
       Data: 0
@@ -86,8 +92,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: cloth_shop
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 10
       Data: 1
@@ -98,8 +104,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: market
+      Entry: 3
+      Data: 2
     - Name: $v
       Entry: 10
       Data: 2
@@ -112,4 +118,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  gameplayPairSO: {fileID: 11400000, guid: b5850500bcfc69a4897d5cb661c8dd70, type: 2}
+  pairConfigData: {fileID: 11400000, guid: b5850500bcfc69a4897d5cb661c8dd70, type: 2}

@@ -16,33 +16,33 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 80be26d5722844a4e8fda696a8caecc5, type: 3}
-    - {fileID: 21300000, guid: 7af1e70050d9eca4ea136cc466aeb029, type: 3}
-    - {fileID: 21300000, guid: eab209dc012e64743aa2981e71ee2cf4, type: 3}
-    - {fileID: 21300000, guid: a376adabca86810428d44be5b57ea9f3, type: 3}
-    - {fileID: 21300000, guid: 1052c27fe9f0e204698ba918d8291899, type: 3}
-    - {fileID: 21300000, guid: bd6e15f270ca8414eb14139cf55b0186, type: 3}
-    - {fileID: 21300000, guid: 89c1aeff8e106b841bf4a0fd09260a94, type: 3}
-    - {fileID: 21300000, guid: fe51b081cabdace43956e56aef401140, type: 3}
-    - {fileID: 21300000, guid: e4e74c70b60900045a15e75d1338c100, type: 3}
-    - {fileID: 21300000, guid: daf95a5d54cd68f409939b3cdd2b832b, type: 3}
-    - {fileID: 21300000, guid: d505f951be7f2474b91184bf73d0264d, type: 3}
-    - {fileID: 21300000, guid: ec110dabb38b52a429a9d1367dffd5da, type: 3}
-    - {fileID: 21300000, guid: 127c87863cb0c2540bbf22f4cb9f2d2e, type: 3}
-    - {fileID: 21300000, guid: dfe478a2d223f224796c1ccc5e7ba9ad, type: 3}
-    - {fileID: 21300000, guid: 0e9710faee2376341a8da744653bd5be, type: 3}
-    - {fileID: 21300000, guid: ccefc1117f88b484c98fcd4cc3acbfe2, type: 3}
-    - {fileID: 21300000, guid: c367202ea970dc047863ea51e41a17bb, type: 3}
-    - {fileID: 21300000, guid: c6822fc740940894bb7aa9b7001b04c4, type: 3}
-    - {fileID: 21300000, guid: bce9c79097f384544b9520a89fb9f0b0, type: 3}
-    - {fileID: 21300000, guid: 1b25e29e6849cd34297207e4dc4e6b50, type: 3}
-    - {fileID: 21300000, guid: 69451c08d2f6bc74aaa55463b70ddd58, type: 3}
-    - {fileID: 21300000, guid: cdc2e1555165f8d4f9cc14778e855223, type: 3}
-    - {fileID: 21300000, guid: 77d0fbde36bd7484f8b9d25aca101ddc, type: 3}
-    - {fileID: 21300000, guid: bb3b5d18b3dc0cb42b96f8fcce34a519, type: 3}
     - {fileID: 21300000, guid: 90d2257c572dca344a0def92e49e8feb, type: 3}
     - {fileID: 21300000, guid: 860606d8ba41fc84193107d80a70714b, type: 3}
     - {fileID: 21300000, guid: 36eda17d9cdb7ba47bd531e2ab596760, type: 3}
+    - {fileID: 21300000, guid: cdc2e1555165f8d4f9cc14778e855223, type: 3}
+    - {fileID: 21300000, guid: 77d0fbde36bd7484f8b9d25aca101ddc, type: 3}
+    - {fileID: 21300000, guid: bb3b5d18b3dc0cb42b96f8fcce34a519, type: 3}
+    - {fileID: 21300000, guid: bce9c79097f384544b9520a89fb9f0b0, type: 3}
+    - {fileID: 21300000, guid: 1b25e29e6849cd34297207e4dc4e6b50, type: 3}
+    - {fileID: 21300000, guid: 69451c08d2f6bc74aaa55463b70ddd58, type: 3}
+    - {fileID: 21300000, guid: ccefc1117f88b484c98fcd4cc3acbfe2, type: 3}
+    - {fileID: 21300000, guid: c367202ea970dc047863ea51e41a17bb, type: 3}
+    - {fileID: 21300000, guid: c6822fc740940894bb7aa9b7001b04c4, type: 3}
+    - {fileID: 21300000, guid: 127c87863cb0c2540bbf22f4cb9f2d2e, type: 3}
+    - {fileID: 21300000, guid: dfe478a2d223f224796c1ccc5e7ba9ad, type: 3}
+    - {fileID: 21300000, guid: 0e9710faee2376341a8da744653bd5be, type: 3}
+    - {fileID: 21300000, guid: daf95a5d54cd68f409939b3cdd2b832b, type: 3}
+    - {fileID: 21300000, guid: d505f951be7f2474b91184bf73d0264d, type: 3}
+    - {fileID: 21300000, guid: ec110dabb38b52a429a9d1367dffd5da, type: 3}
+    - {fileID: 21300000, guid: 89c1aeff8e106b841bf4a0fd09260a94, type: 3}
+    - {fileID: 21300000, guid: fe51b081cabdace43956e56aef401140, type: 3}
+    - {fileID: 21300000, guid: e4e74c70b60900045a15e75d1338c100, type: 3}
+    - {fileID: 21300000, guid: a376adabca86810428d44be5b57ea9f3, type: 3}
+    - {fileID: 21300000, guid: 1052c27fe9f0e204698ba918d8291899, type: 3}
+    - {fileID: 21300000, guid: bd6e15f270ca8414eb14139cf55b0186, type: 3}
+    - {fileID: 21300000, guid: 80be26d5722844a4e8fda696a8caecc5, type: 3}
+    - {fileID: 21300000, guid: 7af1e70050d9eca4ea136cc466aeb029, type: 3}
+    - {fileID: 21300000, guid: eab209dc012e64743aa2981e71ee2cf4, type: 3}
     - {fileID: 21300000, guid: a9ac17bdd79b46d4fb01fa13dd341086, type: 3}
     - {fileID: 21300000, guid: 76b17a9f7c1f84341aa3696b0d1cbefa, type: 3}
     - {fileID: 21300000, guid: 62bc1437f78997b44bdf3a9103ebc881, type: 3}
@@ -216,16 +216,16 @@ MonoBehaviour:
     - {fileID: 21300000, guid: c156fce8e70fe994f8614b4a58fbc5aa, type: 3}
     - {fileID: 21300000, guid: 1fb83816f00ee034d86cff70fd73950c, type: 3}
     - {fileID: 21300000, guid: 32d1811d9365f414da321be65b7429bf, type: 3}
-    - {fileID: 21300000, guid: 5f1fb1242bc3aa247bea3e2db7ba288c, type: 3}
+    - {fileID: 21300000, guid: 5c5249fd944244d42b2e7422dfd300ae, type: 3}
     - {fileID: 21300000, guid: 8979a6b3f435c494e834b7bcf31499fb, type: 3}
     - {fileID: 21300000, guid: 313b2025605dda045a94d8131db7d97e, type: 3}
-    - {fileID: 21300000, guid: 5c5249fd944244d42b2e7422dfd300ae, type: 3}
+    - {fileID: 21300000, guid: 84ad39a779938bb4db243bf814a2d227, type: 3}
     - {fileID: 21300000, guid: 373ab5d0b98c74e498625c1843c17b5d, type: 3}
     - {fileID: 21300000, guid: 10fae307375d72a4396304ff37f041c5, type: 3}
-    - {fileID: 21300000, guid: 84ad39a779938bb4db243bf814a2d227, type: 3}
+    - {fileID: 21300000, guid: 0a6c51414d83c8349a82f1b8bc592c3f, type: 3}
     - {fileID: 21300000, guid: 2c0dd437f6d7f574b822300831df06f6, type: 3}
     - {fileID: 21300000, guid: dc0ca2b3e1c47db44829a41c94205e6b, type: 3}
-    - {fileID: 21300000, guid: 0a6c51414d83c8349a82f1b8bc592c3f, type: 3}
+    - {fileID: 21300000, guid: 5f1fb1242bc3aa247bea3e2db7ba288c, type: 3}
     - {fileID: 21300000, guid: 46d6b46bc58736f459764385cfc9f085, type: 3}
     - {fileID: 21300000, guid: 2001921c1557eca49a9351f50f61e167, type: 3}
     - {fileID: 21300000, guid: 833769ad3d6bf034f9bd08ae3ca5bd75, type: 3}
@@ -321,9 +321,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: stageConfig
+    - Name: cardDataConfigDict
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[StageConfig,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CardDataConfig,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -340,10 +340,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0009
+      Data: Home_0001
     - Name: $v
       Entry: 7
-      Data: 2|StageConfig, Assembly-CSharp
+      Data: 2|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 0
@@ -367,10 +367,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0008
+      Data: Home_0002
     - Name: $v
       Entry: 7
-      Data: 3|StageConfig, Assembly-CSharp
+      Data: 3|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 3
@@ -394,10 +394,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0007
+      Data: Home_0003
     - Name: $v
       Entry: 7
-      Data: 4|StageConfig, Assembly-CSharp
+      Data: 4|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 6
@@ -421,10 +421,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0006
+      Data: Home_0004
     - Name: $v
       Entry: 7
-      Data: 5|StageConfig, Assembly-CSharp
+      Data: 5|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 9
@@ -451,7 +451,7 @@ MonoBehaviour:
       Data: Home_0005
     - Name: $v
       Entry: 7
-      Data: 6|StageConfig, Assembly-CSharp
+      Data: 6|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 12
@@ -475,10 +475,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0004
+      Data: Home_0006
     - Name: $v
       Entry: 7
-      Data: 7|StageConfig, Assembly-CSharp
+      Data: 7|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 15
@@ -502,10 +502,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0003
+      Data: Home_0007
     - Name: $v
       Entry: 7
-      Data: 8|StageConfig, Assembly-CSharp
+      Data: 8|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 18
@@ -529,10 +529,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0002
+      Data: Home_0008
     - Name: $v
       Entry: 7
-      Data: 9|StageConfig, Assembly-CSharp
+      Data: 9|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 21
@@ -556,10 +556,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Home_0001
+      Data: Home_0009
     - Name: $v
       Entry: 7
-      Data: 10|StageConfig, Assembly-CSharp
+      Data: 10|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 24
@@ -586,7 +586,7 @@ MonoBehaviour:
       Data: Home_0010
     - Name: $v
       Entry: 7
-      Data: 11|StageConfig, Assembly-CSharp
+      Data: 11|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 27
@@ -613,7 +613,7 @@ MonoBehaviour:
       Data: Home_0011
     - Name: $v
       Entry: 7
-      Data: 12|StageConfig, Assembly-CSharp
+      Data: 12|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 30
@@ -640,7 +640,7 @@ MonoBehaviour:
       Data: Home_0012
     - Name: $v
       Entry: 7
-      Data: 13|StageConfig, Assembly-CSharp
+      Data: 13|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 33
@@ -667,7 +667,7 @@ MonoBehaviour:
       Data: Home_0013
     - Name: $v
       Entry: 7
-      Data: 14|StageConfig, Assembly-CSharp
+      Data: 14|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 36
@@ -694,7 +694,7 @@ MonoBehaviour:
       Data: Home_0014
     - Name: $v
       Entry: 7
-      Data: 15|StageConfig, Assembly-CSharp
+      Data: 15|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 39
@@ -721,7 +721,7 @@ MonoBehaviour:
       Data: Home_0015
     - Name: $v
       Entry: 7
-      Data: 16|StageConfig, Assembly-CSharp
+      Data: 16|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 42
@@ -748,7 +748,7 @@ MonoBehaviour:
       Data: Home_0016
     - Name: $v
       Entry: 7
-      Data: 17|StageConfig, Assembly-CSharp
+      Data: 17|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 45
@@ -775,7 +775,7 @@ MonoBehaviour:
       Data: Home_0017
     - Name: $v
       Entry: 7
-      Data: 18|StageConfig, Assembly-CSharp
+      Data: 18|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 48
@@ -802,7 +802,7 @@ MonoBehaviour:
       Data: Home_0018
     - Name: $v
       Entry: 7
-      Data: 19|StageConfig, Assembly-CSharp
+      Data: 19|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 51
@@ -829,7 +829,7 @@ MonoBehaviour:
       Data: Home_0019
     - Name: $v
       Entry: 7
-      Data: 20|StageConfig, Assembly-CSharp
+      Data: 20|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 54
@@ -856,7 +856,7 @@ MonoBehaviour:
       Data: Home_0020
     - Name: $v
       Entry: 7
-      Data: 21|StageConfig, Assembly-CSharp
+      Data: 21|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 57
@@ -883,7 +883,7 @@ MonoBehaviour:
       Data: Home_0021
     - Name: $v
       Entry: 7
-      Data: 22|StageConfig, Assembly-CSharp
+      Data: 22|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 60
@@ -910,7 +910,7 @@ MonoBehaviour:
       Data: Home_0022
     - Name: $v
       Entry: 7
-      Data: 23|StageConfig, Assembly-CSharp
+      Data: 23|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 63
@@ -937,7 +937,7 @@ MonoBehaviour:
       Data: Home_0023
     - Name: $v
       Entry: 7
-      Data: 24|StageConfig, Assembly-CSharp
+      Data: 24|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 66
@@ -964,7 +964,7 @@ MonoBehaviour:
       Data: Home_0024
     - Name: $v
       Entry: 7
-      Data: 25|StageConfig, Assembly-CSharp
+      Data: 25|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 69
@@ -991,7 +991,7 @@ MonoBehaviour:
       Data: Home_0025
     - Name: $v
       Entry: 7
-      Data: 26|StageConfig, Assembly-CSharp
+      Data: 26|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 72
@@ -1018,7 +1018,7 @@ MonoBehaviour:
       Data: Home_0026
     - Name: $v
       Entry: 7
-      Data: 27|StageConfig, Assembly-CSharp
+      Data: 27|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 75
@@ -1045,7 +1045,7 @@ MonoBehaviour:
       Data: Home_0027
     - Name: $v
       Entry: 7
-      Data: 28|StageConfig, Assembly-CSharp
+      Data: 28|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 78
@@ -1072,7 +1072,7 @@ MonoBehaviour:
       Data: Home_0028
     - Name: $v
       Entry: 7
-      Data: 29|StageConfig, Assembly-CSharp
+      Data: 29|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 81
@@ -1099,7 +1099,7 @@ MonoBehaviour:
       Data: Home_0029
     - Name: $v
       Entry: 7
-      Data: 30|StageConfig, Assembly-CSharp
+      Data: 30|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 84
@@ -1126,7 +1126,7 @@ MonoBehaviour:
       Data: Home_0030
     - Name: $v
       Entry: 7
-      Data: 31|StageConfig, Assembly-CSharp
+      Data: 31|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 87
@@ -1153,7 +1153,7 @@ MonoBehaviour:
       Data: Home_0031
     - Name: $v
       Entry: 7
-      Data: 32|StageConfig, Assembly-CSharp
+      Data: 32|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 90
@@ -1180,7 +1180,7 @@ MonoBehaviour:
       Data: Home_0032
     - Name: $v
       Entry: 7
-      Data: 33|StageConfig, Assembly-CSharp
+      Data: 33|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 93
@@ -1207,7 +1207,7 @@ MonoBehaviour:
       Data: Home_0033
     - Name: $v
       Entry: 7
-      Data: 34|StageConfig, Assembly-CSharp
+      Data: 34|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 96
@@ -1234,7 +1234,7 @@ MonoBehaviour:
       Data: Home_0034
     - Name: $v
       Entry: 7
-      Data: 35|StageConfig, Assembly-CSharp
+      Data: 35|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 99
@@ -1261,7 +1261,7 @@ MonoBehaviour:
       Data: Home_0035
     - Name: $v
       Entry: 7
-      Data: 36|StageConfig, Assembly-CSharp
+      Data: 36|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 102
@@ -1288,7 +1288,7 @@ MonoBehaviour:
       Data: Home_0036
     - Name: $v
       Entry: 7
-      Data: 37|StageConfig, Assembly-CSharp
+      Data: 37|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 105
@@ -1315,7 +1315,7 @@ MonoBehaviour:
       Data: Home_0037
     - Name: $v
       Entry: 7
-      Data: 38|StageConfig, Assembly-CSharp
+      Data: 38|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 108
@@ -1342,7 +1342,7 @@ MonoBehaviour:
       Data: Home_0038
     - Name: $v
       Entry: 7
-      Data: 39|StageConfig, Assembly-CSharp
+      Data: 39|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 111
@@ -1369,7 +1369,7 @@ MonoBehaviour:
       Data: Home_0039
     - Name: $v
       Entry: 7
-      Data: 40|StageConfig, Assembly-CSharp
+      Data: 40|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 114
@@ -1396,7 +1396,7 @@ MonoBehaviour:
       Data: Home_0040
     - Name: $v
       Entry: 7
-      Data: 41|StageConfig, Assembly-CSharp
+      Data: 41|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 117
@@ -1423,7 +1423,7 @@ MonoBehaviour:
       Data: Home_0041
     - Name: $v
       Entry: 7
-      Data: 42|StageConfig, Assembly-CSharp
+      Data: 42|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 120
@@ -1450,7 +1450,7 @@ MonoBehaviour:
       Data: Home_0042
     - Name: $v
       Entry: 7
-      Data: 43|StageConfig, Assembly-CSharp
+      Data: 43|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 123
@@ -1477,7 +1477,7 @@ MonoBehaviour:
       Data: Home_0043
     - Name: $v
       Entry: 7
-      Data: 44|StageConfig, Assembly-CSharp
+      Data: 44|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 126
@@ -1504,7 +1504,7 @@ MonoBehaviour:
       Data: Home_0044
     - Name: $v
       Entry: 7
-      Data: 45|StageConfig, Assembly-CSharp
+      Data: 45|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 129
@@ -1531,7 +1531,7 @@ MonoBehaviour:
       Data: Home_0045
     - Name: $v
       Entry: 7
-      Data: 46|StageConfig, Assembly-CSharp
+      Data: 46|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 132
@@ -1558,7 +1558,7 @@ MonoBehaviour:
       Data: Home_0046
     - Name: $v
       Entry: 7
-      Data: 47|StageConfig, Assembly-CSharp
+      Data: 47|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 135
@@ -1585,7 +1585,7 @@ MonoBehaviour:
       Data: Home_0047
     - Name: $v
       Entry: 7
-      Data: 48|StageConfig, Assembly-CSharp
+      Data: 48|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 138
@@ -1612,7 +1612,7 @@ MonoBehaviour:
       Data: Home_0048
     - Name: $v
       Entry: 7
-      Data: 49|StageConfig, Assembly-CSharp
+      Data: 49|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 141
@@ -1639,7 +1639,7 @@ MonoBehaviour:
       Data: Home_0049
     - Name: $v
       Entry: 7
-      Data: 50|StageConfig, Assembly-CSharp
+      Data: 50|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 144
@@ -1666,7 +1666,7 @@ MonoBehaviour:
       Data: Home_0050
     - Name: $v
       Entry: 7
-      Data: 51|StageConfig, Assembly-CSharp
+      Data: 51|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 10
       Data: 147
@@ -1693,7 +1693,7 @@ MonoBehaviour:
       Data: Home_0051
     - Name: $v
       Entry: 7
-      Data: 52|StageConfig, Assembly-CSharp
+      Data: 52|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1720,7 +1720,7 @@ MonoBehaviour:
       Data: Home_0052
     - Name: $v
       Entry: 7
-      Data: 53|StageConfig, Assembly-CSharp
+      Data: 53|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1747,7 +1747,7 @@ MonoBehaviour:
       Data: Home_0053
     - Name: $v
       Entry: 7
-      Data: 54|StageConfig, Assembly-CSharp
+      Data: 54|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1774,7 +1774,7 @@ MonoBehaviour:
       Data: Home_0054
     - Name: $v
       Entry: 7
-      Data: 55|StageConfig, Assembly-CSharp
+      Data: 55|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1801,7 +1801,7 @@ MonoBehaviour:
       Data: Home_0055
     - Name: $v
       Entry: 7
-      Data: 56|StageConfig, Assembly-CSharp
+      Data: 56|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1828,7 +1828,7 @@ MonoBehaviour:
       Data: Home_0056
     - Name: $v
       Entry: 7
-      Data: 57|StageConfig, Assembly-CSharp
+      Data: 57|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1855,7 +1855,7 @@ MonoBehaviour:
       Data: Home_0057
     - Name: $v
       Entry: 7
-      Data: 58|StageConfig, Assembly-CSharp
+      Data: 58|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1882,7 +1882,7 @@ MonoBehaviour:
       Data: Home_0058
     - Name: $v
       Entry: 7
-      Data: 59|StageConfig, Assembly-CSharp
+      Data: 59|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1909,7 +1909,7 @@ MonoBehaviour:
       Data: Home_0059
     - Name: $v
       Entry: 7
-      Data: 60|StageConfig, Assembly-CSharp
+      Data: 60|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1936,7 +1936,7 @@ MonoBehaviour:
       Data: Home_0060
     - Name: $v
       Entry: 7
-      Data: 61|StageConfig, Assembly-CSharp
+      Data: 61|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1963,7 +1963,7 @@ MonoBehaviour:
       Data: Home_0061
     - Name: $v
       Entry: 7
-      Data: 62|StageConfig, Assembly-CSharp
+      Data: 62|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -1990,7 +1990,7 @@ MonoBehaviour:
       Data: Home_0062
     - Name: $v
       Entry: 7
-      Data: 63|StageConfig, Assembly-CSharp
+      Data: 63|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2017,7 +2017,7 @@ MonoBehaviour:
       Data: Home_0063
     - Name: $v
       Entry: 7
-      Data: 64|StageConfig, Assembly-CSharp
+      Data: 64|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2044,7 +2044,7 @@ MonoBehaviour:
       Data: Home_0064
     - Name: $v
       Entry: 7
-      Data: 65|StageConfig, Assembly-CSharp
+      Data: 65|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2071,7 +2071,7 @@ MonoBehaviour:
       Data: Home_0065
     - Name: $v
       Entry: 7
-      Data: 66|StageConfig, Assembly-CSharp
+      Data: 66|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2098,7 +2098,7 @@ MonoBehaviour:
       Data: Home_0066
     - Name: $v
       Entry: 7
-      Data: 67|StageConfig, Assembly-CSharp
+      Data: 67|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2125,7 +2125,7 @@ MonoBehaviour:
       Data: Home_0067
     - Name: $v
       Entry: 7
-      Data: 68|StageConfig, Assembly-CSharp
+      Data: 68|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2152,7 +2152,7 @@ MonoBehaviour:
       Data: Home_0068
     - Name: $v
       Entry: 7
-      Data: 69|StageConfig, Assembly-CSharp
+      Data: 69|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2179,7 +2179,7 @@ MonoBehaviour:
       Data: Home_0069
     - Name: $v
       Entry: 7
-      Data: 70|StageConfig, Assembly-CSharp
+      Data: 70|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2206,7 +2206,7 @@ MonoBehaviour:
       Data: Home_0070
     - Name: $v
       Entry: 7
-      Data: 71|StageConfig, Assembly-CSharp
+      Data: 71|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2233,7 +2233,7 @@ MonoBehaviour:
       Data: Home_0071
     - Name: $v
       Entry: 7
-      Data: 72|StageConfig, Assembly-CSharp
+      Data: 72|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2260,7 +2260,7 @@ MonoBehaviour:
       Data: Home_0072
     - Name: $v
       Entry: 7
-      Data: 73|StageConfig, Assembly-CSharp
+      Data: 73|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2287,7 +2287,7 @@ MonoBehaviour:
       Data: Home_0073
     - Name: $v
       Entry: 7
-      Data: 74|StageConfig, Assembly-CSharp
+      Data: 74|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2314,7 +2314,7 @@ MonoBehaviour:
       Data: Home_0074
     - Name: $v
       Entry: 7
-      Data: 75|StageConfig, Assembly-CSharp
+      Data: 75|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2341,7 +2341,7 @@ MonoBehaviour:
       Data: Home_0075
     - Name: $v
       Entry: 7
-      Data: 76|StageConfig, Assembly-CSharp
+      Data: 76|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2368,7 +2368,7 @@ MonoBehaviour:
       Data: Home_0076
     - Name: $v
       Entry: 7
-      Data: 77|StageConfig, Assembly-CSharp
+      Data: 77|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2395,7 +2395,7 @@ MonoBehaviour:
       Data: Home_0077
     - Name: $v
       Entry: 7
-      Data: 78|StageConfig, Assembly-CSharp
+      Data: 78|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2422,7 +2422,7 @@ MonoBehaviour:
       Data: Home_0078
     - Name: $v
       Entry: 7
-      Data: 79|StageConfig, Assembly-CSharp
+      Data: 79|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2449,7 +2449,7 @@ MonoBehaviour:
       Data: Home_0079
     - Name: $v
       Entry: 7
-      Data: 80|StageConfig, Assembly-CSharp
+      Data: 80|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2476,7 +2476,7 @@ MonoBehaviour:
       Data: Home_0080
     - Name: $v
       Entry: 7
-      Data: 81|StageConfig, Assembly-CSharp
+      Data: 81|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2503,7 +2503,7 @@ MonoBehaviour:
       Data: Home_0081
     - Name: $v
       Entry: 7
-      Data: 82|StageConfig, Assembly-CSharp
+      Data: 82|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2530,7 +2530,7 @@ MonoBehaviour:
       Data: Home_0082
     - Name: $v
       Entry: 7
-      Data: 83|StageConfig, Assembly-CSharp
+      Data: 83|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2557,7 +2557,7 @@ MonoBehaviour:
       Data: Home_0083
     - Name: $v
       Entry: 7
-      Data: 84|StageConfig, Assembly-CSharp
+      Data: 84|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2584,7 +2584,7 @@ MonoBehaviour:
       Data: Home_0084
     - Name: $v
       Entry: 7
-      Data: 85|StageConfig, Assembly-CSharp
+      Data: 85|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2611,7 +2611,7 @@ MonoBehaviour:
       Data: Home_0085
     - Name: $v
       Entry: 7
-      Data: 86|StageConfig, Assembly-CSharp
+      Data: 86|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2638,7 +2638,7 @@ MonoBehaviour:
       Data: Home_0086
     - Name: $v
       Entry: 7
-      Data: 87|StageConfig, Assembly-CSharp
+      Data: 87|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2665,7 +2665,7 @@ MonoBehaviour:
       Data: Home_0087
     - Name: $v
       Entry: 7
-      Data: 88|StageConfig, Assembly-CSharp
+      Data: 88|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2692,7 +2692,7 @@ MonoBehaviour:
       Data: Home_0088
     - Name: $v
       Entry: 7
-      Data: 89|StageConfig, Assembly-CSharp
+      Data: 89|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2719,7 +2719,7 @@ MonoBehaviour:
       Data: Home_0089
     - Name: $v
       Entry: 7
-      Data: 90|StageConfig, Assembly-CSharp
+      Data: 90|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2746,7 +2746,7 @@ MonoBehaviour:
       Data: Home_0090
     - Name: $v
       Entry: 7
-      Data: 91|StageConfig, Assembly-CSharp
+      Data: 91|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2773,7 +2773,7 @@ MonoBehaviour:
       Data: Home_0091
     - Name: $v
       Entry: 7
-      Data: 92|StageConfig, Assembly-CSharp
+      Data: 92|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2800,7 +2800,7 @@ MonoBehaviour:
       Data: Home_0092
     - Name: $v
       Entry: 7
-      Data: 93|StageConfig, Assembly-CSharp
+      Data: 93|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2827,7 +2827,7 @@ MonoBehaviour:
       Data: Home_0093
     - Name: $v
       Entry: 7
-      Data: 94|StageConfig, Assembly-CSharp
+      Data: 94|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2854,7 +2854,7 @@ MonoBehaviour:
       Data: Home_0094
     - Name: $v
       Entry: 7
-      Data: 95|StageConfig, Assembly-CSharp
+      Data: 95|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2881,7 +2881,7 @@ MonoBehaviour:
       Data: Home_0095
     - Name: $v
       Entry: 7
-      Data: 96|StageConfig, Assembly-CSharp
+      Data: 96|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2908,7 +2908,7 @@ MonoBehaviour:
       Data: Home_0096
     - Name: $v
       Entry: 7
-      Data: 97|StageConfig, Assembly-CSharp
+      Data: 97|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2935,7 +2935,7 @@ MonoBehaviour:
       Data: Home_0097
     - Name: $v
       Entry: 7
-      Data: 98|StageConfig, Assembly-CSharp
+      Data: 98|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2962,7 +2962,7 @@ MonoBehaviour:
       Data: Home_0098
     - Name: $v
       Entry: 7
-      Data: 99|StageConfig, Assembly-CSharp
+      Data: 99|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -2989,7 +2989,7 @@ MonoBehaviour:
       Data: Home_0099
     - Name: $v
       Entry: 7
-      Data: 100|StageConfig, Assembly-CSharp
+      Data: 100|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -3016,7 +3016,7 @@ MonoBehaviour:
       Data: Home_0100
     - Name: $v
       Entry: 7
-      Data: 101|StageConfig, Assembly-CSharp
+      Data: 101|CardDataConfig, Assembly-CSharp
     - Name: easySprite
       Entry: 6
       Data: 
@@ -3044,7 +3044,307 @@ MonoBehaviour:
   category: Home
   key: Home
   number: 101
-  easyID: []
-  normalID: []
-  hardID: []
-  advanceID: []
+  easyObjID:
+  - Home_0001
+  - Home_0002
+  - Home_0003
+  - Home_0004
+  - Home_0005
+  - Home_0006
+  - Home_0007
+  - Home_0008
+  - Home_0009
+  - Home_0010
+  - Home_0011
+  - Home_0012
+  - Home_0013
+  - Home_0014
+  - Home_0015
+  - Home_0016
+  - Home_0017
+  - Home_0018
+  - Home_0019
+  - Home_0020
+  - Home_0021
+  - Home_0022
+  - Home_0023
+  - Home_0024
+  - Home_0025
+  - Home_0026
+  - Home_0027
+  - Home_0028
+  - Home_0029
+  - Home_0030
+  - Home_0031
+  - Home_0032
+  - Home_0033
+  - Home_0034
+  - Home_0035
+  - Home_0036
+  - Home_0037
+  - Home_0038
+  - Home_0039
+  - Home_0040
+  - Home_0041
+  - Home_0042
+  - Home_0043
+  - Home_0044
+  - Home_0045
+  - Home_0046
+  - Home_0047
+  - Home_0048
+  - Home_0049
+  - Home_0050
+  normalObjID:
+  - Home_0051
+  - Home_0052
+  - Home_0053
+  - Home_0054
+  - Home_0055
+  - Home_0056
+  - Home_0057
+  - Home_0058
+  - Home_0059
+  - Home_0060
+  - Home_0061
+  - Home_0062
+  - Home_0063
+  - Home_0064
+  - Home_0065
+  - Home_0066
+  - Home_0067
+  - Home_0068
+  - Home_0069
+  - Home_0070
+  - Home_0071
+  - Home_0072
+  - Home_0073
+  - Home_0074
+  - Home_0075
+  - Home_0076
+  - Home_0077
+  - Home_0078
+  - Home_0079
+  - Home_0080
+  - Home_0081
+  - Home_0082
+  - Home_0083
+  - Home_0084
+  - Home_0085
+  - Home_0086
+  - Home_0087
+  - Home_0088
+  - Home_0089
+  - Home_0090
+  - Home_0091
+  - Home_0092
+  - Home_0093
+  - Home_0094
+  - Home_0095
+  - Home_0096
+  - Home_0097
+  - Home_0098
+  - Home_0099
+  - Home_0100
+  hardObjID:
+  - Home_0001
+  - Home_0002
+  - Home_0003
+  - Home_0004
+  - Home_0005
+  - Home_0006
+  - Home_0007
+  - Home_0008
+  - Home_0009
+  - Home_0010
+  - Home_0011
+  - Home_0012
+  - Home_0013
+  - Home_0014
+  - Home_0015
+  - Home_0016
+  - Home_0017
+  - Home_0018
+  - Home_0019
+  - Home_0020
+  - Home_0021
+  - Home_0022
+  - Home_0023
+  - Home_0024
+  - Home_0025
+  - Home_0026
+  - Home_0027
+  - Home_0028
+  - Home_0029
+  - Home_0030
+  - Home_0031
+  - Home_0032
+  - Home_0033
+  - Home_0034
+  - Home_0035
+  - Home_0036
+  - Home_0037
+  - Home_0038
+  - Home_0039
+  - Home_0040
+  - Home_0041
+  - Home_0042
+  - Home_0043
+  - Home_0044
+  - Home_0045
+  - Home_0046
+  - Home_0047
+  - Home_0048
+  - Home_0049
+  - Home_0050
+  - Home_0051
+  - Home_0052
+  - Home_0053
+  - Home_0054
+  - Home_0055
+  - Home_0056
+  - Home_0057
+  - Home_0058
+  - Home_0059
+  - Home_0060
+  - Home_0061
+  - Home_0062
+  - Home_0063
+  - Home_0064
+  - Home_0065
+  - Home_0066
+  - Home_0067
+  - Home_0068
+  - Home_0069
+  - Home_0070
+  - Home_0071
+  - Home_0072
+  - Home_0073
+  - Home_0074
+  - Home_0075
+  - Home_0076
+  - Home_0077
+  - Home_0078
+  - Home_0079
+  - Home_0080
+  - Home_0081
+  - Home_0082
+  - Home_0083
+  - Home_0084
+  - Home_0085
+  - Home_0086
+  - Home_0087
+  - Home_0088
+  - Home_0089
+  - Home_0090
+  - Home_0091
+  - Home_0092
+  - Home_0093
+  - Home_0094
+  - Home_0095
+  - Home_0096
+  - Home_0097
+  - Home_0098
+  - Home_0099
+  - Home_0100
+  advanceObjID:
+  - Home_0001
+  - Home_0002
+  - Home_0003
+  - Home_0004
+  - Home_0005
+  - Home_0006
+  - Home_0007
+  - Home_0008
+  - Home_0009
+  - Home_0010
+  - Home_0011
+  - Home_0012
+  - Home_0013
+  - Home_0014
+  - Home_0015
+  - Home_0016
+  - Home_0017
+  - Home_0018
+  - Home_0019
+  - Home_0020
+  - Home_0021
+  - Home_0022
+  - Home_0023
+  - Home_0024
+  - Home_0025
+  - Home_0026
+  - Home_0027
+  - Home_0028
+  - Home_0029
+  - Home_0030
+  - Home_0031
+  - Home_0032
+  - Home_0033
+  - Home_0034
+  - Home_0035
+  - Home_0036
+  - Home_0037
+  - Home_0038
+  - Home_0039
+  - Home_0040
+  - Home_0041
+  - Home_0042
+  - Home_0043
+  - Home_0044
+  - Home_0045
+  - Home_0046
+  - Home_0047
+  - Home_0048
+  - Home_0049
+  - Home_0050
+  - Home_0051
+  - Home_0052
+  - Home_0053
+  - Home_0054
+  - Home_0055
+  - Home_0056
+  - Home_0057
+  - Home_0058
+  - Home_0059
+  - Home_0060
+  - Home_0061
+  - Home_0062
+  - Home_0063
+  - Home_0064
+  - Home_0065
+  - Home_0066
+  - Home_0067
+  - Home_0068
+  - Home_0069
+  - Home_0070
+  - Home_0071
+  - Home_0072
+  - Home_0073
+  - Home_0074
+  - Home_0075
+  - Home_0076
+  - Home_0077
+  - Home_0078
+  - Home_0079
+  - Home_0080
+  - Home_0081
+  - Home_0082
+  - Home_0083
+  - Home_0084
+  - Home_0085
+  - Home_0086
+  - Home_0087
+  - Home_0088
+  - Home_0089
+  - Home_0090
+  - Home_0091
+  - Home_0092
+  - Home_0093
+  - Home_0094
+  - Home_0095
+  - Home_0096
+  - Home_0097
+  - Home_0098
+  - Home_0099
+  - Home_0100

@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CardState
-{
-    FACEUP,
-    FACEDOWN
-}
-
-public class Card : MonoBehaviour
+public class OldCardScripts : MonoBehaviour
 {
     [SerializeField] Image itemImage;
 
     public bool canFlip { get; private set; }
-    
+
     private CardState _state;
     private bool _initialized = false;
     private int _cardValue;
@@ -22,7 +16,7 @@ public class Card : MonoBehaviour
     private Sprite _faceUpCardSprite;
     private Sprite _itemSprite;
     private GameObject _manager;
-    private GameManager gameManager;
+    private OldGamemanager gameManager;
     private Image cardImage;
 
     public int CardValue
@@ -40,7 +34,8 @@ public class Card : MonoBehaviour
         get { return _initialized; }
     }
 
-    void Awake() {
+    void Awake()
+    {
         _state = CardState.FACEUP;
         cardImage = GetComponent<Image>();
         _manager = GameObject.FindGameObjectWithTag("Manager");
@@ -54,8 +49,9 @@ public class Card : MonoBehaviour
         _initialized = true;
     }
 
-    public void setupGraphics(Sprite cardBack,Sprite itemSprite) {
-        gameManager = _manager.GetComponent<GameManager>();
+    public void setupGraphics(Sprite cardBack, Sprite itemSprite)
+    {
+        gameManager = _manager.GetComponent<OldGamemanager>();
         _backCardSprite = cardBack;
         _itemSprite = itemSprite;
         itemImage.sprite = _itemSprite;
@@ -77,9 +73,10 @@ public class Card : MonoBehaviour
         gameManager.checkCards(this);
     }
 
-    private void flipCard() {
+    private void flipCard()
+    {
 
-        if(_state == CardState.FACEDOWN)
+        if (_state == CardState.FACEDOWN)
         {
             _state = CardState.FACEUP;
             cardImage.sprite = _faceUpCardSprite;
@@ -96,16 +93,18 @@ public class Card : MonoBehaviour
     }
 
 
-    public void falseCheck() {
+    public void falseCheck()
+    {
         StartCoroutine(DelayForceFaceDown());
     }
 
-    IEnumerator DelayForceFaceDown() {
+    IEnumerator DelayForceFaceDown()
+    {
         yield return new WaitForSeconds(1);
         flipCard();
         canFlip = true;
         gameManager.ClearCardList();
-    }   
+    }
 
     IEnumerator DelayShowFaceUp(float time)
     {
