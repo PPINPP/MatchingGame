@@ -27,6 +27,7 @@ namespace MatchingGame.Gameplay
         [HideInInspector]
         public List<string> advanceObjID = new List<string>();
 
+#if UNITY_EDITOR
         [ContextMenu("Load All Image")]
         [Button]
         public void LoadAllImg()
@@ -78,6 +79,7 @@ namespace MatchingGame.Gameplay
             cardDataConfigDict.Add($"{key}_{number:0000}", Config);
         }
 
+#endif
         public void SetObjValue()
         {
             foreach (KeyValuePair<string, CardDataConfig> obj in cardDataConfigDict)

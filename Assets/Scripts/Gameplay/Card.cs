@@ -108,5 +108,10 @@ namespace MatchingGame.Gameplay
             GameManager.Instance.AddCardToCheck(this);
             FlipCard(CardState.FACE_UP);
         }
+
+        public void SelectedCorrect()
+        {
+            _canFlip = false;
+        }
     }
 }

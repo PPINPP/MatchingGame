@@ -375,7 +375,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   categoryTheme: 0
-  targetPairType: 4
+  targetPairType: 6
   gameDifficult: 3
   gameLayout: 0
   cardPrefab: {fileID: 1365132794314999246, guid: 7adae7fe70fd42c4abc1adc7c1eb5d40, type: 3}

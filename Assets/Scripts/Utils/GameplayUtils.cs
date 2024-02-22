@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Sirenix.OdinInspector.Editor.GettingStarted;
 using System;
 using UniRx;
 
