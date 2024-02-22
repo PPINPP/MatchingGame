@@ -112,6 +112,7 @@ namespace MatchingGame.Gameplay
         public void SelectedCorrect()
         {
             _canFlip = false;
+            _backgroundImg.sprite = GameplayResources.Instance.CardImgDic[CardImgType.FRONT_CORRECT_CARD];
         }
     }
 }
