@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class CardProperty
+namespace MatchingGame.Gameplay
 {
-    public string key;
-    public Sprite sprite;
-
-    public CardProperty(string key, Sprite sprite)
+    public class CardProperty
     {
-        this.key = key;
-        this.sprite = sprite;
+        public string key;
+        public Sprite sprite;
+
+        public CardProperty(string key, Sprite sprite)
+        {
+            this.key = key;
+            this.sprite = sprite;
+        }
     }
 }

@@ -3,28 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CardState
+namespace MatchingGame.Gameplay
 {
-    FACEUP,
-    FACEDOWN
-}
-
-public class Card : MonoBehaviour
-{
-    [SerializeField] Image _FrontImg;
-
-    private CardProperty _cardProperty;
-
-    public CardProperty CardProperty {  get { return _cardProperty; } }
-
-    public void Init(CardProperty cardProperty)
+    public enum CardState
     {
-        _cardProperty = cardProperty;
-        SetupGraphic();
+        FACEUP,
+        FACEDOWN
     }
 
-    private void SetupGraphic()
+    public enum CardImgType
     {
-        _FrontImg.sprite = _cardProperty.sprite;
+        BACK_CARD,
+        FRONT_CARD,
+        FRONT_CORRECT_CARD
+    }
+
+    public class Card : MonoBehaviour
+    {
+        [SerializeField] Image _FrontImg;
+
+        private CardProperty _cardProperty;
+
+        public CardProperty CardProperty { get { return _cardProperty; } }
+
+        public void Init(CardProperty cardProperty)
+        {
+            _cardProperty = cardProperty;
+            SetupGraphic();
+        }
+
+        private void SetupGraphic()
+        {
+            _FrontImg.sprite = _cardProperty.sprite;
+        }
     }
 }

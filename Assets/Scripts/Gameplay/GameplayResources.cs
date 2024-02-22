@@ -4,44 +4,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameplayResources : SerializedMonoBehaviour
+namespace MatchingGame.Gameplay
 {
-    private static GameplayResources instance;
-
-    public static GameplayResources Instance
+    public class GameplayResources : SerializedMonoBehaviour
     {
-        get
+        private static GameplayResources instance;
+
+        public static GameplayResources Instance
         {
-            if (instance == null)
+            get
             {
-                instance = Resources.Load<GameplayResources>("GameplayResources");
+                if (instance == null)
+                {
+                    instance = Resources.Load<GameplayResources>("GameplayResources");
+                }
+                return instance;
             }
-            return instance;
         }
-    }
 
-    //public void ReadJson()
-    //{
-    //    var itemResource = Resources.Load<TextAsset>("PowerupItemResources");
-    //    var itemData = JsonConvert.DeserializeObject<Dictionary<string, object>>(itemResource.ToString());
-    //    powerUpItemData.coinData = JsonConvert.DeserializeObject<Dictionary<string, Coin>>(itemData["coinData"].ToString());
-    //}
+        //public void ReadJson()
+        //{
+        //    var itemResource = Resources.Load<TextAsset>("PowerupItemResources");
+        //    var itemData = JsonConvert.DeserializeObject<Dictionary<string, object>>(itemResource.ToString());
+        //    powerUpItemData.coinData = JsonConvert.DeserializeObject<Dictionary<string, Coin>>(itemData["coinData"].ToString());
+        //}
 
-    #region Header 
-    [Space(10)]
-    [Header("Gameplay Resource")]
-    #endregion
-    [SerializeField] PairConfigSO pairConfigData;
-    [SerializeField] Dictionary<ThemeCategory, CardCategoryDataSO> cardCategoryDataDic;
+        #region Header 
+        [Space(10)]
+        [Header("Gameplay Resource")]
+        #endregion
+        [SerializeField] PairConfigSO pairConfigData;
+        [SerializeField] Dictionary<ThemeCategory, CardCategoryDataSO> cardCategoryDataDic;
+        [SerializeField] Dictionary<CardImgType, Sprite> cardImgDic;
 
-    public PairConfigSO PairConfigData { get => pairConfigData; }
-    public Dictionary<ThemeCategory, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
+        public PairConfigSO PairConfigData { get => pairConfigData; }
+        public Dictionary<ThemeCategory, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
 
-    public void Init()
-    {
-        foreach (CardCategoryDataSO cardCategoryData in cardCategoryDataDic.Values)
+        public void Init()
         {
-            cardCategoryData.SetObjValue();
+            foreach (CardCategoryDataSO cardCategoryData in cardCategoryDataDic.Values)
+            {
+                cardCategoryData.SetObjValue();
+            }
         }
     }
 }
