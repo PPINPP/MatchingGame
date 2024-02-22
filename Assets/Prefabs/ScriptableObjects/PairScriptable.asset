@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: PairScriptable
   m_EditorClassIdentifier: 
   pairConfigs:
+  - pairType: 2
+    cellSize:
+      x: 280
+      y: 280
+    spacing:
+      x: 30
+      y: 30
+    ConstraintRow: 2
+    roundShuffle: 2
   - pairType: 3
     cellSize:
       x: 280
