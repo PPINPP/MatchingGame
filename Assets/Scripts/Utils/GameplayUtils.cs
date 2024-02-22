@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Sirenix.OdinInspector.Editor.GettingStarted;
+using System;
+using UniRx;
 
 namespace MatchingGame.Gameplay
 {
@@ -17,7 +19,7 @@ namespace MatchingGame.Gameplay
                 string ranConfig;
                 do
                 {
-                    int ranNum = Random.Range(0, idList.Count);
+                    int ranNum = UnityEngine.Random.Range(0, idList.Count);
                     ranConfig = idList.ElementAt(ranNum);
                 }
                 while (!data.cardDataConfigDict.TryGetValue(ranConfig, out var obj));
@@ -75,7 +77,7 @@ namespace MatchingGame.Gameplay
                 while (lastIndex > 0)
                 {
                     CardProperty tempValue = cardList[lastIndex];
-                    int randomIndex = Random.Range(0, lastIndex);
+                    int randomIndex = UnityEngine.Random.Range(0, lastIndex);
                     cardList[lastIndex] = cardList[randomIndex];
                     cardList[randomIndex] = tempValue;
                     lastIndex--;
@@ -83,6 +85,15 @@ namespace MatchingGame.Gameplay
             }
 
             return cardList;
+        }
+
+        public static IScheduler defaultScheduler = Scheduler.ThreadPool;
+
+        public static IObservable<long> CountDown(float secondTime, IScheduler scheduler = null)
+        {
+            scheduler ??= defaultScheduler;
+            IObservable<long> timer = Observable.Timer(TimeSpan.FromSeconds(secondTime), scheduler);
+            return timer.TakeUntil(timer);
         }
     }
 }

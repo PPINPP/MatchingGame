@@ -1,11 +1,14 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace MatchingGame.Gameplay
 {
-
     public enum GameDifficult
     {
         EASY,
@@ -25,6 +28,15 @@ namespace MatchingGame.Gameplay
         HOME,
         CLOTH,
         MARKET
+    }
+
+    public enum GameState
+    {
+        START,
+        PENDING,
+        PLAYING,
+        PAUSE,
+        RESULT
     }
 
     public class GameManager : SingletonSerializedMonobehaviour<GameManager>
@@ -47,10 +59,16 @@ namespace MatchingGame.Gameplay
         private int _targetPairMatchCount;
         private int _remainPairMatchCount;
         private Transform _targetCardParent;
-        private List<Card> _selectedCard;
+        private List<Card> _cardList = new List<Card>();
+        private List<Card> _selectedCardList = new List<Card>();
+        private IDisposable disposable;
+        private List<IDisposable> disposableList = new List<IDisposable>();
+
+        private GameState _state;
 
         private void Start()
         {
+            _state = GameState.START;
             GameplayResources.Instance.Init();
 
             StartGame();
@@ -58,6 +76,7 @@ namespace MatchingGame.Gameplay
 
         private void StartGame()
         {
+            _state = GameState.PENDING;
             pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => targetPairType == x.pairType);
             _targetPairMatchCount = (int)pairConfig.pairType;
             _remainPairMatchCount = _targetPairMatchCount;
@@ -117,10 +136,86 @@ namespace MatchingGame.Gameplay
 
             foreach (var cardProp in cardPropList)
             {
-                Instantiate(cardPrefab, _targetCardParent).Init(cardProp);
+                Card card = Instantiate(cardPrefab, _targetCardParent);
+                card.Init(cardProp);
+                _cardList.Add(card);
+            }
+
+            disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
+            {
+                foreach (var item in _cardList)
+                {
+                    item.FlipCard(CardState.FACE_DOWN);
+                }
+
+                _state = GameState.PLAYING;
+                disposable.Dispose();
+            }).AddTo(this);
+        }
+
+        public bool CheckCanFlipCard()
+        {
+            return _selectedCardList.Count < 2 && _state == GameState.PLAYING;
+        }
+
+        public void AddCardToCheck(Card card)
+        {
+            if (_selectedCardList.Count >= 2)
+                return;
+
+            if (_selectedCardList.Contains(card))
+                return;
+
+            _selectedCardList.Add(card);
+            disposableList.Add(card.onFlipComplete.Subscribe(_ => CheckCard()).AddTo(this));
+        }
+
+        public void CheckCard()
+        {
+            if (_selectedCardList.Count < 2) return;
+
+            var cardFliping = _selectedCardList.Find(x => x.IsFliping);
+
+            if (cardFliping != null) return;
+
+            disposableList.ForEach(dispos => dispos.Dispose()); 
+            disposableList.Clear();
+
+            if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
+            {
+                _remainPairMatchCount--;
+                matchText.text = $"Number of Matches : {_remainPairMatchCount}";
+                ClearCardList();
+
+                if (_remainPairMatchCount <= 0)
+                {
+                    disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                    {
+                        SceneManager.LoadScene("Menu");
+
+                        disposable.Dispose();
+                    }).AddTo(this);
+                }
+            }
+            else
+            {
+                disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                {
+                    _selectedCardList.ForEach(card =>
+                    {
+                        card.FlipCard(CardState.FACE_DOWN);
+                    });
+                    ClearCardList();
+
+                    disposable.Dispose();
+                }).AddTo(this);
             }
         }
 
+        public void ClearCardList()
+        {
+            _selectedCardList.Clear();
+        }
 
     }
 }

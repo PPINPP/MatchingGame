@@ -37,8 +37,16 @@ namespace MatchingGame.Gameplay
         [SerializeField] Dictionary<ThemeCategory, CardCategoryDataSO> cardCategoryDataDic;
         [SerializeField] Dictionary<CardImgType, Sprite> cardImgDic;
 
+        #region Header 
+        [Space(10)]
+        [Header("Gameplay Setting")]
+        #endregion
+        [SerializeField] GameplayProperty gameplayProperty;
+
         public PairConfigSO PairConfigData { get => pairConfigData; }
         public Dictionary<ThemeCategory, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
+        public Dictionary<CardImgType, Sprite> CardImgDic { get => cardImgDic; }
+        public GameplayProperty GameplayProperty { get => gameplayProperty; }
 
         public void Init()
         {
