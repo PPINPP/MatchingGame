@@ -95,7 +95,9 @@ namespace MatchingGame.Gameplay
             }
             else if (gameLayout == GameLayout.RANDOM)
             {
-
+                _targetCardParent = randomLayout.transform;
+                var rect = _targetCardParent.GetComponent<RectTransform>();
+                //rect.rect.xMax
             }
         }
 
@@ -184,7 +186,9 @@ namespace MatchingGame.Gameplay
             if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
             {
                 _remainPairMatchCount--;
+                _selectedCardList.ForEach(card => card.SelectedCorrect());
                 matchText.text = $"Number of Matches : {_remainPairMatchCount}";
+
                 ClearCardList();
 
                 if (_remainPairMatchCount <= 0)
