@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 
 public class UITest : MonoBehaviour
@@ -12,12 +13,12 @@ public class UITest : MonoBehaviour
     public GameObject TestUI_Q01;
     public GameObject intoClick;
     public GameObject background;
-    private bool _stateChange = false;
-    [SerializeField] Dictionary<string, string> objectNames;
+    //private bool _stateChange = false;
+    [SerializeField] Dictionary<string, string> qAPairs= new Dictionary<string, string>();
     //[SerializeField] DictAnswerPair newAnswer;
     
     
-    [SerializeField] QAPair[] qAPairs;
+    //[SerializeField] QAPair[] qAPairs;
 
     [Serializable]
     public class QAPair 
@@ -34,41 +35,31 @@ public class UITest : MonoBehaviour
             Dictionary<string,string> UIAnswer = new Dictionary<string, string>();
             foreach (var qAPair in qAPairs)
             {
-                UIAnswer.Add(qAPair.Question, qAPair.Answer);
+                UIAnswer.Add(qAPair, qAPair);
             }
             return UIAnswer;
         } 
     }  */
-    
-
     public void SwitchUITest() 
     {
         //intoToTest.GetComponent<Image>().sprite = Test;
         Debug.Log("SwitchUITest button pressed");
+        Debug.Log("CheckName: "+background.name);
         background.SetActive(false);
         TestUI_Q01.SetActive(true);
         intoClick.SetActive(false);
-        _stateChange = true;
+        //_stateChange = true;
 
     }
 
-    public void CollectScore(QAPair[] UIAnswer)
+    public void CollectScore()
     {
-        
-        if (_stateChange == true)
-        {
-            Debug.Log("CollectScore: " + UIAnswer + ", " + UIAnswer);
-            //objectNames = DictAnswerPair.ToDictionary();
-        }
+        string question = EventSystem.current.currentSelectedGameObject.name;
+        string answer = EventSystem.current.currentSelectedGameObject.name;
 
-        _stateChange = false;
-
-        public voide AnswerA1(string question)
-        {
-            Debug.Log("AnswerA1 button pressed");
-            qAPairs.add(question, "A1");
-        }
-       
+        Debug.Log("Question button pressed" + question);
+        Debug.Log("Answer button pressed" + answer);
+        qAPairs.Add(question, answer);
 
     }
 
@@ -78,8 +69,24 @@ public class UITest : MonoBehaviour
             {
                 Debug.Log("QAPair: " + qAPairs );
             }
-        
     }
+
+        /*void Update()
+        {
+        if (Input.GetMouseButtonDown(0))
+            {
+                //empty RaycastHit object which raycast puts the hit details into
+                var hit : RaycastHit;
+                //ray shooting out of the camera from where the mouse is
+                var ray : Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, hit))
+                {
+                    //print out the name if the raycast hits something
+                    Debug.Log(hit.collider.name);
+                }
+            }
+        }*/
 
 
     
