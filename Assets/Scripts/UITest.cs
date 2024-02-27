@@ -70,18 +70,25 @@ public class UITest : MonoBehaviour
         }
         else if (TestUI_Q06.activeInHierarchy==true){
             TestUI_Q06.SetActive(false);
-            intoClick.SetActive(true);
+            //intoClick.SetActive(true);
             question = "Q06";
+            //Debug.Log("All answers collected: "+qAPairs);
+            
+            foreach (KeyValuePair<string, string> kvp in qAPairs)
+            {
+                Debug.Log("Key: "+kvp.Key+", Value: "+ kvp.Value);
+            }
+            
         }
         else{
             Debug.Log("No active UI");
-            Debug.Log("All answers collected: "+qAPairs);
         }
         
 
         Debug.Log("Question button pressed: " + question);
         Debug.Log("Answer button pressed: " + answer);
         qAPairs.Add(question, answer);
+        
 
     }
 
