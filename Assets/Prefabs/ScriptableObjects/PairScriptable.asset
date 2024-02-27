@@ -15,11 +15,11 @@ MonoBehaviour:
   pairConfigs:
   - pairType: 2
     cellSize:
-      x: 280
-      y: 280
+      x: 300
+      y: 300
     spacing:
-      x: 30
-      y: 30
+      x: 45
+      y: 45
     ConstraintRow: 2
     roundShuffle: 2
   - pairType: 3
@@ -36,8 +36,8 @@ MonoBehaviour:
       x: 250
       y: 250
     spacing:
-      x: 30
-      y: 30
+      x: 35
+      y: 35
     ConstraintRow: 2
     roundShuffle: 4
   - pairType: 6
@@ -45,16 +45,16 @@ MonoBehaviour:
       x: 250
       y: 250
     spacing:
-      x: 30
-      y: 30
+      x: 35
+      y: 35
     ConstraintRow: 3
     roundShuffle: 4
   - pairType: 8
     cellSize:
-      x: 210
-      y: 210
+      x: 215
+      y: 215
     spacing:
-      x: 30
-      y: 30
+      x: 25
+      y: 25
     ConstraintRow: 4
     roundShuffle: 4
