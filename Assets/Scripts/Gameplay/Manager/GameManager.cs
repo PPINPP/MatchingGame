@@ -81,6 +81,7 @@ namespace MatchingGame.Gameplay
             _targetPairMatchCount = (int)pairConfig.pairType;
             _remainPairMatchCount = _targetPairMatchCount;
             matchText.text = $"Number of Matches : {_remainPairMatchCount}";
+            ShowMatchCount.Instance.Init(_remainPairMatchCount);
             SettingLayout();
             InitializeCards();
         }
@@ -185,8 +186,9 @@ namespace MatchingGame.Gameplay
 
             if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
             {
-                _remainPairMatchCount--;
+                ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
+                _remainPairMatchCount--;
                 matchText.text = $"Number of Matches : {_remainPairMatchCount}";
 
                 ClearCardList();
