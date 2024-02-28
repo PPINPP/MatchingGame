@@ -10,8 +10,7 @@ using Firebase.Auth;
 
 public class Register04DataManager : MonoBehaviour
 {
-    public TMP_InputField AgeField, DateField, MonthField, YearField;
-    public GameObject MaleButton, FemaleButton;
+    public GameObject noButton, mciButton, alzButton;
     public string nextScene;
     private bool globalDebugMode = true;
     FirebaseFirestore db;
@@ -29,24 +28,41 @@ public class Register04DataManager : MonoBehaviour
 
     public void SubmitForm()
     {
-        string age = AgeField.text;
-        string dob = DateField.text;
-        string month = MonthField.text;
-        string year = YearField.text;
-        Debug.Log($"Age: {age}, DOB: {dob}, Month: {month}, Year: {year}, Sel: {selected_button}");
+        Debug.Log($"Sel: {selected_button}");
 
-        // Add push to DB here!
+        // Push to DB
+        DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
+        Dictionary<string, object> brainDiseaseDict = new Dictionary<string, object>()
+        {
+            { "brainDisease", selected_button }
+        };
+
+        Dictionary<string, Dictionary<string, object>> user = new Dictionary<string, Dictionary<string, object>>()
+        {
+            {
+                "Register4Data", brainDiseaseDict
+            }   
+        };
+        docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log("Added data to db successfully.");
+        });
+        // Finish add to DB
 
         SceneManager.LoadScene(nextScene);
     }
 
-    public void MaleSelected()
+    public void noSelected()
     {
-        selected_button = "Male";
+        selected_button = "No";
     }
-    public void FemaleSelected()
+    public void alzSelected()
     {
-        selected_button = "Female";
+        selected_button = "Alzheimer";
+    }
+    public void mciSelected()
+    {
+        selected_button = "MCI";
     }
 
     private (FirebaseFirestore, Firebase.Auth.FirebaseAuth) initialize(bool debugMode = false)
