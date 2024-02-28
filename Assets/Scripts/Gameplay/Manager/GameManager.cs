@@ -34,6 +34,7 @@ namespace MatchingGame.Gameplay
     {
         START,
         PENDING,
+        FADE_IN_UI,
         PLAYING,
         PAUSE,
         RESULT
@@ -54,6 +55,7 @@ namespace MatchingGame.Gameplay
         [SerializeField] GridLayoutGroup gridLayout;
         [SerializeField] GameObject randomLayout;
         [SerializeField] TextMeshProUGUI matchText;
+        
 
         private PairConfig pairConfig = new PairConfig();
         private int _targetPairMatchCount;
@@ -66,15 +68,17 @@ namespace MatchingGame.Gameplay
 
         private GameState _state;
 
+        public GameState State { get { return _state; } }
+
         private void Start()
         {
             _state = GameState.START;
             GameplayResources.Instance.Init();
-
-            StartGame();
+            
+            InitGame();
         }
 
-        private void StartGame()
+        private void InitGame()
         {
             _state = GameState.PENDING;
             pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => targetPairType == x.pairType);
@@ -82,8 +86,18 @@ namespace MatchingGame.Gameplay
             _remainPairMatchCount = _targetPairMatchCount;
             matchText.text = $"Number of Matches : {_remainPairMatchCount}";
             ShowMatchCount.Instance.Init(_remainPairMatchCount);
+
+
             SettingLayout();
             InitializeCards();
+
+            UIManager.Instance.Init();
+            UIManager.Instance.OnTime += StartGame;
+
+            Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ => { 
+                UIManager.Instance.StartCountDown();
+                _state = GameState.FADE_IN_UI;
+            }).AddTo(this);
         }
 
         private void SettingLayout()
@@ -143,7 +157,10 @@ namespace MatchingGame.Gameplay
                 card.Init(cardProp);
                 _cardList.Add(card);
             }
+        }
 
+        public void StartGame()
+        {
             disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
             {
                 foreach (var item in _cardList)
