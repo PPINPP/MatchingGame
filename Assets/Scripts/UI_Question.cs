@@ -11,21 +11,23 @@ public class UI_Question : MonoBehaviour //ต้องตั้งชื่อ 
         [SerializeField] private GameObject UIQuestionBG;
         [SerializeField] private Button Answer1, Answer2, Answer3;
         
-        private UITest[] UI_Tester = new UITest[6];
+        private UITest UI_Tester;
         private DateTime startTime;
         private DateTime endTime;
 
-        public void Init(UITest[] uiTester) // void คือไม่ return อะไร
+        public void Init(UITest uiTester) // ถ้าในกรณีที่ต้องใช้ class ของ class ใหญ่ ควรทำเป็น init แยกจาก void start ของ class ตัวเล็ก
         {
-            UI_Tester = uiTester;
+            UI_Tester = uiTester; 
+            
+        }
+        public void ShowQuestion(bool show) // void คือไม่ return อะไร
+        {
+            this.gameObject.SetActive(show);
+            if (!show) return ;
+            startTime = DateTime.Now; // guard condition
 
         }
 
-        public void SetQuestion()
-        {
-            UIQuestionBG.SetActive(true);
-            startTime = DateTime.Now;
-        }
 
         void Start()
         {
@@ -40,20 +42,16 @@ public class UI_Question : MonoBehaviour //ต้องตั้งชื่อ 
             UIQuestionBG.SetActive(false);
             Debug.Log("Question: " + Question);
             Debug.Log("Answer: " + Answer);
-            Debug.Log("Process tiem: " + (endTime - startTime));
+            Debug.Log("Process tiem: " + (endTime - startTime).TotalSeconds);
             
-            Dictionary<string, object> result = new Dictionary<string, object>()
+            Dictionary<string, string> result = new Dictionary<string, string>()
             {
                 {"Question", Question},
                 {"Answer", Answer},
-                {"Process time", (endTime - startTime)}
+                {"Process time", (endTime - startTime).TotalSeconds.ToString()}
             };
-
-            //UI_Tester[0].SetResult(result);
-            UIQuestionBG.SetActive(false);
-
-
-            startTime = DateTime.Now;
+            UI_Tester.CollectAnswer(result);
+            
 
         }
     }

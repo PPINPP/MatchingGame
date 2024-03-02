@@ -1620,6 +1620,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intoClick: {fileID: 1298652772}
   background: {fileID: 1285603956}
+  all_question:
+  - {fileID: 182343301}
+  - {fileID: 759956381}
+  - {fileID: 933566033}
+  - {fileID: 1555848441}
+  - {fileID: 1026933584}
+  - {fileID: 522905887}
 --- !u!1 &856202443
 GameObject:
   m_ObjectHideFlags: 0

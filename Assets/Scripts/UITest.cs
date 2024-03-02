@@ -11,21 +11,24 @@ using UnityEngine.EventSystems;
 public class UITest : MonoBehaviour
 {
     // Start is called before the first frame update
-    //[SerializeField] private GameObject TestUI_Q01, TestUI_Q02, TestUI_Q03, TestUI_Q04, TestUI_Q05, TestUI_Q06;
     public GameObject intoClick;
     public GameObject background;
-    int q,a;
     private string question;
-    private UI_Question UIQuestion;
+    private int qNum=0;
+    private Dictionary<string, List<Dictionary<string, string>>> user = new()
+    { 
+        {"UITest", new() } 
+    };
+
+    [SerializeField] private UI_Question[] all_question;
     DateTime startTime=DateTime.Now;
     DateTime endTime=DateTime.Now;
 
 
     // Push to DB
     //DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
-    Dictionary<string, object> UIAnswerDict = new Dictionary<string, object>();
 
-    
+
     /*docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
         {
             Debug.Log("Added data to db successfully.");
@@ -33,63 +36,71 @@ public class UITest : MonoBehaviour
     );*/
     // Finish add to DB
 
-
-    public void SwitchUITest()
+    private bool TryShowQuestion() //ควรต้ั้งชื่อฟังก์ชันให้สื่อถึงการทำงานของฟังก์ชัน
     {
-        //intoToTest.GetComponent<Image>().sprite = Test;
-        //UIQuestion.SetQuestion();
-        Debug.Log("SwitchUITest button pressed");
-        Debug.Log("CheckName: "+background.name);
-        background.SetActive(false);
-        //TestUI_Q01.SetActive(true);
+        // Check is more question?
+        if (qNum >= all_question.Length)
+        {
+            return false;
+        }
         
+        // Show Next Question
+        all_question[qNum].ShowQuestion(true);
+        return true;
 
-        intoClick.SetActive(false);
-        startTime=DateTime.Now;
-
+        /*
+        string test = "1";
+        bool test2 = int.TryParse(test, out int result); // out คือ return (สามารถ return ได้หลายค่าโดยการใส่วงเล็บ)
+        */
     }
 
 
-    public void CollectScore()
+    public void SwitchUITest()
     {
-        //string question;
-        string answer = EventSystem.current.currentSelectedGameObject.name;
-        
-        
+        Debug.Log("SwitchUITest button pressed");
+        Debug.Log("CheckName: "+background.name);
+        background.SetActive(false);
+        intoClick.SetActive(false);
+        startTime=DateTime.Now;
 
-        /*Debug.Log("Question button pressed: " + question);
-        Debug.Log("Answer button pressed: " + answer);
-        Debug.Log("Time taken: "+(endTime-startTime));
-        UIAnswerDict.Add("Question", answer);
-        UIAnswerDict.Add("Answer", answer);
-        UIAnswerDict.Add("Process time", (endTime-startTime));*/
+        TryShowQuestion();
         
+    }
 
-        Dictionary<string, Dictionary<string, object>> user = new Dictionary<string, Dictionary<string, object>>()
+
+
+    public void CollectAnswer(Dictionary<string, string> result)
+    {
+
+        //user.Add("UITest", result);
+        user["UITest"].Add(result);
+        all_question[qNum].ShowQuestion(false);
+        qNum++;
+
+        if (!TryShowQuestion())
         {
-            {
-                "UITest", UIAnswerDict
-            }   
-        };
+            var test = user;
+            Debug.Log("End!");
+        }
+
+
+
         /*docref.SetAsync(UIAnswerDict, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
             {
                 Debug.Log("Added data to db successfully.");
             }
         );*/
-        // เพิ่มเรื่องของการจับเวลา
-        
+
 
     }
 
     void Start()
     {
-        /*TestUI_Q01.SetActive(false);
-        TestUI_Q02.SetActive(false);
-        TestUI_Q03.SetActive(false);
-        TestUI_Q04.SetActive(false);
-        TestUI_Q05.SetActive(false);
-        TestUI_Q06.SetActive(false);*/
-        
+        foreach (UI_Question question in all_question) // ถ้าใช้ var จะหาให้ว่า datatype คืออะไร แต่คนเขียนจะไม่รู้
+        {
+            question.ShowQuestion(false);
+            question.Init(this);
+        }
     }
 
 
