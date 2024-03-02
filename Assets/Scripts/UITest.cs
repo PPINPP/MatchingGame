@@ -1,109 +1,95 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using UnityEngine.EventSystems;
 
 
 public class UITest : MonoBehaviour
 {
     // Start is called before the first frame update
-    //public GameObject intoToTest;
-    public GameObject TestUI_Q01, TestUI_Q02, TestUI_Q03, TestUI_Q04, TestUI_Q05, TestUI_Q06;
+    //[SerializeField] private GameObject TestUI_Q01, TestUI_Q02, TestUI_Q03, TestUI_Q04, TestUI_Q05, TestUI_Q06;
     public GameObject intoClick;
     public GameObject background;
+    int q,a;
     private string question;
-    //private bool _stateChange = false;
-    [SerializeField] Dictionary<string, string> qAPairs= new Dictionary<string, string>();
+    private UI_Question UIQuestion;
+    DateTime startTime=DateTime.Now;
+    DateTime endTime=DateTime.Now;
 
-    [Serializable]
-    public class QAPair 
-    {
-        [SerializeField] private GameObject Question;
-        [SerializeField] private GameObject Answer;
-        
-    }
-    public void SwitchUITest() 
+
+    // Push to DB
+    //DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
+    Dictionary<string, object> UIAnswerDict = new Dictionary<string, object>();
+
+    
+    /*docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log("Added data to db successfully.");
+        }
+    );*/
+    // Finish add to DB
+
+
+    public void SwitchUITest()
     {
         //intoToTest.GetComponent<Image>().sprite = Test;
+        //UIQuestion.SetQuestion();
         Debug.Log("SwitchUITest button pressed");
         Debug.Log("CheckName: "+background.name);
-        //background.SetActive(false);
-        TestUI_Q01.SetActive(true);
+        background.SetActive(false);
+        //TestUI_Q01.SetActive(true);
+        
+
         intoClick.SetActive(false);
-        Debug.Log(TestUI_Q01.activeSelf);
-        Debug.Log(TestUI_Q01.activeInHierarchy);
-        //_stateChange = true;
+        startTime=DateTime.Now;
 
     }
+
 
     public void CollectScore()
     {
         //string question;
         string answer = EventSystem.current.currentSelectedGameObject.name;
-
-        if (TestUI_Q01.activeInHierarchy==true){
-            TestUI_Q01.SetActive(false);
-            TestUI_Q02.SetActive(true);
-            question = "Q01";
-        }
-        else if (TestUI_Q02.activeInHierarchy==true){
-            TestUI_Q02.SetActive(false);
-            TestUI_Q03.SetActive(true);
-            question = "Q02";
-        }
-        else if (TestUI_Q03.activeInHierarchy==true){
-            TestUI_Q03.SetActive(false);
-            TestUI_Q04.SetActive(true);
-            question = "Q03";
-        }
-        else if (TestUI_Q04.activeInHierarchy==true){
-            TestUI_Q04.SetActive(false);
-            TestUI_Q05.SetActive(true);
-            question = "Q04";
-        }
-        else if (TestUI_Q05.activeInHierarchy==true){
-            TestUI_Q05.SetActive(false);
-            TestUI_Q06.SetActive(true);
-            question = "Q05";
-        }
-        else if (TestUI_Q06.activeInHierarchy==true){
-            TestUI_Q06.SetActive(false);
-            //intoClick.SetActive(true);
-            question = "Q06";
-            //Debug.Log("All answers collected: "+qAPairs);
-            
-            foreach (KeyValuePair<string, string> kvp in qAPairs)
-            {
-                Debug.Log("Key: "+kvp.Key+", Value: "+ kvp.Value);
-            }
-            
-        }
-        else{
-            Debug.Log("No active UI");
-        }
+        
         
 
-        Debug.Log("Question button pressed: " + question);
+        /*Debug.Log("Question button pressed: " + question);
         Debug.Log("Answer button pressed: " + answer);
-        qAPairs.Add(question, answer);
+        Debug.Log("Time taken: "+(endTime-startTime));
+        UIAnswerDict.Add("Question", answer);
+        UIAnswerDict.Add("Answer", answer);
+        UIAnswerDict.Add("Process time", (endTime-startTime));*/
+        
+
+        Dictionary<string, Dictionary<string, object>> user = new Dictionary<string, Dictionary<string, object>>()
+        {
+            {
+                "UITest", UIAnswerDict
+            }   
+        };
+        /*docref.SetAsync(UIAnswerDict, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
+            {
+                Debug.Log("Added data to db successfully.");
+            }
+        );*/
+        // เพิ่มเรื่องของการจับเวลา
         
 
     }
 
     void Start()
     {
-        TestUI_Q01.SetActive(false);
+        /*TestUI_Q01.SetActive(false);
         TestUI_Q02.SetActive(false);
         TestUI_Q03.SetActive(false);
         TestUI_Q04.SetActive(false);
         TestUI_Q05.SetActive(false);
-        TestUI_Q06.SetActive(false);
-        foreach (var qAPair in qAPairs)
-            {
-                Debug.Log("QAPair: " + qAPairs );
-            }
+        TestUI_Q06.SetActive(false);*/
+        
     }
 
 
