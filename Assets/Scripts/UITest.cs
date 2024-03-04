@@ -6,11 +6,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 
 public class UITest : MonoBehaviour
 {
     // Start is called before the first frame update
+    private bool globalDebugMode = true;
+
+    FirebaseFirestore db;
+    Firebase.Auth.FirebaseAuth auth;
+    Firebase.Auth.FirebaseUser loginuser;
+
     public GameObject intoClick;
     public GameObject background;
     private string question;
@@ -26,15 +34,12 @@ public class UITest : MonoBehaviour
 
 
     // Push to DB
-    //DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
-
-
-    /*docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
+    DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
+    docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
         {
-            Debug.Log("Added data to db successfully.");
-        }
-    );*/
-    // Finish add to DB
+        Debug.Log("Added data to db successfully.");
+    });
+       // Finish push to DB
 
     private bool TryShowQuestion() //ควรต้ั้งชื่อฟังก์ชันให้สื่อถึงการทำงานของฟังก์ชัน
     {
@@ -83,19 +88,12 @@ public class UITest : MonoBehaviour
             Debug.Log("End!");
         }
 
-
-
-        /*docref.SetAsync(UIAnswerDict, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
-            {
-                Debug.Log("Added data to db successfully.");
-            }
-        );*/
-
-
     }
 
     void Start()
     {
+        (db, auth) = initialize(globalDebugMode);
+        loginuser = getUser(auth, globalDebugMode);
         foreach (UI_Question question in all_question) // ถ้าใช้ var จะหาให้ว่า datatype คืออะไร แต่คนเขียนจะไม่รู้
         {
             question.ShowQuestion(false);
@@ -103,6 +101,41 @@ public class UITest : MonoBehaviour
         }
     }
 
+    private (FirebaseFirestore, Firebase.Auth.FirebaseAuth) initialize(bool debugMode = false)
+    {
+        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-    
+        if (debugMode)
+        {
+            Debug.Log($"Firestore object: {db}");
+            Debug.Log($"Firebase Auth object: {auth}");
+        }
+
+        return (db, auth);
+    }
+
+    private Firebase.Auth.FirebaseUser getUser(Firebase.Auth.FirebaseAuth auth, bool debugMode = false)
+    {
+        Firebase.Auth.FirebaseUser loginuser = auth.CurrentUser;
+        if (debugMode)
+        {
+            if (loginuser != null)
+            {
+                string name = loginuser.DisplayName;
+                string email = loginuser.Email;
+                string uid = loginuser.UserId;
+                Debug.Log($"Username {name}, Email: {email}, Uid: {uid}");
+            }
+            else
+            {
+                Debug.Log("User not found!");
+            }
+        }
+
+        return loginuser;
+    }
+
+
+
 }
