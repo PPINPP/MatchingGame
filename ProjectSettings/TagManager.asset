@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Question
+    uniqueID: 3051707431
+    locked: 0
+  - name: Index
+    uniqueID: 1614097633
+    locked: 0
