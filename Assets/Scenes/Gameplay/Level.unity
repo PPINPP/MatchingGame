@@ -377,9 +377,9 @@ MonoBehaviour:
     SerializationNodes: []
   categoryTheme: 0
   targetPairType: 8
-  gameDifficult: 3
+  gameDifficult: 1
   gameLayout: 0
-  cardPrefab: {fileID: 1365132794314999246, guid: 7adae7fe70fd42c4abc1adc7c1eb5d40, type: 3}
+  cardPrefab: {fileID: 1365132794314999246, guid: 99ddf3fdbb8e8ea4da5c71f703b05bc9, type: 3}
   gridLayout: {fileID: 1683925903}
   randomLayout: {fileID: 1419397217}
   matchText: {fileID: 14600296}

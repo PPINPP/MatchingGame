@@ -98,7 +98,6 @@ namespace MatchingGame.Gameplay
                 }
 
 
-
                 if (obj.Value.normalSprite != null)
                 {
                     obj.Value.SetNormalValue(true);

@@ -48,9 +48,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 2fcc05c17e3d2024e829e20e54416d69, type: 2}
-    - {fileID: 11400000, guid: b2df55fcdd9591f489382120ead17d64, type: 2}
-    - {fileID: 11400000, guid: d0fa5c63b61e4e049ba67edb408e50c3, type: 2}
+    - {fileID: 11400000, guid: 447ff3ab3b5049e4f8c9be559599a98c, type: 2}
+    - {fileID: 11400000, guid: 1a7aaf2c18deca849b6ab8078a085826, type: 2}
+    - {fileID: 11400000, guid: f54ea01f2c615d346b0b32e404653e9b, type: 2}
     - {fileID: 21300000, guid: 20d8ffbf7ffbca247b652e4d9d13296b, type: 3}
     - {fileID: 21300000, guid: ca16a87359a4a5e4e89cbd39fccaf8d7, type: 3}
     - {fileID: 21300000, guid: 99e293617f4ec4f408858ea2ad5aeead, type: 3}
@@ -184,7 +184,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  pairConfigData: {fileID: 11400000, guid: b5850500bcfc69a4897d5cb661c8dd70, type: 2}
+  pairConfigData: {fileID: 11400000, guid: f1beca6cf6dda3e429cfb6c0ba331b19, type: 2}
   gameplayProperty:
     _firstTimeShowDuration: 5
     _flipDuration: 0.5
