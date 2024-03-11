@@ -60,19 +60,19 @@ namespace MatchingGame.Gameplay
         {
             var Config = new CardDataConfig();
 
-            string easyPath = $"Assets/Texture/{category}/1_Easy/{key}_E_{number:0000}.png";
+            string easyPath = $"Assets/Texture/Gameplay/{category}/1_Easy/{key}_E_{number:0000}.png";
             var easySprite = (Sprite)AssetDatabase.LoadAssetAtPath(easyPath, typeof(Sprite));
             Config.easySprite = easySprite;
 
-            string normalPath = $"Assets/Texture/{category}/2_Normal/{key}_N_{number:0000}.png";
+            string normalPath = $"Assets/Texture/Gameplay/{category}/2_Normal/{key}_N_{number:0000}.png";
             var normalSprite = (Sprite)AssetDatabase.LoadAssetAtPath(normalPath, typeof(Sprite));
             Config.normalSprite = normalSprite;
 
-            string hardPath = $"Assets/Texture/{category}/3_Hard/{key}_H_{number:0000}.png";
+            string hardPath = $"Assets/Texture/Gameplay/{category}/3_Hard/{key}_H_{number:0000}.png";
             var hardSprite = (Sprite)AssetDatabase.LoadAssetAtPath(hardPath, typeof(Sprite));
             Config.hardSprite = hardSprite;
 
-            string advancePath = $"Assets/Texture/{category}/4_Advance/{key}_A_{number:0000}.png";
+            string advancePath = $"Assets/Texture/Gameplay/{category}/4_Advance/{key}_A_{number:0000}.png";
             var advanceSprite = (Sprite)AssetDatabase.LoadAssetAtPath(advancePath, typeof(Sprite));
             Config.advanceSprite = advanceSprite;
 
