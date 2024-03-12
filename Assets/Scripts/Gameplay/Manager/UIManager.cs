@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace MatchingGame.Gameplay
 {
-    public class UIManager : SingletonSerializedMonobehaviour<UIManager>
+    public class UIManager : MonoInstance<UIManager>
     {
         [SerializeField] GameObject playArea;
         [SerializeField] CanvasGroup canvasGroup;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowMatchCount : SingletonSerializedMonobehaviour<ShowMatchCount>
+public class ShowMatchCount : MonoInstance<ShowMatchCount>
 {
     [SerializeField] GameObject prefab;
     [SerializeField] Sprite completeSprite;

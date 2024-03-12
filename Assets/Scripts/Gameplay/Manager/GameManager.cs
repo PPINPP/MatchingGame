@@ -40,7 +40,7 @@ namespace MatchingGame.Gameplay
         RESULT
     }
 
-    public class GameManager : SingletonSerializedMonobehaviour<GameManager>
+    public class GameManager : MonoInstance<GameManager>
     {
         [Header("Gamplay Setting")]
         [SerializeField] ThemeCategory categoryTheme;
