@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,11 +24,12 @@ namespace MatchingGame.Gameplay
         RANDOM
     }
 
-    public enum ThemeCategory
+    public enum CategoryTheme
     {
         HOME,
         CLOTH,
-        MARKET
+        MARKET,
+        DESSERT
     }
 
     public enum GameState
@@ -43,7 +45,7 @@ namespace MatchingGame.Gameplay
     public class GameManager : MonoInstance<GameManager>
     {
         [Header("Gamplay Setting")]
-        [SerializeField] ThemeCategory categoryTheme;
+        [SerializeField] CategoryTheme categoryTheme;
         [SerializeField] PairType targetPairType;
         [SerializeField] GameDifficult gameDifficult;
         [SerializeField] GameLayout gameLayout;
@@ -69,12 +71,31 @@ namespace MatchingGame.Gameplay
         private GameState _state;
 
         public GameState State { get { return _state; } }
+        public CategoryTheme CategoryTheme { get { return categoryTheme; } }
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Vector3 mousePos = Input.mousePosition;
+                {
+                    Debug.Log(mousePos.x);
+                    Debug.Log(mousePos.y);
+                }
+            }
+        }
 
         private void Start()
         {
             _state = GameState.START;
             GameplayResources.Instance.Init();
-            
+
+            //var setting = SequenceManager.Instance.GetGameplaySequenceSetting();
+            //categoryTheme = setting.categoryTheme;
+            //targetPairType = setting.pairType;
+            //gameDifficult = setting.GameDifficult;
+            //gameLayout = setting.layout;
+
             InitGame();
         }
 
@@ -87,9 +108,8 @@ namespace MatchingGame.Gameplay
             matchText.text = $"Number of Matches : {_remainPairMatchCount}";
             ShowMatchCount.Instance.Init(_remainPairMatchCount);
 
-
-            SettingLayout();
             InitializeCards();
+            SettingLayout();
 
             UIManager.Instance.Init();
             UIManager.Instance.OnTime += StartGame;
@@ -100,6 +120,15 @@ namespace MatchingGame.Gameplay
             }).AddTo(this);
         }
 
+        //[Button]
+        //public void ReCreate()
+        //{
+        //    _cardList.ForEach(x =>Destroy(x.gameObject));
+        //    _cardList.Clear();
+        //    InitializeCards();
+        //    SettingLayout();
+        //}
+
         private void SettingLayout()
         {
             if (gameLayout == GameLayout.GRID)
@@ -107,11 +136,24 @@ namespace MatchingGame.Gameplay
                 gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
                 gridLayout.constraintCount = pairConfig.ConstraintRow;
                 _targetCardParent = gridLayout.transform;
+
+                _cardList.ForEach(x=>x.gameObject.transform.parent = _targetCardParent);
             }
             else if (gameLayout == GameLayout.RANDOM)
             {
                 _targetCardParent = randomLayout.transform;
-                var rect = _targetCardParent.GetComponent<RectTransform>();
+                SetCardTranform setTranform = GameplayResources.Instance.RandomPatternTranformData.GetRandomSetCard(targetPairType);
+                for (int i = 0; i < _cardList.Count; i++)
+                {
+                    Card card = _cardList[i];
+                    RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
+                    card.gameObject.transform.parent = _targetCardParent;
+                    rectTransform.sizeDelta = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+                    rectTransform.localPosition = setTranform.tranformCardInSet[i].position;
+                    rectTransform.localEulerAngles = setTranform.tranformCardInSet[i].rotation;
+                }
+                
+                //var rect = _targetCardParent.GetComponent<RectTransform>();
                 //rect.rect.xMax
             }
         }
@@ -153,7 +195,7 @@ namespace MatchingGame.Gameplay
 
             foreach (var cardProp in cardPropList)
             {
-                Card card = Instantiate(cardPrefab, _targetCardParent);
+                Card card = Instantiate(cardPrefab);
                 card.Init(cardProp);
                 _cardList.Add(card);
             }

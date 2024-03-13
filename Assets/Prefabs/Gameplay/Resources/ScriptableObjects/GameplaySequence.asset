@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab66669101973c44ba1070fa3ab7f9c, type: 3}
+  m_Name: GameplaySequence
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  sequences:
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 1
+      categoryTheme: 0
+      pairType: 2
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 1
+      categoryTheme: 0
+      pairType: 2
+      GameDifficult: 2
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 1
+      categoryTheme: 0
+      pairType: 2
+      GameDifficult: 3
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 1
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 6
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 8
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 1
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 1
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 1
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 2
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 3
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 1
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 1
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 0
+      layout: 1
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 6
+      GameDifficult: 0
+      layout: 1
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 8
+      GameDifficult: 0
+      layout: 1
+  - isGamePlay: 0
+    isMinigame: 1
+    isSmileyOMeter: 0
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 1
+    gameplay:
+      isTutorial: 0
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0

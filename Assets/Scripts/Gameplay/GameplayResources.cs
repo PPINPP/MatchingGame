@@ -16,7 +16,7 @@ namespace MatchingGame.Gameplay
             {
                 if (instance == null)
                 {
-                    instance = Resources.Load<GameplayResources>("GameplayResources");
+                    instance = Instantiate(Resources.Load<GameplayResources>("GameplayResources"));
                 }
                 return instance;
             }
@@ -33,19 +33,23 @@ namespace MatchingGame.Gameplay
         [Space(10)]
         [Header("Gameplay Resource")]
         #endregion
-        [SerializeField] PairConfigSO pairConfigData;
-        [SerializeField] Dictionary<ThemeCategory, CardCategoryDataSO> cardCategoryDataDic;
+        [SerializeField] Dictionary<CategoryTheme, CardCategoryDataSO> cardCategoryDataDic;
         [SerializeField] Dictionary<CardImgType, Sprite> cardImgDic;
+        [SerializeField] Dictionary<CategoryTheme, Sprite> backCardImg;
 
         #region Header 
         [Space(10)]
         [Header("Gameplay Setting")]
         #endregion
+        [SerializeField] PairConfigSO pairConfigData;
+        [SerializeField] RandomPatternTranformSO randomPatternTranformData;
         [SerializeField] GameplayProperty gameplayProperty;
 
         public PairConfigSO PairConfigData { get => pairConfigData; }
-        public Dictionary<ThemeCategory, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
+        public RandomPatternTranformSO RandomPatternTranformData { get => randomPatternTranformData; }
+        public Dictionary<CategoryTheme, CardCategoryDataSO> CardCategoryDataDic { get => cardCategoryDataDic; }
         public Dictionary<CardImgType, Sprite> CardImgDic { get => cardImgDic; }
+        public Dictionary<CategoryTheme, Sprite> BackCardImg { get => backCardImg; }
         public GameplayProperty GameplayProperty { get => gameplayProperty; }
 
         public void Init()

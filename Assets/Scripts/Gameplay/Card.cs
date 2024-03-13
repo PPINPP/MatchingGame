@@ -49,14 +49,14 @@ namespace MatchingGame.Gameplay
                     OnFlipComplete();
                 else
                 {
-                    if (_curState == CardState.FACE_UP && _backgroundImg.transform.eulerAngles.y <= 90 )
+                    if (_curState == CardState.FACE_UP && _backgroundImg.transform.eulerAngles.y <= 90)
                     {
                         _backgroundImg.sprite = GameplayResources.Instance.CardImgDic[CardImgType.FRONT_CARD];
                         _itemCardImg.enabled = true;
                     }
                     else if (_curState == CardState.FACE_DOWN && _backgroundImg.transform.eulerAngles.y >= 90)
                     {
-                        _backgroundImg.sprite = GameplayResources.Instance.CardImgDic[CardImgType.BACK_CARD];
+                        _backgroundImg.sprite = GameplayResources.Instance.BackCardImg[GameManager.Instance.CategoryTheme];
                         _itemCardImg.enabled = false;
                     }
                 }
