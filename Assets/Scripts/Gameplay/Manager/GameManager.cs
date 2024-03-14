@@ -56,7 +56,6 @@ namespace MatchingGame.Gameplay
         [Header("UI Elements")]
         [SerializeField] GridLayoutGroup gridLayout;
         [SerializeField] GameObject randomLayout;
-        [SerializeField] TextMeshProUGUI matchText;
         
 
         private PairConfig pairConfig = new PairConfig();
@@ -105,7 +104,6 @@ namespace MatchingGame.Gameplay
             pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => targetPairType == x.pairType);
             _targetPairMatchCount = (int)pairConfig.pairType;
             _remainPairMatchCount = _targetPairMatchCount;
-            matchText.text = $"Number of Matches : {_remainPairMatchCount}";
             ShowMatchCount.Instance.Init(_remainPairMatchCount);
 
             InitializeCards();
@@ -248,7 +246,6 @@ namespace MatchingGame.Gameplay
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
                 _remainPairMatchCount--;
-                matchText.text = $"Number of Matches : {_remainPairMatchCount}";
 
                 ClearCardList();
 
