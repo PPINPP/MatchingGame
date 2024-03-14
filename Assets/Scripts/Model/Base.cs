@@ -1,4 +1,5 @@
 using System;
+using Utils;
 
 namespace Model
 {
@@ -14,6 +15,11 @@ namespace Model
       Uuid = Guid.NewGuid().ToString();
       DateCreated = DateTime.Now;
       DateUpdated = DateTime.Now;
+    }
+
+    public override string ToString()
+    {
+      return StringHelper.ToStringObj(this);
     }
   }
 }
