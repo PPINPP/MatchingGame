@@ -68,5 +68,10 @@ namespace Model
     [FirestoreProperty] public string CompletedAt { get; set; }
     [FirestoreProperty] public float TimeUsed { get; set; }
     [FirestoreProperty] public List<UxClickLogFs> UxClickLogFs { get; set; }
+
+    public override string ToString()
+    {
+      return StringHelper.ToStringObj(this);
+    }
   }
 }

@@ -2,6 +2,7 @@ using System;
 using Enum;
 using Firebase.Firestore;
 using UnityEngine.Analytics;
+using Utils;
 
 namespace Model
 {
@@ -40,9 +41,9 @@ namespace Model
         DateCreated = this.DateCreated.ToString("s"),
         DateUpdated = this.DateUpdated.ToString("s"),
         Password = this.Password,
-        DateOfBirth = this.DateOfBirth,
-        Gender = this.Gender,
-        EducationalLevel = this.EducationalLevel,
+        DateOfBirth = this.DateOfBirth.ToString("s"),
+        Gender = this.Gender.ToString(),
+        EducationalLevel = this.EducationalLevel.ToString(),
         MedicalHistory = this.MedicalHistory,
         Dementia = this.Dementia
       };
@@ -58,10 +59,15 @@ namespace Model
     [FirestoreProperty] public string DateCreated { get; set; }
     [FirestoreProperty] public string DateUpdated { get; set; }
     [FirestoreProperty] public string Password { get; set; }
-    [FirestoreProperty] public DateTime DateOfBirth { get; set; }
-    [FirestoreProperty] public Genders Gender { get; set; }
-    [FirestoreProperty] public Educational EducationalLevel { get; set; }
+    [FirestoreProperty] public string DateOfBirth { get; set; }
+    [FirestoreProperty] public string Gender { get; set; }
+    [FirestoreProperty] public string EducationalLevel { get; set; }
     [FirestoreProperty] public string MedicalHistory { get; set; }
     [FirestoreProperty] public string Dementia { get; set; }
+
+    public override string ToString()
+    {
+      return StringHelper.ToStringObj(this);
+    }
   }
 }

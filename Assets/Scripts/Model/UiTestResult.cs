@@ -1,5 +1,6 @@
 using System;
 using Firebase.Firestore;
+using Utils;
 
 namespace Model
 {
@@ -54,5 +55,10 @@ namespace Model
     [FirestoreProperty] public string StartedAt { get; set; }
     [FirestoreProperty] public string CompletedAt { get; set; }
     [FirestoreProperty] public float TimeUsed { get; set; }
+
+    public override string ToString()
+    {
+      return StringHelper.ToStringObj(this);
+    }
   }
 }

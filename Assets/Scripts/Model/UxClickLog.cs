@@ -1,6 +1,7 @@
 using System;
 using Enum;
 using Firebase.Firestore;
+using Utils;
 
 namespace Model
 {
@@ -41,7 +42,7 @@ namespace Model
         PosX = this.PosX,
         PosY = this.PosY,
         TimeUsed = this.TimeUsed,
-        ClickStatus = this.ClickStatus
+        ClickStatus = this.ClickStatus.ToString()
       };
 
       return uxClickLogFs;
@@ -57,6 +58,11 @@ namespace Model
     [FirestoreProperty] public float PosX { get; set; }
     [FirestoreProperty] public float PosY { get; set; }
     [FirestoreProperty] public float TimeUsed { get; set; }
-    [FirestoreProperty] public UxClickStatus ClickStatus { get; set; }
+    [FirestoreProperty] public string ClickStatus { get; set; }
+
+    public override string ToString()
+    {
+      return StringHelper.ToStringObj(this);
+    }
   }
 }
