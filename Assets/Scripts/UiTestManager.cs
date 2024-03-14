@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Model;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,11 +20,12 @@ namespace Assets.Scripts
         private int questionLenght = 0;
         private int currQuestionIdx = 0;
 
+        private List<UiTestResult> uiTestResultsList;
+
         // Use this for initialization
         void Start()
         {
             questionLenght = questionsList.Count;
-            Debug.Log("test");
             startBtn.onClick.AddListener(() =>
             {
                 Debug.Log("Start asking questions");
@@ -31,6 +33,7 @@ namespace Assets.Scripts
                 questionsHolder.SetActive(true);
                 initiateQuestion(currQuestionIdx);
             });
+            uiTestResultsList = new List<UiTestResult>();
         }
 
         private void initiateQuestion(int questionIdx) 
@@ -48,6 +51,13 @@ namespace Assets.Scripts
                 Debug.Log("Finish all Questions! congrat");
                 return;
             }
+
+            UiTestResult result = new UiTestResult(
+                    "test",
+                    DateTime.Now,
+                    DateTime.Now,
+                    10f
+                );
 
             questionsList[currQuestionIdx].gameObject.SetActive(false);
             initiateQuestion(++currQuestionIdx);
