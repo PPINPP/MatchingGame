@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Firebase.Firestore;
+using Utils;
 
 
 namespace Model

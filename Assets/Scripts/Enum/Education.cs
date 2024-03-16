@@ -1,11 +1,11 @@
 namespace Enum
 {
-  public enum Educational
+  public enum EducationalEnum
   {
     PRIMARY_OR_LOWER,
-    SECONDARY,
-    BACHELOR,
-    MASTER,
+    HIGH_SCHOOL,
+    BACHELOR_DEGREE,
+    MASTER_DEGREE,
     DOCTORAL,
     TECHNICAL
   }

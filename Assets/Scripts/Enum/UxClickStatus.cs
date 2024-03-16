@@ -1,7 +1,7 @@
 namespace Enum
 {
 
-  public enum UxClickStatus
+  public enum UxClickStatusEnum
   {
     HIT,
     MISS

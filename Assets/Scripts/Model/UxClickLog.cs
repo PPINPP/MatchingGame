@@ -12,7 +12,7 @@ namespace Model
     public float PosX { get; set; }
     public float PosY { get; set; }
     public float TimeUsed { get; set; }
-    public UxClickStatus ClickStatus { get; set; }
+    public UxClickStatusEnum ClickStatus { get; set; }
 
 
     public UxClickLog() : base()
@@ -23,7 +23,7 @@ namespace Model
     public UxClickLog(float posX,
      float posY,
      float timeUsed,
-     UxClickStatus clickStatus
+     UxClickStatusEnum clickStatus
 ) : base()
     {
       PosX = posX;
