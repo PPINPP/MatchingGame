@@ -1,6 +1,6 @@
 namespace Enum
 {
-  public enum Genders
+  public enum GendersEnum
   {
     MALE,
     FEMALE

@@ -1,9 +1,8 @@
-using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using Firebase;
+using Firebase.Auth;
 using Firebase.Firestore;
-using Model;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Manager
@@ -13,6 +12,7 @@ namespace Manager
     [Header("Firebase")]
     public DependencyStatus dependencyStatus;
     public FirebaseFirestore db;
+    public FirebaseAuth auth;
 
     override protected void Awake()
     {
@@ -23,6 +23,7 @@ namespace Manager
         if (dependencyStatus == DependencyStatus.Available)
         {
           InitDB();
+          InitAuth();
         }
         else
         {
@@ -37,10 +38,16 @@ namespace Manager
       db = FirebaseFirestore.DefaultInstance;
     }
 
+    private void InitAuth()
+    {
+      Debug.Log("Initialize Database");
+      auth = FirebaseAuth.DefaultInstance;
+    }
+
     // TODO Improve to handle error and wait for result
     public async Task CreateDataWithDoc<T>(string collectionName, string documentName, T data, SetOptions setOptions)
     {
-      await WaitForDBInit(); // Wait for the database to be initialized
+      await WaitForFirebaseInit(); // Wait for the database to be initialized
 
       Debug.Log($"FirebaseManager.CreateDataWithDoc: collection: {collectionName} document: {documentName} data: {data} setOptions {setOptions}");
       DocumentReference docRef = db.Collection(collectionName).Document(documentName);
@@ -48,9 +55,34 @@ namespace Manager
 
     }
 
-    private async Task WaitForDBInit()
+    public async Task<bool> CheckIsEmailExisted(string email)
     {
-      while (db == null)
+      await WaitForFirebaseInit(); // Wait for Firebase to initialize
+
+      try
+      {
+        Debug.Log(email);
+        var result = await auth.FetchProvidersForEmailAsync(email);
+        if (result != null && result.Count() > 0)
+        {
+          Debug.Log($"Email '{email}' is already registered.");
+          return true; // Email exists
+        }
+        else
+        {
+          Debug.Log($"Email '{email}' is not registered.");
+          return false; // Email doesn't exist
+        }
+      }
+      catch (FirebaseException e)
+      {
+        Debug.LogError($"Error checking email existence: {e.Message}");
+        return false; // An error occurred
+      }
+    }
+    private async Task WaitForFirebaseInit()
+    {
+      while (db == null || auth == null)
       {
         await Task.Delay(10);
       }

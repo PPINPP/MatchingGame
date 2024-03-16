@@ -1,9 +1,7 @@
-
 using Model;
 
 namespace Manager
 {
-
   class DataManager : MonoSingleton<DataManager>
   {
     public UserInfo UserInfo { get; set; } = new UserInfo();

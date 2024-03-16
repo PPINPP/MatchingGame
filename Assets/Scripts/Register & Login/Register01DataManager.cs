@@ -1,98 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using Firebase.Firestore;
-using Firebase.Extensions;
-using Firebase.Auth;
 using TMPro;
+using Manager;
+using Enum;
+using System;
+using Constant;
 
-public class Register01DataManager : MonoBehaviour
+namespace Register
 {
+  public class Register01DataManager : MonoBehaviour
+  {
     public TMP_InputField AgeField, DateField, MonthField, YearField;
     public GameObject MaleButton, FemaleButton;
     public string nextScene;
-    private bool globalDebugMode = true;
-    FirebaseFirestore db;
-    Firebase.Auth.FirebaseAuth auth;
-    Firebase.Auth.FirebaseUser loginuser;
 
-    string selected_button = "Null";
-
-    void Start()
-    {
-        (db, auth) = initialize(globalDebugMode);
-        loginuser = getUser(auth, globalDebugMode);
-    }
+    public GendersEnum Gender;
 
     public void SubmitForm()
     {
-        string age = AgeField.text;
-        string dob = DateField.text;
-        string month = MonthField.text;
-        string year = YearField.text;
-        Debug.Log($"Age: {age}, DOB: {dob}, Month: {month}, Year: {year}, Sel: {selected_button}");
+      string age = AgeField.text;
+      string date = DateField.text;
+      string month = MonthField.text;
+      string year = YearField.text;
+      Debug.Log($"Age: {age}, DOB: {date}, Month: {month}, Year: {year}, Gender: {Gender}");
+      string dateString = $"{date}/{month}/{int.Parse(year) - DateTimeConstant.BUDDHIST_ERA_YEAR}";
 
-        // Add push to DB here!
-        DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
-        Dictionary<string, object> user = new Dictionary<string, object>
-        {
-            {"Age", age },
-            {"DOB", dob },
-            {"Month", month },
-            {"Year", year },
-            {"Gender", selected_button},
-        };
-        docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
-        {
-            Debug.Log("Added data to db successfully.");
-        });
+      if (DateTime.TryParseExact(dateString, DateTimeConstant.DATE_FORMAT, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateResult))
+      {
+        DataManager.Instance.UserInfo.DateOfBirth = dateResult;
+        DataManager.Instance.UserInfo.Gender = Gender;
+      }
 
-        SceneManager.LoadScene(nextScene);
+      SceneManager.LoadScene(nextScene);
     }
 
     public void MaleSelected()
     {
-        selected_button = "Male";
+      Gender = GendersEnum.MALE;
     }
     public void FemaleSelected()
     {
-        selected_button = "Female";
+      Gender = GendersEnum.FEMALE;
     }
-
-    private (FirebaseFirestore, Firebase.Auth.FirebaseAuth) initialize(bool debugMode = false)
-    {
-        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        if (debugMode)
-        {
-            Debug.Log($"Firestore object: {db}");
-            Debug.Log($"Firebase Auth object: {auth}");
-        }
-
-        return (db, auth);
-    }
-
-    private Firebase.Auth.FirebaseUser getUser(Firebase.Auth.FirebaseAuth auth, bool debugMode = false)
-    {
-        Firebase.Auth.FirebaseUser loginuser = auth.CurrentUser;
-        if (debugMode)
-        {
-            if (loginuser != null)
-            {
-                string name = loginuser.DisplayName;
-                string email = loginuser.Email;
-                string uid = loginuser.UserId;
-                Debug.Log($"Username {name}, Email: {email}, Uid: {uid}");
-            }
-            else
-            {
-                Debug.Log("User not found!");
-            }
-        }
-
-        return loginuser;
-    }
+  }
 }
