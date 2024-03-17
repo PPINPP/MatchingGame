@@ -8,7 +8,7 @@ namespace Model
   [Serializable]
   class UxTestResult : Base
   {
-    public string TotalClicked { get; set; }
+    public int TotalClicked { get; set; }
     public DateTime StartedAt { get; set; }
     public DateTime CompletedAt { get; set; }
     public float TimeUsed { get; set; }
@@ -19,15 +19,17 @@ namespace Model
 
     }
 
-    public UxTestResult(string totalClicked,
+    public UxTestResult(int totalClicked,
      DateTime startedAt,
      DateTime completedAt,
-     float timeUsed) : base()
+     float timeUsed,
+     List<UxClickLog> uxClickLogs) : base()
     {
       TotalClicked = totalClicked;
       StartedAt = startedAt;
       CompletedAt = completedAt;
       TimeUsed = timeUsed;
+      UxClickLogs = uxClickLogs;
     }
 
     public UxTestResultFs ConvertUxTestResultToUxTestResultFs()
@@ -63,7 +65,7 @@ namespace Model
     [FirestoreProperty] public string Uuid { get; set; }
     [FirestoreProperty] public string DateCreated { get; set; }
     [FirestoreProperty] public string DateUpdated { get; set; }
-    [FirestoreProperty] public string TotalClicked { get; set; }
+    [FirestoreProperty] public int TotalClicked { get; set; }
     [FirestoreProperty] public string StartedAt { get; set; }
     [FirestoreProperty] public string CompletedAt { get; set; }
     [FirestoreProperty] public float TimeUsed { get; set; }

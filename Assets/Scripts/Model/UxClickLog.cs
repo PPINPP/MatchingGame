@@ -11,7 +11,7 @@ namespace Model
   {
     public float PosX { get; set; }
     public float PosY { get; set; }
-    public float TimeUsed { get; set; }
+    public DateTime Timestamp { get; set; }
     public UxClickStatusEnum ClickStatus { get; set; }
 
 
@@ -22,13 +22,13 @@ namespace Model
 
     public UxClickLog(float posX,
      float posY,
-     float timeUsed,
+     DateTime timestamp,
      UxClickStatusEnum clickStatus
 ) : base()
     {
       PosX = posX;
       PosY = posY;
-      TimeUsed = timeUsed;
+      Timestamp = timestamp;
       ClickStatus = clickStatus;
     }
 
@@ -41,7 +41,7 @@ namespace Model
         DateUpdated = this.DateUpdated.ToString("s"),
         PosX = this.PosX,
         PosY = this.PosY,
-        TimeUsed = this.TimeUsed,
+        Timestamp = this.Timestamp.ToString("s"),
         ClickStatus = this.ClickStatus.ToString()
       };
 
@@ -57,7 +57,7 @@ namespace Model
     [FirestoreProperty] public string DateUpdated { get; set; }
     [FirestoreProperty] public float PosX { get; set; }
     [FirestoreProperty] public float PosY { get; set; }
-    [FirestoreProperty] public float TimeUsed { get; set; }
+    [FirestoreProperty] public string Timestamp { get; set; }
     [FirestoreProperty] public string ClickStatus { get; set; }
 
     public override string ToString()
