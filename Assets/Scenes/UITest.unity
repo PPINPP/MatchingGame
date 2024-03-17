@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9758b28a859c7c14e9426d7ede82da73, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f10956c44514efc4cb4cadedeac1d439, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -396,7 +396,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &182343297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -763,16 +763,22 @@ MonoBehaviour:
   questionsList:
   - gameObject: {fileID: 182343296}
     correctAnswer: {fileID: 129878564}
+    textAnswer: 
   - gameObject: {fileID: 759956377}
     correctAnswer: {fileID: 1325016771}
+    textAnswer: 
   - gameObject: {fileID: 933566029}
     correctAnswer: {fileID: 671744614}
+    textAnswer: 
   - gameObject: {fileID: 1555848437}
     correctAnswer: {fileID: 143357739}
+    textAnswer: 
   - gameObject: {fileID: 1026933580}
     correctAnswer: {fileID: 1357696665}
+    textAnswer: 
   - gameObject: {fileID: 522905883}
     correctAnswer: {fileID: 2019854928}
+    textAnswer: 
 --- !u!4 &208314908
 Transform:
   m_ObjectHideFlags: 0
@@ -2468,7 +2474,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 28db432f726b85646aa4644c0faeefb4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31a519060ccd32546af1cb81fbab7958, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3423,7 +3429,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b912e5ba4c55a5046bd31c4af4f9f5ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 745cfe7892c362c4c86fab2b9c11deb7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
