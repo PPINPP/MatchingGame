@@ -388,8 +388,6 @@ GameObject:
   - component: {fileID: 182343297}
   - component: {fileID: 182343299}
   - component: {fileID: 182343298}
-  - component: {fileID: 182343300}
-  - component: {fileID: 182343301}
   m_Layer: 5
   m_Name: UI_Q01
   m_TagString: Untagged
@@ -458,75 +456,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182343296}
   m_CullTransparentMesh: 1
---- !u!212 &182343300
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182343296}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1243259865
-  m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &182343301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182343296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 01
-  UIQuestionBG: {fileID: 182343296}
-  Answer1: {fileID: 129878564}
-  Answer2: {fileID: 1601008513}
-  Answer3: {fileID: 1133133444}
 --- !u!1 &201376087
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,22 +692,22 @@ MonoBehaviour:
   questionsList:
   - gameObject: {fileID: 182343296}
     correctAnswer: {fileID: 129878564}
-    textAnswer: 
+    textAnswer: setting
   - gameObject: {fileID: 759956377}
     correctAnswer: {fileID: 1325016771}
-    textAnswer: 
+    textAnswer: play
   - gameObject: {fileID: 933566029}
     correctAnswer: {fileID: 671744614}
-    textAnswer: 
+    textAnswer: pause
   - gameObject: {fileID: 1555848437}
     correctAnswer: {fileID: 143357739}
-    textAnswer: 
+    textAnswer: close
   - gameObject: {fileID: 1026933580}
     correctAnswer: {fileID: 1357696665}
-    textAnswer: 
+    textAnswer: add_time
   - gameObject: {fileID: 522905883}
     correctAnswer: {fileID: 2019854928}
-    textAnswer: 
+    textAnswer: flip_card
 --- !u!4 &208314908
 Transform:
   m_ObjectHideFlags: 0
@@ -787,7 +716,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208314906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 693.98584, y: 336.9612, z: -0.9551907}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1204,8 +1133,6 @@ GameObject:
   - component: {fileID: 522905884}
   - component: {fileID: 522905886}
   - component: {fileID: 522905885}
-  - component: {fileID: 522905887}
-  - component: {fileID: 522905888}
   m_Layer: 5
   m_Name: UI_Q06
   m_TagString: Untagged
@@ -1274,75 +1201,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522905883}
   m_CullTransparentMesh: 1
---- !u!114 &522905887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522905883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 06
-  UIQuestionBG: {fileID: 522905883}
-  Answer1: {fileID: 1392075917}
-  Answer2: {fileID: 520077088}
-  Answer3: {fileID: 2019854928}
---- !u!212 &522905888
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522905883}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1243259865
-  m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &671744610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1345,6 @@ GameObject:
   - component: {fileID: 759956378}
   - component: {fileID: 759956380}
   - component: {fileID: 759956379}
-  - component: {fileID: 759956381}
   m_Layer: 5
   m_Name: UI_Q02
   m_TagString: Untagged
@@ -1556,23 +1413,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759956377}
   m_CullTransparentMesh: 1
---- !u!114 &759956381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759956377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 02
-  UIQuestionBG: {fileID: 759956377}
-  Answer1: {fileID: 478602850}
-  Answer2: {fileID: 1325016771}
-  Answer3: {fileID: 459295694}
 --- !u!1 &821463077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,7 +1664,6 @@ GameObject:
   - component: {fileID: 933566030}
   - component: {fileID: 933566032}
   - component: {fileID: 933566031}
-  - component: {fileID: 933566033}
   m_Layer: 5
   m_Name: UI_Q03
   m_TagString: Untagged
@@ -1893,23 +1732,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933566029}
   m_CullTransparentMesh: 1
---- !u!114 &933566033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933566029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 03
-  UIQuestionBG: {fileID: 933566029}
-  Answer1: {fileID: 1075428099}
-  Answer2: {fileID: 671744614}
-  Answer3: {fileID: 2002875348}
 --- !u!1 &982388451
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,7 +1876,6 @@ GameObject:
   - component: {fileID: 1026933581}
   - component: {fileID: 1026933583}
   - component: {fileID: 1026933582}
-  - component: {fileID: 1026933584}
   m_Layer: 5
   m_Name: UI_Q05
   m_TagString: Untagged
@@ -2123,23 +1944,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026933580}
   m_CullTransparentMesh: 1
---- !u!114 &1026933584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026933580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 05
-  UIQuestionBG: {fileID: 1026933580}
-  Answer1: {fileID: 856202447}
-  Answer2: {fileID: 1357696665}
-  Answer3: {fileID: 201720759}
 --- !u!1 &1046603352
 GameObject:
   m_ObjectHideFlags: 0
@@ -3284,7 +3088,6 @@ GameObject:
   - component: {fileID: 1555848438}
   - component: {fileID: 1555848440}
   - component: {fileID: 1555848439}
-  - component: {fileID: 1555848441}
   m_Layer: 5
   m_Name: UI_Q04
   m_TagString: Untagged
@@ -3353,23 +3156,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1555848437}
   m_CullTransparentMesh: 1
---- !u!114 &1555848441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555848437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8380e8ac1062744d89ddc7d3282b8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Question: 04
-  UIQuestionBG: {fileID: 1555848437}
-  Answer1: {fileID: 1478404885}
-  Answer2: {fileID: 982388455}
-  Answer3: {fileID: 143357739}
 --- !u!1 &1601008509
 GameObject:
   m_ObjectHideFlags: 0

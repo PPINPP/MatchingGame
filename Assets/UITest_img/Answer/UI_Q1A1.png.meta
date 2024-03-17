@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Texture/Gameplay/Card/Correct_Card.png.meta
 guid: f10956c44514efc4cb4cadedeac1d439
-========
-guid: 9758b28a859c7c14e9426d7ede82da73
->>>>>>>> develop:Assets/UITest_img/Answer/UI_Q1A1.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +90,18 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,11 +114,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-<<<<<<<< HEAD:Assets/Texture/Gameplay/Card/Correct_Card.png.meta
-    buildTarget: Android
-========
     buildTarget: Server
->>>>>>>> develop:Assets/UITest_img/Answer/UI_Q1A1.png.meta
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1

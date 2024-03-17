@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Texture/Gameplay/Icon/Clock_Bg.png.meta
 guid: 31a519060ccd32546af1cb81fbab7958
-========
-guid: 28db432f726b85646aa4644c0faeefb4
->>>>>>>> develop:Assets/UITest_img/Answer/UI_Q1A3.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +90,18 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,11 +114,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-<<<<<<<< HEAD:Assets/Texture/Gameplay/Icon/Clock_Bg.png.meta
-    buildTarget: Android
-========
     buildTarget: Server
->>>>>>>> develop:Assets/UITest_img/Answer/UI_Q1A3.png.meta
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
