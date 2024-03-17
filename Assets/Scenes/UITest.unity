@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 129878562}
   - component: {fileID: 129878564}
   m_Layer: 5
-  m_Name: UI_Q1A1
+  m_Name: gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 143357737}
   - component: {fileID: 143357739}
   m_Layer: 5
-  m_Name: UI_Q4A3
+  m_Name: red_cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,7 +537,7 @@ GameObject:
   - component: {fileID: 201720757}
   - component: {fileID: 201720759}
   m_Layer: 5
-  m_Name: UI_Q5A3
+  m_Name: circular_arrow_clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -690,24 +690,12 @@ MonoBehaviour:
   startBtn: {fileID: 1260005783}
   questionsHolder: {fileID: 821463077}
   questionsList:
-  - gameObject: {fileID: 182343296}
-    correctAnswer: {fileID: 129878564}
-    textAnswer: setting
-  - gameObject: {fileID: 759956377}
-    correctAnswer: {fileID: 1325016771}
-    textAnswer: play
-  - gameObject: {fileID: 933566029}
-    correctAnswer: {fileID: 671744614}
-    textAnswer: pause
-  - gameObject: {fileID: 1555848437}
-    correctAnswer: {fileID: 143357739}
-    textAnswer: close
-  - gameObject: {fileID: 1026933580}
-    correctAnswer: {fileID: 1357696665}
-    textAnswer: add_time
-  - gameObject: {fileID: 522905883}
-    correctAnswer: {fileID: 2019854928}
-    textAnswer: flip_card
+  - {fileID: 182343296}
+  - {fileID: 759956377}
+  - {fileID: 933566029}
+  - {fileID: 1555848437}
+  - {fileID: 1026933580}
+  - {fileID: 522905883}
 --- !u!4 &208314908
 Transform:
   m_ObjectHideFlags: 0
@@ -736,7 +724,7 @@ GameObject:
   - component: {fileID: 459295692}
   - component: {fileID: 459295694}
   m_Layer: 5
-  m_Name: UI_Q2A3
+  m_Name: green_shut_down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +857,7 @@ GameObject:
   - component: {fileID: 478602848}
   - component: {fileID: 478602850}
   m_Layer: 5
-  m_Name: UI_Q2A1
+  m_Name: red_arrow_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,7 +990,7 @@ GameObject:
   - component: {fileID: 520077086}
   - component: {fileID: 520077088}
   m_Layer: 5
-  m_Name: UI_Q6A2
+  m_Name: left_and_right_arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1214,7 +1202,7 @@ GameObject:
   - component: {fileID: 671744612}
   - component: {fileID: 671744614}
   m_Layer: 5
-  m_Name: UI_Q3A2
+  m_Name: two_vertical_line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1533,7 +1521,7 @@ GameObject:
   - component: {fileID: 856202445}
   - component: {fileID: 856202447}
   m_Layer: 5
-  m_Name: UI_Q5A1
+  m_Name: sand_clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1745,7 +1733,7 @@ GameObject:
   - component: {fileID: 982388453}
   - component: {fileID: 982388455}
   m_Layer: 5
-  m_Name: UI_Q4A2
+  m_Name: red_single_vertical_line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2099,7 +2087,7 @@ GameObject:
   - component: {fileID: 1075428097}
   - component: {fileID: 1075428099}
   m_Layer: 5
-  m_Name: UI_Q3A1
+  m_Name: black_square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2232,7 +2220,7 @@ GameObject:
   - component: {fileID: 1133133442}
   - component: {fileID: 1133133444}
   m_Layer: 5
-  m_Name: UI_Q1A3
+  m_Name: wrench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2474,7 +2462,7 @@ GameObject:
   - component: {fileID: 1325016769}
   - component: {fileID: 1325016771}
   m_Layer: 5
-  m_Name: UI_Q2A2
+  m_Name: green_triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2607,7 +2595,7 @@ GameObject:
   - component: {fileID: 1357696663}
   - component: {fileID: 1357696665}
   m_Layer: 5
-  m_Name: UI_Q5A2
+  m_Name: alarm_with_plus_clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2740,7 +2728,7 @@ GameObject:
   - component: {fileID: 1392075915}
   - component: {fileID: 1392075917}
   m_Layer: 5
-  m_Name: UI_Q6A1
+  m_Name: corner_to_center_arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2873,7 +2861,7 @@ GameObject:
   - component: {fileID: 1478404883}
   - component: {fileID: 1478404885}
   m_Layer: 5
-  m_Name: UI_Q4A1
+  m_Name: red_shutdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3169,7 +3157,7 @@ GameObject:
   - component: {fileID: 1601008511}
   - component: {fileID: 1601008513}
   m_Layer: 5
-  m_Name: UI_Q1A2
+  m_Name: burger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3290,7 +3278,7 @@ GameObject:
   - component: {fileID: 2002875346}
   - component: {fileID: 2002875348}
   m_Layer: 5
-  m_Name: UI_Q3A3
+  m_Name: single_horizontal_line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3423,7 +3411,7 @@ GameObject:
   - component: {fileID: 2019854926}
   - component: {fileID: 2019854928}
   m_Layer: 5
-  m_Name: UI_Q6A3
+  m_Name: back_to_front_arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
