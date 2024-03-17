@@ -34,6 +34,11 @@ namespace Assets.Scripts
                 initiateQuestion(currQuestionIdx);
             });
             uiTestResultsList = new List<UiTestResult>();
+
+            for (int i = 0; i < questionLenght; i++)
+            {
+                uiTestResultsList.Add(new UiTestResult());
+            }
         }
 
         private void initiateQuestion(int questionIdx) 
@@ -69,5 +74,6 @@ namespace Assets.Scripts
     {
         public GameObject gameObject;
         public Button correctAnswer;
+        public string textAnswer;
     }
 }
