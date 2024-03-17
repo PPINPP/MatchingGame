@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         [Title("Questions")]
         [SerializeField] private GameObject questionsHolder;
-        [SerializeField] List<Question> questionsList;
+        [SerializeField] List<GameObject> questionsList;
         private int questionLenght = 0;
         private int currQuestionIdx = 0;
 
@@ -46,21 +46,25 @@ namespace Assets.Scripts
 
         private void initiateNextQuestion(int idx) 
         {
-            Question question = questionsList[idx];
+            GameObject question = questionsList[idx];
 
-            question.correctAnswer.onClick.AddListener(answer);
+            foreach (Button btn in question.GetComponentsInChildren<Button>())
+            {
+                btn.onClick.AddListener(() => answer(btn));
+            }
+
             question.gameObject.SetActive(true);
 
             startedAt = DateTime.Now;
         }
 
-        private void answer() 
-        {
+        private void answer(Button clickedBtn)
+        { 
             completedAt = DateTime.Now;
             float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
 
             uiTestResultsList.Add(new UiTestResult(
-                    questionsList[currQuestionIdx].textAnswer,
+                    clickedBtn.name,
                     DateTime.Parse(startedAt.ToString()),
                     DateTime.Parse(completedAt.ToString()),
                     timeUsed
@@ -84,13 +88,5 @@ namespace Assets.Scripts
             questionsList[currQuestionIdx].gameObject.SetActive(false);
             initiateNextQuestion(currQuestionIdx);
         }
-    }
-
-    [Serializable]
-    public struct Question
-    {
-        public GameObject gameObject;
-        public Button correctAnswer;
-        public string textAnswer;
     }
 }
