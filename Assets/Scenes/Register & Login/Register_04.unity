@@ -408,6 +408,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1188,7 +1189,7 @@ MonoBehaviour:
   noButton: {fileID: 1744984751}
   mciButton: {fileID: 1274065931}
   alzButton: {fileID: 1568108918}
-  nextScene: TeleportPad
+  nextScene: UxTest
 --- !u!4 &1998818506
 Transform:
   m_ObjectHideFlags: 0
