@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Manager;
+using Model;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -20,8 +21,6 @@ namespace Assets.Scripts
         private int questionLength = 0;
         private int currQuestionIdx = 0;
 
-        private List<UiTestResult> uiTestResultsList;
-
         private DateTime startedAt = new DateTime(1999,1,1);
         private DateTime completedAt = new DateTime(1999, 1, 1);
 
@@ -40,8 +39,6 @@ namespace Assets.Scripts
                 questionsHolder.SetActive(true);
                 initiateNextQuestion(currQuestionIdx);
             });
-
-            uiTestResultsList = new List<UiTestResult>();
         }
 
         private void initiateNextQuestion(int idx) 
@@ -63,12 +60,14 @@ namespace Assets.Scripts
             completedAt = DateTime.Now;
             float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
 
-            uiTestResultsList.Add(new UiTestResult(
+            DataManager.Instance.UiTestResultList.Add(
+                new UiTestResult(
                     clickedBtn.name,
                     DateTime.Parse(startedAt.ToString()),
                     DateTime.Parse(completedAt.ToString()),
                     timeUsed
-                ));
+                )
+            );
 
             startedAt = new DateTime(1999, 1, 1);
             completedAt = new DateTime(1999, 1, 1);
@@ -78,7 +77,7 @@ namespace Assets.Scripts
             if (currQuestionIdx >= questionLength)
             {
                 Debug.Log("Finish all Questions! congrat");
-                foreach (var e in uiTestResultsList)
+                foreach (var e in DataManager.Instance.UiTestResultList)
                 {
                     Debug.Log($"{e.SelectedChoice} {e.StartedAt} {e.CompletedAt} {e.TimeUsed}");
                 }
