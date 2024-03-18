@@ -17,7 +17,7 @@ namespace Assets.Scripts
         [Title("Questions")]
         [SerializeField] private GameObject questionsHolder;
         [SerializeField] List<GameObject> questionsList;
-        private int questionLenght = 0;
+        private int questionLength = 0;
         private int currQuestionIdx = 0;
 
         private List<UiTestResult> uiTestResultsList;
@@ -31,7 +31,7 @@ namespace Assets.Scripts
             mainMenu.SetActive(true);
             questionsHolder.SetActive(false);
 
-            questionLenght = questionsList.Count;
+            questionLength = questionsList.Count;
 
             startBtn.onClick.AddListener(() =>
             {
@@ -75,7 +75,7 @@ namespace Assets.Scripts
 
             currQuestionIdx = currQuestionIdx + 1;
 
-            if (currQuestionIdx >= questionLenght)
+            if (currQuestionIdx >= questionLength)
             {
                 Debug.Log("Finish all Questions! congrat");
                 foreach (var e in uiTestResultsList)
