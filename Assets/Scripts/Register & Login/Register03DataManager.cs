@@ -33,12 +33,12 @@ namespace Register
 
     public void allSelection()
     {
-      htToggle.isOn = allToggle.isOn;
-      dmToggle.isOn = allToggle.isOn;
-      asdToggle.isOn = allToggle.isOn;
-      hlToggle.isOn = allToggle.isOn;
-      isToggle.isOn = allToggle.isOn;
-      cardiacToggle.isOn = allToggle.isOn;
+      htToggle.isOn = false;
+      dmToggle.isOn = false;
+      asdToggle.isOn = false;
+      hlToggle.isOn = false;
+      isToggle.isOn = false;
+      cardiacToggle.isOn = false;
     }
   }
 }
