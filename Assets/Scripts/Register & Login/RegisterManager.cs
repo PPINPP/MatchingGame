@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using Manager;
 using Constant;
+using Sirenix.Utilities;
 
 namespace Register
 {
@@ -28,13 +29,20 @@ namespace Register
     public void RegisterButton()
     {
       string username = usernameField.text.Trim();
+      string password = passwordField.text.Trim();
+
       if (username.Length == 0)
       {
-        usernameWarningText.text = "*กรุณากรอกชื่อผู้ใช้";
+        usernameWarningText.text = ErrorMessageConstant.Register.EMAIL_EMPTY;
+      }
+      else if (password.Length == 0)
+      {
+        passwordWarningText.text = ErrorMessageConstant.Register.PASSWORD_EMPTY;
       }
       else
       {
         usernameWarningText.text = "";
+        passwordWarningText.text = "";
         PreRegister(username);
       }
     }
@@ -43,6 +51,7 @@ namespace Register
     {
       string email = username + FirebaseConstant.EMAIL_SUFFIX;
       Debug.Log($"RegisterManager.PreRegister: Email {email}");
+
       if (await FirebaseManager.Instance.CheckIsEmailExisted(email))
       {
         usernameWarningText.text = ErrorMessageConstant.Register.EMAIL_ALREADY_EXIST;
