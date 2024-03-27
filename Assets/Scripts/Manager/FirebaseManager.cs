@@ -49,7 +49,7 @@ namespace Manager
     {
       await WaitForFirebaseInit(); // Wait for the database to be initialized
 
-      Debug.Log($"FirebaseManager.CreateDataWithDoc: collection: {collectionName} document: {documentName} data: {data} setOptions {setOptions}");
+      Debug.Log($"FirebaseManager.CreateDataWithDoc<{typeof(T).Name}>: collection: {collectionName} document: {documentName} data: {data} setOptions {setOptions}");
       DocumentReference docRef = db.Collection(collectionName).Document(documentName);
       _ = docRef.SetAsync(data, setOptions);
 
@@ -65,21 +65,46 @@ namespace Manager
         var result = await auth.FetchProvidersForEmailAsync(email);
         if (result != null && result.Count() > 0)
         {
-          Debug.Log($"Email '{email}' is already registered.");
+          Debug.Log($"FirebaseManager.CheckIsEmailExisted: Email '{email}' is already registered.");
           return true; // Email exists
         }
         else
         {
-          Debug.Log($"Email '{email}' is not registered.");
+          Debug.Log($"FirebaseManager.CheckIsEmailExisted: Email '{email}' is not registered.");
           return false; // Email doesn't exist
         }
       }
       catch (FirebaseException e)
       {
-        Debug.LogError($"Error checking email existence: {e.Message}");
+        Debug.LogError($"FirebaseManager.CheckIsEmailExisted: Error checking email existence: {e.Message}");
         return false; // An error occurred
       }
     }
+
+    public async Task RegisterUserAsync(string email, string password)
+    {
+
+      await WaitForFirebaseInit(); // Wait for Firebase to initialize
+
+      await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+      {
+        if (task.IsCanceled)
+        {
+          Debug.LogError("FirebaseManager.RegisterUser.CreateUserWithEmailAndPasswordAsync was canceled.");
+          return;
+        }
+        if (task.IsFaulted)
+        {
+          Debug.LogError("FirebaseManager.RegisterUser.CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+          return;
+        }
+
+        // Firebase user has been created
+        FirebaseUser newUser = task.Result.User;
+        Debug.LogFormat("FirebaseManager.RegisterUser.CreateUserWithEmailAndPasswordAsync: Firebase user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+      });
+    }
+
     private async Task WaitForFirebaseInit()
     {
       while (db == null || auth == null)

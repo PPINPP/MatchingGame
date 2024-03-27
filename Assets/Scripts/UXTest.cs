@@ -78,7 +78,7 @@ namespace UxTest
       UXtest_Title.SetActive(false);
     }
 
-    public void FinishTest(string target)
+    public void FinishTest()
     {
       uxClickLogs[^1].ClickStatus = Enum.UxClickStatusEnum.HIT;
       DateTime completedAt = DateTime.Now;
@@ -86,7 +86,7 @@ namespace UxTest
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
 
-      SceneManager.LoadScene(target);
+      DataManager.Instance.PushDataToFirebase();
     }
   }
 }

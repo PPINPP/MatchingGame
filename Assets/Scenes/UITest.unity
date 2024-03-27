@@ -686,6 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 062514cbc685d314c8b9b99b2aa637dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetScene: UxTest
   mainMenu: {fileID: 1046603352}
   startBtn: {fileID: 1260005783}
   questionsHolder: {fileID: 821463077}
