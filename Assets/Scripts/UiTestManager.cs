@@ -4,12 +4,16 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UiTest
 {
   public class UiTestManager : MonoBehaviour
   {
+    [Title("Next Scene")]
+    [SerializeField] private string targetScene;
+
     [Title("Main Menu")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private Button startBtn;
@@ -81,7 +85,7 @@ namespace UiTest
           Debug.Log($"{e.SelectedChoice} {e.StartedAt} {e.CompletedAt} {e.TimeUsed}");
         }
 
-        DataManager.Instance.PushDataToFirebase();
+        SceneManager.LoadScene(targetScene);
 
         return;
       }
