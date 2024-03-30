@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!1 &381940045
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &429006687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!1 &1049115839
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,6 +2392,7 @@ GameObject:
   - component: {fileID: 1913155107}
   - component: {fileID: 1913155109}
   - component: {fileID: 1913155108}
+  - component: {fileID: 1913155110}
   m_Layer: 5
   m_Name: Smileometer
   m_TagString: Untagged
@@ -2459,6 +2460,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913155106}
   m_CullTransparentMesh: 1
+--- !u!114 &1913155110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913155106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c451ed2a900d7c849b6e735362b35253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  funnessToggleGrp: {fileID: 1014243780}
+  fatiguenessToggleGrp: {fileID: 380124719}
 --- !u!1 &1962804316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,7 +2636,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &2008597878
 GameObject:
   m_ObjectHideFlags: 0
