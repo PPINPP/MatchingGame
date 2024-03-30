@@ -11,6 +11,7 @@ namespace Manager
     public UserInfo UserInfo { get; set; } = new UserInfo();
     public List<UxTestResult> UxTestResultList { get; set; } = new List<UxTestResult>();
     public List<UiTestResult> UiTestResultList { get; set; } = new List<UiTestResult>();
+    public List<SmileyoMeterResult> SmileyoMeterResultList { get; set; } = new List<SmileyoMeterResult>();
 
 
     public async void PushDataToFirebase()
@@ -29,6 +30,11 @@ namespace Manager
       for (int i = 0; i < UxTestResultList.Count; i++)
       {
         tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/UX Test/task{i:D2}", UxTestResultList[i].ConvertUxTestResultToUxTestResultFs(), SetOptions.Overwrite));
+      }
+
+      for (int i = 0; i < SmileyoMeterResultList.Count; i++)
+      {
+        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SmileyoMeter/task{i:D2}", SmileyoMeterResultList[i].ConvertSmileyoMeterResultToSmileyoMeterResultFs(), SetOptions.Overwrite));
       }
 
       await Task.WhenAll(tasks.ToArray());
