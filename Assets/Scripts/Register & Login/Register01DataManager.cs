@@ -34,9 +34,12 @@ namespace Register
       {
         DataManager.Instance.UserInfo.DateOfBirth = dateResult;
         DataManager.Instance.UserInfo.Gender = Gender;
+        SceneManager.LoadScene(nextScene);
       }
-
-      SceneManager.LoadScene(nextScene);
+      else
+      {
+        Debug.LogError($"DateTime.TryParseExact({dateString}) error");
+      }
     }
 
     public void MaleSelected()
