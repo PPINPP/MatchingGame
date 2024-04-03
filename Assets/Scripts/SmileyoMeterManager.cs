@@ -9,50 +9,46 @@ namespace Assets.Scripts
 {
     public class SmileyoMeterManager : MonoBehaviour
     {
-        [SerializeField] private ToggleGroup funnessToggleGrp;
-        [SerializeField] private ToggleGroup fatiguenessToggleGrp;
+        [SerializeField] private ToggleGroup enjoyableGrp;
+        [SerializeField] private ToggleGroup fatigueGrp;
         public string targetScene;
 
         // Use this for initialization
         void Start()
         {
-            funnessToggleGrp.SetAllTogglesOff();
-            fatiguenessToggleGrp.SetAllTogglesOff();
+            enjoyableGrp.SetAllTogglesOff();
+            fatigueGrp.SetAllTogglesOff();
         }
 
         void Update()
         {
-            if (funnessToggleGrp.AnyTogglesOn())
+            if (enjoyableGrp.AnyTogglesOn())
             {
-                if (funnessToggleGrp.allowSwitchOff)
+                if (enjoyableGrp.allowSwitchOff)
                 {
-                    funnessToggleGrp.allowSwitchOff = false;
+                    enjoyableGrp.allowSwitchOff = false;
                 }
-
-                Debug.Log(funnessToggleGrp.ActiveToggles().FirstOrDefault().name);
             }
 
-            if (fatiguenessToggleGrp.AnyTogglesOn())
+            if (fatigueGrp.AnyTogglesOn())
             {
-                if (fatiguenessToggleGrp.allowSwitchOff)
+                if (fatigueGrp.allowSwitchOff)
                 {
-                    fatiguenessToggleGrp.allowSwitchOff = false;
+                    fatigueGrp.allowSwitchOff = false;
                 }
-
-                Debug.Log(fatiguenessToggleGrp.ActiveToggles().FirstOrDefault().name);
             }
         }
 
-        void SubmitForm()
+        public void SubmitForm()
         {
-            if (!fatiguenessToggleGrp.AnyTogglesOn() || !funnessToggleGrp.AnyTogglesOn())
+            if (!enjoyableGrp.AnyTogglesOn() || !fatigueGrp.AnyTogglesOn())
             {
                 Debug.Log("Please answer correctly");
                 return;
             }
                 
-            int enjoyable = MapToggleNameToNumber(fatiguenessToggleGrp.ActiveToggles().FirstOrDefault().name);
-            int fatigue = MapToggleNameToNumber(fatiguenessToggleGrp.ActiveToggles().FirstOrDefault().name);
+            int enjoyable = MapToggleNameToNumber(enjoyableGrp.ActiveToggles().FirstOrDefault().name);
+            int fatigue = MapToggleNameToNumber(fatigueGrp.ActiveToggles().FirstOrDefault().name);
             
             SmileyoMeterResult smileyoMeterResult = new(enjoyable, fatigue);
 
@@ -63,7 +59,7 @@ namespace Assets.Scripts
             SceneManager.LoadScene(targetScene);
         }
 
-        int MapToggleNameToNumber(string toggleName)
+        private int MapToggleNameToNumber(string toggleName)
         {
             switch (toggleName)
             {
