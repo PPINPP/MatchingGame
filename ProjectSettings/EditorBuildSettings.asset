@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay/Level.unity
     guid: 424051896b50c427eb12ceb9e08e6943
   - enabled: 1
+    path: Assets/Scenes/Register & Login/Main_P.unity
+    guid: 159c7066541d3b94fb5feeb6f41f7837
+  - enabled: 1
     path: Assets/Scenes/UXTest.unity
     guid: aceb85b7be56c5b4eb8ccbd6a65d09f3
   - enabled: 1
@@ -32,9 +35,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Register & Login/Register_04.unity
     guid: 223942f718f212a4089caf8e543aeca0
-  - enabled: 1
-    path: Assets/Scenes/Register & Login/Main_P.unity
-    guid: 159c7066541d3b94fb5feeb6f41f7837
   - enabled: 1
     path: Assets/Scenes/UITest.unity
     guid: 1b779646db718be4d89ab681afce8236
