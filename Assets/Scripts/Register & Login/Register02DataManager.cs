@@ -1,104 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using TMPro;
-using Firebase.Firestore;
-using Firebase.Extensions;
-using Firebase.Auth;
+using Enum;
+using Manager;
 
-public class Register02DataManager : MonoBehaviour
+namespace Register
 {
+  public class Register02DataManager : MonoBehaviour
+  {
     public GameObject primButton, highsButton, certButton, bacButton, masButton, phdButton;
     public string nextScene;
-    private bool globalDebugMode = true;
-    string selected_button = "Null";
+    EducationalEnum educationalLevel;
 
-    FirebaseFirestore db;
-    Firebase.Auth.FirebaseAuth auth;
-    Firebase.Auth.FirebaseUser loginuser;
-
-    void Start()
-    {
-        (db, auth) = initialize(globalDebugMode);
-        loginuser = getUser(auth, globalDebugMode);
-    }
 
     public void SubmitForm()
     {
-        Debug.Log($"Sel: {selected_button}");
+      Debug.Log($"Educational Select: {educationalLevel}");
 
-        // Add push to DB here!
-        DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
-        Dictionary<string, object> user = new Dictionary<string, object>
-        {
-            {"Education", selected_button },
-        };
-        docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
-        {
-            Debug.Log("Added data to db successfully.");
-        });
+      DataManager.Instance.UserInfo.EducationalLevel = educationalLevel;
 
-        SceneManager.LoadScene(nextScene);
+      SceneManager.LoadScene(nextScene);
     }
 
     public void primSelected()
     {
-        selected_button = "prim";
+      educationalLevel = EducationalEnum.PRIMARY_OR_LOWER;
     }
     public void highsSelected()
     {
-        selected_button = "highs";
+      educationalLevel = EducationalEnum.HIGH_SCHOOL;
     }
     public void certSelected()
     {
-        selected_button = "cert";
+      educationalLevel = EducationalEnum.TECHNICAL;
     }
     public void bacSelected()
     {
-        selected_button = "bac";
+      educationalLevel = EducationalEnum.BACHELOR_DEGREE;
     }
     public void masSelected()
     {
-        selected_button = "mas";
+      educationalLevel = EducationalEnum.MASTER_DEGREE;
     }
     public void phdSelected()
     {
-        selected_button = "phd";
+      educationalLevel = EducationalEnum.DOCTORAL;
     }
-    private (FirebaseFirestore, Firebase.Auth.FirebaseAuth) initialize(bool debugMode = false)
-    {
-        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        if (debugMode)
-        {
-            Debug.Log($"Firestore object: {db}");
-            Debug.Log($"Firebase Auth object: {auth}");
-        }
-
-        return (db, auth);
-    }
-
-    private Firebase.Auth.FirebaseUser getUser(Firebase.Auth.FirebaseAuth auth, bool debugMode = false)
-    {
-        Firebase.Auth.FirebaseUser loginuser = auth.CurrentUser;
-        if (debugMode)
-        {
-            if (loginuser != null)
-            {
-                string name = loginuser.DisplayName;
-                string email = loginuser.Email;
-                string uid = loginuser.UserId;
-                Debug.Log($"Username {name}, Email: {email}, Uid: {uid}");
-            }
-            else
-            {
-                Debug.Log("User not found!");
-            }
-        }
-
-        return loginuser;
-    }
+  }
 }

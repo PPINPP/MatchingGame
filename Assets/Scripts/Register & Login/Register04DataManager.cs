@@ -1,102 +1,81 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using TMPro;
-using Firebase.Firestore;
-using Firebase.Extensions;
-using Firebase.Auth;
+using Enum;
+using Manager;
+using UnityEngine.UI;
+using Constant;
 
-public class Register04DataManager : MonoBehaviour
+namespace Register
 {
+  public class Register04DataManager : MonoBehaviour
+  {
     public GameObject noButton, mciButton, alzButton;
     public string nextScene;
-    private bool globalDebugMode = true;
-    FirebaseFirestore db;
-    Firebase.Auth.FirebaseAuth auth;
-    Firebase.Auth.FirebaseUser loginuser;
+    DementiaStageEnum dementiaStage;
 
-    void Start()
+    private void Start()
     {
-        (db, auth) = initialize(globalDebugMode);
-        loginuser = getUser(auth, globalDebugMode);
+      noSelected();
     }
-
-    string selected_button = "Null";
-
 
     public void SubmitForm()
     {
-        Debug.Log($"Sel: {selected_button}");
+      Debug.Log($"brainDiagnostic: {dementiaStage}");
 
-        // Push to DB
-        DocumentReference docref = db.Collection("GamePlayHistory").Document(loginuser.DisplayName);
-        Dictionary<string, object> brainDiseaseDict = new Dictionary<string, object>()
-        {
-            { "brainDisease", selected_button }
-        };
+      DataManager.Instance.UserInfo.DementiaStage = dementiaStage;
 
-        Dictionary<string, Dictionary<string, object>> user = new Dictionary<string, Dictionary<string, object>>()
-        {
-            {
-                "Register4Data", brainDiseaseDict
-            }   
-        };
-        docref.SetAsync(user, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
-        {
-            Debug.Log("Added data to db successfully.");
-        });
-        // Finish add to DB
-
-        SceneManager.LoadScene(nextScene);
+      SceneManager.LoadScene(nextScene);
     }
 
     public void noSelected()
     {
-        selected_button = "No";
+      dementiaStage = DementiaStageEnum.HEALTHY;
+
+      var noButtonNormalColor = noButton.GetComponent<Button>().colors;
+      var mciButtonNormalColor = mciButton.GetComponent<Button>().colors;
+      var alzButtonNormalColor = alzButton.GetComponent<Button>().colors;
+
+      noButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.SELECTED_COLOR); ;
+      mciButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+      alzButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+
+      noButton.GetComponent<Button>().colors = noButtonNormalColor;
+      mciButton.GetComponent<Button>().colors = mciButtonNormalColor;
+      alzButton.GetComponent<Button>().colors = alzButtonNormalColor;
     }
+
     public void alzSelected()
     {
-        selected_button = "Alzheimer";
+      dementiaStage = DementiaStageEnum.ALZHEIMER;
+
+      var noButtonNormalColor = noButton.GetComponent<Button>().colors;
+      var mciButtonNormalColor = mciButton.GetComponent<Button>().colors;
+      var alzButtonNormalColor = alzButton.GetComponent<Button>().colors;
+
+      noButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+      mciButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+      alzButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.SELECTED_COLOR); ;
+
+      noButton.GetComponent<Button>().colors = noButtonNormalColor;
+      mciButton.GetComponent<Button>().colors = mciButtonNormalColor;
+      alzButton.GetComponent<Button>().colors = alzButtonNormalColor;
     }
+
     public void mciSelected()
     {
-        selected_button = "MCI";
+      dementiaStage = DementiaStageEnum.MCI;
+
+      var noButtonNormalColor = noButton.GetComponent<Button>().colors;
+      var mciButtonNormalColor = mciButton.GetComponent<Button>().colors;
+      var alzButtonNormalColor = alzButton.GetComponent<Button>().colors;
+
+      noButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+      mciButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.SELECTED_COLOR); ;
+      alzButtonNormalColor.normalColor = new Color(1f, 1f, 1f, ButtonColorConstant.UNSELECTED_COLOR); ;
+
+      noButton.GetComponent<Button>().colors = noButtonNormalColor;
+      mciButton.GetComponent<Button>().colors = mciButtonNormalColor;
+      alzButton.GetComponent<Button>().colors = alzButtonNormalColor;
     }
-
-    private (FirebaseFirestore, Firebase.Auth.FirebaseAuth) initialize(bool debugMode = false)
-    {
-        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        if (debugMode)
-        {
-            Debug.Log($"Firestore object: {db}");
-            Debug.Log($"Firebase Auth object: {auth}");
-        }
-
-        return (db, auth);
-    }
-
-    private Firebase.Auth.FirebaseUser getUser(Firebase.Auth.FirebaseAuth auth, bool debugMode = false)
-    {
-        Firebase.Auth.FirebaseUser loginuser = auth.CurrentUser;
-        if (debugMode)
-        {
-            if (loginuser != null)
-            {
-                string name = loginuser.DisplayName;
-                string email = loginuser.Email;
-                string uid = loginuser.UserId;
-                Debug.Log($"Username {name}, Email: {email}, Uid: {uid}");
-            }
-            else
-            {
-                Debug.Log("User not found!");
-            }
-        }
-
-        return loginuser;
-    }
+  }
 }
