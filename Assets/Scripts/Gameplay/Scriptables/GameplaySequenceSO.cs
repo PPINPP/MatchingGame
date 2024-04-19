@@ -53,14 +53,26 @@ namespace MatchingGame.Gameplay
     public class GameplaySequenceSetting
     {
         [Header("Tutorial Setting")]
+        [HideIf(nameof(isForceCardID), true)]
         public bool isTutorial;
-        [ShowIf(nameof(isTutorial), true)]
+
+        [Header("Tutorial Setting")]
+        [HideIf(nameof(isTutorial), true)]
+        public bool isForceCardID;
+
+        [ShowIf(nameof(isShowCardList), true)]
         public List<string> cardIDList;
+
 
         [Header("Layout Setting")]
         public CategoryTheme categoryTheme;
         public PairType pairType;
         public GameDifficult GameDifficult;
         public GameLayout layout;
+
+        private bool isShowCardList()
+        {
+            return isForceCardID || isTutorial;
+        }
     }
 }

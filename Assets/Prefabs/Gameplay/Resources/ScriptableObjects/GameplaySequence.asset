@@ -28,6 +28,7 @@ MonoBehaviour:
     stageID: tutorial_1
     gameplay:
       isTutorial: 1
+      isForceCardID: 0
       cardIDList:
       - Home_0034
       - Home_0040
@@ -41,6 +42,7 @@ MonoBehaviour:
     stageID: tutorial_2
     gameplay:
       isTutorial: 1
+      isForceCardID: 0
       cardIDList:
       - Home_0026
       - Home_0046
@@ -54,6 +56,7 @@ MonoBehaviour:
     stageID: tutorial_3
     gameplay:
       isTutorial: 1
+      isForceCardID: 0
       cardIDList:
       - Home_0034
       - Home_0046
@@ -67,6 +70,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -78,6 +82,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -89,6 +94,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 6
@@ -100,6 +106,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 8
@@ -111,6 +118,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -122,6 +130,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -133,6 +142,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -144,6 +154,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -155,6 +166,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -166,6 +178,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -177,6 +190,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -188,6 +202,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -199,6 +214,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 4
@@ -210,6 +226,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 6
@@ -221,6 +238,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 8
@@ -232,6 +250,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0
@@ -243,6 +262,7 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
+      isForceCardID: 0
       cardIDList: []
       categoryTheme: 0
       pairType: 0

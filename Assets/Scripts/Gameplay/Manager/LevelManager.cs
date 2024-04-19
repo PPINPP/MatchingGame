@@ -53,16 +53,35 @@ namespace MatchingGame.Gameplay
 
         protected override void InitializeCards()
         {
-            var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
-            var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
-            cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
-
-            foreach (var cardProp in cardPropList)
+            if (SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().isForceCardID)
             {
-                Card card = Instantiate(setting.cardPrefab);
-                card.Init(cardProp);
-                _cardList.Add(card);
+                var randomedCard = GameplayUtils.GetCardFromTargetID
+                    (SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().cardIDList, 
+                    GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
+                var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+
+                foreach (var cardProp in cardPropList)
+                {
+                    Card card = Instantiate(setting.cardPrefab);
+                    card.Init(cardProp);
+                    _cardList.Add(card);
+                }
             }
+            else
+            {
+                var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
+                var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+
+                foreach (var cardProp in cardPropList)
+                {
+                    Card card = Instantiate(setting.cardPrefab);
+                    card.Init(cardProp);
+                    _cardList.Add(card);
+                }
+            }
+           
         }
 
         public override void OnFadeInComplete()
