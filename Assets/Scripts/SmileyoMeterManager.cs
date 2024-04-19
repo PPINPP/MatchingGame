@@ -1,4 +1,5 @@
 ﻿using Manager;
+using MatchingGame.Gameplay;
 using Model;
 using System.Linq;
 using UnityEngine;
@@ -56,7 +57,8 @@ namespace Assets.Scripts
 
             Debug.Log("Save result");
 
-            SceneManager.LoadScene(targetScene);
+            //SceneManager.LoadScene(targetScene);
+            SequenceManager.Instance.NextSequence();
         }
 
         private int MapToggleNameToNumber(string toggleName)

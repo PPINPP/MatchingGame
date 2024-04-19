@@ -5,12 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Gameplay/Menu.unity
-    guid: 5ec67611e2823df4cbbcab768bf69a63
-  - enabled: 0
-    path: Assets/Scenes/Gameplay/Level.unity
-    guid: 424051896b50c427eb12ceb9e08e6943
   - enabled: 1
     path: Assets/Scenes/Register & Login/Main_P.unity
     guid: 159c7066541d3b94fb5feeb6f41f7837
@@ -38,4 +32,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UITest.unity
     guid: 1b779646db718be4d89ab681afce8236
+  - enabled: 0
+    path: Assets/Scenes/Gameplay/Menu.unity
+    guid: 5ec67611e2823df4cbbcab768bf69a63
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Tutorial.unity
+    guid: abb9a6ff6f1830e458e22c486b5e16ba
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Level.unity
+    guid: 829dab4f9553d344096c7c2d9fe5d3c5
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Minigame.unity
+    guid: 424051896b50c427eb12ceb9e08e6943
+  - enabled: 1
+    path: Assets/Scenes/Smileyometer.unity
+    guid: c22f524829d06294ab69d5a729686348
   m_configObjects: {}

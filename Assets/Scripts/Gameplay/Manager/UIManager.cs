@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +14,7 @@ namespace MatchingGame.Gameplay
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] Image bgDimImg;
         [SerializeField] float countdownStartDuration;
+        [SerializeField] TextMeshProUGUI timerTxt;
 
         public UnityAction OnTime;
 
@@ -26,21 +27,24 @@ namespace MatchingGame.Gameplay
         private float targetAlphaBG;
         private float timer;
         private float durationLerp;
+        private bool isFadeInCountDown;
+        private bool isFadeInComplete;
 
-        public void Init()
+        protected override void Awake()
+        {
+            targetAlphaBG = bgDimImg.color.a;
+            base.Awake();
+        }
+
+        public override void Init()
         {
             timer = 0;
             countIndex = 0;
-            targetAlphaBG = bgDimImg.color.a;
-            Color color = bgDimImg.color;
-            color.a = 0;
-            bgDimImg.color = color;
-            canvasGroup.alpha = 0;
-            playArea.SetActive(false);
+            SetDisableUI();
             CountDownGroup.SetActive(false);
         }
 
-        public void StartCountDown()
+        public void BeginCountDownStartGame(bool isFade = false) 
         {
             CountDownGroup.SetActive(true);
             IDisposable disposable = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(_ =>
@@ -48,7 +52,7 @@ namespace MatchingGame.Gameplay
                 timer++;
                 countdownObjList[countIndex].SetActive(false);
                 countIndex++;
-                if (countIndex < countdownObjList.Count) 
+                if (countIndex < countdownObjList.Count)
                     countdownObjList[countIndex].SetActive(true);
 
                 if (timer >= countdownStartDuration)
@@ -64,19 +68,78 @@ namespace MatchingGame.Gameplay
                 CountDownGroup.SetActive(false);
                 canvasGroup.alpha = 1;
             };
+            isFadeInCountDown = isFade;
+        }
+
+        public void BeginCountDownShowCard()
+        {
+            timer = GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration;
+            timerTxt.text = $"{timer}";
+
+            IDisposable disposable = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(_ =>
+            {
+                timer--;
+                timerTxt.text = $"{timer}";
+
+                if (timer <= 0)
+                {
+                    timerTxt.text = "";
+                    OnTime?.Invoke();
+                }
+            }).AddTo(this);
+
+            OnTime += () =>
+            {
+                timer = 0;
+                disposable.Dispose();
+            };
         }
 
         private void Update()
         {
-            if (GameManager.Instance.State == GameState.FADE_IN_UI && timer <= countdownStartDuration)
+            if (!isFadeInComplete && isFadeInCountDown)
             {
-                durationLerp += Time.deltaTime;
+                if (GameManager.Instance.State == GameState.FADE_IN_UI && timer <= countdownStartDuration)
+                {
+                    durationLerp += Time.deltaTime;
 
-                canvasGroup.alpha = Mathf.Lerp(0,1,durationLerp/countdownStartDuration);
-                Color color = bgDimImg.color;
-                color.a = Mathf.Lerp(0, targetAlphaBG, durationLerp / countdownStartDuration);
-                bgDimImg.color = color;
+                    canvasGroup.alpha = Mathf.Lerp(0, 1, durationLerp / countdownStartDuration);
+                    Color color = bgDimImg.color;
+                    color.a = Mathf.Lerp(0, targetAlphaBG, durationLerp / countdownStartDuration);
+                    bgDimImg.color = color;
+
+                    if (durationLerp > countdownStartDuration)
+                        isFadeInComplete = true;
+                }
             }
+            else
+            {
+                if (GameManager.Instance.State == GameState.PLAYING)
+                {
+                    timer += Time.deltaTime;
+
+                    timerTxt.text = $"{Mathf.Floor(timer)}";
+                }
+            }
+        }
+
+        public void SetEnableUI()
+        {
+            Color color = bgDimImg.color;
+            color.a = targetAlphaBG;
+            bgDimImg.color = color;
+            canvasGroup.alpha = 1;
+            playArea.SetActive(true);
+        }
+
+        public void SetDisableUI()
+        {
+            Color color = bgDimImg.color;
+            color.a = 0;
+            bgDimImg.color = color;
+            canvasGroup.alpha = 0;
+            timerTxt.text = "";
+            playArea.SetActive(false);
         }
     }
 }

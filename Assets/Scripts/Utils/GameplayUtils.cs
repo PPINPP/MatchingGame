@@ -8,6 +8,19 @@ namespace MatchingGame.Gameplay
 {
     public static class GameplayUtils
     {
+        public static Dictionary<string, CardDataConfig> GetCardFromTargetID(List<string> targetAmount, CardCategoryDataSO data)
+        {
+            Dictionary<string, CardDataConfig> stageConfigs = new Dictionary<string, CardDataConfig>();
+
+            targetAmount.ForEach(x =>
+            {
+                if (data.cardDataConfigDict.TryGetValue(x, out var cardDataConfig))
+                stageConfigs.Add(x, cardDataConfig);
+            });
+
+            return stageConfigs;
+        }
+
         public static Dictionary<string, CardDataConfig> GetRndCardFromTargetAmount(int targetAmount, GameDifficult gameDifficult, CardCategoryDataSO data)
         {
             Dictionary<string, CardDataConfig> stageConfigs = new Dictionary<string, CardDataConfig>();

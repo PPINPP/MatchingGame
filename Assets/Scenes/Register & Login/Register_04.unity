@@ -1189,7 +1189,7 @@ MonoBehaviour:
   noButton: {fileID: 1744984751}
   mciButton: {fileID: 1274065931}
   alzButton: {fileID: 1568108918}
-  nextScene: UiTest
+  nextScene: Tutorial
 --- !u!4 &1998818506
 Transform:
   m_ObjectHideFlags: 0

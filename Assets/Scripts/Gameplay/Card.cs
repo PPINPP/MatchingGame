@@ -56,7 +56,7 @@ namespace MatchingGame.Gameplay
                     }
                     else if (_curState == CardState.FACE_DOWN && _backgroundImg.transform.eulerAngles.y >= 90)
                     {
-                        _backgroundImg.sprite = GameplayResources.Instance.BackCardImg[GameManager.Instance.CategoryTheme];
+                        _backgroundImg.sprite = GameplayResources.Instance.BackCardImg[SettingGameplay.Instance.CategoryTheme];
                         _itemCardImg.enabled = false;
                     }
                 }

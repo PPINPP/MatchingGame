@@ -255,3 +255,8 @@ MonoBehaviour:
     _firstTimeShowDuration: 5
     _flipDuration: 0.5
     _wrongPairShowDuration: 1
+  sceneNames:
+    tutorialScene: Tutorial
+    gameplayScene: Level
+    smileScene: Smileyometer
+    minigameScene: Minigame

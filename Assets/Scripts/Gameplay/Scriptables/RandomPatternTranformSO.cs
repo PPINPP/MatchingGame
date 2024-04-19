@@ -21,15 +21,15 @@ namespace MatchingGame.Gameplay
         [Space(20)]
         [Header("SetupFile")]
         [SerializeField] PairType randomPatternType;
-        [SerializeField] List<RectTransform> rectList;
+        [SerializeField] List<RectTransform> rectTransformList;
 
         [Button]
         public void CreateData()
         {
             Dictionary<int, TranformDetail> tranforms = new Dictionary<int, TranformDetail>();
-            for (int i = 0; i < rectList.Count; i++)
+            for (int i = 0; i < rectTransformList.Count; i++)
             {
-                var rect = rectList[i];
+                var rect = rectTransformList[i];
                 TranformDetail detail = new TranformDetail();
                 detail.position = rect.localPosition;
                 detail.rotation = rect.localRotation.eulerAngles;
@@ -55,7 +55,7 @@ namespace MatchingGame.Gameplay
         [Button]
         public void ClearList()
         {
-            rectList.Clear();
+            rectTransformList.Clear();
         }
 #endif
     }

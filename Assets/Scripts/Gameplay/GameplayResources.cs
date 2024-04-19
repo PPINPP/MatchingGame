@@ -1,11 +1,21 @@
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MatchingGame.Gameplay
 {
+    [Serializable]
+    public class SceneName
+    {
+        public string tutorialScene;
+        public string gameplayScene;
+        public string smileScene;
+        public string minigameScene;
+    }
+
     public class GameplayResources : SerializedMonoBehaviour
     {
         private static GameplayResources instance;
@@ -20,6 +30,11 @@ namespace MatchingGame.Gameplay
                 }
                 return instance;
             }
+        }
+
+        private void Awake()
+        {
+            Init();
         }
 
         //public void ReadJson()
@@ -44,6 +59,7 @@ namespace MatchingGame.Gameplay
         [SerializeField] PairConfigSO pairConfigData;
         [SerializeField] RandomPatternTranformSO randomPatternTranformData;
         [SerializeField] GameplayProperty gameplayProperty;
+        [SerializeField] SceneName sceneNames;
 
         public PairConfigSO PairConfigData { get => pairConfigData; }
         public RandomPatternTranformSO RandomPatternTranformData { get => randomPatternTranformData; }
@@ -51,6 +67,7 @@ namespace MatchingGame.Gameplay
         public Dictionary<CardImgType, Sprite> CardImgDic { get => cardImgDic; }
         public Dictionary<CategoryTheme, Sprite> BackCardImg { get => backCardImg; }
         public GameplayProperty GameplayProperty { get => gameplayProperty; }
+        public SceneName SceneNames { get => sceneNames; }
 
         public void Init()
         {

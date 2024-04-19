@@ -27,7 +27,15 @@ namespace MatchingGame.Gameplay
         public bool isSmileyOMeter;
 
         [ShowIf(nameof(isGamePlay), true)]
-        public GameplaySequenceSetting gameplay;
+        public string stageID;
+
+        [ShowIf(nameof(isGamePlay), true)]
+        [SerializeField] GameplaySequenceSetting gameplay;
+
+        public GameplaySequenceSetting GetGameplaySequenceSetting()
+        {
+            return gameplay;
+        }
 
         //[ShowIf(nameof(isGamePlay),true)]
         //public bool isTutorial;
@@ -44,7 +52,12 @@ namespace MatchingGame.Gameplay
     [Serializable]
     public class GameplaySequenceSetting
     {
+        [Header("Tutorial Setting")]
         public bool isTutorial;
+        [ShowIf(nameof(isTutorial), true)]
+        public List<string> cardIDList;
+
+        [Header("Layout Setting")]
         public CategoryTheme categoryTheme;
         public PairType pairType;
         public GameDifficult GameDifficult;

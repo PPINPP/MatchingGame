@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MatchingGame.Gameplay
 {
@@ -32,9 +33,50 @@ namespace MatchingGame.Gameplay
             return _sequenceSO.sequences[currentSequenceIndex];
         }
 
-        public GameplaySequenceSetting GetGameplaySequenceSetting()
+        public SequenceDetail GetNextSequenceDetail()
         {
-            return _sequenceSO.sequences[currentSequenceIndex].gameplay;
+            return currentSequenceIndex + 1 < _sequenceSO.sequences.Count ?
+                _sequenceSO.sequences[currentSequenceIndex + 1] : null;
+        }
+
+        public void NextSequence()
+        {
+            currentSequenceIndex++;
+
+            if (currentSequenceIndex >= _sequenceSO.sequences.Count)
+            {
+                currentSequenceIndex = _sequenceSO.sequences.Count - 1;
+
+            }
+            else
+            {
+                LoadScene();
+            }
+
+        }
+
+        private void LoadScene()
+        {
+            if (_sequenceSO.sequences[currentSequenceIndex].isGamePlay)
+            {
+                if (_sequenceSO.sequences[currentSequenceIndex].GetGameplaySequenceSetting().isTutorial)
+                {
+                    SceneManager.LoadScene(GameplayResources.Instance.SceneNames.tutorialScene);
+                }
+                else
+                {
+                    SceneManager.LoadScene(GameplayResources.Instance.SceneNames.gameplayScene);
+                }
+            }
+            else if (_sequenceSO.sequences[currentSequenceIndex].isSmileyOMeter)
+            {
+                SceneManager.LoadScene(GameplayResources.Instance.SceneNames.smileScene);
+            }
+            else if (_sequenceSO.sequences[currentSequenceIndex].isMinigame)
+            {
+                SceneManager.LoadScene(GameplayResources.Instance.SceneNames.minigameScene);
+            }
+
         }
     }
 }

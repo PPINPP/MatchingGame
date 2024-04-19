@@ -1,12 +1,8 @@
-using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace MatchingGame.Gameplay
 {
@@ -42,80 +38,45 @@ namespace MatchingGame.Gameplay
         RESULT
     }
 
+
     public class GameManager : MonoInstance<GameManager>
     {
-        [Header("Gamplay Setting")]
-        [SerializeField] CategoryTheme categoryTheme;
-        [SerializeField] PairType targetPairType;
-        [SerializeField] GameDifficult gameDifficult;
-        [SerializeField] GameLayout gameLayout;
-
-        [SerializeField] Card cardPrefab;
-
-        [Space(10)]
-        [Header("UI Elements")]
-        [SerializeField] GridLayoutGroup gridLayout;
-        [SerializeField] GameObject randomLayout;
-        
-
-        private PairConfig pairConfig = new PairConfig();
-        private int _targetPairMatchCount;
-        private int _remainPairMatchCount;
-        private Transform _targetCardParent;
-        private List<Card> _cardList = new List<Card>();
-        private List<Card> _selectedCardList = new List<Card>();
-        private IDisposable disposable;
-        private List<IDisposable> disposableList = new List<IDisposable>();
-
-        private GameState _state;
+        protected SettingGameplay setting;
+        protected PairConfig pairConfig = new PairConfig();
+        protected int _targetPairMatchCount;
+        protected int _remainPairMatchCount;
+        protected Transform _targetCardParent;
+        protected List<Card> _cardList = new List<Card>();
+        protected List<Card> _selectedCardList = new List<Card>();
+        protected IDisposable disposable;
+        protected List<IDisposable> disposableList = new List<IDisposable>();
+        protected GameState _state;
 
         public GameState State { get { return _state; } }
-        public CategoryTheme CategoryTheme { get { return categoryTheme; } }
 
-        private void Update()
+        protected virtual void Start()
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Vector3 mousePos = Input.mousePosition;
-                {
-                    Debug.Log(mousePos.x);
-                    Debug.Log(mousePos.y);
-                }
-            }
-        }
-
-        private void Start()
-        {
+            setting = SettingGameplay.Instance;
             _state = GameState.START;
-            GameplayResources.Instance.Init();
 
-            //var setting = SequenceManager.Instance.GetGameplaySequenceSetting();
-            //categoryTheme = setting.categoryTheme;
-            //targetPairType = setting.pairType;
-            //gameDifficult = setting.GameDifficult;
-            //gameLayout = setting.layout;
-
-            InitGame();
+            
         }
 
-        private void InitGame()
+        protected virtual void Update()
         {
-            _state = GameState.PENDING;
-            pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => targetPairType == x.pairType);
-            _targetPairMatchCount = (int)pairConfig.pairType;
-            _remainPairMatchCount = _targetPairMatchCount;
-            ShowMatchCount.Instance.Init(_remainPairMatchCount);
+            //if (Input.GetButtonDown("Fire1"))
+            //{
+            //    Vector3 mousePos = Input.mousePosition;
+            //    {
+            //        Debug.Log(mousePos.x);
+            //        Debug.Log(mousePos.y);
+            //    }
+            //}
+        }
 
-            InitializeCards();
-            SettingLayout();
-
-            UIManager.Instance.Init();
-            UIManager.Instance.OnTime += StartGame;
-
-            Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ => { 
-                UIManager.Instance.StartCountDown();
-                _state = GameState.FADE_IN_UI;
-            }).AddTo(this);
+        protected virtual void InitGame()
+        {
+            
         }
 
         //[Button]
@@ -127,34 +88,6 @@ namespace MatchingGame.Gameplay
         //    SettingLayout();
         //}
 
-        private void SettingLayout()
-        {
-            if (gameLayout == GameLayout.GRID)
-            {
-                gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
-                gridLayout.constraintCount = pairConfig.ConstraintRow;
-                _targetCardParent = gridLayout.transform;
-
-                _cardList.ForEach(x=>x.gameObject.transform.parent = _targetCardParent);
-            }
-            else if (gameLayout == GameLayout.RANDOM)
-            {
-                _targetCardParent = randomLayout.transform;
-                SetCardTranform setTranform = GameplayResources.Instance.RandomPatternTranformData.GetRandomSetCard(targetPairType);
-                for (int i = 0; i < _cardList.Count; i++)
-                {
-                    Card card = _cardList[i];
-                    RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
-                    card.gameObject.transform.parent = _targetCardParent;
-                    rectTransform.sizeDelta = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
-                    rectTransform.localPosition = setTranform.tranformCardInSet[i].position;
-                    rectTransform.localEulerAngles = setTranform.tranformCardInSet[i].rotation;
-                }
-                
-                //var rect = _targetCardParent.GetComponent<RectTransform>();
-                //rect.rect.xMax
-            }
-        }
 
         //[Button]
         //private void TestRandom()
@@ -185,32 +118,53 @@ namespace MatchingGame.Gameplay
         //    }
         //}
 
-        private void InitializeCards()
+        protected virtual void InitializeCards()
         {
-            var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, gameDifficult, GameplayResources.Instance.CardCategoryDataDic[categoryTheme]);
-            var cardPropList = GameplayUtils.CreateCardPair(gameDifficult, randomedCard);
-            cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+            
+        }
 
-            foreach (var cardProp in cardPropList)
+        protected virtual void InitializeCards(GameplaySequenceSetting sequenceSetting)
+        {
+
+        }
+
+        protected virtual void SettingLayout()
+        {
+            if (setting.GameLayout == GameLayout.GRID)
             {
-                Card card = Instantiate(cardPrefab);
-                card.Init(cardProp);
-                _cardList.Add(card);
+                setting.gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+                setting.gridLayout.constraintCount = pairConfig.ConstraintRow;
+                _targetCardParent = setting.gridLayout.transform;
+
+                _cardList.ForEach(x => x.gameObject.transform.parent = _targetCardParent);
+            }
+            else if (setting.GameLayout == GameLayout.RANDOM)
+            {
+                _targetCardParent = setting.randomLayout.transform;
+                SetCardTranform setTranform = GameplayResources.Instance.RandomPatternTranformData.GetRandomSetCard(setting.TargetPairType);
+                for (int i = 0; i < _cardList.Count; i++)
+                {
+                    Card card = _cardList[i];
+                    RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
+                    card.gameObject.transform.parent = _targetCardParent;
+                    rectTransform.sizeDelta = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+                    rectTransform.localPosition = setTranform.tranformCardInSet[i].position;
+                    rectTransform.localEulerAngles = setTranform.tranformCardInSet[i].rotation;
+                }
+
+                //var rect = _targetCardParent.GetComponent<RectTransform>();
+                //rect.rect.xMax
             }
         }
 
-        public void StartGame()
+        public virtual void OnFadeInComplete()
         {
-            disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
-            {
-                foreach (var item in _cardList)
-                {
-                    item.FlipCard(CardState.FACE_DOWN);
-                }
+            
+        }
 
-                _state = GameState.PLAYING;
-                disposable.Dispose();
-            }).AddTo(this);
+        public virtual void StartGame()
+        {
+           
         }
 
         public bool CheckCanFlipCard()
@@ -218,7 +172,7 @@ namespace MatchingGame.Gameplay
             return _selectedCardList.Count < 2 && _state == GameState.PLAYING;
         }
 
-        public void AddCardToCheck(Card card)
+        public virtual void AddCardToCheck(Card card)
         {
             if (_selectedCardList.Count >= 2)
                 return;
@@ -230,54 +184,14 @@ namespace MatchingGame.Gameplay
             disposableList.Add(card.onFlipComplete.Subscribe(_ => CheckCard()).AddTo(this));
         }
 
-        public void CheckCard()
+        public virtual void CheckCard()
         {
-            if (_selectedCardList.Count < 2) return;
-
-            var cardFliping = _selectedCardList.Find(x => x.IsFliping);
-
-            if (cardFliping != null) return;
-
-            disposableList.ForEach(dispos => dispos.Dispose()); 
-            disposableList.Clear();
-
-            if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
-            {
-                ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
-                _selectedCardList.ForEach(card => card.SelectedCorrect());
-                _remainPairMatchCount--;
-
-                ClearCardList();
-
-                if (_remainPairMatchCount <= 0)
-                {
-                    disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
-                    {
-                        SceneManager.LoadScene("Menu");
-
-                        disposable.Dispose();
-                    }).AddTo(this);
-                }
-            }
-            else
-            {
-                disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
-                {
-                    _selectedCardList.ForEach(card =>
-                    {
-                        card.FlipCard(CardState.FACE_DOWN);
-                    });
-                    ClearCardList();
-
-                    disposable.Dispose();
-                }).AddTo(this);
-            }
+            
         }
 
-        public void ClearCardList()
+        public void ClearSelectCardList()
         {
             _selectedCardList.Clear();
         }
-
     }
 }
