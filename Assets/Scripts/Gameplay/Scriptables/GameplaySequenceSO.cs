@@ -56,7 +56,7 @@ namespace MatchingGame.Gameplay
         [HideIf(nameof(isForceCardID), true)]
         public bool isTutorial;
 
-        [Header("Tutorial Setting")]
+        [Header("Gameplay Setting")]
         [HideIf(nameof(isTutorial), true)]
         public bool isForceCardID;
 

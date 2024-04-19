@@ -82,8 +82,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0011
+      - Home_0012
+      - Home_0025
+      - Home_0027
       categoryTheme: 0
       pairType: 4
       GameDifficult: 0
@@ -94,8 +98,14 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0005
+      - Home_0006
+      - Home_0035
+      - Home_0036
+      - Home_0047
+      - Home_0048
       categoryTheme: 0
       pairType: 6
       GameDifficult: 0
@@ -106,8 +116,16 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0001
+      - Home_0002
+      - Home_0015
+      - Home_0016
+      - Home_0023
+      - Home_0024
+      - Home_0043
+      - Home_0044
       categoryTheme: 0
       pairType: 8
       GameDifficult: 0
@@ -142,8 +160,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0019
+      - Home_0020
+      - Home_0049
+      - Home_0050
       categoryTheme: 0
       pairType: 4
       GameDifficult: 0
@@ -154,8 +176,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0081
+      - Home_0082
+      - Home_0089
+      - Home_0090
       categoryTheme: 0
       pairType: 4
       GameDifficult: 1
@@ -166,8 +192,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0007
+      - Home_0008
+      - Home_0057
+      - Home_0058
       categoryTheme: 0
       pairType: 4
       GameDifficult: 2
@@ -178,8 +208,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0041
+      - Home_0042
+      - Home_0079
+      - Home_0080
       categoryTheme: 0
       pairType: 4
       GameDifficult: 3
@@ -214,8 +248,12 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0011
+      - Home_0012
+      - Home_0025
+      - Home_0027
       categoryTheme: 0
       pairType: 4
       GameDifficult: 0
@@ -226,8 +264,14 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0005
+      - Home_0006
+      - Home_0035
+      - Home_0036
+      - Home_0047
+      - Home_0048
       categoryTheme: 0
       pairType: 6
       GameDifficult: 0
@@ -238,8 +282,16 @@ MonoBehaviour:
     stageID: 
     gameplay:
       isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
+      isForceCardID: 1
+      cardIDList:
+      - Home_0001
+      - Home_0002
+      - Home_0015
+      - Home_0016
+      - Home_0023
+      - Home_0024
+      - Home_0043
+      - Home_0044
       categoryTheme: 0
       pairType: 8
       GameDifficult: 0
