@@ -197,7 +197,7 @@ public class FirebaseMockUpTester : SerializedMonoBehaviour
     [Button]
     void TestCreateGameplayResultWithTargetDoc()
     {
-        InitDB();
+        //InitDB();
         string collectionName = "GamePlayHistory";
         string documentName = "GameplayResult";
         List<GamePlayResult> results = new List<GamePlayResult>();
@@ -222,9 +222,11 @@ public class FirebaseMockUpTester : SerializedMonoBehaviour
         for (int i = 0; i < results.Count; i++)
         {
             string doc = $"{documentName}/GameplayClickLogs/task{i:D2}";
-            DocumentReference docRef = db.Collection(collectionName).Document(doc);
-            _ = docRef.SetAsync(results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
-            //_ = FirebaseManager.Instance.CreateDataWithDoc(collectionName, $"{documentName}/task{i:D2}", results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
+
+            //DocumentReference docRef = db.Collection(collectionName).Document(doc);
+            //_ = docRef.SetAsync(results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
+
+            _ = FirebaseManager.Instance.CreateDataWithDoc(collectionName, doc, results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
         }
         
     }
