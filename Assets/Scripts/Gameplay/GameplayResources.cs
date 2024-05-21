@@ -14,6 +14,7 @@ namespace MatchingGame.Gameplay
         public string gameplayScene;
         public string smileScene;
         public string minigameScene;
+        public string uiTestScene;
     }
 
     public class GameplayResources : SerializedMonoBehaviour

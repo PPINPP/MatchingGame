@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Manager;
+using Model;
+using MatchingGame.Gameplay;
 
 enum SEX
 {
@@ -188,4 +191,41 @@ public class FirebaseMockUpTester : SerializedMonoBehaviour
     //        Debug.Log("Read all data from the users collection.");
     //    });
     //}
+
+
+    [Title("Test Data Gameplay")]
+    [Button]
+    void TestCreateGameplayResultWithTargetDoc()
+    {
+        InitDB();
+        string collectionName = "GamePlayHistory";
+        string documentName = "GameplayResult";
+        List<GamePlayResult> results = new List<GamePlayResult>();
+        List<CardPosLog> cardPosLogList = new List<CardPosLog>() { 
+            new CardPosLog("home_001", 1.0f, 2.0f),
+            new CardPosLog("home_002",3.0f,2.0f)
+        };
+        List<GameplayClickLog> gameplayClickLogList = new List<GameplayClickLog>()
+        {
+            new GameplayClickLog(2.0f,3.0f,3.4f,GameplayClickStatusEnum.ON_CARD,GameplayClickResultEnum.MATCHED),
+            new GameplayClickLog(2.0f,4.0f,3.5f,GameplayClickStatusEnum.ON_CARD,GameplayClickResultEnum.UNMATCH),
+        };
+        GamePlayResult result1 = new GamePlayResult("stage1", PairType.FOUR, GameLayout.GRID,
+            GameDifficult.HARD, 30f, 150, 5, 1920, 1080, cardPosLogList, gameplayClickLogList);
+       
+        GamePlayResult result2 = new GamePlayResult("stage2", PairType.EIGHT, GameLayout.RANDOM,
+            GameDifficult.HARD, 40f, 160, 5, 1920, 1080, cardPosLogList, gameplayClickLogList);
+
+        results.Add(result1);
+        results.Add(result2);
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            string doc = $"{documentName}/GameplayClickLogs/task{i:D2}";
+            DocumentReference docRef = db.Collection(collectionName).Document(doc);
+            _ = docRef.SetAsync(results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
+            //_ = FirebaseManager.Instance.CreateDataWithDoc(collectionName, $"{documentName}/task{i:D2}", results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
+        }
+        
+    }
 }

@@ -260,3 +260,4 @@ MonoBehaviour:
     gameplayScene: Level
     smileScene: Smileyometer
     minigameScene: Minigame
+    uiTestScene: UITest

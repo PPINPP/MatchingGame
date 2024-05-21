@@ -46,7 +46,7 @@ namespace MatchingGame.Gameplay
             if (currentSequenceIndex >= _sequenceSO.sequences.Count)
             {
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
-
+                SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
             }
             else
             {

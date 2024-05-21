@@ -12,7 +12,7 @@ namespace Manager
     public List<UxTestResult> UxTestResultList { get; set; } = new List<UxTestResult>();
     public List<UiTestResult> UiTestResultList { get; set; } = new List<UiTestResult>();
     public List<SmileyoMeterResult> SmileyoMeterResultList { get; set; } = new List<SmileyoMeterResult>();
-
+        public List<GamePlayResult> GamePlayResultList { get; set; } = new List<GamePlayResult>();
 
     public async void PushDataToFirebase()
     {
@@ -35,6 +35,11 @@ namespace Manager
       for (int i = 0; i < SmileyoMeterResultList.Count; i++)
       {
         tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SmileyoMeter/task{i:D2}", SmileyoMeterResultList[i].ConvertSmileyoMeterResultToSmileyoMeterResultFs(), SetOptions.Overwrite));
+      }
+
+      for (int i = 0; i <= GamePlayResultList.Count; i++)
+      {
+        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/task{i:D2}", GamePlayResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
       }
 
       await Task.WhenAll(tasks.ToArray());
