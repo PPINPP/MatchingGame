@@ -39,7 +39,7 @@ namespace Manager
 
       for (int i = 0; i <= GamePlayResultList.Count; i++)
       {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/task{i:D2}", GamePlayResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
+        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/{GamePlayResultList[i].StageID}", GamePlayResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
       }
 
       await Task.WhenAll(tasks.ToArray());

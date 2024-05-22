@@ -5,12 +5,13 @@ using UniRx;
 using Utils;
 public enum GameplayClickStatusEnum
 {
-    OUT_AREA,
+    OUT_CARD,
     ON_CARD
 }
 
 public enum GameplayClickResultEnum
 {
+    REPEAT,
     UNMATCH,
     MATCHED,
     FALSE_MATCH

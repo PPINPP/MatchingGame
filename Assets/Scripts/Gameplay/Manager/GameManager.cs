@@ -167,6 +167,11 @@ namespace MatchingGame.Gameplay
            
         }
 
+        public virtual void OnCardClick()
+        {
+
+        }
+
         public bool CheckCanFlipCard()
         {
             return _selectedCardList.Count < 2 && _state == GameState.PLAYING;
@@ -181,7 +186,13 @@ namespace MatchingGame.Gameplay
                 return;
 
             _selectedCardList.Add(card);
+            OnSelectCardAdd(card);
             disposableList.Add(card.onFlipComplete.Subscribe(_ => CheckCard()).AddTo(this));
+        }
+
+        protected virtual void OnSelectCardAdd(Card card)
+        {
+
         }
 
         public virtual void CheckCard()

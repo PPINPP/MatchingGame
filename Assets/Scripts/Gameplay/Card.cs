@@ -33,9 +33,11 @@ namespace MatchingGame.Gameplay
         private Vector3 _targetRotationY;
         private float lerpTimer;
         public Subject<bool> onFlipComplete = new Subject<bool>();
+        private int _indexClick = -1;
 
         public CardProperty CardProperty { get => _cardProperty; }
         public bool IsFliping { get => _isFliping; }
+        public int IndexClick { get => _indexClick; set => _indexClick = value; }
 
         private void Update()
         {
@@ -103,6 +105,7 @@ namespace MatchingGame.Gameplay
 
         public void CardClick()
         {
+            GameManager.Instance.OnCardClick();
             if (!GameManager.Instance.CheckCanFlipCard() || !_canFlip || _isFliping) return;
 
             GameManager.Instance.AddCardToCheck(this);

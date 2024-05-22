@@ -9,7 +9,25 @@ namespace MatchingGame.Gameplay
     [CreateAssetMenu(fileName = "GameplaySequence", menuName = "ScriptableObjects/GameplaySequenceScriptable", order = 3)]
     public class GameplaySequenceSO : SerializedScriptableObject
     {
+        [Title("Sequence Details")]
         public List<SequenceDetail> sequences = new List<SequenceDetail>();
+
+#if UNITY_EDITOR
+        [Title("Methods")]
+        [Button]
+        void CreateStageID()
+        {
+            foreach (var item in sequences)
+            {
+                if (item.isGamePlay && !item.GetGameplaySequenceSetting().isTutorial)
+                {
+                    item.stageID = 
+                        $"{item.GetGameplaySequenceSetting().categoryTheme.ToString()}_{item.GetGameplaySequenceSetting().pairType.ToString()}_{item.GetGameplaySequenceSetting().GameDifficult.ToString()}_{item.GetGameplaySequenceSetting().layout.ToString()}";
+                }
+                    
+            }
+        }
+#endif
     }
 
     [Serializable]

@@ -1,3 +1,4 @@
+using Model;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -10,6 +11,9 @@ namespace MatchingGame.Gameplay
     {
         [SerializeField] GameObject settingPanel;
         [SerializeField] GameObject rewardPanel;
+
+        private int clickCount = 0;
+        private int matchFalseCount = 0;
 
         protected override void Start()
         {
@@ -29,8 +33,19 @@ namespace MatchingGame.Gameplay
             InitGame();
         }
 
+        protected override void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                clickCount++;
+                GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); ;
+            }
+        }
+
         protected override void InitGame()
         {
+            clickCount = 0;
+            matchFalseCount = 0;
             _state = GameState.PENDING;
             pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => setting.TargetPairType == x.pairType);
             _targetPairMatchCount = (int)pairConfig.pairType;
@@ -97,6 +112,14 @@ namespace MatchingGame.Gameplay
 
             UIManager.Instance.BeginCountDownShowCard();
             UIManager.Instance.OnTime += StartGame;
+
+            var gameResult = GameplayResultManager.Instance;
+            gameResult.GamePlayResult.StageID = SequenceManager.Instance.GetSequenceDetail().stageID;
+            gameResult.GamePlayResult.CardPair = setting.TargetPairType;
+            gameResult.GamePlayResult.CardPatternLayout = setting.GameLayout;
+            gameResult.GamePlayResult.GameDifficult = setting.GameDifficult;
+            gameResult.GamePlayResult.ScreenHeight = Screen.height;
+            gameResult.GamePlayResult.ScreenWidth = Screen.width;
         }
 
         public override void StartGame()
@@ -111,16 +134,30 @@ namespace MatchingGame.Gameplay
 
             _cardList.ForEach(card => {
                 RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
-                GameplayResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.ToString(),
+                GameplayResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.name.ToString(),
                     rectTransform.position.x, rectTransform.position.y);
                 //Debug.Log(rectTransform.position);
             });
         }
 
+        public override void OnCardClick()
+        {
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+        }
+
+        protected override void OnSelectCardAdd(Card card)
+        {
+            if (_selectedCardList.Count == 1)
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+            else
+                card.IndexClick = GameplayResultManager.Instance.GameplayClickLogList.Count - 1;
+        }
+
         public override void CheckCard()
         {
             if (_selectedCardList.Count < 2) return;
-
+                
+            
             var cardFliping = _selectedCardList.Find(x => x.IsFliping);
 
             if (cardFliping != null) return;
@@ -130,6 +167,7 @@ namespace MatchingGame.Gameplay
 
             if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
             {
+                GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
                 _remainPairMatchCount--;
@@ -143,6 +181,10 @@ namespace MatchingGame.Gameplay
                     {
                         //SceneManager.LoadScene("Menu");
                         rewardPanel.SetActive(true);
+                        GameplayResultManager.Instance.GamePlayResult.TimeUsed = UIManager.Instance.Timer;
+                        GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
+                        GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
+                        GameplayResultManager.Instance.OnEndGame();
 
                         disposable.Dispose();
                     }).AddTo(this);
@@ -150,6 +192,9 @@ namespace MatchingGame.Gameplay
             }
             else
             {
+                matchFalseCount++;
+                GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
+                _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
                 {
                     _selectedCardList.ForEach(card =>

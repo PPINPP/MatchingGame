@@ -30,6 +30,8 @@ namespace MatchingGame.Gameplay
         private bool isFadeInCountDown;
         private bool isFadeInComplete;
 
+        public float Timer { get =>  timer; set => timer = value; } 
+
         protected override void Awake()
         {
             targetAlphaBG = bgDimImg.color.a;

@@ -79,7 +79,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_EASY_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_SIX_EASY_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -113,7 +113,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_EIGHT_EASY_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -157,7 +157,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_EASY_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_NORMAL_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -189,7 +189,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_HARD_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -205,7 +205,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_ADVANCE_GRID
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -245,7 +245,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_FOUR_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_SIX_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -279,7 +279,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 
+    stageID: HOME_EIGHT_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
