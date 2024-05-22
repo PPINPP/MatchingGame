@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -53,35 +52,43 @@ namespace MatchingGame.Gameplay
 
         protected override void InitializeCards()
         {
+            List<CardProperty> cardPropList = new List<CardProperty>();
             if (SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().isForceCardID)
             {
                 var randomedCard = GameplayUtils.GetCardFromTargetID
-                    (SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().cardIDList, 
+                    (SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().cardIDList,
                     GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
-                var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
                 cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
 
-                foreach (var cardProp in cardPropList)
-                {
-                    Card card = Instantiate(setting.cardPrefab);
-                    card.Init(cardProp);
-                    _cardList.Add(card);
-                }
+                //foreach (var cardProp in cardPropList)
+                //{
+                //    Card card = Instantiate(setting.cardPrefab);
+                //    card.Init(cardProp);
+                //    _cardList.Add(card);
+                //}
             }
             else
             {
                 var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
-                var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
                 cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
 
-                foreach (var cardProp in cardPropList)
-                {
-                    Card card = Instantiate(setting.cardPrefab);
-                    card.Init(cardProp);
-                    _cardList.Add(card);
-                }
+                //foreach (var cardProp in cardPropList)
+                //{
+                //    Card card = Instantiate(setting.cardPrefab);
+                //    card.Init(cardProp);
+                //    _cardList.Add(card);
+                //}
             }
-           
+
+            foreach (var cardProp in cardPropList)
+            {
+                Card card = Instantiate(setting.cardPrefab);
+                card.Init(cardProp);
+                _cardList.Add(card);
+            }
+
         }
 
         public override void OnFadeInComplete()
@@ -101,6 +108,13 @@ namespace MatchingGame.Gameplay
             }
 
             _state = GameState.PLAYING;
+
+            _cardList.ForEach(card => {
+                RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
+                GameplayResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.ToString(),
+                    rectTransform.position.x, rectTransform.position.y);
+                //Debug.Log(rectTransform.position);
+            });
         }
 
         public override void CheckCard()

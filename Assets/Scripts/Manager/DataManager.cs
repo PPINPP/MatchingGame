@@ -12,7 +12,7 @@ namespace Manager
     public List<UxTestResult> UxTestResultList { get; set; } = new List<UxTestResult>();
     public List<UiTestResult> UiTestResultList { get; set; } = new List<UiTestResult>();
     public List<SmileyoMeterResult> SmileyoMeterResultList { get; set; } = new List<SmileyoMeterResult>();
-        public List<GamePlayResult> GamePlayResultList { get; set; } = new List<GamePlayResult>();
+    public List<GamePlayResult> GamePlayResultList { get; set; } = new List<GamePlayResult>();
 
     public async void PushDataToFirebase()
     {

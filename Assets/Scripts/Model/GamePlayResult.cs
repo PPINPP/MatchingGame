@@ -9,7 +9,7 @@ using MatchingGame.Gameplay;
 namespace Model
 {
     [Serializable]
-     class GamePlayResult : Base
+    public class GamePlayResult : Base
     {
         public string StageID {  get; set; }
         public PairType CardPair {  get; set; }
