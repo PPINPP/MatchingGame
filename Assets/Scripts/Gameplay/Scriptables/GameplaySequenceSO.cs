@@ -17,12 +17,14 @@ namespace MatchingGame.Gameplay
         [Button]
         void CreateStageID()
         {
+            int count = 1;
             foreach (var item in sequences)
             {
                 if (item.isGamePlay && !item.GetGameplaySequenceSetting().isTutorial)
                 {
                     item.stageID = 
-                        $"{item.GetGameplaySequenceSetting().categoryTheme.ToString()}_{item.GetGameplaySequenceSetting().pairType.ToString()}_{item.GetGameplaySequenceSetting().GameDifficult.ToString()}_{item.GetGameplaySequenceSetting().layout.ToString()}";
+                        $"{count:00}_{item.GetGameplaySequenceSetting().categoryTheme.ToString()}_{item.GetGameplaySequenceSetting().pairType.ToString()}_{item.GetGameplaySequenceSetting().GameDifficult.ToString()}_{item.GetGameplaySequenceSetting().layout.ToString()}";
+                    count++;
                 }
                     
             }
