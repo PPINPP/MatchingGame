@@ -35,7 +35,7 @@ namespace MatchingGame.Gameplay
 
         protected override void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); ;
