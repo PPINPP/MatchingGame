@@ -24,6 +24,7 @@ namespace MatchingGame.Gameplay
     {
         [SerializeField] Image _itemCardImg;
         [SerializeField] Image _backgroundImg;
+        [SerializeField] AudioSource clickSound;
 
         private CardProperty _cardProperty;
         private bool _isFliping = false;
@@ -107,6 +108,9 @@ namespace MatchingGame.Gameplay
 
             GameManager.Instance.AddCardToCheck(this);
             FlipCard(CardState.FACE_UP);
+
+            // Play click sound
+            clickSound.Play();
         }
 
         public void SelectedCorrect()

@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemCardImg: {fileID: 1365132794555064105}
   _backgroundImg: {fileID: 1327458085040111350}
+  clickSound: {fileID: 0}
 --- !u!114 &810433011607584054
 MonoBehaviour:
   m_ObjectHideFlags: 0
