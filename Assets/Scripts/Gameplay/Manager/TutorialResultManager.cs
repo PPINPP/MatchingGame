@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using Manager;
+using Model;
+using UnityEngine;
+
+public class TutorialResultManager : MonoInstance<TutorialResultManager>
+{
+    
+    private GamePlayResult _tutorialResult = new GamePlayResult();
+    private List<GameplayClickLog> _tutorialClickLogList = new List<GameplayClickLog>();
+    
+    public GamePlayResult TutorialResult { get { return _tutorialResult; } set => _tutorialResult = value; }
+    public List<GameplayClickLog> TutorialClickLogList { get => _tutorialClickLogList; set => _tutorialClickLogList = value; }
+    public override void Init()
+    {
+        base.Init();
+        _tutorialResult.CardPosLogList = new List<CardPosLog>();
+        _tutorialResult.GameplayClickLogList = new List<GameplayClickLog>();
+    }
+    
+    public void CreateCardPosLog(string cardId,float screenPosX,float screenPosY)
+    {
+        CardPosLog cardPosLog = new CardPosLog(cardId, screenPosX, screenPosY);
+        _tutorialResult.CardPosLogList.Add(cardPosLog);
+
+        //Debug.Log($"Id : {cardPosLog.ItemID} , Pos x:{cardPosLog.ScreenPosX},y:{cardPosLog.ScreenPosY}");
+    }
+    
+    public void OnEndTutorial()
+    {
+        _tutorialResult.GameplayClickLogList = _tutorialClickLogList;
+        DataManager.Instance.TutorialResultList.Add(_tutorialResult);
+    }
+}

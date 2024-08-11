@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,6 +33,8 @@ namespace MatchingGame.Gameplay
         private StageObj curStageObj;
 
         private int curStageObjIndex = 0;
+        private int clickCount = 0;
+        private int matchFalseCount = 0;
 
         protected override void Start()
         {
@@ -80,6 +83,15 @@ namespace MatchingGame.Gameplay
                 }
             }
         }
+        
+        protected override void Update()
+        {
+            if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
+            {
+                clickCount++;
+                TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); 
+            }
+        }
 
         void SetCurrentStageSequence()
         {
@@ -108,6 +120,14 @@ namespace MatchingGame.Gameplay
             {
                 UIManager.Instance.BeginCountDownShowCard();
                 UIManager.Instance.OnTime += StartGame;
+                
+                var gameResult = TutorialResultManager.Instance;
+                gameResult.TutorialResult.StageID = SequenceManager.Instance.GetSequenceDetail().stageID;
+                gameResult.TutorialResult.CardPair = setting.TargetPairType;
+                gameResult.TutorialResult.CardPatternLayout = setting.GameLayout;
+                gameResult.TutorialResult.GameDifficult = setting.GameDifficult;
+                gameResult.TutorialResult.ScreenHeight = Screen.height;
+                gameResult.TutorialResult.ScreenWidth = Screen.width;
 
                 //Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => {
                 //    EndTutorial();
@@ -139,6 +159,26 @@ namespace MatchingGame.Gameplay
             }
 
             _state = GameState.PLAYING;
+            
+            _cardList.ForEach(card => {
+                RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
+                TutorialResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.name.ToString(),
+                    rectTransform.position.x, rectTransform.position.y);
+                //Debug.Log(rectTransform.position);
+            });
+        }
+        
+        public override void OnCardClick()
+        {
+            TutorialResultManager.Instance.TutorialClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+        }
+        
+        protected override void OnSelectCardAdd(Card card)
+        {
+            if (_selectedCardList.Count == 1)
+                TutorialResultManager.Instance.TutorialClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+            else
+                card.IndexClick = TutorialResultManager.Instance.TutorialClickLogList.Count - 1;
         }
 
         public override void CheckCard()
@@ -154,6 +194,7 @@ namespace MatchingGame.Gameplay
 
             if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
             {
+                TutorialResultManager.Instance.TutorialClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
                 _remainPairMatchCount--;
@@ -177,7 +218,12 @@ namespace MatchingGame.Gameplay
                                 endTutorialPanel.SetActive(true);
                             }
                         }
-                       
+                        
+                        TutorialResultManager.Instance.TutorialResult.TimeUsed = UIManager.Instance.Timer;
+                        TutorialResultManager.Instance.TutorialResult.ClickCount = clickCount;
+                        TutorialResultManager.Instance.TutorialResult.MatchFalseCount = matchFalseCount;
+                        TutorialResultManager.Instance.TutorialResult.CompletedAt = DateTime.Now;
+                        TutorialResultManager.Instance.OnEndTutorial();
 
                         disposable.Dispose();
                     }).AddTo(this);
@@ -185,6 +231,9 @@ namespace MatchingGame.Gameplay
             }
             else
             {
+                matchFalseCount++;
+                TutorialResultManager.Instance.TutorialClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
+                _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
                 {
                     _selectedCardList.ForEach(card =>

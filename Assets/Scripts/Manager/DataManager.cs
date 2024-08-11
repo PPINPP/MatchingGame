@@ -14,7 +14,7 @@ namespace Manager
     public List<UiTestResult> UiTestResultList { get; set; } = new List<UiTestResult>();
     public List<SmileyoMeterResult> SmileyoMeterResultList { get; set; } = new List<SmileyoMeterResult>();
     public List<GamePlayResult> GamePlayResultList { get; set; } = new List<GamePlayResult>();
-
+    public List<GamePlayResult> TutorialResultList { get; set; } = new List<GamePlayResult>();
     public List<MinigameResult> MinigameResultList { get; set; } = new List<MinigameResult>();
 
     public async void PushDataToFirebase()
@@ -45,11 +45,15 @@ namespace Manager
         tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SpecialTask/task{i:D2}_{MinigameResultList[i].CompletedAt:s}", MinigameResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
       }
       
-      for (int i = 0; i <= GamePlayResultList.Count; i++)
+      for (int i = 0; i < TutorialResultList.Count; i++)
+      {
+        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/TutorialLog/{TutorialResultList[i].StageID}_{TutorialResultList[i].CompletedAt:s}", TutorialResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
+      }
+      
+      for (int i = 0; i < GamePlayResultList.Count; i++)
       {
         tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/{GamePlayResultList[i].StageID}_{GamePlayResultList[i].CompletedAt:s}", GamePlayResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
       }
-      
 
       await Task.WhenAll(tasks.ToArray());
     }
