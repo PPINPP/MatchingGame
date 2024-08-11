@@ -184,6 +184,7 @@ namespace MatchingGame.Gameplay
                         GameplayResultManager.Instance.GamePlayResult.TimeUsed = UIManager.Instance.Timer;
                         GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                         GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
+                        GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
                         GameplayResultManager.Instance.OnEndGame();
 
                         disposable.Dispose();

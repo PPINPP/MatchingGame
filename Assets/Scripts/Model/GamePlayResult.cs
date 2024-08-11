@@ -22,6 +22,7 @@ namespace Model
         public int ScreenWidth { get; set; }
         public List<CardPosLog> CardPosLogList { get; set; }    
         public List<GameplayClickLog> GameplayClickLogList { get; set; }
+        public DateTime CompletedAt { get; set; }
 
 
         public GamePlayResult() : base()
@@ -45,15 +46,17 @@ namespace Model
             ScreenWidth = screenWidth;
             CardPosLogList = cardPosLogList;
             GameplayClickLogList = gameplayClickLogList;
+            CompletedAt = DateTime.Now;
         }
 
-        public GamePlayResultFs ConverToFirestoreModel()
+        public GamePlayResultFs ConvertToFirestoreModel()
         {
             GamePlayResultFs firestoreModel = new GamePlayResultFs
             {
                 Uuid = this.Uuid,
                 DateCreated = this.DateCreated.ToString("s"),
                 DateUpdated = this.DateUpdated.ToString("s"),
+                CompletedAt = this.CompletedAt.ToString("s"),
                 StageID = this.StageID,
                 CardPair = (int)this.CardPair,
                 CardPatternLayout = this.CardPatternLayout.ToString(),
@@ -99,6 +102,7 @@ namespace Model
         [FirestoreProperty] public string Uuid { get; set; }
         [FirestoreProperty] public string DateCreated { get; set; }
         [FirestoreProperty] public string DateUpdated { get; set; }
+        [FirestoreProperty] public string CompletedAt { get; set; }
         [FirestoreProperty] public string StageID { get; set; }
         [FirestoreProperty] public int CardPair { get; set; }
         [FirestoreProperty] public string CardPatternLayout { get; set; }

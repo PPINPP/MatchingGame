@@ -226,7 +226,7 @@ public class FirebaseMockUpTester : SerializedMonoBehaviour
             //DocumentReference docRef = db.Collection(collectionName).Document(doc);
             //_ = docRef.SetAsync(results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
 
-            _ = FirebaseManager.Instance.CreateDataWithDoc(collectionName, doc, results[i].ConverToFirestoreModel(), SetOptions.Overwrite);
+            _ = FirebaseManager.Instance.CreateDataWithDoc(collectionName, doc, results[i].ConvertToFirestoreModel(), SetOptions.Overwrite);
         }
         
     }
