@@ -6,13 +6,13 @@ using UnityEngine;
 public class SoundManager : MonoInstance<SoundManager>
 {
     
-    [SerializeField] int Amount;
+    [SerializeField] int soundEffectAmount;
 
     private Queue<SoundEffect> _effects = new Queue<SoundEffect>();
     public override void Init()
     {
         base.Init();
-        for (int i = 0; i < Amount; i++)
+        for (int i = 0; i < soundEffectAmount; i++)
         {
             var obj = Instantiate(GameplayResources.Instance.soundPrefab);
             _effects.Enqueue(obj.GetComponent<SoundEffect>());
@@ -25,6 +25,11 @@ public class SoundManager : MonoInstance<SoundManager>
         var sound = GameplayResources.Instance.SoundEffectList.Find(f => f.soundType == type);
         AudioClip audioClip = sound.soundEffectClip;
         var soundEffect = _effects.Dequeue();
+        if (soundEffect == null)
+        {
+            var obj = Instantiate(GameplayResources.Instance.soundPrefab);
+            soundEffect = obj.GetComponent<SoundEffect>();
+        }
         soundEffect.SetSound(audioClip);
         soundEffect.gameObject.SetActive(true);
         StartCoroutine(DisableSound(soundEffect, audioClip.length));
