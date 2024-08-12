@@ -75,6 +75,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
                 RandomImg();
                 RandomPosition();
                 timer = 0;
+                SoundManager.Instance.PlaySoundEffect(SoundType.Spawn);
             }
             else
             {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameplaySequence
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -63,6 +63,18 @@ MonoBehaviour:
       categoryTheme: 0
       pairType: 2
       GameDifficult: 3
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 1
+    isSmileyOMeter: 0
+    stageID: 
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 0
+      cardIDList: []
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
       layout: 0
   - isGamePlay: 0
     isMinigame: 0
@@ -245,7 +257,23 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 08_HOME_FOUR_EASY_RANDOM
+    stageID: 08_HOME_FOUR_EASY_GRID
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 1
+      cardIDList:
+      - Home_0011
+      - Home_0012
+      - Home_0025
+      - Home_0027
+      categoryTheme: 0
+      pairType: 4
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    stageID: 09_HOME_FOUR_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -261,7 +289,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 09_HOME_SIX_EASY_RANDOM
+    stageID: 10_HOME_SIX_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -279,7 +307,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
-    stageID: 10_HOME_EIGHT_EASY_RANDOM
+    stageID: 11_HOME_EIGHT_EASY_RANDOM
     gameplay:
       isTutorial: 0
       isForceCardID: 1
@@ -296,6 +324,70 @@ MonoBehaviour:
       pairType: 8
       GameDifficult: 0
       layout: 1
+  - isGamePlay: 0
+    isMinigame: 1
+    isSmileyOMeter: 0
+    stageID: 
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 0
+      cardIDList: []
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 1
+    stageID: 
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 0
+      cardIDList: []
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    stageID: 12_HOME_EIGHT_EASY_GRID
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 1
+      cardIDList:
+      - Home_0001
+      - Home_0002
+      - Home_0015
+      - Home_0016
+      - Home_0023
+      - Home_0024
+      - Home_0043
+      - Home_0044
+      categoryTheme: 0
+      pairType: 8
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    stageID: 13_HOME_EIGHT_EASY_GRID
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 1
+      cardIDList:
+      - Home_0001
+      - Home_0002
+      - Home_0015
+      - Home_0016
+      - Home_0023
+      - Home_0024
+      - Home_0043
+      - Home_0044
+      categoryTheme: 0
+      pairType: 8
+      GameDifficult: 0
+      layout: 0
   - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0

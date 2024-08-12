@@ -52,6 +52,8 @@ namespace MatchingGame.Gameplay
         [SerializeField] Dictionary<CategoryTheme, CardCategoryDataSO> cardCategoryDataDic;
         [SerializeField] Dictionary<CardImgType, Sprite> cardImgDic;
         [SerializeField] Dictionary<CategoryTheme, Sprite> backCardImg;
+        public List<SoundEffectSO> SoundEffectList;
+        public GameObject soundPrefab;
 
         #region Header 
         [Space(10)]
@@ -69,6 +71,7 @@ namespace MatchingGame.Gameplay
         public Dictionary<CategoryTheme, Sprite> BackCardImg { get => backCardImg; }
         public GameplayProperty GameplayProperty { get => gameplayProperty; }
         public SceneName SceneNames { get => sceneNames; }
+
 
         public void Init()
         {
