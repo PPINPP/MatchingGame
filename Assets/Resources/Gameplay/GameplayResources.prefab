@@ -251,14 +251,18 @@ MonoBehaviour:
       Data: 
   SoundEffectList:
   - {fileID: 11400000, guid: 297b2e16d3e750b479a60f0ae50a7d94, type: 2}
+  - {fileID: 11400000, guid: f0b970f0af8e562439c0d939afdc08c9, type: 2}
+  - {fileID: 11400000, guid: a4ab6d511594e204e91c6ea94db3c73f, type: 2}
+  - {fileID: 11400000, guid: 3eef845528658a044805b76c6dd115a1, type: 2}
   soundPrefab: {fileID: 2163274485037811353, guid: 5183648aaef3bc94a8146f95c100ca60, type: 3}
   pairConfigData: {fileID: 11400000, guid: f1beca6cf6dda3e429cfb6c0ba331b19, type: 2}
   randomPatternTranformData: {fileID: 11400000, guid: ba9913034378db545b0b4ee50cba9c00, type: 2}
   gameplayProperty:
     _firstTimeShowDuration: 5
-    _flipDuration: 0.5
+    _flipDuration: 0.4
     _wrongPairShowDuration: 1
   sceneNames:
+    mainScene: Main_P
     tutorialScene: Tutorial
     gameplayScene: Level
     smileScene: Smileyometer

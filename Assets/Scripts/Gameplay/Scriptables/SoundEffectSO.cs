@@ -5,7 +5,10 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum SoundType {
-    Spawn
+    Spawn,
+    Click,
+    CorrectMatch,
+    WrongMatch
 }
 
 [CreateAssetMenu(fileName = "SoundEffect_", menuName = "ScriptableObjects/Sounds/SoundEffect")]

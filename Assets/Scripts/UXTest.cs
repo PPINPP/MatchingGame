@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Manager;
+using MatchingGame.Gameplay;
 using Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -85,8 +86,15 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
+      AsyncPushData();
+    }
 
-      DataManager.Instance.PushDataToFirebase();
+    async void AsyncPushData()
+    {
+      await DataManager.Instance.PushDataToFirebase();
+      DataManager.Instance.ClearData();
+      SequenceManager.Instance.ResetGame();
+      SceneManager.LoadScene(GameplayResources.Instance.SceneNames.mainScene);
     }
   }
 }

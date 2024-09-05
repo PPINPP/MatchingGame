@@ -39,6 +39,7 @@ namespace MatchingGame.Gameplay
             {
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); 
+                SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
         }
 
@@ -190,10 +191,15 @@ namespace MatchingGame.Gameplay
                         disposable.Dispose();
                     }).AddTo(this);
                 }
+                else
+                {
+                    SoundManager.Instance.PlaySoundEffect(SoundType.CorrectMatch);
+                }
             }
             else
             {
                 matchFalseCount++;
+                SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
                 _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>

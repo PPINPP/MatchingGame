@@ -4,12 +4,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MatchingGame.Gameplay
 {
     [Serializable]
     public class SceneName
     {
+        public string mainScene;
         public string tutorialScene;
         public string gameplayScene;
         public string smileScene;
@@ -17,6 +19,7 @@ namespace MatchingGame.Gameplay
         public string uiTestScene;
     }
 
+    [DefaultExecutionOrder(-1)]
     public class GameplayResources : SerializedMonoBehaviour
     {
         private static GameplayResources instance;
@@ -27,7 +30,7 @@ namespace MatchingGame.Gameplay
             {
                 if (instance == null)
                 {
-                    instance = Instantiate(Resources.Load<GameplayResources>("GameplayResources"));
+                    instance = Instantiate(Resources.Load<GameplayResources>("Gameplay/GameplayResources"));
                 }
                 return instance;
             }

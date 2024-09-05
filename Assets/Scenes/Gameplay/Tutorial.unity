@@ -565,6 +565,7 @@ GameObject:
   - component: {fileID: 375574343}
   - component: {fileID: 375574344}
   - component: {fileID: 375574345}
+  - component: {fileID: 375574346}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Manager
@@ -944,6 +945,28 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+--- !u!114 &375574346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375574340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519457276b6782141a9f68922f3f522c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  soundEffectAmount: 10
 --- !u!1 &424355853
 GameObject:
   m_ObjectHideFlags: 0

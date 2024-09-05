@@ -17,7 +17,7 @@ namespace Manager
     public List<GamePlayResult> TutorialResultList { get; set; } = new List<GamePlayResult>();
     public List<MinigameResult> MinigameResultList { get; set; } = new List<MinigameResult>();
 
-    public async void PushDataToFirebase()
+    public async Task<bool> PushDataToFirebase()
     {
       List<Task> tasks = new List<Task>
       {
@@ -56,6 +56,18 @@ namespace Manager
       }
 
       await Task.WhenAll(tasks.ToArray());
+      return true;
+    }
+
+    public void ClearData()
+    {
+      UserInfo = new UserInfo();
+      UxTestResultList = new List<UxTestResult>();
+      UiTestResultList = new List<UiTestResult>();
+      SmileyoMeterResultList = new List<SmileyoMeterResult>();
+      GamePlayResultList = new List<GamePlayResult>();
+      TutorialResultList = new List<GamePlayResult>();
+      MinigameResultList = new List<MinigameResult>();
     }
   }
 }
