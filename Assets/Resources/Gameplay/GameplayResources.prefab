@@ -268,3 +268,4 @@ MonoBehaviour:
     smileScene: Smileyometer
     minigameScene: Minigame
     uiTestScene: UITest
+    dailyScene: DailyFeeling

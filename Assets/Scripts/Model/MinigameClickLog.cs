@@ -30,6 +30,7 @@ namespace Model
         public float ClickScreenPosX { get; set; }
         public float ClickScreenPosY { get; set; }
         public MinigameClickStatusEnum ClickStatus { get; set; }
+        public bool isCorrect { get; set;}
         
         public MinigameClickLogFs ConvertToFirestoreModel()
         {
@@ -38,7 +39,8 @@ namespace Model
                 Uuid = this.Uuid,
                 ClickScreenPosX = this.ClickScreenPosX,
                 ClickScreenPosY = this.ClickScreenPosY,
-                ClickStatus = this.ClickStatus
+                ClickStatus = this.ClickStatus,
+                isCorrect = this.isCorrect
             };
 
             return firestoreModel;
@@ -52,6 +54,7 @@ namespace Model
         [FirestoreProperty] public float ClickScreenPosX { get; set; }
         [FirestoreProperty]  public float ClickScreenPosY { get; set; }
         [FirestoreProperty]  public MinigameClickStatusEnum ClickStatus { get; set; }
+        [FirestoreProperty]  public bool isCorrect { get; set; }
         
         public override string ToString()
         {

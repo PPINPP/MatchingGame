@@ -15,6 +15,8 @@ namespace Model
         public List<float> TargetPosY { get; set; }
         public List<MinigameClickLog> MinigameClickLogList { get; set; }
         public DateTime CompletedAt { get; set; }
+        public int ObjectType { get; set; }
+        public List<int> RandomObject { get; set;}
 
 
         public MinigameResult() : base()
@@ -35,10 +37,12 @@ namespace Model
                 ScreenWidth = this.ScreenWidth,
                 TargetPosX = this.TargetPosX,
                 TargetPosY = this.TargetPosY,
+                ObjectType = this.ObjectType,
+                RandomObject = this.RandomObject,
                 MinigameClickLogList = new List<MinigameClickLogFs>()
             };
 
-           
+
             if (this.MinigameClickLogList != null || this.MinigameClickLogList.Count > 0)
             {
                 //GameplayClickLogList.Sort((log1, log2) => {
@@ -56,7 +60,7 @@ namespace Model
             return firestoreModel;
         }
     }
-    
+
     [FirestoreData]
     public struct MinigameResultFs
     {
@@ -67,8 +71,11 @@ namespace Model
         [FirestoreProperty] public List<float> TimeUsed { get; set; }
         [FirestoreProperty] public int ScreenHeight { get; set; }
         [FirestoreProperty] public int ScreenWidth { get; set; }
-        [FirestoreProperty]public List<float> TargetPosX { get; set; }
-        [FirestoreProperty]public List<float> TargetPosY { get; set; }
+        [FirestoreProperty] public List<float> TargetPosX { get; set; }
+        [FirestoreProperty] public List<float> TargetPosY { get; set; }
+        [FirestoreProperty] public int ObjectType { get; set; }
+        [FirestoreProperty] public List<int> RandomObject { get; set;}
+
         [FirestoreProperty] public List<MinigameClickLogFs> MinigameClickLogList { get; set; }
 
         public override string ToString()

@@ -42,7 +42,8 @@ namespace MatchingGame.Gameplay
             if (currentSequenceIndex >= _sequenceSO.sequences.Count)
             {
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
-                SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
+                // SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
+                SceneManager.LoadScene("UITest");
             }
             // Next Sequence
             else
@@ -72,6 +73,10 @@ namespace MatchingGame.Gameplay
             else if (_sequenceSO.sequences[currentSequenceIndex].isMinigame)
             {
                 SceneManager.LoadScene(GameplayResources.Instance.SceneNames.minigameScene);
+            }
+            else if (_sequenceSO.sequences[currentSequenceIndex].isDailyFeeling)
+            {
+                SceneManager.LoadScene(GameplayResources.Instance.SceneNames.dailyScene);
             }
 
         }

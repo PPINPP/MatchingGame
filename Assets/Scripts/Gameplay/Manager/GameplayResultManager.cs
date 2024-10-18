@@ -19,6 +19,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         set => _minigameResult = value;
     }
     public List<MinigameClickLog> MinigameClickLogList { get => _minigameClickLogList; set => _minigameClickLogList = value; }
+    FirebaseManagerV2 fbm;
     
     public override void Init()
     {
@@ -28,6 +29,8 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         _minigameResult.MinigameClickLogList = new List<MinigameClickLog>();
         _minigameResult.TargetPosX = new List<float>();
         _minigameResult.TargetPosY = new List<float>();
+        _minigameResult.RandomObject = new List<int>();
+
     }
 
     public void CreateCardPosLog(string cardId,float screenPosX,float screenPosY)
@@ -42,11 +45,28 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     {
         _gameplayResult.GameplayClickLogList = _gameplayClickLogList;
         DataManager.Instance.GamePlayResultList.Add(_gameplayResult);
+        //FirebaseManagerV2 upload Data
+        if(fbm == null){
+            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
+        }
+        fbm.UploadGamePlayResult(_gameplayResult);
+        
+
     }
 
     public void OnEndMiniGame()
     {
         _minigameResult.MinigameClickLogList = _minigameClickLogList;
         DataManager.Instance.MinigameResultList.Add(_minigameResult);
+        //FirebaseManagerV2 upload Data
+        if(fbm == null){
+            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
+        }
+        fbm.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
+        
+    }
+
+    public void SetFBM(FirebaseManagerV2 FBM){
+      fbm = FBM;
     }
 }

@@ -13,6 +13,7 @@ namespace Assets.Scripts
         [SerializeField] private ToggleGroup enjoyableGrp;
         [SerializeField] private ToggleGroup fatigueGrp;
         public string targetScene;
+        FirebaseManagerV2 fbm;
 
         // Use this for initialization
         void Start()
@@ -47,13 +48,18 @@ namespace Assets.Scripts
                 Debug.Log("Please answer correctly");
                 return;
             }
-                
+
             int enjoyable = MapToggleNameToNumber(enjoyableGrp.ActiveToggles().FirstOrDefault().name);
             int fatigue = MapToggleNameToNumber(fatigueGrp.ActiveToggles().FirstOrDefault().name);
-            
+
             SmileyoMeterResult smileyoMeterResult = new(enjoyable, fatigue);
 
             DataManager.Instance.SmileyoMeterResultList.Add(smileyoMeterResult);
+            if (fbm == null)
+            {
+                fbm = (FirebaseManagerV2)GameObject.FindObjectOfType(typeof(FirebaseManagerV2));
+            }
+            fbm.UploadSmileyoMeterResult(smileyoMeterResult,DataManager.Instance.SmileyoMeterResultList.Count-1);
 
             Debug.Log("Save result");
 

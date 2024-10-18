@@ -48,6 +48,7 @@ namespace MatchingGame.Gameplay
 
         public void BeginCountDownStartGame(bool isFade = false) 
         {
+            AudioController.SetnPlay("audio/SFX/Countdown");
             CountDownGroup.SetActive(true);
             IDisposable disposable = Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(_ =>
             {
@@ -69,12 +70,14 @@ namespace MatchingGame.Gameplay
                 playArea.SetActive(true);
                 CountDownGroup.SetActive(false);
                 canvasGroup.alpha = 1;
+                
             };
             isFadeInCountDown = isFade;
         }
 
         public void BeginCountDownShowCard()
         {
+            
             timer = GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration;
             timerTxt.text = $"{timer}";
 
@@ -85,6 +88,7 @@ namespace MatchingGame.Gameplay
 
                 if (timer <= 0)
                 {
+                    AudioController.SetnPlayBGM("audio/BGM/BGM");
                     timerTxt.text = "";
                     OnTime?.Invoke();
                 }

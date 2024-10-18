@@ -16,9 +16,14 @@ namespace Manager
     public List<GamePlayResult> GamePlayResultList { get; set; } = new List<GamePlayResult>();
     public List<GamePlayResult> TutorialResultList { get; set; } = new List<GamePlayResult>();
     public List<MinigameResult> MinigameResultList { get; set; } = new List<MinigameResult>();
+    public List<DailyFeelingResult> DailyFeelingResultList { get; set; } = new List<DailyFeelingResult>();
+    FirebaseManagerV2 fbm;
 
     public async Task<bool> PushDataToFirebase()
     {
+      if(true){
+        return true;
+      }
       List<Task> tasks = new List<Task>
       {
         FirebaseManager.Instance.RegisterUserAsync(UserInfo.Username + FirebaseConstant.EMAIL_SUFFIX, UserInfo.Password),
@@ -69,5 +74,13 @@ namespace Manager
       TutorialResultList = new List<GamePlayResult>();
       MinigameResultList = new List<MinigameResult>();
     }
+    public void SetFBM(FirebaseManagerV2 FBM){
+      fbm = FBM;
+    }
+    public void PushDataWithFirebaseManagerV2(){
+      
+    }
   }
+
+  
 }

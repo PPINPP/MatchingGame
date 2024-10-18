@@ -35,16 +35,20 @@ namespace MatchingGame.Gameplay
     [Serializable]
     public class SequenceDetail
     {
-        [EnableIf("@!this.isMinigame && !this.isSmileyOMeter")]
+        [EnableIf("@!this.isMinigame && !this.isSmileyOMeter && !this.isDailyFeeling")]
         public bool isGamePlay;
 
         [HideIf(nameof(isGamePlay), true)]
-        [EnableIf("@!this.isSmileyOMeter")]
+        [EnableIf("@!this.isSmileyOMeter && !this.isDailyFeeling")]
         public bool isMinigame;
 
         [HideIf(nameof(isGamePlay), true)]
-        [EnableIf("@!this.isMinigame")]
+        [EnableIf("@!this.isMinigame && !this.isDailyFeeling")]
         public bool isSmileyOMeter;
+
+        [HideIf(nameof(isGamePlay), true)]
+        [EnableIf("@!this.isMinigame && !this.isSmileyOMeter")]
+        public bool isDailyFeeling;
 
         [ShowIf(nameof(isGamePlay), true)]
         public string stageID;

@@ -204,6 +204,7 @@ namespace MatchingGame.Gameplay
 
                 if (_remainPairMatchCount <= 0)
                 {
+                    AudioController.StopPlayGBM();
                     _state = GameState.RESULT;
                     disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                     {

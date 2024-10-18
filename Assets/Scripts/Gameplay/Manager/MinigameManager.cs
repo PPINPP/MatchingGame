@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class MinigameManager : MonoInstance<MinigameManager>
 {
     [SerializeField] Image clickObjImg;
+    [SerializeField] List<Sprite> popupSprites = new List<Sprite>();
     [SerializeField] GameObject popupStartGameObj;
     [SerializeField] GameObject finishUIObj;
     [SerializeField] List<Sprite> objSprites = new List<Sprite>();
@@ -26,6 +27,9 @@ public class MinigameManager : MonoInstance<MinigameManager>
     private IDisposable disposable;
     private float timer = 0.0f;
     private bool isStartGame = false;
+    private int object_type;
+    private int curr_obj;
+
 
     
     public override void Init()
@@ -40,8 +44,10 @@ public class MinigameManager : MonoInstance<MinigameManager>
         GameplayResultManager.Instance.MinigameResult.ScreenWidth = Screen.width;
         clickObjImg.gameObject.SetActive(false);
         finishUIObj.SetActive(false);
-
+        object_type = UnityEngine.Random.Range(0,4);
+        popupStartGameObj.transform.GetChild(1).GetComponent<Image>().sprite = popupSprites[object_type];
         popupStartGameObj.SetActive(true);
+        GameplayResultManager.Instance.MinigameResult.ObjectType = object_type;
     }
 
     public void StartGame()
@@ -108,8 +114,9 @@ public class MinigameManager : MonoInstance<MinigameManager>
 
     public void RandomImg()
     {
-        var index = UnityEngine.Random.Range(0, objSprites.Count);
-        clickObjImg.sprite = objSprites[index];
+        curr_obj = UnityEngine.Random.Range(0, objSprites.Count);
+        clickObjImg.sprite = objSprites[curr_obj];
+        GameplayResultManager.Instance.MinigameResult.RandomObject.Add(curr_obj);
     }
 
     public void RandomPosition()
@@ -127,6 +134,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     {
         GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(timer);
         GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus = MinigameClickStatusEnum.NORMAL;
+        GameplayResultManager.Instance.MinigameClickLogList[^1].isCorrect = object_type == curr_obj ? true : false;
         clickObjImg.gameObject.SetActive(false);
         isRoundActive = false;
         disposable.Dispose();

@@ -12,6 +12,7 @@ public class TutorialResultManager : MonoInstance<TutorialResultManager>
     
     public GamePlayResult TutorialResult { get { return _tutorialResult; } set => _tutorialResult = value; }
     public List<GameplayClickLog> TutorialClickLogList { get => _tutorialClickLogList; set => _tutorialClickLogList = value; }
+    FirebaseManagerV2 fbm;
     public override void Init()
     {
         base.Init();
@@ -31,5 +32,10 @@ public class TutorialResultManager : MonoInstance<TutorialResultManager>
     {
         _tutorialResult.GameplayClickLogList = _tutorialClickLogList;
         DataManager.Instance.TutorialResultList.Add(_tutorialResult);
+        if(fbm == null){
+            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
+        }
+        fbm.UploadTutorialResult(_tutorialResult);
+
     }
 }

@@ -1,78 +1,34 @@
 {
   "project_info": {
-    "project_number": "165500617092",
-    "firebase_url": "https://memory-card-game-60bd0-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "memory-card-game-60bd0",
-    "storage_bucket": "memory-card-game-60bd0.appspot.com"
+    "project_number": "415072983245",
+    "project_id": "brain-memory-game-hfelab",
+    "storage_bucket": "brain-memory-game-hfelab.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165500617092:android:9ff40b84dd0bb56fe99dd1",
-        "android_client_info": {
-          "package_name": "Test.Andriod"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "165500617092-fgu0ju1aatgdpim7n6qhdc52lielhbm2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBQDJlBDZ3c6ZDiOotay8xQ6gCe4WbMwkI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "165500617092-fgu0ju1aatgdpim7n6qhdc52lielhbm2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "165500617092-19144ih3unv9q74v1d429muuq6fr4hus.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.kmutt.memogame"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:165500617092:android:d4da7fbba6b06704e99dd1",
+        "mobilesdk_app_id": "1:415072983245:android:20e384ef5c561254fcb184",
         "android_client_info": {
           "package_name": "com.hfelab.Come"
         }
       },
       "oauth_client": [
         {
-          "client_id": "165500617092-fgu0ju1aatgdpim7n6qhdc52lielhbm2.apps.googleusercontent.com",
+          "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBQDJlBDZ3c6ZDiOotay8xQ6gCe4WbMwkI"
+          "current_key": "AIzaSyAVXeAkOwKjkQZOfldtZeWRyIy1mHoR8YA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "165500617092-fgu0ju1aatgdpim7n6qhdc52lielhbm2.apps.googleusercontent.com",
+              "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "165500617092-19144ih3unv9q74v1d429muuq6fr4hus.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.kmutt.memogame"
-              }
             }
           ]
         }

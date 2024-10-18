@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameplaySequence
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -25,6 +25,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: tutorial_1
     gameplay:
       isTutorial: 1
@@ -39,6 +40,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: tutorial_2
     gameplay:
       isTutorial: 1
@@ -53,6 +55,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: tutorial_3
     gameplay:
       isTutorial: 1
@@ -65,8 +68,22 @@ MonoBehaviour:
       GameDifficult: 3
       layout: 0
   - isGamePlay: 0
+    isMinigame: 0
+    isSmileyOMeter: 0
+    isDailyFeeling: 1
+    stageID: 
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 0
+      cardIDList: []
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
+  - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -79,6 +96,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 0
     isSmileyOMeter: 1
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -91,6 +109,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 01_HOME_FOUR_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -107,6 +126,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 02_HOME_SIX_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -125,6 +145,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 03_HOME_EIGHT_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -145,6 +166,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -157,6 +179,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 0
     isSmileyOMeter: 1
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -169,6 +192,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 04_HOME_FOUR_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -185,6 +209,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 05_HOME_FOUR_NORMAL_GRID
     gameplay:
       isTutorial: 0
@@ -201,6 +226,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 06_HOME_FOUR_HARD_GRID
     gameplay:
       isTutorial: 0
@@ -217,6 +243,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 07_HOME_FOUR_ADVANCE_GRID
     gameplay:
       isTutorial: 0
@@ -231,20 +258,9 @@ MonoBehaviour:
       GameDifficult: 3
       layout: 0
   - isGamePlay: 0
-    isMinigame: 1
-    isSmileyOMeter: 0
-    stageID: 
-    gameplay:
-      isTutorial: 0
-      isForceCardID: 0
-      cardIDList: []
-      categoryTheme: 0
-      pairType: 0
-      GameDifficult: 0
-      layout: 0
-  - isGamePlay: 0
     isMinigame: 0
     isSmileyOMeter: 1
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -257,6 +273,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 08_HOME_FOUR_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -273,6 +290,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 09_HOME_FOUR_EASY_RANDOM
     gameplay:
       isTutorial: 0
@@ -289,6 +307,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 10_HOME_SIX_EASY_RANDOM
     gameplay:
       isTutorial: 0
@@ -307,6 +326,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 11_HOME_EIGHT_EASY_RANDOM
     gameplay:
       isTutorial: 0
@@ -327,6 +347,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -339,6 +360,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 0
     isSmileyOMeter: 1
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -351,6 +373,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 12_HOME_EIGHT_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -371,6 +394,7 @@ MonoBehaviour:
   - isGamePlay: 1
     isMinigame: 0
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 13_HOME_EIGHT_EASY_GRID
     gameplay:
       isTutorial: 0
@@ -391,6 +415,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0
@@ -403,6 +428,7 @@ MonoBehaviour:
   - isGamePlay: 0
     isMinigame: 0
     isSmileyOMeter: 1
+    isDailyFeeling: 0
     stageID: 
     gameplay:
       isTutorial: 0

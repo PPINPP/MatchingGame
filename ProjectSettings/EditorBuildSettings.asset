@@ -8,8 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Register & Login/Main_P.unity
     guid: 159c7066541d3b94fb5feeb6f41f7837
+  - enabled: 0
+    path: Assets/Scenes/GoogleSignIn.unity
+    guid: 4b8c7ffe648a12d49983a95ad50217ae
   - enabled: 1
-    path: Assets/Scenes/UXTest.unity
+    path: Assets/Scenes/Gameplay/UXTest.unity
     guid: aceb85b7be56c5b4eb8ccbd6a65d09f3
   - enabled: 1
     path: Assets/Scenes/Register & Login/Login_P.unity
@@ -18,19 +21,19 @@ EditorBuildSettings:
     path: Assets/Scenes/Register & Login/NeoRegister_P.unity
     guid: a90eee3f368a5e94b9b63f5c9266a7fa
   - enabled: 1
-    path: Assets/Scenes/Register & Login/Register_01.unity
+    path: Assets/Scenes/OldScene/Register_01.unity
     guid: efea9f4062c4e4740b039b291029a1a9
   - enabled: 1
-    path: Assets/Scenes/Register & Login/Register_02.unity
+    path: Assets/Scenes/OldScene/Register_02.unity
     guid: bd5c8a9beb7684642949948fc9a7d490
   - enabled: 1
-    path: Assets/Scenes/Register & Login/Register_03.unity
+    path: Assets/Scenes/OldScene/Register_03.unity
     guid: 7f6163d11ca7ca24eb9177790ecb65d1
   - enabled: 1
-    path: Assets/Scenes/Register & Login/Register_04.unity
+    path: Assets/Scenes/OldScene/Register_04.unity
     guid: 223942f718f212a4089caf8e543aeca0
   - enabled: 1
-    path: Assets/Scenes/UITest.unity
+    path: Assets/Scenes/Gameplay/UITest.unity
     guid: 1b779646db718be4d89ab681afce8236
   - enabled: 0
     path: Assets/Scenes/Gameplay/Menu.unity
@@ -45,6 +48,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay/Minigame.unity
     guid: 424051896b50c427eb12ceb9e08e6943
   - enabled: 1
-    path: Assets/Scenes/Smileyometer.unity
+    path: Assets/Scenes/Gameplay/Smileyometer.unity
     guid: c22f524829d06294ab69d5a729686348
+  - enabled: 1
+    path: Assets/Scenes/EndTest.unity
+    guid: 016cb53fc23bee641a13619887a13484
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/DailyFeeling.unity
+    guid: 9cf07dac4870ae64097a2c9ca3ee1bf5
   m_configObjects: {}

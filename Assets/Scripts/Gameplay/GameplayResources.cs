@@ -17,6 +17,7 @@ namespace MatchingGame.Gameplay
         public string smileScene;
         public string minigameScene;
         public string uiTestScene;
+        public string dailyScene;
     }
 
     [DefaultExecutionOrder(-1)]

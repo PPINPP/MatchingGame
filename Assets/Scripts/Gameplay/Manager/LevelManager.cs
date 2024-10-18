@@ -168,6 +168,7 @@ namespace MatchingGame.Gameplay
 
             if (string.Equals(_selectedCardList[0].CardProperty.key, _selectedCardList[1].CardProperty.key))
             {
+                AudioController.SetnPlay("audio/SFX/Correct_Match");
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
@@ -177,6 +178,7 @@ namespace MatchingGame.Gameplay
 
                 if (_remainPairMatchCount <= 0)
                 {
+                    AudioController.StopPlayGBM();
                     _state = GameState.RESULT;
                     disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                     {
@@ -198,6 +200,7 @@ namespace MatchingGame.Gameplay
             }
             else
             {
+                AudioController.SetnPlay("audio/SFX/Wrong_Match");
                 matchFalseCount++;
                 SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;

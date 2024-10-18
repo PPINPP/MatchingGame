@@ -105,6 +105,7 @@ namespace MatchingGame.Gameplay
 
         public void CardClick()
         {
+            AudioController.SetnPlay("audio/SFX/Click");
             GameManager.Instance.OnCardClick();
             if (!GameManager.Instance.CheckCanFlipCard() || !_canFlip || _isFliping) return;
 

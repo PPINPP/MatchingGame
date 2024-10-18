@@ -26,10 +26,12 @@ namespace UiTest
 
     private DateTime startedAt = new DateTime(1999, 1, 1);
     private DateTime completedAt = new DateTime(1999, 1, 1);
+    FirebaseManagerV2 fbm;
 
     // Use this for initialization
     void Start()
     {
+      fbm = FirebaseManagerV2.GetInstance();
       mainMenu.SetActive(true);
       questionsHolder.SetActive(false);
 
@@ -62,15 +64,13 @@ namespace UiTest
     {
       completedAt = DateTime.Now;
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
-
-      DataManager.Instance.UiTestResultList.Add(
-          new UiTestResult(
-              clickedBtn.name,
+      UiTestResult uiTestResult = new UiTestResult(clickedBtn.name,
               DateTime.Parse(startedAt.ToString()),
               DateTime.Parse(completedAt.ToString()),
-              timeUsed
-          )
-      );
+              timeUsed);
+      DataManager.Instance.UiTestResultList.Add(uiTestResult);
+      fbm.UploadUiTestResult(uiTestResult.ConvertUiTestResultToUiTestResultFs(),DataManager.Instance.UiTestResultList.Count-1);
+
 
       startedAt = new DateTime(1999, 1, 1);
       completedAt = new DateTime(1999, 1, 1);

@@ -17,11 +17,13 @@ namespace UxTest
     List<UxClickLog> uxClickLogs = new List<UxClickLog>();
 
     DataManager dataManager;
+    FirebaseManagerV2 fbm;
 
     // Start is called before the first frame update
     void Start()
     {
       dataManager = DataManager.Instance;
+      fbm = FirebaseManagerV2.GetInstance();
     }
 
     void Update()
@@ -51,7 +53,7 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-
+      fbm.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
       totalClick = 0;
       startedAt = DateTime.Now;
       uxClickLogs = new List<UxClickLog>();
@@ -68,7 +70,7 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-
+      fbm.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
       totalClick = 0;
       startedAt = DateTime.Now;
       uxClickLogs = new List<UxClickLog>();
@@ -86,15 +88,11 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-      AsyncPushData();
-    }
+      fbm.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
+      SceneManager.LoadScene("EndTest");
+      // DataManager.Instance.PushDataToFirebase();
 
-    async void AsyncPushData()
-    {
-      await DataManager.Instance.PushDataToFirebase();
-      DataManager.Instance.ClearData();
-      SequenceManager.Instance.ResetGame();
-      SceneManager.LoadScene(GameplayResources.Instance.SceneNames.mainScene);
+      //Don't Forget to Add to FirebaseManagerV2
     }
   }
 }

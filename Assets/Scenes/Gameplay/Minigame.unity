@@ -158,9 +158,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &79565943
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bd5a088331d812f4ab58e9f5e2feeac7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 077d953b966d9fd4c96de210b691a7e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -411,11 +411,18 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   clickObjImg: {fileID: 1633567695}
+  popupSprites:
+  - {fileID: 21300000, guid: 8fb82d38d96de794eb51ba81477e454d, type: 3}
+  - {fileID: 21300000, guid: bea044aacc22e4648b6a0589de2f1133, type: 3}
+  - {fileID: 21300000, guid: 859d62372def3a046848f3a7096b955a, type: 3}
+  - {fileID: 21300000, guid: 2b3ea591effcce842be42ebddac88c46, type: 3}
   popupStartGameObj: {fileID: 322647691}
   finishUIObj: {fileID: 1637964257}
   objSprites:
   - {fileID: 21300000, guid: ae74c86acfcdf4b49a8c241ba15f3d34, type: 3}
   - {fileID: 21300000, guid: 1c834919fd09ef949b5e7bf5bf8aa3a5, type: 3}
+  - {fileID: 21300000, guid: ea480bc3c2742f74bbd4c5c6c49aaac3, type: 3}
+  - {fileID: 21300000, guid: cafc78e5671bd1b4fb26e1e8182206e8, type: 3}
   offset: 130
   spawnTime: 10
 --- !u!114 &375574344
@@ -1298,7 +1305,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1314,7 +1321,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 518228998}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
