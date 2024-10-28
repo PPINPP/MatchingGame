@@ -319,6 +319,9 @@ public class RegisterManagerV2 : MonoBehaviour
     }
     public void OnCompleteRegister()
     {
+        if(googlesignin_mode){
+            fbm.FBMGoogleSignOut();
+        }
         SceneManager.LoadScene("Main_P");
     }
     ///////////////////////////////////////////////////////

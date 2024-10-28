@@ -24,6 +24,7 @@ public class FirebaseManagerV2 : MonoBehaviour
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser user;
+    
     public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
     private GoogleSignInConfiguration configuration;
     private static FirebaseManagerV2 fbm_instance = null;
@@ -38,6 +39,8 @@ public class FirebaseManagerV2 : MonoBehaviour
     DataManager dataManager;
 
     /// Profile Parameter ///
+    [SerializeField] private bool syncnetwork;
+    /// 
     /// This will be reset on signout ///
     string curr_username;
     string curr_id;
@@ -45,7 +48,13 @@ public class FirebaseManagerV2 : MonoBehaviour
 
     void Awake()
     {
-
+        if(syncnetwork){
+            FirebaseFirestore.DefaultInstance.EnableNetworkAsync();
+        }
+        else{
+            FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
+        }
+        
         /// Keep Script Alive ///
         DontDestroyOnLoad(this.gameObject);
         if (fbm_instance == null)
@@ -228,7 +237,6 @@ public class FirebaseManagerV2 : MonoBehaviour
         DocumentReference docRef = db.Collection(prefix_locate).Document(form.Uuid);
         docRef.SetAsync(form);
         Debug.Log("Added User to " + prefix_locate);
-        auth.SignOut();
         rm_instance.OnCompleteRegister();
     }
 

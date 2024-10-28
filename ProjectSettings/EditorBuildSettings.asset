@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Register & Login/Main_P.unity
     guid: 159c7066541d3b94fb5feeb6f41f7837
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/LevelSelector.unity
+    guid: 494e5fb17eb27014ab74be5566ef9c9d
   - enabled: 0
     path: Assets/Scenes/GoogleSignIn.unity
     guid: 4b8c7ffe648a12d49983a95ad50217ae

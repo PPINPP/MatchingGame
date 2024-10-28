@@ -23,6 +23,11 @@ namespace MatchingGame.Gameplay
             currentSequenceIndex = 0;
         }
 
+        public void ReloadSequence(GameplaySequenceSO newSequence){
+            this._sequenceSO = newSequence;
+            ResetGame();
+        }
+
         public SequenceDetail GetSequenceDetail()
         {
             return _sequenceSO.sequences[currentSequenceIndex];

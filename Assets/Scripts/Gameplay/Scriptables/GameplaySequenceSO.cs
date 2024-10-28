@@ -54,7 +54,7 @@ namespace MatchingGame.Gameplay
         public string stageID;
 
         [ShowIf(nameof(isGamePlay), true)]
-        [SerializeField] GameplaySequenceSetting gameplay;
+        [SerializeField] public GameplaySequenceSetting gameplay;
 
         public GameplaySequenceSetting GetGameplaySequenceSetting()
         {

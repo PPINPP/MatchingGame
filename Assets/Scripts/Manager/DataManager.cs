@@ -21,44 +21,41 @@ namespace Manager
 
     public async Task<bool> PushDataToFirebase()
     {
-      if(true){
-        return true;
-      }
-      List<Task> tasks = new List<Task>
-      {
-        FirebaseManager.Instance.RegisterUserAsync(UserInfo.Username + FirebaseConstant.EMAIL_SUFFIX, UserInfo.Password),
-        FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"UserInfo", UserInfo.ConvertUserInfoToUserInfoFs(), SetOptions.Overwrite)
-      };
+      List<Task> tasks = new List<Task>();
+      // {
+      //   FirebaseManager.Instance.RegisterUserAsync(UserInfo.Username + FirebaseConstant.EMAIL_SUFFIX, UserInfo.Password),
+      //   FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"UserInfo", UserInfo.ConvertUserInfoToUserInfoFs(), SetOptions.Overwrite)
+      // };
 
-      for (int i = 0; i < UiTestResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/UI Test/task{i:D2}", UiTestResultList[i].ConvertUiTestResultToUiTestResultFs(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < UiTestResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/UI Test/task{i:D2}", UiTestResultList[i].ConvertUiTestResultToUiTestResultFs(), SetOptions.Overwrite));
+      // }
 
-      for (int i = 0; i < UxTestResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/UX Test/task{i:D2}", UxTestResultList[i].ConvertUxTestResultToUxTestResultFs(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < UxTestResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/UX Test/task{i:D2}", UxTestResultList[i].ConvertUxTestResultToUxTestResultFs(), SetOptions.Overwrite));
+      // }
 
-      for (int i = 0; i < SmileyoMeterResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SmileyoMeter/task{i:D2}", SmileyoMeterResultList[i].ConvertSmileyoMeterResultToSmileyoMeterResultFs(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < SmileyoMeterResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SmileyoMeter/task{i:D2}", SmileyoMeterResultList[i].ConvertSmileyoMeterResultToSmileyoMeterResultFs(), SetOptions.Overwrite));
+      // }
 
-      for (int i = 0; i < MinigameResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SpecialTask/task{i:D2}_{MinigameResultList[i].CompletedAt:s}", MinigameResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < MinigameResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/SpecialTask/task{i:D2}_{MinigameResultList[i].CompletedAt:s}", MinigameResultList[i].ConverToFirestoreModel(), SetOptions.Overwrite));
+      // }
       
-      for (int i = 0; i < TutorialResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/TutorialLog/{TutorialResultList[i].StageID}_{TutorialResultList[i].CompletedAt:s}", TutorialResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < TutorialResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/TutorialLog/{TutorialResultList[i].StageID}_{TutorialResultList[i].CompletedAt:s}", TutorialResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
+      // }
       
-      for (int i = 0; i < GamePlayResultList.Count; i++)
-      {
-        tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/{GamePlayResultList[i].StageID}_{GamePlayResultList[i].CompletedAt:s}", GamePlayResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
-      }
+      // for (int i = 0; i < GamePlayResultList.Count; i++)
+      // {
+      //   tasks.Add(FirebaseManager.Instance.CreateDataWithDoc(UserInfo.Username, $"DemoResult/GameplayLog/{GamePlayResultList[i].StageID}_{GamePlayResultList[i].CompletedAt:s}", GamePlayResultList[i].ConvertToFirestoreModel(), SetOptions.Overwrite));
+      // }
 
       await Task.WhenAll(tasks.ToArray());
       return true;

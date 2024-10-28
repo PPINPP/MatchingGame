@@ -438,3 +438,16 @@ MonoBehaviour:
       pairType: 0
       GameDifficult: 0
       layout: 0
+  - isGamePlay: 1
+    isMinigame: 0
+    isSmileyOMeter: 0
+    isDailyFeeling: 0
+    stageID: 
+    gameplay:
+      isTutorial: 0
+      isForceCardID: 0
+      cardIDList: []
+      categoryTheme: 0
+      pairType: 0
+      GameDifficult: 0
+      layout: 0
