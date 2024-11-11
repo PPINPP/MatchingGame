@@ -18,6 +18,8 @@ public class TutorialResultManager : MonoInstance<TutorialResultManager>
         base.Init();
         _tutorialResult.CardPosLogList = new List<CardPosLog>();
         _tutorialResult.GameplayClickLogList = new List<GameplayClickLog>();
+        _tutorialResult.PauseLogList = new List<PauseLog>();
+        _tutorialResult.PassiveLogList = new List<PassiveLog>();
     }
     
     public void CreateCardPosLog(string cardId,float screenPosX,float screenPosY)
@@ -32,10 +34,7 @@ public class TutorialResultManager : MonoInstance<TutorialResultManager>
     {
         _tutorialResult.GameplayClickLogList = _tutorialClickLogList;
         DataManager.Instance.TutorialResultList.Add(_tutorialResult);
-        if(fbm == null){
-            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
-        }
-        fbm.UploadTutorialResult(_tutorialResult);
+        FirebaseManagerV2.Instance.UploadTutorialResult(_tutorialResult);
 
     }
 }

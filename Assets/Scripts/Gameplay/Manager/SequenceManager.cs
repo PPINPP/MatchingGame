@@ -7,7 +7,7 @@ namespace MatchingGame.Gameplay
 {
     public class SequenceManager : MonoSingleton<SequenceManager>
     {
-        private int currentSequenceIndex;
+        private int currentSequenceIndex = -1;
 
         private GameplaySequenceSO _sequenceSO;
 
@@ -20,7 +20,7 @@ namespace MatchingGame.Gameplay
 
         public void ResetGame()
         {
-            currentSequenceIndex = 0;
+            currentSequenceIndex = -1;
         }
 
         public void ReloadSequence(GameplaySequenceSO newSequence){
@@ -48,7 +48,7 @@ namespace MatchingGame.Gameplay
             {
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
                 // SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
-                SceneManager.LoadScene("UITest");
+                SceneManager.LoadScene("EndTest");
             }
             // Next Sequence
             else

@@ -69,7 +69,7 @@ namespace UiTest
               DateTime.Parse(completedAt.ToString()),
               timeUsed);
       DataManager.Instance.UiTestResultList.Add(uiTestResult);
-      fbm.UploadUiTestResult(uiTestResult.ConvertUiTestResultToUiTestResultFs(),DataManager.Instance.UiTestResultList.Count-1);
+      FirebaseManagerV2.Instance.UploadUiTestResult(uiTestResult.ConvertUiTestResultToUiTestResultFs(),DataManager.Instance.UiTestResultList.Count-1);
 
 
       startedAt = new DateTime(1999, 1, 1);

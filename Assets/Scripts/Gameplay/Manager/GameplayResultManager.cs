@@ -26,6 +26,8 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         base.Init();
         _gameplayResult.CardPosLogList = new List<CardPosLog>();
         _gameplayResult.GameplayClickLogList = new List<GameplayClickLog>();
+        _gameplayResult.PauseLogList = new List<PauseLog>();
+        _gameplayResult.PassiveLogList = new List<PassiveLog>();
         _minigameResult.MinigameClickLogList = new List<MinigameClickLog>();
         _minigameResult.TargetPosX = new List<float>();
         _minigameResult.TargetPosY = new List<float>();
@@ -46,10 +48,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         _gameplayResult.GameplayClickLogList = _gameplayClickLogList;
         DataManager.Instance.GamePlayResultList.Add(_gameplayResult);
         //FirebaseManagerV2 upload Data
-        if(fbm == null){
-            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
-        }
-        fbm.UploadGamePlayResult(_gameplayResult);
+        FirebaseManagerV2.Instance.UploadGamePlayResult(_gameplayResult);
         
 
     }
@@ -62,11 +61,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         if(fbm == null){
             fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
         }
-        fbm.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
+        FirebaseManagerV2.Instance.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
         
-    }
-
-    public void SetFBM(FirebaseManagerV2 FBM){
-      fbm = FBM;
     }
 }

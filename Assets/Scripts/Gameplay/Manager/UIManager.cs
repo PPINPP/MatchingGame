@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -15,6 +16,11 @@ namespace MatchingGame.Gameplay
         [SerializeField] Image bgDimImg;
         [SerializeField] float countdownStartDuration;
         [SerializeField] TextMeshProUGUI timerTxt;
+        [SerializeField] TMP_Text timerTxtB;
+        [SerializeField] GameObject timerGameObject;
+        [SerializeField] LevelManager levelManager;
+
+        [SerializeField] Material timerMaterial;
 
         public UnityAction OnTime;
 
@@ -27,10 +33,10 @@ namespace MatchingGame.Gameplay
         private float targetAlphaBG;
         private float timer;
         private float durationLerp;
-        private bool isFadeInCountDown;
-        private bool isFadeInComplete;
+        public bool isFadeInCountDown;
+        public bool isFadeInComplete;
 
-        public float Timer { get =>  timer; set => timer = value; } 
+        public float Timer { get => timer; set => timer = value; }
 
         protected override void Awake()
         {
@@ -44,9 +50,10 @@ namespace MatchingGame.Gameplay
             countIndex = 0;
             SetDisableUI();
             CountDownGroup.SetActive(false);
+            timerMaterial.SetColor("_OutlineColor", new Color(1.0f, 0f, 0f));
         }
 
-        public void BeginCountDownStartGame(bool isFade = false) 
+        public void BeginCountDownStartGame(bool isFade = false)
         {
             AudioController.SetnPlay("audio/SFX/Countdown");
             CountDownGroup.SetActive(true);
@@ -70,14 +77,14 @@ namespace MatchingGame.Gameplay
                 playArea.SetActive(true);
                 CountDownGroup.SetActive(false);
                 canvasGroup.alpha = 1;
-                
+
             };
             isFadeInCountDown = isFade;
         }
 
         public void BeginCountDownShowCard()
         {
-            
+
             timer = GameplayResources.Instance.GameplayProperty.FirstTimeShowDuration;
             timerTxt.text = $"{timer}";
 
@@ -89,6 +96,14 @@ namespace MatchingGame.Gameplay
                 if (timer <= 0)
                 {
                     AudioController.SetnPlayBGM("audio/BGM/BGM");
+                    var sequence = SequenceManager.Instance.GetSequenceDetail();
+                    var sequenceSetting = sequence.GetGameplaySequenceSetting();
+                    if (!sequenceSetting.isTutorial)
+                    {
+                        levelManager.EnableTools();
+                    }
+
+
                     timerTxt.text = "";
                     OnTime?.Invoke();
                 }
@@ -96,7 +111,14 @@ namespace MatchingGame.Gameplay
 
             OnTime += () =>
             {
-                timer = 0;
+                timer = 150;
+                var sequence = SequenceManager.Instance.GetSequenceDetail();
+                var sequenceSetting = sequence.GetGameplaySequenceSetting();
+                if (!sequenceSetting.isTutorial)
+                {
+                    levelManager.StartPassive();
+                }
+
                 disposable.Dispose();
             };
         }
@@ -122,9 +144,43 @@ namespace MatchingGame.Gameplay
             {
                 if (GameManager.Instance.State == GameState.PLAYING)
                 {
-                    timer += Time.deltaTime;
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        var sequence = SequenceManager.Instance.GetSequenceDetail();
+                        var sequenceSetting = sequence.GetGameplaySequenceSetting();
+                        if (!sequenceSetting.isTutorial)
+                        {
+                            levelManager.EndGame();
+                        }
+                        
+                        print("end");
 
-                    timerTxt.text = $"{Mathf.Floor(timer)}";
+                    }
+                    else
+                    {
+                        timerTxt.text = $"{Mathf.Floor(timer)}";
+                    }
+                    float r = (180.0f - timer) * 1.67f;
+                    if (r >= 150.0f)
+                    {
+                        r = 150.0f;
+                    }
+                    float g = timer * 1.67f;
+                    if (g >= 150.0f)
+                    {
+                        g = 150.0f;
+                    }
+                    Color ncolor = new Color(r / 255.0f, g / 255.0f, 0.0f);
+
+                    timerGameObject.GetComponent<TMP_Text>().color = ncolor;
+                    // timerGameObject.GetComponent<TMP_Text>().outlineColor = ncolor;
+                    timerMaterial.SetColor("_OutlineColor", ncolor);
+                    // timerTxtB.color = ncolor;
+                    // timerTxtB.outlineColor = ncolor;
+                    // timerTxt.outlineColor = ncolor;
+                    // timerTxt.color = new Color(r/255f,g/255f,0f);
+                    // timerTxt.color = new Color(r/255f,g/255f,0f);
                 }
             }
         }
@@ -146,6 +202,16 @@ namespace MatchingGame.Gameplay
             canvasGroup.alpha = 0;
             timerTxt.text = "";
             playArea.SetActive(false);
+        }
+
+        public void AddTime(float sec)
+        {
+            timer += sec;
+        }
+
+        public float GetTimer()
+        {
+            return timer;
         }
     }
 }

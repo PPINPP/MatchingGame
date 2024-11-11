@@ -22,6 +22,9 @@ public class SoundManager : MonoInstance<SoundManager>
 
     public void PlaySoundEffect(SoundType type)
     {
+        if(Time.timeScale == 0){
+            return;
+        }
         var sound = GameplayResources.Instance.SoundEffectList.Find(f => f.soundType == type);
         AudioClip audioClip = sound.soundEffectClip;
         var soundEffect = _effects.Dequeue();

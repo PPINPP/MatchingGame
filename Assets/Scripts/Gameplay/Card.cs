@@ -34,6 +34,8 @@ namespace MatchingGame.Gameplay
         private float lerpTimer;
         public Subject<bool> onFlipComplete = new Subject<bool>();
         private int _indexClick = -1;
+        private int hintTimer = 0;
+        private bool hintDirection = false;
 
         public CardProperty CardProperty { get => _cardProperty; }
         public bool IsFliping { get => _isFliping; }
@@ -94,7 +96,7 @@ namespace MatchingGame.Gameplay
                 _curState = state;
             }
         }
-        
+
         private void OnFlipComplete()
         {
             _isFliping = false;
@@ -117,6 +119,40 @@ namespace MatchingGame.Gameplay
         {
             _canFlip = false;
             _backgroundImg.sprite = GameplayResources.Instance.CardImgDic[CardImgType.FRONT_CORRECT_CARD];
+        }
+
+        public bool IsInComplete()
+        {
+            return _canFlip;
+        }
+
+        public void StartFading()
+        {
+            InvokeRepeating("Fade", 0f, 0.1f);
+        }
+        public void StopFading()
+        {
+            CancelInvoke();
+            _backgroundImg.color = new Color(1.0f,1.0f,1.0f);;
+        }
+
+        void Fade()
+        {
+            if(hintDirection){
+                hintTimer -=1;
+                 if(hintTimer== 0){
+                    hintDirection = false;
+                }
+            }
+            else{
+                hintTimer +=1;
+                if(hintTimer== 5){
+                    hintDirection = true;
+                }
+            }
+            float hintVal = hintTimer*0.04f;
+            Color nColor = new Color(1.0f-hintVal,1.0f,1.0f);
+            _backgroundImg.color = nColor;
         }
     }
 }

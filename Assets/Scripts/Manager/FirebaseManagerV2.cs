@@ -17,29 +17,25 @@ using System.Data.OleDb;
 using System.Configuration;
 
 
-public class FirebaseManagerV2 : MonoBehaviour
+public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 {
     /// Class Parameter ///
     private FirebaseApp app;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser user;
-    
+
     public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
     private GoogleSignInConfiguration configuration;
     private static FirebaseManagerV2 fbm_instance = null;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
 
     /// Callback Interface ///
-    // RegisterManagerV2 rm_instance;
-    // LoginManagerV2 lm_instance;
-    public RegisterManagerV2 rm_instance { get; set; }
-
-    public LoginManagerV2 lm_instance { get; set; }
     DataManager dataManager;
 
     /// Profile Parameter ///
-    [SerializeField] private bool syncnetwork;
+    // [SerializeField] private bool syncnetwork;
+    private bool syncnetwork = true;
     /// 
     /// This will be reset on signout ///
     string curr_username;
@@ -48,46 +44,42 @@ public class FirebaseManagerV2 : MonoBehaviour
 
     void Awake()
     {
-        if(syncnetwork){
-            FirebaseFirestore.DefaultInstance.EnableNetworkAsync();
-        }
-        else{
-            FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
-        }
-        
         /// Keep Script Alive ///
-        DontDestroyOnLoad(this.gameObject);
-        if (fbm_instance == null)
+        // DontDestroyOnLoad(this.gameObject);
+        // if (fbm_instance == null)
+        // {
+        //     fbm_instance = this;
+        // }
+        // else
+        // {
+        //     Destroy(this.gameObject);
+        // }
+        /// Configure Google Service ///
+        return;
+    }
+    void Start()
+    {
+        if (syncnetwork)
         {
-            fbm_instance = this;
+            FirebaseFirestore.DefaultInstance.EnableNetworkAsync();
         }
         else
         {
-            Destroy(this.gameObject);
+            FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
         }
-        /// Configure Google Service ///
         configuration = new GoogleSignInConfiguration
         {
             WebClientId = GoogleAPI,
             RequestIdToken = true,
         };
-        return;
-    }
-    void Start()
-    {
         InitializeApp();
         GoogleSetConfiguration();
-        DebugObject.Instance.Checker();
+    }
+    
+    public void FakeInitial(){
+        
     }
 
-    public void RegisterManagerInstanceSet(RegisterManagerV2 cl_obj)
-    {
-        rm_instance = cl_obj;
-    }
-    public void LoginManagerInstanceSet(LoginManagerV2 cl_obj)
-    {
-        lm_instance = cl_obj;
-    }
     public static FirebaseManagerV2 GetInstance()
     {
         return fbm_instance;
@@ -123,11 +115,11 @@ public class FirebaseManagerV2 : MonoBehaviour
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count > 0)
             {
-                rm_instance.OnResultUsernameCheck(false);
+                RegisterManagerV2.Instance.OnResultUsernameCheck(false);
             }
             else
             {
-                rm_instance.OnResultUsernameCheck(true);
+                RegisterManagerV2.Instance.OnResultUsernameCheck(true);
             }
 
         });
@@ -150,18 +142,18 @@ public class FirebaseManagerV2 : MonoBehaviour
             {
                 if (task.IsCanceled)
                 {
-                    rm_instance.OnFailedRegisterWithGoogleAccount("Task cancaled");
+                    RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("Task cancaled");
                     return;
                 }
 
                 if (task.IsFaulted)
                 {
-                    rm_instance.OnFailedRegisterWithGoogleAccount("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                    RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("SignInWithCredentialAsync encountered an error: " + task.Exception);
                     return;
                 }
 
                 user = auth.CurrentUser;
-                rm_instance.OnSuccessRegisterWithGoogleAccount(user);
+                RegisterManagerV2.Instance.OnSuccessRegisterWithGoogleAccount(user);
             });
         }
     }
@@ -194,7 +186,7 @@ public class FirebaseManagerV2 : MonoBehaviour
 
                 user = auth.CurrentUser;
                 curr_id = user.UserId;
-                lm_instance.OnSuccessSignInWithGoogleAccount(user);
+                LoginManagerV2.Instance.OnSuccessSignInWithGoogleAccount(user);
             });
         }
     }
@@ -208,17 +200,16 @@ public class FirebaseManagerV2 : MonoBehaviour
                 app = Firebase.FirebaseApp.DefaultInstance;
                 Debug.Log("Initialze App Successfully");
 
-                
+
                 db = FirebaseFirestore.DefaultInstance;
                 Debug.Log("Initialize Database Successfully");
-                Debug.Log(db.Settings.CacheSizeBytes);
-                
+                // Debug.Log(db.Settings.CacheSizeBytes);
                 if (db.Settings.CacheSizeBytes != _cacheSize)
                 {
                     db.Settings.CacheSizeBytes = _cacheSize;
                 }
-                Debug.Log(db.Settings.CacheSizeBytes);
-                
+                // Debug.Log(db.Settings.CacheSizeBytes);
+
                 // FirebaseFirestore.GetInstance(app).Settings.CacheSizeBytes = _cacheSize;
 
                 auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -237,7 +228,7 @@ public class FirebaseManagerV2 : MonoBehaviour
         DocumentReference docRef = db.Collection(prefix_locate).Document(form.Uuid);
         docRef.SetAsync(form);
         Debug.Log("Added User to " + prefix_locate);
-        rm_instance.OnCompleteRegister();
+        RegisterManagerV2.Instance.OnCompleteRegister();
     }
 
     public void GetUser(bool loginType, string nkey, string pkey)
@@ -249,17 +240,21 @@ public class FirebaseManagerV2 : MonoBehaviour
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count == 1)
             {
-                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents){
+                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+                {
                     curr_id = documentSnapshot.Id;
                 }
-                lm_instance.OnVerifiedUser();
+                LoginManagerV2.Instance.OnVerifiedUser();
             }
-            else if(capitalQuerySnapshot.Count == 0)
+            else if (capitalQuerySnapshot.Count == 0)
             {
                 Debug.Log("Username doesn't exist or Password is wrong");
+                LoginManagerV2.Instance.OnFailedLogin();
             }
-            else{
+            else
+            {
                 Debug.Log("Something went wrong");
+                LoginManagerV2.Instance.OnFailedLogin();
             }
         });
     }

@@ -221,7 +221,7 @@ namespace MatchingGame.Gameplay
                             }
                         }
                         
-                        TutorialResultManager.Instance.TutorialResult.TimeUsed = UIManager.Instance.Timer;
+                        TutorialResultManager.Instance.TutorialResult.TimeUsed = 150-UIManager.Instance.Timer;
                         TutorialResultManager.Instance.TutorialResult.ClickCount = clickCount;
                         TutorialResultManager.Instance.TutorialResult.MatchFalseCount = matchFalseCount;
                         TutorialResultManager.Instance.TutorialResult.CompletedAt = DateTime.Now;

@@ -59,7 +59,7 @@ namespace Assets.Scripts
             {
                 fbm = (FirebaseManagerV2)GameObject.FindObjectOfType(typeof(FirebaseManagerV2));
             }
-            fbm.UploadSmileyoMeterResult(smileyoMeterResult,DataManager.Instance.SmileyoMeterResultList.Count-1);
+            FirebaseManagerV2.Instance.UploadSmileyoMeterResult(smileyoMeterResult,DataManager.Instance.SmileyoMeterResultList.Count-1);
 
             Debug.Log("Save result");
 

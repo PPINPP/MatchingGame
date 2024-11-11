@@ -323,27 +323,6 @@ MonoBehaviour:
       pairType: 6
       GameDifficult: 0
       layout: 1
-  - isGamePlay: 1
-    isMinigame: 0
-    isSmileyOMeter: 0
-    isDailyFeeling: 0
-    stageID: 11_HOME_EIGHT_EASY_RANDOM
-    gameplay:
-      isTutorial: 0
-      isForceCardID: 1
-      cardIDList:
-      - Home_0001
-      - Home_0002
-      - Home_0015
-      - Home_0016
-      - Home_0023
-      - Home_0024
-      - Home_0043
-      - Home_0044
-      categoryTheme: 0
-      pairType: 8
-      GameDifficult: 0
-      layout: 1
   - isGamePlay: 0
     isMinigame: 1
     isSmileyOMeter: 0

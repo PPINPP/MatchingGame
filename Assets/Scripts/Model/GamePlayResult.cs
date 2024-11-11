@@ -11,8 +11,8 @@ namespace Model
     [Serializable]
     public class GamePlayResult : Base
     {
-        public string StageID {  get; set; }
-        public PairType CardPair {  get; set; }
+        public string StageID { get; set; }
+        public PairType CardPair { get; set; }
         public GameLayout CardPatternLayout { get; set; }
         public GameDifficult GameDifficult { get; set; }
         public float TimeUsed { get; set; }
@@ -20,9 +20,13 @@ namespace Model
         public int MatchFalseCount { get; set; }
         public int ScreenHeight { get; set; }
         public int ScreenWidth { get; set; }
-        public List<CardPosLog> CardPosLogList { get; set; }    
+        public List<CardPosLog> CardPosLogList { get; set; }
         public List<GameplayClickLog> GameplayClickLogList { get; set; }
         public DateTime CompletedAt { get; set; }
+        public List<PauseLog> PauseLogList { get; set; }
+        public float FlipAllUsed { get; set; }
+        public float AddTimeUsed { get; set; }
+        public List<PassiveLog> PassiveLogList { get; set; }
 
 
         public GamePlayResult() : base()
@@ -30,10 +34,10 @@ namespace Model
 
         }
 
-        public GamePlayResult(string stageID,PairType cardPair,GameLayout cardParrenLayout,
-            GameDifficult gameDifficult,float timeUsed,int clickCount, int matchFalseCount,
-            int screenHeight,int screenWidth, List<CardPosLog> cardPosLogList,
-            List<GameplayClickLog> gameplayClickLogList) : base()
+        public GamePlayResult(string stageID, PairType cardPair, GameLayout cardParrenLayout,
+            GameDifficult gameDifficult, float timeUsed, int clickCount, int matchFalseCount,
+            int screenHeight, int screenWidth, List<CardPosLog> cardPosLogList,
+            List<GameplayClickLog> gameplayClickLogList, List<PauseLog> pauseLogList, float flipAllUsed, float addTimeUsed, List<PassiveLog> passiveLogList) : base()
         {
             StageID = stageID;
             CardPair = cardPair;
@@ -45,7 +49,11 @@ namespace Model
             ScreenHeight = screenHeight;
             ScreenWidth = screenWidth;
             CardPosLogList = cardPosLogList;
+            PauseLogList = pauseLogList;
             GameplayClickLogList = gameplayClickLogList;
+            FlipAllUsed = flipAllUsed;
+            AddTimeUsed = addTimeUsed;
+            PassiveLogList = passiveLogList;
             CompletedAt = DateTime.Now;
         }
 
@@ -67,10 +75,14 @@ namespace Model
                 ScreenHeight = this.ScreenHeight,
                 ScreenWidth = this.ScreenWidth,
                 CardPosLogList = new List<CardPosLogFs>(),
+                PauseLogList = new List<PauseLogFs>(),
+                FlipAllUsed = this.FlipAllUsed,
+                AddTimeUsed = this.AddTimeUsed,
+                PassiveLogList = new List<PassiveLogFs>(),
                 GameplayClickLogList = new List<GameplayClickLogFs>()
             };
 
-            if (this.CardPosLogList !=null || this.CardPosLogList.Count > 0 )
+            if (this.CardPosLogList != null || this.CardPosLogList.Count > 0)
             {
                 foreach (var cardPosLog in CardPosLogList)
                 {
@@ -89,6 +101,22 @@ namespace Model
                 foreach (var GameplayClickLog in GameplayClickLogList)
                 {
                     firestoreModel.GameplayClickLogList.Add(GameplayClickLog.ConverToFirestoreModel());
+                }
+            }
+
+            if (this.PauseLogList != null || this.PauseLogList.Count > 0)
+            {
+                foreach (var pauseLog in PauseLogList)
+                {
+                    firestoreModel.PauseLogList.Add(pauseLog.ConverToFirestoreModel());
+                }
+            }
+
+            if (this.PassiveLogList != null || this.PassiveLogList.Count > 0)
+            {
+                foreach (var passiveLog in PassiveLogList)
+                {
+                    firestoreModel.PassiveLogList.Add(passiveLog.ConverToFirestoreModel());
                 }
             }
 
@@ -113,7 +141,12 @@ namespace Model
         [FirestoreProperty] public int ScreenHeight { get; set; }
         [FirestoreProperty] public int ScreenWidth { get; set; }
         [FirestoreProperty] public List<CardPosLogFs> CardPosLogList { get; set; }
+        [FirestoreProperty] public List<PauseLogFs> PauseLogList { get; set; }
         [FirestoreProperty] public List<GameplayClickLogFs> GameplayClickLogList { get; set; }
+        [FirestoreProperty] public float FlipAllUsed { get; set; }
+        [FirestoreProperty] public float AddTimeUsed { get; set; }
+
+        [FirestoreProperty] public List<PassiveLogFs> PassiveLogList { get; set; }
 
         public override string ToString()
         {

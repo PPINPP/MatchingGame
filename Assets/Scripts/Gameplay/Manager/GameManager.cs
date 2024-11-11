@@ -48,6 +48,7 @@ namespace MatchingGame.Gameplay
         protected Transform _targetCardParent;
         protected List<Card> _cardList = new List<Card>();
         protected List<Card> _selectedCardList = new List<Card>();
+        protected List<Card> _hintCardList = new List<Card>();
         protected IDisposable disposable;
         protected List<IDisposable> disposableList = new List<IDisposable>();
         protected GameState _state;
@@ -133,10 +134,16 @@ namespace MatchingGame.Gameplay
             if (setting.GameLayout == GameLayout.GRID)
             {
                 setting.gridLayout.cellSize = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+                // setting.gridLayout.cellSize = new Vector2(pairConfig.cellSize.x * Screen.width / 1920, pairConfig.cellSize.y * Screen.height / 1080);
+                // Debug.Log(pairConfig.spacing.x * (float)Mathf.Pow(1920.0f / Screen.width,2));
+                // setting.gridLayout.spacing = new Vector2(pairConfig.spacing.x * Mathf.Pow(1920.0f / Screen.width,2f) , pairConfig.spacing.y * Mathf.Pow(1080.0f / Screen.height,1.9f));
                 setting.gridLayout.constraintCount = pairConfig.ConstraintRow;
                 _targetCardParent = setting.gridLayout.transform;
 
                 _cardList.ForEach(x => x.gameObject.transform.parent = _targetCardParent);
+                for(int i=0;i<setting.gridLayout.transform.childCount;i++){
+                    setting.gridLayout.transform.GetChild(i).transform.localScale = new Vector3(1.0f,1.0f,1.0f);
+                }
             }
             else if (setting.GameLayout == GameLayout.RANDOM)
             {
@@ -147,9 +154,13 @@ namespace MatchingGame.Gameplay
                     Card card = _cardList[i];
                     RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
                     card.gameObject.transform.parent = _targetCardParent;
-                    rectTransform.sizeDelta = new Vector2(pairConfig.cellSize.x, pairConfig.cellSize.y);
+                    rectTransform.sizeDelta = new Vector2(pairConfig.cellSize.x , pairConfig.cellSize.y );
+                    // setting.gridLayout.spacing = new Vector2(pairConfig.spacing.x * (1+ Screen.width / 1920) , pairConfig.spacing.y * (1+Screen.height / 1080) );
                     rectTransform.localPosition = setTranform.tranformCardInSet[i].position;
                     rectTransform.localEulerAngles = setTranform.tranformCardInSet[i].rotation;
+                }
+                for(int i=0;i<setting.randomLayout.transform.childCount;i++){
+                    setting.randomLayout.transform.GetChild(i).transform.localScale = new Vector3(1.0f,1.0f,1.0f);
                 }
 
                 //var rect = _targetCardParent.GetComponent<RectTransform>();

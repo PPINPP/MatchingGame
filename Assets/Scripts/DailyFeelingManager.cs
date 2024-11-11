@@ -73,7 +73,7 @@ public class DailyFeelingManager : MonoBehaviour
         {
             fbm = (FirebaseManagerV2)GameObject.FindObjectOfType(typeof(FirebaseManagerV2));
         }
-        fbm.UploadDailyFeelingResult(dailyFeelingResult, DataManager.Instance.SmileyoMeterResultList.Count - 1);
+        FirebaseManagerV2.Instance.UploadDailyFeelingResult(dailyFeelingResult, DataManager.Instance.SmileyoMeterResultList.Count - 1);
 
         Debug.Log("Save result");
         SequenceManager.Instance.NextSequence();

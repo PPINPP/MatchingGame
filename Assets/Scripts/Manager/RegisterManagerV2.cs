@@ -14,7 +14,7 @@ using Google;
 using UnityEngine.SceneManagement;
 
 
-public class RegisterManagerV2 : MonoBehaviour
+public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
 {
     [Header("First Page")]
     public TMP_InputField usernameField;
@@ -48,9 +48,13 @@ public class RegisterManagerV2 : MonoBehaviour
     [Header("Script Variable")]
     public GameObject registerScene;
     public GameObject loadbg;
-    FirebaseManagerV2 fbm;
     List<GameObject> pages = new List<GameObject>();
     int curr_page = 0;
+
+    [Header("Login Method Button")]
+    public Button googleButton;
+    public Button facebookButton;
+    public Button lineButton;
 
     private string global_uuid = "";
     private Firebase.Auth.FirebaseUser curr_user;
@@ -88,7 +92,7 @@ public class RegisterManagerV2 : MonoBehaviour
         {
             //next on first page
             loadbg.SetActive(true);
-            fbm.RegisterUsernameCheck(usernameField.text.Trim());
+            FirebaseManagerV2.Instance.RegisterUsernameCheck(usernameField.text.Trim());
         }
         if (usernameField.text.Trim().Length > 0 && passwordField.text.Trim().Length > 0)
         {
@@ -315,12 +319,13 @@ public class RegisterManagerV2 : MonoBehaviour
         }
 
         };
-        fbm.NewRegister(userInfo);
+        FirebaseManagerV2.Instance.NewRegister(userInfo);
     }
     public void OnCompleteRegister()
     {
-        if(googlesignin_mode){
-            fbm.FBMGoogleSignOut();
+        if (googlesignin_mode)
+        {
+            FirebaseManagerV2.Instance.FBMGoogleSignOut();
         }
         SceneManager.LoadScene("Main_P");
     }
@@ -357,14 +362,14 @@ public class RegisterManagerV2 : MonoBehaviour
                 global_uuid = "";
                 curr_user = null;
                 googlesignin_mode = false;
-                fbm.FBMGoogleSignOut();
+                FirebaseManagerV2.Instance.FBMGoogleSignOut();
             }
         }
     }
     ////////////////////////Google Interface//////////////////////////////////
     public void GoogleSignInClick()
     {
-        fbm.FBMGoogleSignUp();
+        FirebaseManagerV2.Instance.FBMGoogleSignUp();
     }
     public void OnSuccessRegisterWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {
@@ -380,9 +385,12 @@ public class RegisterManagerV2 : MonoBehaviour
     }
     void Start()
     {
-        fbm = FirebaseManagerV2.GetInstance();
-        
-        fbm.rm_instance = this;
+        FirebaseManagerV2.Instance.FakeInitial();
+        #if UNITY_EDITOR
+            googleButton.interactable = false;
+            facebookButton.interactable = false;
+            lineButton.interactable = false;
+        #endif
         for (int i = 0; i < 5; i++)
         {
             pages.Add(registerScene.transform.GetChild(i).gameObject);
