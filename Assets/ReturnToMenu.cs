@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
+using MatchingGame.Gameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +14,10 @@ public class ReturnToMenu : MonoBehaviour
     void Start()
     {
         curr_time = Time.time;
+        DataManager.Instance.ClearData();
+        SequenceManager.Instance.ResetGame();
+        // DestroyObjectByName("DataManager");
+        // DestroyObjectByName("SequenceManager");
     }
 
     // Update is called once per frame
@@ -21,4 +27,17 @@ public class ReturnToMenu : MonoBehaviour
             SceneManager.LoadScene("Main_P");
         }
     }
+
+    void DestroyObjectByName(string objectName)
+{
+    GameObject obj = GameObject.Find(objectName); // Find the object by its name
+    if (obj != null) // Check if the object was found
+    {
+        Destroy(obj); // Destroy the object
+    }
+    else
+    {
+        Debug.LogWarning("Object with name " + objectName + " not found.");
+    }
+}
 }

@@ -16,7 +16,6 @@ using Model;
 using System.Data.OleDb;
 using System.Configuration;
 
-
 public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 {
     /// Class Parameter ///
@@ -42,23 +41,9 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     string curr_id;
     string prefix_locate = "all_user_test";
 
-    void Awake()
+    public override void Init()
     {
-        /// Keep Script Alive ///
-        // DontDestroyOnLoad(this.gameObject);
-        // if (fbm_instance == null)
-        // {
-        //     fbm_instance = this;
-        // }
-        // else
-        // {
-        //     Destroy(this.gameObject);
-        // }
-        /// Configure Google Service ///
-        return;
-    }
-    void Start()
-    {
+        base.Init();
         if (syncnetwork)
         {
             FirebaseFirestore.DefaultInstance.EnableNetworkAsync();
@@ -75,10 +60,23 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         InitializeApp();
         GoogleSetConfiguration();
     }
-    
-    public void FakeInitial(){
-        
-    }
+
+    // void Awake()
+    // {
+
+    //     /// Keep Script Alive ///
+    //     // DontDestroyOnLoad(this.gameObject);
+    //     // if (fbm_instance == null)
+    //     // {
+    //     //     fbm_instance = this;
+    //     // }
+    //     // else
+    //     // {
+    //     //     Destroy(this.gameObject);
+    //     // }
+    //     /// Configure Google Service ///
+    //     return;
+    // }
 
     public static FirebaseManagerV2 GetInstance()
     {
@@ -92,21 +90,83 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         GoogleSignIn.Configuration.RequestIdToken = true;
         GoogleSignIn.Configuration.RequestEmail = true;
     }
-    public void FBMGoogleSignUp()
+    public void FBMGoogleSignUp(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
-        GoogleSetConfiguration();
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(this.OnGoogleAuthenticatedFinishedForSignUp);
+        // GoogleSetConfiguration();
+        // GoogleSignIn.DefaultInstance.SignIn().ContinueWith(this.OnGoogleAuthenticatedFinishedForSignUp);
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Faulted");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("Cancelled");
+            }
+            else
+            {
+                Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+
+                auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        failed?.Invoke("Task cancaled");
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                    }
+
+                    user = auth.CurrentUser;
+                    success?.Invoke(user);
+                });
+            }
+        });
     }
-    public void FBMGoogleSignIn()
+    public void FBMGoogleSignIn(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
-        GoogleSetConfiguration();
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(this.OnGoogleAuthenticatedFinishedForSignIn);
+        // GoogleSetConfiguration();
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>{
+            if (task.IsFaulted)
+        {
+            Debug.LogError("Faulted");
+        }
+        else if (task.IsCanceled)
+        {
+            Debug.LogError("Cancelled");
+        }
+        else
+        {
+            Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+
+            auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    failed?.Invoke("Cancel");
+                }
+
+                if (task.IsFaulted)
+                {
+                    failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                }
+
+                user = auth.CurrentUser;
+                curr_id = user.UserId;
+
+                success?.Invoke(user);
+            });
+        }
+        });
     }
     public void FBMGoogleSignOut()
     {
         auth.SignOut();
     }
-    public void RegisterUsernameCheck(string uname)
+    public void RegisterUsernameCheck(string uname, Action<bool> callback)
     {
         string[] lType = new string[] { "Username", "Email" };
         Query capitalQuery = db.Collection(prefix_locate).WhereEqualTo(lType[uname.Contains("@") ? 1 : 0], uname);
@@ -115,81 +175,82 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count > 0)
             {
-                RegisterManagerV2.Instance.OnResultUsernameCheck(false);
+                callback?.Invoke(false);
             }
             else
             {
-                RegisterManagerV2.Instance.OnResultUsernameCheck(true);
+                callback?.Invoke(true);
             }
 
         });
     }
-    public void OnGoogleAuthenticatedFinishedForSignUp(Task<GoogleSignInUser> task)
-    {
-        if (task.IsFaulted)
-        {
-            Debug.LogError("Faulted");
-        }
-        else if (task.IsCanceled)
-        {
-            Debug.LogError("Cancelled");
-        }
-        else
-        {
-            Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+    // public void OnGoogleAuthenticatedFinishedForSignUp(Task<GoogleSignInUser> task)
+    // {
+    //     if (task.IsFaulted)
+    //     {
+    //         Debug.LogError("Faulted");
+    //     }
+    //     else if (task.IsCanceled)
+    //     {
+    //         Debug.LogError("Cancelled");
+    //     }
+    //     else
+    //     {
+    //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
 
-            auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCanceled)
-                {
-                    RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("Task cancaled");
-                    return;
-                }
+    //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+    //         {
+    //             if (task.IsCanceled)
+    //             {
+    //                 RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("Task cancaled");
+    //                 return;
+    //             }
 
-                if (task.IsFaulted)
-                {
-                    RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                    return;
-                }
+    //             if (task.IsFaulted)
+    //             {
+    //                 RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("SignInWithCredentialAsync encountered an error: " + task.Exception);
+    //                 return;
+    //             }
 
-                user = auth.CurrentUser;
-                RegisterManagerV2.Instance.OnSuccessRegisterWithGoogleAccount(user);
-            });
-        }
-    }
-    public void OnGoogleAuthenticatedFinishedForSignIn(Task<GoogleSignInUser> task)
-    {
-        if (task.IsFaulted)
-        {
-            Debug.LogError("Faulted");
-        }
-        else if (task.IsCanceled)
-        {
-            Debug.LogError("Cancelled");
-        }
-        else
-        {
-            Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+    //             user = auth.CurrentUser;
+    //             RegisterManagerV2.Instance.OnSuccessRegisterWithGoogleAccount(user);
+    //         });
+    //     }
+    // }
+    // public void OnGoogleAuthenticatedFinishedForSignIn(Task<GoogleSignInUser> task)
+    // {
+    //     if (task.IsFaulted)
+    //     {
+    //         Debug.LogError("Faulted");
+    //     }
+    //     else if (task.IsCanceled)
+    //     {
+    //         Debug.LogError("Cancelled");
+    //     }
+    //     else
+    //     {
+    //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
 
-            auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCanceled)
-                {
-                    return;
-                }
+    //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+    //         {
+    //             if (task.IsCanceled)
+    //             {
+    //                 Debug.LogError("Cancel");
+    //                 return;
+    //             }
 
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                    return;
-                }
+    //             if (task.IsFaulted)
+    //             {
+    //                 Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+    //                 return;
+    //             }
 
-                user = auth.CurrentUser;
-                curr_id = user.UserId;
-                LoginManagerV2.Instance.OnSuccessSignInWithGoogleAccount(user);
-            });
-        }
-    }
+    //             user = auth.CurrentUser;
+    //             curr_id = user.UserId;
+    //             LoginManagerV2.Instance.OnSuccessSignInWithGoogleAccount(user);
+    //         });
+    //     }
+    // }
     void InitializeApp()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -200,20 +261,21 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 app = Firebase.FirebaseApp.DefaultInstance;
                 Debug.Log("Initialze App Successfully");
 
+                auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+                Debug.Log("Initialize Authenticator Successfully");
 
                 db = FirebaseFirestore.DefaultInstance;
                 Debug.Log("Initialize Database Successfully");
                 // Debug.Log(db.Settings.CacheSizeBytes);
-                if (db.Settings.CacheSizeBytes != _cacheSize)
-                {
-                    db.Settings.CacheSizeBytes = _cacheSize;
-                }
+                // if (db.Settings.CacheSizeBytes != _cacheSize)
+                // {
+                //     db.Settings.CacheSizeBytes = _cacheSize;
+                // }
                 // Debug.Log(db.Settings.CacheSizeBytes);
 
                 // FirebaseFirestore.GetInstance(app).Settings.CacheSizeBytes = _cacheSize;
 
-                auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-                Debug.Log("Initialize Authenticator Successfully");
+
             }
             else
             {
@@ -223,20 +285,22 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
         });
     }
-    public void NewRegister(UserRegisterForm form)
+    public void NewRegister(UserRegisterForm form,Action callback)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(form.Uuid);
         docRef.SetAsync(form);
         Debug.Log("Added User to " + prefix_locate);
-        RegisterManagerV2.Instance.OnCompleteRegister();
+        callback?.Invoke();
     }
 
-    public void GetUser(bool loginType, string nkey, string pkey)
+    public void GetUser(bool loginType, string nkey, string pkey,Action success, Action failed)
     {
+        
         string[] lType = new string[] { "Username", "Email" };
         Query capitalQuery = db.Collection(prefix_locate).WhereEqualTo(lType[loginType ? 1 : 0], nkey).WhereEqualTo("Password", pkey);
         capitalQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
+            
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count == 1)
             {
@@ -244,19 +308,24 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 {
                     curr_id = documentSnapshot.Id;
                 }
-                LoginManagerV2.Instance.OnVerifiedUser();
+                
+                success?.Invoke();
+                return;
             }
             else if (capitalQuerySnapshot.Count == 0)
             {
                 Debug.Log("Username doesn't exist or Password is wrong");
-                LoginManagerV2.Instance.OnFailedLogin();
+                failed?.Invoke();
+                return;
             }
             else
             {
                 Debug.Log("Something went wrong");
-                LoginManagerV2.Instance.OnFailedLogin();
+                failed?.Invoke();
+                return;
             }
         });
+        return;
     }
     public void UploadMiniGameResult(MinigameResult mini_result, int idnum)
     {

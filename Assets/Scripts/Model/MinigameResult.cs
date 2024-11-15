@@ -15,8 +15,8 @@ namespace Model
         public List<float> TargetPosY { get; set; }
         public List<MinigameClickLog> MinigameClickLogList { get; set; }
         public DateTime CompletedAt { get; set; }
-        public int ObjectType { get; set; }
-        public List<int> RandomObject { get; set;}
+        public int ObjectID { get; set; }
+        public List<int> RandomIDLogList { get; set;}
 
 
         public MinigameResult() : base()
@@ -37,8 +37,8 @@ namespace Model
                 ScreenWidth = this.ScreenWidth,
                 TargetPosX = this.TargetPosX,
                 TargetPosY = this.TargetPosY,
-                ObjectType = this.ObjectType,
-                RandomObject = this.RandomObject,
+                ObjectID = this.ObjectID,
+                RandomIDLogList = this.RandomIDLogList,
                 MinigameClickLogList = new List<MinigameClickLogFs>()
             };
 
@@ -73,8 +73,8 @@ namespace Model
         [FirestoreProperty] public int ScreenWidth { get; set; }
         [FirestoreProperty] public List<float> TargetPosX { get; set; }
         [FirestoreProperty] public List<float> TargetPosY { get; set; }
-        [FirestoreProperty] public int ObjectType { get; set; }
-        [FirestoreProperty] public List<int> RandomObject { get; set;}
+        [FirestoreProperty] public int ObjectID { get; set; }
+        [FirestoreProperty] public List<int> RandomIDLogList { get; set;}
 
         [FirestoreProperty] public List<MinigameClickLogFs> MinigameClickLogList { get; set; }
 

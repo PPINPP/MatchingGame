@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Manager;
 using MatchingGame.Gameplay;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoginManagerV2 : MonoSingleton<LoginManagerV2>
+public class LoginManagerV2 : MonoBehaviour
 {
     public TMP_InputField usernameField;
     public TMP_InputField passwordField;
@@ -49,7 +50,7 @@ public class LoginManagerV2 : MonoSingleton<LoginManagerV2>
         }
         else
         {
-            FirebaseManagerV2.Instance.GetUser(usernameField.text.ToString().Contains("@") ? true : false, usernameField.text.ToString(), passwordField.text.ToString());
+            FirebaseManagerV2.Instance.GetUser(usernameField.text.ToString().Contains("@") ? true : false, usernameField.text.ToString(), passwordField.text.ToString(),OnVerifiedUser,OnFailedLogin);
         }
 
     }
@@ -57,15 +58,24 @@ public class LoginManagerV2 : MonoSingleton<LoginManagerV2>
     public void LogInWithGoogleAccount()
     {
         loadbg.SetActive(true);
-        FirebaseManagerV2.Instance.FBMGoogleSignIn();
+        FirebaseManagerV2.Instance.FBMGoogleSignIn(OnSuccessSignInWithGoogleAccount,OnFailedSignInWithGoogleAccount);
     }
     public void OnSuccessSignInWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {
-        FirebaseManagerV2.Instance.GetUser(true, reg_info.Email, "");
+        FirebaseManagerV2.Instance.GetUser(true, reg_info.Email, "",OnVerifiedUser,OnFailedLogin);
+    }
+    public void OnFailedSignInWithGoogleAccount(string error_log)
+    {
+        Debug.LogError(error_log);
     }
     public void OnVerifiedUser()
     {
         // SceneManager.LoadScene("Tutorial");
+        GameObject dm = new GameObject("DataManager");
+        dm.AddComponent<DataManager>();
+        GameObject sm = new GameObject("SequenceManager");
+        sm.AddComponent<SequenceManager>();
+
         SequenceManager.Instance.NextSequence();
     }
     // Start is called before the first frame update
@@ -75,7 +85,6 @@ public class LoginManagerV2 : MonoSingleton<LoginManagerV2>
     }
     void Start()
     {
-        FirebaseManagerV2.Instance.FakeInitial();
         #if UNITY_EDITOR
             googleButton.interactable = false;
             facebookButton.interactable = false;

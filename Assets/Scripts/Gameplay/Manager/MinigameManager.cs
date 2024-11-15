@@ -37,36 +37,83 @@ public class MinigameManager : MonoInstance<MinigameManager>
     public override void Init()
     {
         base.Init();
-
-        minX = offset;
-        minY = offset;
-        maxX = Screen.width - offset;
-        maxY = Screen.height - offset;
+        var a = (Screen.height / 9.0f) * 16.0f;
+        if (Screen.width - ((Screen.height / 9.0f) * 16.0f) >= 10.0f)
+        {
+            minX = offset + (Screen.width - ((Screen.height / 9.0f) * 16.0f));
+            minY = offset;
+            maxX = Screen.width - (offset + (Screen.width - ((Screen.height / 9.0f) * 16.0f)));
+            maxY = Screen.height - offset;
+        }
+        else if (Screen.width - ((Screen.height / 9.0f) * 16.0f) <= 10.0f)
+        {
+            minX = offset;
+            minY = offset + (Screen.height - ((Screen.width / 16.0f) * 9.0f));
+            maxX = Screen.width - offset;
+            maxY = Screen.height - (offset + (Screen.height - ((Screen.width / 16.0f) * 9.0f)));
+        }
+        else
+        {
+            minX = offset;
+            minY = offset;
+            maxX = Screen.width - offset;
+            maxY = Screen.height - offset;
+        }
+        Debug.Log(minX);
+        Debug.Log(minY);
+        Debug.Log(maxX);
+        Debug.Log(maxY);
         GameplayResultManager.Instance.MinigameResult.ScreenHeight = Screen.height;
         GameplayResultManager.Instance.MinigameResult.ScreenWidth = Screen.width;
         clickObjImg.gameObject.SetActive(false);
         finishUIObj.SetActive(false);
         object_type = UnityEngine.Random.Range(0, 4);
-
-        for (int i = 0; i < 10; i++)
+        sequenceObj = GenerateList();
+        int _tempval = 0;
+        for (int i = 0; i < 17; i++)
         {
-            sequenceObj.Add(0);
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            var correct_order = UnityEngine.Random.Range(0, 10);
-            while (sequenceObj[correct_order] == 1)
+            if (sequenceObj[i] == 1)
             {
-                correct_order = (correct_order + 1) % 10;
+                sequenceObj[i] = 5;
             }
-            sequenceObj[correct_order] = 1;
+            else
+            {
+                sequenceObj[i] = 6;
+            }
         }
-        foreach(var item in sequenceObj){
+        for (int i = 0; i < 17; i++)
+        {
+            if(sequenceObj[i] == 6){
+                sequenceObj[i] = object_type;
+            }
+            else{
+                do{
+                    _tempval = UnityEngine.Random.Range(0,4);
+                }while(object_type == _tempval);
+                sequenceObj[i] = _tempval;
+            }
+        }
+        GameplayResultManager.Instance.MinigameResult.RandomIDLogList = sequenceObj;
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     sequenceObj.Add(0);
+        // }
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     var correct_order = UnityEngine.Random.Range(0, 10);
+        //     while (sequenceObj[correct_order] == 1)
+        //     {
+        //         correct_order = (correct_order + 1) % 10;
+        //     }
+        //     sequenceObj[correct_order] = 1;
+        // }
+        foreach (var item in sequenceObj)
+        {
             Debug.Log(item);
         }
         popupStartGameObj.transform.GetChild(1).GetComponent<Image>().sprite = popupSprites[object_type];
         popupStartGameObj.SetActive(true);
-        GameplayResultManager.Instance.MinigameResult.ObjectType = object_type;
+        GameplayResultManager.Instance.MinigameResult.ObjectID = object_type;
     }
 
     public void StartGame()
@@ -98,20 +145,23 @@ public class MinigameManager : MonoInstance<MinigameManager>
             if (isRoundActive)
             {
                 // RandomImg();
+                if (curr_index == spawnTime)
+                {
+                    onComplete?.Invoke();
+                    return;
+                }
                 NextImg();
                 RandomPosition();
                 timer = 0;
-                SoundManager.Instance.PlaySoundEffect(SoundType.Spawn);
+                AudioController.SetnPlay("audio/SFX/SpecilTaskSFX");
             }
             else
             {
                 GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(0);
             }
             clickObjImg.gameObject.SetActive(isRoundActive);
-
             if (spawnCounter >= spawnTime)
                 onComplete?.Invoke();
-
             if (isRoundActive)
                 spawnCounter++;
         }).AddTo(this);
@@ -136,7 +186,6 @@ public class MinigameManager : MonoInstance<MinigameManager>
     {
         curr_obj = UnityEngine.Random.Range(0, objSprites.Count);
         clickObjImg.sprite = objSprites[curr_obj];
-        GameplayResultManager.Instance.MinigameResult.RandomObject.Add(curr_obj);
     }
     public void NextImg()
     {
@@ -144,10 +193,12 @@ public class MinigameManager : MonoInstance<MinigameManager>
         {
             clickObjImg.sprite = objSprites[object_type];
         }
-        else{
-            do{
+        else
+        {
+            do
+            {
                 curr_obj = UnityEngine.Random.Range(0, objSprites.Count);
-            }while(curr_obj == object_type);
+            } while (curr_obj == object_type);
             clickObjImg.sprite = objSprites[curr_obj];
         }
         curr_index++;
@@ -173,5 +224,40 @@ public class MinigameManager : MonoInstance<MinigameManager>
         isRoundActive = false;
         disposable.Dispose();
         CountDown();
+    }
+
+    public List<int> GenerateList()
+    {
+        int zeros = 10;
+        int ones = 7;
+        List<int> result = new List<int>();
+
+        while (result.Count < 17)
+        {
+            // Calculate how many slots are left
+            int slotsLeft = 17 - result.Count;
+
+            // Ensure the remaining numbers can fit
+            if (ones > 0 && (zeros + ones == slotsLeft ||
+                (result.Count < 3 || result[^1] != 1 || result[^2] != 1 || result[^3] != 1)))
+            {
+                // Add a 1 if it fits the rules
+                if (zeros == 0 || UnityEngine.Random.Range(0, zeros + ones) < ones)
+                {
+                    result.Add(1);
+                    ones--;
+                    continue;
+                }
+            }
+
+            // Add a 0 otherwise
+            if (zeros > 0)
+            {
+                result.Add(0);
+                zeros--;
+            }
+        }
+
+        return result;
     }
 }

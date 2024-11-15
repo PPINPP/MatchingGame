@@ -32,6 +32,7 @@ namespace MatchingGame.Gameplay
 
         private float targetAlphaBG;
         private float timer;
+        public bool freezeTimer = false;
         private float durationLerp;
         public bool isFadeInCountDown;
         public bool isFadeInComplete;
@@ -144,43 +145,47 @@ namespace MatchingGame.Gameplay
             {
                 if (GameManager.Instance.State == GameState.PLAYING)
                 {
-                    timer -= Time.deltaTime;
-                    if (timer <= 0)
+                    if (!freezeTimer)
                     {
-                        var sequence = SequenceManager.Instance.GetSequenceDetail();
-                        var sequenceSetting = sequence.GetGameplaySequenceSetting();
-                        if (!sequenceSetting.isTutorial)
+                        timer -= Time.deltaTime;
+                        if (timer <= 0)
                         {
-                            levelManager.EndGame();
+                            var sequence = SequenceManager.Instance.GetSequenceDetail();
+                            var sequenceSetting = sequence.GetGameplaySequenceSetting();
+                            if (!sequenceSetting.isTutorial)
+                            {
+                                levelManager.EndGame();
+                            }
+
+                            print("end");
+
                         }
-                        
-                        print("end");
+                        else
+                        {
+                            timerTxt.text = $"{Mathf.Floor(timer)}";
+                        }
+                        float r = (180.0f - timer) * 1.67f;
+                        if (r >= 150.0f)
+                        {
+                            r = 150.0f;
+                        }
+                        float g = timer * 1.67f;
+                        if (g >= 150.0f)
+                        {
+                            g = 150.0f;
+                        }
+                        Color ncolor = new Color(r / 255.0f, g / 255.0f, 0.0f);
 
+                        timerGameObject.GetComponent<TMP_Text>().color = ncolor;
+                        // timerGameObject.GetComponent<TMP_Text>().outlineColor = ncolor;
+                        timerMaterial.SetColor("_OutlineColor", ncolor);
+                        // timerTxtB.color = ncolor;
+                        // timerTxtB.outlineColor = ncolor;
+                        // timerTxt.outlineColor = ncolor;
+                        // timerTxt.color = new Color(r/255f,g/255f,0f);
+                        // timerTxt.color = new Color(r/255f,g/255f,0f);
                     }
-                    else
-                    {
-                        timerTxt.text = $"{Mathf.Floor(timer)}";
-                    }
-                    float r = (180.0f - timer) * 1.67f;
-                    if (r >= 150.0f)
-                    {
-                        r = 150.0f;
-                    }
-                    float g = timer * 1.67f;
-                    if (g >= 150.0f)
-                    {
-                        g = 150.0f;
-                    }
-                    Color ncolor = new Color(r / 255.0f, g / 255.0f, 0.0f);
 
-                    timerGameObject.GetComponent<TMP_Text>().color = ncolor;
-                    // timerGameObject.GetComponent<TMP_Text>().outlineColor = ncolor;
-                    timerMaterial.SetColor("_OutlineColor", ncolor);
-                    // timerTxtB.color = ncolor;
-                    // timerTxtB.outlineColor = ncolor;
-                    // timerTxt.outlineColor = ncolor;
-                    // timerTxt.color = new Color(r/255f,g/255f,0f);
-                    // timerTxt.color = new Color(r/255f,g/255f,0f);
                 }
             }
         }

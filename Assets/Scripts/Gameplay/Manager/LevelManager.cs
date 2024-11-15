@@ -58,9 +58,9 @@ namespace MatchingGame.Gameplay
                 ClearHint();
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
-                SoundManager.Instance.PlaySoundEffect(SoundType.Click);
+                //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
-            if (Time.time - lastClick > 5.0f && lastClick != -1f)
+            if (Time.time - lastClick > 10.0f && lastClick != -1f)
             {
                 lastClick = -1f;
                 TriggerPassive();
@@ -239,14 +239,14 @@ namespace MatchingGame.Gameplay
                 }
                 else
                 {
-                    SoundManager.Instance.PlaySoundEffect(SoundType.CorrectMatch);
+                    //SoundManager.Instance.PlaySoundEffect(SoundType.CorrectMatch);
                 }
             }
             else
             {
                 AudioController.SetnPlay("audio/SFX/Wrong_Match");
                 matchFalseCount++;
-                SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
+                //SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
                 _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
@@ -311,8 +311,8 @@ namespace MatchingGame.Gameplay
             }
             System.Collections.IEnumerator startFlip()
             {
-                yield return new WaitForSeconds(5);// Wait a bit
-                disableArea.SetActive(false);
+                
+                yield return new WaitForSecondsRealtime(5);// Wait a bit
                 foreach (var item in _cardList)
                 {
                     if (item.IsInComplete())
@@ -321,14 +321,18 @@ namespace MatchingGame.Gameplay
                     }
 
                 }
+                yield return new WaitForSecondsRealtime(0.3f);
+                disableArea.SetActive(false);
+                UIManager.Instance.freezeTimer = false;
             }
             if(addedTime){
                 GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 180.0f- UIManager.Instance.GetTimer();
             }else{
                 GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 150.0f- UIManager.Instance.GetTimer();
             }
-            
+            UIManager.Instance.freezeTimer = true;
             StartCoroutine(startFlip());
+            
         }
         public void StartPassive()
         {

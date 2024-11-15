@@ -14,7 +14,7 @@ namespace Manager
     public FirebaseFirestore db;
     public FirebaseAuth auth;
 
-    override protected void Awake()
+    void Awake()
     {
       Debug.Log("Initialize Firebase Manager");
       FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>

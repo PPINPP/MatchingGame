@@ -35,6 +35,7 @@ namespace MatchingGame.Gameplay
         private int curStageObjIndex = 0;
         private int clickCount = 0;
         private int matchFalseCount = 0;
+        private bool successInit = false;
 
         protected override void Start()
         {
@@ -89,7 +90,7 @@ namespace MatchingGame.Gameplay
             if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
                 clickCount++;
-                SoundManager.Instance.PlaySoundEffect(SoundType.Click);
+                //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
                 TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); 
             }
         }
@@ -160,7 +161,7 @@ namespace MatchingGame.Gameplay
             }
 
             _state = GameState.PLAYING;
-            
+            successInit = true;
             _cardList.ForEach(card => {
                 RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
                 TutorialResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.name.ToString(),
@@ -171,6 +172,10 @@ namespace MatchingGame.Gameplay
         
         public override void OnCardClick()
         {
+            if (!successInit)
+            {
+                return;
+            }
             TutorialResultManager.Instance.TutorialClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
         }
         
@@ -232,13 +237,13 @@ namespace MatchingGame.Gameplay
                 }
                 else
                 {
-                    SoundManager.Instance.PlaySoundEffect(SoundType.CorrectMatch);
+                    //SoundManager.Instance.PlaySoundEffect(SoundType.CorrectMatch);
                 }
             }
             else
             {
                 matchFalseCount++;
-                SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
+                //SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
                 TutorialResultManager.Instance.TutorialClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
                 _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>

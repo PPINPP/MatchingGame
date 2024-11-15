@@ -14,7 +14,7 @@ using Google;
 using UnityEngine.SceneManagement;
 
 
-public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
+public class RegisterManagerV2 : MonoBehaviour
 {
     [Header("First Page")]
     public TMP_InputField usernameField;
@@ -92,7 +92,7 @@ public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
         {
             //next on first page
             loadbg.SetActive(true);
-            FirebaseManagerV2.Instance.RegisterUsernameCheck(usernameField.text.Trim());
+            FirebaseManagerV2.Instance.RegisterUsernameCheck(usernameField.text.Trim(),OnResultUsernameCheck);
         }
         if (usernameField.text.Trim().Length > 0 && passwordField.text.Trim().Length > 0)
         {
@@ -319,7 +319,7 @@ public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
         }
 
         };
-        FirebaseManagerV2.Instance.NewRegister(userInfo);
+        FirebaseManagerV2.Instance.NewRegister(userInfo,OnCompleteRegister);
     }
     public void OnCompleteRegister()
     {
@@ -327,7 +327,12 @@ public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
         {
             FirebaseManagerV2.Instance.FBMGoogleSignOut();
         }
-        SceneManager.LoadScene("Main_P");
+        IEnumerator WaitForSignOut()
+        {
+            yield return new WaitForSeconds(1);// Wait a bit
+            SceneManager.LoadScene("Main_P");
+        }
+        StartCoroutine(WaitForSignOut());
     }
     ///////////////////////////////////////////////////////
     ////////////////////Page Manager///////////////////////
@@ -369,7 +374,7 @@ public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
     ////////////////////////Google Interface//////////////////////////////////
     public void GoogleSignInClick()
     {
-        FirebaseManagerV2.Instance.FBMGoogleSignUp();
+        FirebaseManagerV2.Instance.FBMGoogleSignUp(OnSuccessRegisterWithGoogleAccount,OnFailedRegisterWithGoogleAccount);
     }
     public void OnSuccessRegisterWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {
@@ -385,12 +390,11 @@ public class RegisterManagerV2 : MonoSingleton<RegisterManagerV2>
     }
     void Start()
     {
-        FirebaseManagerV2.Instance.FakeInitial();
-        #if UNITY_EDITOR
-            googleButton.interactable = false;
-            facebookButton.interactable = false;
-            lineButton.interactable = false;
-        #endif
+#if UNITY_EDITOR
+        googleButton.interactable = false;
+        facebookButton.interactable = false;
+        lineButton.interactable = false;
+#endif
         for (int i = 0; i < 5; i++)
         {
             pages.Add(registerScene.transform.GetChild(i).gameObject);
