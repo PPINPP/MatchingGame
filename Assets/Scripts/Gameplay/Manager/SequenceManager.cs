@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 
 namespace MatchingGame.Gameplay
 {
+
+    
     public class SequenceManager : MonoSingleton<SequenceManager>
     {
         private int currentSequenceIndex = -1;
 
         private GameplaySequenceSO _sequenceSO;
+
+        public bool _testmode = false;
 
         public override void Init()
         {
@@ -48,6 +52,11 @@ namespace MatchingGame.Gameplay
             {
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
                 // SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
+                if(_testmode){
+                    SequenceCreator.Instance.Reset();
+                    SceneManager.LoadScene("SequenceScriptTester");
+                    return;
+                }
                 SceneManager.LoadScene("EndTest");
             }
             // Next Sequence
@@ -84,6 +93,9 @@ namespace MatchingGame.Gameplay
                 SceneManager.LoadScene(GameplayResources.Instance.SceneNames.dailyScene);
             }
 
+        }
+        public GameplaySequenceSO GetSO(){
+            return _sequenceSO;
         }
     }
 }

@@ -62,6 +62,7 @@ public class LoginManagerV2 : MonoBehaviour
     }
     public void OnSuccessSignInWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {
+        usernameField.text = reg_info.Email;
         FirebaseManagerV2.Instance.GetUser(true, reg_info.Email, "",OnVerifiedUser,OnFailedLogin);
     }
     public void OnFailedSignInWithGoogleAccount(string error_log)
@@ -70,12 +71,18 @@ public class LoginManagerV2 : MonoBehaviour
     }
     public void OnVerifiedUser()
     {
+        //REMOVE
+        if(usernameField.text.ToString() == "hfelab.come"){
+            SceneManager.LoadScene("SequenceScriptTester");
+            return;
+        }
         // SceneManager.LoadScene("Tutorial");
         GameObject dm = new GameObject("DataManager");
         dm.AddComponent<DataManager>();
         GameObject sm = new GameObject("SequenceManager");
         sm.AddComponent<SequenceManager>();
 
+        
         SequenceManager.Instance.NextSequence();
     }
     // Start is called before the first frame update

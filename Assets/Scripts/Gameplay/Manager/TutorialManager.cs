@@ -234,6 +234,9 @@ namespace MatchingGame.Gameplay
 
                         disposable.Dispose();
                     }).AddTo(this);
+                    if(SequenceCreator.Instance._testmode){
+                        EndTutorial();
+                    }
                 }
                 else
                 {
