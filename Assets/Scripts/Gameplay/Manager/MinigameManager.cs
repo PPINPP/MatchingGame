@@ -93,6 +93,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
                 sequenceObj[i] = _tempval;
             }
         }
+        
         GameplayResultManager.Instance.MinigameResult.RandomIDLogList = sequenceObj;
         // for (int i = 0; i < 10; i++)
         // {
@@ -189,18 +190,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     }
     public void NextImg()
     {
-        if (sequenceObj[curr_index] == 1)
-        {
-            clickObjImg.sprite = objSprites[object_type];
-        }
-        else
-        {
-            do
-            {
-                curr_obj = UnityEngine.Random.Range(0, objSprites.Count);
-            } while (curr_obj == object_type);
-            clickObjImg.sprite = objSprites[curr_obj];
-        }
+        clickObjImg.sprite = objSprites[sequenceObj[curr_index]];
         curr_index++;
     }
 

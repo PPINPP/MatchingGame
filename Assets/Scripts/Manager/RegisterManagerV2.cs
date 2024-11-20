@@ -390,7 +390,7 @@ public class RegisterManagerV2 : MonoBehaviour
     }
     void Start()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE
         googleButton.interactable = false;
         facebookButton.interactable = false;
         lineButton.interactable = false;

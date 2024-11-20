@@ -1296,3 +1296,15 @@ MonoBehaviour:
   normal: {fileID: 1785792274}
   good: {fileID: 1060561649}
   bg: {fileID: 830199396}
+  bad_gif:
+  - {fileID: 21300000, guid: 937f71b443e10a74db50ed564f5cde57, type: 3}
+  - {fileID: 21300000, guid: eb03ccbe96000984584ccb62866b16ff, type: 3}
+  - {fileID: 21300000, guid: e2beca8b47ade0d4bab9c53b0bc8312f, type: 3}
+  normal_gif:
+  - {fileID: 21300000, guid: 1ca0b822df391db44b98f13562bd8cad, type: 3}
+  - {fileID: 21300000, guid: e880a0f1dabdfc148b6b2c6a70ed7247, type: 3}
+  - {fileID: 21300000, guid: 9ac92b4e256bb194ca0dd3a693786424, type: 3}
+  good_gif:
+  - {fileID: 21300000, guid: 13332807db71dac40990e726763b3d07, type: 3}
+  - {fileID: 21300000, guid: c3244a5cd1a3abf4a994b75081358f24, type: 3}
+  - {fileID: 21300000, guid: 43a12714fdf10c04c8e7d5838b198e66, type: 3}

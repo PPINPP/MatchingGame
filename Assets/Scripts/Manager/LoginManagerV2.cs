@@ -76,7 +76,7 @@ public class LoginManagerV2 : MonoBehaviour
             SceneManager.LoadScene("SequenceScriptTester");
             return;
         }
-        // SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("Tutorial");
         GameObject dm = new GameObject("DataManager");
         dm.AddComponent<DataManager>();
         GameObject sm = new GameObject("SequenceManager");
@@ -92,7 +92,7 @@ public class LoginManagerV2 : MonoBehaviour
     }
     void Start()
     {
-        #if UNITY_EDITOR
+        #if UNITY_EDITOR || UNITY_STANDALONE
             googleButton.interactable = false;
             facebookButton.interactable = false;
             lineButton.interactable = false;
