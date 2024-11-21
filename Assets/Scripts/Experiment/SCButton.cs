@@ -32,10 +32,15 @@ public class SCButton : MonoBehaviour
         {
             CreateButton("Home_0" + i.ToString("D3"), new Vector2(0, 0), new Vector2(400, 100), leftListContent);
         }
-
-    }
-    void Update()
-    {
+        for (int i = 1; i <= 100; i++)
+        {
+            CreateButton("Market_0" + i.ToString("D3"), new Vector2(0, 0), new Vector2(400, 100), leftListContent);
+        }
+        for (int i = 1; i <= 100; i++)
+        {
+            CreateButton("Cloth_0" + i.ToString("D3"), new Vector2(0, 0), new Vector2(400, 100), leftListContent);
+        }
+        
 
     }
 

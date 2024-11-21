@@ -12,8 +12,3009 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f02458db4282242bb606978e7baa5d, type: 3}
   m_Name: ClothShopSO
   m_EditorClassIdentifier: 
-  stageConfig: []
-  easyID: []
-  normalID: []
-  hardID: []
-  advanceID: []
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 2c81fe069fba03541a404c7c8d9a607b, type: 3}
+    - {fileID: 21300000, guid: a5011de2e40c80743a4c8a19730e3e87, type: 3}
+    - {fileID: 21300000, guid: 79f1f011572ce7b4ba351c934f8bf838, type: 3}
+    - {fileID: 21300000, guid: b5a3bbd11d7902d489272224cbd998aa, type: 3}
+    - {fileID: 21300000, guid: b47d1e0eedc43e446a4c739e134947ee, type: 3}
+    - {fileID: 21300000, guid: 1f081089d1012a041a63d3eb89e8e3a9, type: 3}
+    - {fileID: 21300000, guid: 1b0c19917d71eba4298d66ea1ec328c1, type: 3}
+    - {fileID: 21300000, guid: b30e4eb1fedcf034d9708442bc2753e9, type: 3}
+    - {fileID: 21300000, guid: 75187b167f8ff5b4c94d48827acc8571, type: 3}
+    - {fileID: 21300000, guid: 5ace7c5bcc58fff41b5d48933fe52d98, type: 3}
+    - {fileID: 21300000, guid: 27879a0c24164af4da4b35b5cdf45116, type: 3}
+    - {fileID: 21300000, guid: e1b39a81ba504574e9fdb1d065a39f29, type: 3}
+    - {fileID: 21300000, guid: 395e7f82cb5719442a4eace0fd21cfc0, type: 3}
+    - {fileID: 21300000, guid: ce55d4ef761fbd549b5940da3b263e05, type: 3}
+    - {fileID: 21300000, guid: b523d3114291d9c4f87fea27ee66ba21, type: 3}
+    - {fileID: 21300000, guid: 0634cc836d1386b4fb6f30547ecd94c8, type: 3}
+    - {fileID: 21300000, guid: 56b5a8997adea1941930e0ea9638f274, type: 3}
+    - {fileID: 21300000, guid: 719255d39ab0c6347b2cffc7d2b3eed6, type: 3}
+    - {fileID: 21300000, guid: 7342976b628a53d4996a4d225354e926, type: 3}
+    - {fileID: 21300000, guid: 96e9f8ded7e26c047827de36b9f4af7a, type: 3}
+    - {fileID: 21300000, guid: 3d233b453f6cfe240be9018ff0267838, type: 3}
+    - {fileID: 21300000, guid: bcfa8df5203e289468dd042955c6af13, type: 3}
+    - {fileID: 21300000, guid: 9dd73564aff2d1b43ad805c74c9946ea, type: 3}
+    - {fileID: 21300000, guid: 081c7daab9130904a887563aaba601bb, type: 3}
+    - {fileID: 21300000, guid: e82d3954d7ddcfe4589723ba4a234b3f, type: 3}
+    - {fileID: 21300000, guid: 77d98daffd9e26046ac9427057aaa753, type: 3}
+    - {fileID: 21300000, guid: 59bf2f02ae704b347a18a5190ce59f12, type: 3}
+    - {fileID: 21300000, guid: 5b7f454336fb3ae449a2a7e88803a7a6, type: 3}
+    - {fileID: 21300000, guid: 414b2adb35ecad34f8cc3b6a58fd7f78, type: 3}
+    - {fileID: 21300000, guid: b0c364abf4c204f4db5a94eb3258d6ba, type: 3}
+    - {fileID: 21300000, guid: 1e09a758f4f63f14c9378049725a9834, type: 3}
+    - {fileID: 21300000, guid: bdab90b284e98454d8ed81950049e874, type: 3}
+    - {fileID: 21300000, guid: 95f1a4db629fc3942957a17c23725c23, type: 3}
+    - {fileID: 21300000, guid: e19df5d35b6846e428f78cd86842349b, type: 3}
+    - {fileID: 21300000, guid: 31241b46ec5cb2a45b418433c3ec781a, type: 3}
+    - {fileID: 21300000, guid: 79245aaea10db2b458637cde69182502, type: 3}
+    - {fileID: 21300000, guid: ca586d7b002b84c4ea0d73f67bba77ca, type: 3}
+    - {fileID: 21300000, guid: 8f402e369fa1f1b44b137706eb03770a, type: 3}
+    - {fileID: 21300000, guid: 388a512990d0e1f40b4bb7498069374d, type: 3}
+    - {fileID: 21300000, guid: adc79eea66c7d984cac8dc45457bdda8, type: 3}
+    - {fileID: 21300000, guid: d7de7596fbe168545b3495db3bf1bf69, type: 3}
+    - {fileID: 21300000, guid: adb64c7013c81ad43961b9b81a43b2cc, type: 3}
+    - {fileID: 21300000, guid: c167541b0bd98bf44a56ebdf18005299, type: 3}
+    - {fileID: 21300000, guid: 9f74a919845be8a40bbba62f4a11d46d, type: 3}
+    - {fileID: 21300000, guid: 223a90e5dd5563c478ece7c54e62716c, type: 3}
+    - {fileID: 21300000, guid: 20afca5959b179341bc19a7109a8727f, type: 3}
+    - {fileID: 21300000, guid: 83574fc43364bff4985e93e9785e5493, type: 3}
+    - {fileID: 21300000, guid: 783bcf63b52a92042a01204e45da2007, type: 3}
+    - {fileID: 21300000, guid: 1f64e2b9101db864eb68b0f52b135213, type: 3}
+    - {fileID: 21300000, guid: b9c5c2039a6171a499d11f203fcee91e, type: 3}
+    - {fileID: 21300000, guid: b48389b1287224e49a46da29bc0cd0a1, type: 3}
+    - {fileID: 21300000, guid: ef4558786f395644c8d68f0b23375fa1, type: 3}
+    - {fileID: 21300000, guid: 8dd6732d21cde0c4291c6deff4decf3a, type: 3}
+    - {fileID: 21300000, guid: f77a65f9c4751c54b866675198a89a87, type: 3}
+    - {fileID: 21300000, guid: 1bd9b031a16259a449a471a3cf735af4, type: 3}
+    - {fileID: 21300000, guid: 6cbc9af00110ae140a11492267d8ba63, type: 3}
+    - {fileID: 21300000, guid: b1f3e4c1f0ca32448988f1131c9c070a, type: 3}
+    - {fileID: 21300000, guid: dc6056c219d2aef47aecaa5568135f6c, type: 3}
+    - {fileID: 21300000, guid: 184df9d990a35df4aa0e45fd27c598d9, type: 3}
+    - {fileID: 21300000, guid: 0cf3db763bf66104c9296432a22a2c04, type: 3}
+    - {fileID: 21300000, guid: d6be39140065d1546a394a7cb9f58d84, type: 3}
+    - {fileID: 21300000, guid: b54c1bf8f5412bf44af16433ba21e972, type: 3}
+    - {fileID: 21300000, guid: 96cb863057be541459c6d96824bde619, type: 3}
+    - {fileID: 21300000, guid: f5556af098fc8de4fa9a711d435c6992, type: 3}
+    - {fileID: 21300000, guid: 3d1bfcf397673fe428e9c8c6c3be4b41, type: 3}
+    - {fileID: 21300000, guid: 1c10e6db10e9dfd4aaebce890e9bba95, type: 3}
+    - {fileID: 21300000, guid: edbcc7ae037279640aea17b7ee1a3111, type: 3}
+    - {fileID: 21300000, guid: 6f9cec61eeb69ca47a115b1f3f0f0f6e, type: 3}
+    - {fileID: 21300000, guid: 926b2f7e6269d3344b8babdb892a4bd8, type: 3}
+    - {fileID: 21300000, guid: bfc649455e707fb4fb1d3f50a9242c53, type: 3}
+    - {fileID: 21300000, guid: d27af17dff4c72d4c83c42a8e9b52b48, type: 3}
+    - {fileID: 21300000, guid: a7a1522b3d17c7c42b902ebb8f8d578f, type: 3}
+    - {fileID: 21300000, guid: 0779d0f6c4f490f49b6e5c110015898e, type: 3}
+    - {fileID: 21300000, guid: c6156c16566f57541804bdba2972c2f4, type: 3}
+    - {fileID: 21300000, guid: 6bab94ae501d9e14f8fd5f692bef60ce, type: 3}
+    - {fileID: 21300000, guid: b27c4f93374c3e84cbd83578e662d4e0, type: 3}
+    - {fileID: 21300000, guid: 59484f6e16d3c7b469a70485335856a8, type: 3}
+    - {fileID: 21300000, guid: 4b0e0d59fa3544049bc46f8773a1df2b, type: 3}
+    - {fileID: 21300000, guid: a033b864a63c2ba42afa3272f5be5baa, type: 3}
+    - {fileID: 21300000, guid: ffb78ef465f4cb2408315c5aec07fe12, type: 3}
+    - {fileID: 21300000, guid: 8b6bc26db8a954d429eeeb9bedd39c80, type: 3}
+    - {fileID: 21300000, guid: 672079913154571468243534175b58d9, type: 3}
+    - {fileID: 21300000, guid: c20e35ea20703ac4f90f5f321af2d674, type: 3}
+    - {fileID: 21300000, guid: 6e119c73e32424a47a41faa1796ed483, type: 3}
+    - {fileID: 21300000, guid: bd01f6fcb5dadf340b36f9213c2f76ce, type: 3}
+    - {fileID: 21300000, guid: fb65581d1b184ad4a9508f429bca3295, type: 3}
+    - {fileID: 21300000, guid: d90684982920b6d4ba690d6c594b48d1, type: 3}
+    - {fileID: 21300000, guid: 272fab140ba075149b55822abe35bace, type: 3}
+    - {fileID: 21300000, guid: b02bfa6139b941c4fb6ca6ae357ec2ff, type: 3}
+    - {fileID: 21300000, guid: cbc8d262c03b140438bd948e2e5cbd56, type: 3}
+    - {fileID: 21300000, guid: 14ef1f175a28fe149b6c15c90bb5d5e5, type: 3}
+    - {fileID: 21300000, guid: c1428f3e7a7428a4192a21df75e57fbf, type: 3}
+    - {fileID: 21300000, guid: 0a38ca62eb258ec4c8fe15ec7ad3216b, type: 3}
+    - {fileID: 21300000, guid: ab1504310380a804883a996ebabb3996, type: 3}
+    - {fileID: 21300000, guid: 532025219e7b29b44a03b1d8012b371a, type: 3}
+    - {fileID: 21300000, guid: c999923a5d7d64c44a657ce3cd1c5904, type: 3}
+    - {fileID: 21300000, guid: 18d73c5bd3d4ff94f93f24d5484ec281, type: 3}
+    - {fileID: 21300000, guid: 752dc7abf8d93ee4c81064a0183f758e, type: 3}
+    - {fileID: 21300000, guid: 91f8a59f79ac707408a7d198d4bed7e7, type: 3}
+    - {fileID: 21300000, guid: 653a40b5017199342a7bb6218c12d30f, type: 3}
+    - {fileID: 21300000, guid: 56994b72159f0c945bba2f6d709553dd, type: 3}
+    - {fileID: 21300000, guid: d3140815337dc094eba2263fb90de8d0, type: 3}
+    - {fileID: 21300000, guid: 767cb89d2d5a2b847ba44fd1c2abef17, type: 3}
+    - {fileID: 21300000, guid: e0ff387a93c3d914a86285fa2bcda7d5, type: 3}
+    - {fileID: 21300000, guid: 99b43ff2c61d36b449eb005081a7e356, type: 3}
+    - {fileID: 21300000, guid: 4215da9bd4ea33e469b64dc8fea57aed, type: 3}
+    - {fileID: 21300000, guid: 4c629a5e75f433d42bdf016b9347a92c, type: 3}
+    - {fileID: 21300000, guid: 4ddc3d63b2bc5284a83df016fd4d7356, type: 3}
+    - {fileID: 21300000, guid: b8c0ee1f8510378409bad6c5e0a574cf, type: 3}
+    - {fileID: 21300000, guid: 6197f96e9356c5d4eb2e773fd0dcfac9, type: 3}
+    - {fileID: 21300000, guid: 98a656893ca78ac428075ae4dea1c767, type: 3}
+    - {fileID: 21300000, guid: a0fbee41b1152e84aa07bffcba004e38, type: 3}
+    - {fileID: 21300000, guid: c02b5ddbca863f740a02abc1f4f52efd, type: 3}
+    - {fileID: 21300000, guid: 42f7da17565ef9b4784f96bee1ff0cea, type: 3}
+    - {fileID: 21300000, guid: 0f31fd4b7ab1d9642a3ddbe6792e581a, type: 3}
+    - {fileID: 21300000, guid: 604c6c4942daf6f46b14bbbf3e5b0c41, type: 3}
+    - {fileID: 21300000, guid: 9fe5284b0b5898e4e84f432f15d3bb21, type: 3}
+    - {fileID: 21300000, guid: 12b006584b54fd2409ecde24dfd91ae1, type: 3}
+    - {fileID: 21300000, guid: 519566a610c79f0438b50282634c9e3f, type: 3}
+    - {fileID: 21300000, guid: f97806290a71ac34aa7f60818b880a4e, type: 3}
+    - {fileID: 21300000, guid: 505779e555337de41aa60e629561d044, type: 3}
+    - {fileID: 21300000, guid: c7bd13161ee07c44eb21657b2063a4d4, type: 3}
+    - {fileID: 21300000, guid: 31a92901e5ea5684d98257a390ffb3e5, type: 3}
+    - {fileID: 21300000, guid: 0bbab48e8a7d6a2438fe49f6ddab77ff, type: 3}
+    - {fileID: 21300000, guid: 76aca3b10ac7e5b4e8ebe073573fc7c1, type: 3}
+    - {fileID: 21300000, guid: 73e4e633b3b9fdf42b1d5b011e8f7fed, type: 3}
+    - {fileID: 21300000, guid: 4f36f7f4311bb6042adb09fe29e2ba92, type: 3}
+    - {fileID: 21300000, guid: 3ded3dc479d67d34783b16c1109ab6de, type: 3}
+    - {fileID: 21300000, guid: 2ff4a34ba3ff9c243a4016c7082fb522, type: 3}
+    - {fileID: 21300000, guid: b497586ff2e86514a90b21967365e141, type: 3}
+    - {fileID: 21300000, guid: 6de25d4e8afe6714988e66cda598abf5, type: 3}
+    - {fileID: 21300000, guid: 5c272bdd59fadbb40ba3a866535d4692, type: 3}
+    - {fileID: 21300000, guid: a27e9e56803c51d40b654df02598a132, type: 3}
+    - {fileID: 21300000, guid: 5c6471e5bb54aae43909b0113bea6df3, type: 3}
+    - {fileID: 21300000, guid: 7b7b8cc784e43ee45b7d0c2d00815ec2, type: 3}
+    - {fileID: 21300000, guid: bade19a020558c2429840d07e7a9efc5, type: 3}
+    - {fileID: 21300000, guid: 7f79c2447464ac14a80d29aeabc25a9d, type: 3}
+    - {fileID: 21300000, guid: a6f11e478b8e57044b1cc9b26e940007, type: 3}
+    - {fileID: 21300000, guid: 5962f77afebc08d46adbd3bbf0ff306d, type: 3}
+    - {fileID: 21300000, guid: d1a8307497ef09b4482e29551c7dc39f, type: 3}
+    - {fileID: 21300000, guid: bfd8675461c158646883f61720ec3eaf, type: 3}
+    - {fileID: 21300000, guid: db03b271a902933459683817f336c961, type: 3}
+    - {fileID: 21300000, guid: ce8dd73029a6f324ca6ec9a583504f9d, type: 3}
+    - {fileID: 21300000, guid: 6b2487b8cd0055b4cb7d48a88ff13b7e, type: 3}
+    - {fileID: 21300000, guid: e28cb73ec1fea194aa18c6161412e0e9, type: 3}
+    - {fileID: 21300000, guid: 0bbddfcfbc7e33d4f8f74ef6ca39557e, type: 3}
+    - {fileID: 21300000, guid: ac6c5af3f0e75c949a8e2e655e55ea06, type: 3}
+    - {fileID: 21300000, guid: 0560f06158ea42e489fd5aa4649826a6, type: 3}
+    - {fileID: 21300000, guid: 8a5935923da29e346ba681958a3271a3, type: 3}
+    - {fileID: 21300000, guid: a4e2297cc078493468dd8f3ff26f150d, type: 3}
+    - {fileID: 21300000, guid: 584a31535fd1afb4694ccc9cdc836e18, type: 3}
+    - {fileID: 21300000, guid: 662b3888913c23948975ac259a91e798, type: 3}
+    - {fileID: 21300000, guid: 3e6c129c672feaf418cc1ec533617d99, type: 3}
+    - {fileID: 21300000, guid: a03ab6489a673444b966c29997324e6a, type: 3}
+    - {fileID: 21300000, guid: 9814cfbd0a8e31d47bd94af7072a4ded, type: 3}
+    - {fileID: 21300000, guid: a97802af718afb94482f07bc83cb7d60, type: 3}
+    - {fileID: 21300000, guid: 793ca52d48bebc74b810cbb9a5e3c5a3, type: 3}
+    - {fileID: 21300000, guid: 2231cf79e2e1242408ac57e4aae1c17e, type: 3}
+    - {fileID: 21300000, guid: 9bdd74363197cd9468839f2648315353, type: 3}
+    - {fileID: 21300000, guid: ebedd405e4d4dcb48bb8ac7167d8b3a9, type: 3}
+    - {fileID: 21300000, guid: 88bb8966019720945a60e4a0271bde61, type: 3}
+    - {fileID: 21300000, guid: a36a571233e14664d97528ee28abd244, type: 3}
+    - {fileID: 21300000, guid: 6c63f71f43b760d44b94a9d81485ffa8, type: 3}
+    - {fileID: 21300000, guid: 473dd8d011b3ff14891516fb91ac2085, type: 3}
+    - {fileID: 21300000, guid: 33635c6eb760331459fc77b9c7a9fd48, type: 3}
+    - {fileID: 21300000, guid: b971b222d7bfb6845b32e2a18aa2e590, type: 3}
+    - {fileID: 21300000, guid: 1dea82fc239ab85438fe5f9f058815ab, type: 3}
+    - {fileID: 21300000, guid: 68db95033a2bda64ba3db40723a7de72, type: 3}
+    - {fileID: 21300000, guid: 2e43451caf665d94a83cfe7eeb886525, type: 3}
+    - {fileID: 21300000, guid: ef7506aa72ca8cd4abb491be5473e00a, type: 3}
+    - {fileID: 21300000, guid: 6feee7d3ec76b484d97860c22b66fc00, type: 3}
+    - {fileID: 21300000, guid: 7c262a80661c6fb4486c3a6c6c1e7b66, type: 3}
+    - {fileID: 21300000, guid: bd9572ac814928c4893108a60ed07a14, type: 3}
+    - {fileID: 21300000, guid: b16792ed0d36c204db29492026f34e39, type: 3}
+    - {fileID: 21300000, guid: 0ed28456a86a8fe4d8b07e4ee9cfa498, type: 3}
+    - {fileID: 21300000, guid: 0a2ef9b3d086d414caf4b303883c3786, type: 3}
+    - {fileID: 21300000, guid: 8049957a15e30d34daab702a6d8584d7, type: 3}
+    - {fileID: 21300000, guid: 15f076d53c160aa4ca38b9108a56fdb8, type: 3}
+    - {fileID: 21300000, guid: 03ce341c5f05de6499df6d294dc80d78, type: 3}
+    - {fileID: 21300000, guid: 4e1b34584d6fdab4badd3403501b4cd7, type: 3}
+    - {fileID: 21300000, guid: bb023ae167855ee41a67bdc702dc9879, type: 3}
+    - {fileID: 21300000, guid: 90a0186916a24194d9fa91a203025700, type: 3}
+    - {fileID: 21300000, guid: ffbb79ff4ae2dd54ab80d7edff05827f, type: 3}
+    - {fileID: 21300000, guid: 36835409e608e2d4d8925d419ca6a57a, type: 3}
+    - {fileID: 21300000, guid: 9f874bd64ab30b24f87c9f52533a6e1d, type: 3}
+    - {fileID: 21300000, guid: 685d384e1350af348abad2bf4151818c, type: 3}
+    - {fileID: 21300000, guid: 65baede06ec4feb4a83032d057f696bc, type: 3}
+    - {fileID: 21300000, guid: fe6cd584f088fba44b52bd2cc61faf23, type: 3}
+    - {fileID: 21300000, guid: ab6114a3cc39f1940949a42c24402097, type: 3}
+    - {fileID: 21300000, guid: a83cee6ddf0e7b443a7e2f527e990e77, type: 3}
+    - {fileID: 21300000, guid: 1870a4b4a381257459b75354509ce4bb, type: 3}
+    - {fileID: 21300000, guid: 85a5b04976bc60f418f81a9c4c463a12, type: 3}
+    - {fileID: 21300000, guid: ff8df8967030728459d313b2e7542bdd, type: 3}
+    - {fileID: 21300000, guid: 25c07b51f97645c4b95b260658e982e9, type: 3}
+    - {fileID: 21300000, guid: 34e9163b170688d4694e5a65957b71e9, type: 3}
+    - {fileID: 21300000, guid: dede34187ee1b2c4481fc1412dfca75a, type: 3}
+    - {fileID: 21300000, guid: be6c83dba16391c49a938b7cb36212de, type: 3}
+    - {fileID: 21300000, guid: 1c9c7f886eed10a44a3258051172888e, type: 3}
+    - {fileID: 21300000, guid: 0c387e48ae6263e40bb759fd8de3fe64, type: 3}
+    - {fileID: 21300000, guid: 79f2f70a100f1594ba45635796181906, type: 3}
+    - {fileID: 21300000, guid: fb786cf2c3becfe4a87a7e0d2872721e, type: 3}
+    - {fileID: 21300000, guid: e88cae5991867754dbfeaa17e314b423, type: 3}
+    - {fileID: 21300000, guid: f23c584bfc5fc4a4388a1618da5d07e1, type: 3}
+    - {fileID: 21300000, guid: d8ee3f2f20badb845bdaa210c2357355, type: 3}
+    - {fileID: 21300000, guid: 0b00cbfd2be5c6144b61cad98ecd9905, type: 3}
+    - {fileID: 21300000, guid: b7ad8be7170db064f84e3c7ade6c734e, type: 3}
+    - {fileID: 21300000, guid: f82050160b6eea94abc2e955801bdac3, type: 3}
+    - {fileID: 21300000, guid: acb07e7315b91ea4faee8325ca3d7680, type: 3}
+    - {fileID: 21300000, guid: bff49010cbcf5024b94389c3b729a6d8, type: 3}
+    - {fileID: 21300000, guid: d1aaa5381b9e0324ea79819cac82ef6d, type: 3}
+    - {fileID: 21300000, guid: 277d2d6e235845d4595579c5d757aceb, type: 3}
+    - {fileID: 21300000, guid: 33084b8646e33c24bbe1a0a29c2533e9, type: 3}
+    - {fileID: 21300000, guid: 689d3e08f8c254b46a930b1b3d4f251a, type: 3}
+    - {fileID: 21300000, guid: 0c52ae44d2eb5404792c77286bb84faf, type: 3}
+    - {fileID: 21300000, guid: e77a58e7859c1154c9c79e5964585b23, type: 3}
+    - {fileID: 21300000, guid: 07db8d69e5476224080d1528fd1a392e, type: 3}
+    - {fileID: 21300000, guid: 0f3d1a4d5db02cd45940e32a544eb9c2, type: 3}
+    - {fileID: 21300000, guid: 6e72307e4eff70d498a709ae958dd16a, type: 3}
+    - {fileID: 21300000, guid: c2dc23b62b430da4da7b790323b2b5a6, type: 3}
+    - {fileID: 21300000, guid: b00d587a8d0577041ba5b145d556ac6e, type: 3}
+    - {fileID: 21300000, guid: 84d06ed4ff21d514db39ebe9d61f3d36, type: 3}
+    - {fileID: 21300000, guid: 990d739d51d7e0c4d963aadb1bc7136b, type: 3}
+    - {fileID: 21300000, guid: c38340379e90cf340a76f6658e94373f, type: 3}
+    - {fileID: 21300000, guid: 2a6a544322ddfed40b5c62d394fdb51c, type: 3}
+    - {fileID: 21300000, guid: 21838376824d80248886c460358f9d17, type: 3}
+    - {fileID: 21300000, guid: b641a1265af948e4c9a29c4324e386be, type: 3}
+    - {fileID: 21300000, guid: a98d1d5a128d7434f95c12d916180147, type: 3}
+    - {fileID: 21300000, guid: 6ae354a3cfefe334882308338672f4bb, type: 3}
+    - {fileID: 21300000, guid: 41228da200cb44741b18e9f506d1d96f, type: 3}
+    - {fileID: 21300000, guid: 55b1d0e4f1312334086a0b94b58decf9, type: 3}
+    - {fileID: 21300000, guid: f68a860ff213a6848a7d2c3d0c43e8ef, type: 3}
+    - {fileID: 21300000, guid: 1cced1c29067e9b429eb55e3844f63d1, type: 3}
+    - {fileID: 21300000, guid: b3a99020972d68b4d8d73909ccab9cb5, type: 3}
+    - {fileID: 21300000, guid: 66a0de6f00a363c42a22242dfeebbca9, type: 3}
+    - {fileID: 21300000, guid: 9ca7cb357862df145ad75e28582f89f8, type: 3}
+    - {fileID: 21300000, guid: ae933d7372777794fa510e3b871f3f5e, type: 3}
+    - {fileID: 21300000, guid: cf33ad0df7a38d540953ddcb96597b15, type: 3}
+    - {fileID: 21300000, guid: 8165cf6fa4fb4d9429914ebe54188818, type: 3}
+    - {fileID: 21300000, guid: bc663e5deb7352240b4633fc5757bd63, type: 3}
+    - {fileID: 21300000, guid: 9e0a9a2d34656a141bf29a2d80ccdec2, type: 3}
+    - {fileID: 21300000, guid: 79681cea632111947aca4eb032b16175, type: 3}
+    - {fileID: 21300000, guid: c3392ce7d1fdc1a49bc00722199367e8, type: 3}
+    - {fileID: 21300000, guid: bb0193f722fba7e488ce08b9f57952f7, type: 3}
+    - {fileID: 21300000, guid: 29f1b061515949a47a5c54cb94608909, type: 3}
+    - {fileID: 21300000, guid: c5c9741796cd17e4ba94b2f208ec7ff1, type: 3}
+    - {fileID: 21300000, guid: 7054040b062226543aff09cadeb72083, type: 3}
+    - {fileID: 21300000, guid: 45f164243f788dc41a65e47e153f9652, type: 3}
+    - {fileID: 21300000, guid: e73fe2bf444371b4abd41d7b8c945153, type: 3}
+    - {fileID: 21300000, guid: 19687c0d8e2c0104d816ba5afe9b7f01, type: 3}
+    - {fileID: 21300000, guid: efd9d4478a99f20468cb08e8d9b04ece, type: 3}
+    - {fileID: 21300000, guid: a1c3c6203015bd14f9be6930cdd6ac40, type: 3}
+    - {fileID: 21300000, guid: 24c33f46b77a51941b09b49de323bc2e, type: 3}
+    - {fileID: 21300000, guid: 05aab7443fc27444bb78098dad438516, type: 3}
+    - {fileID: 21300000, guid: 333943e0eff40f94a84850c48e8ef3d8, type: 3}
+    - {fileID: 21300000, guid: e385e49a84ba41943bda3768ae78dba7, type: 3}
+    - {fileID: 21300000, guid: 6299040a8281bb6409ac14bf2d7806e3, type: 3}
+    - {fileID: 21300000, guid: 755d5481987c7f74b8f74eb1557ec652, type: 3}
+    - {fileID: 21300000, guid: dafb93bfd98cfdb448f9b61aca26ed13, type: 3}
+    - {fileID: 21300000, guid: 5dc8157cb36078d4da96cf2f522caaeb, type: 3}
+    - {fileID: 21300000, guid: 39a1ef00f3e5c11449de6a032aa7f916, type: 3}
+    - {fileID: 21300000, guid: 8001e1c9aeadfd04f8504f83f90383b1, type: 3}
+    - {fileID: 21300000, guid: 283f10b805625354380e53e7f246482d, type: 3}
+    - {fileID: 21300000, guid: a3dec9c011172b242b7b901e56a367d6, type: 3}
+    - {fileID: 21300000, guid: 4d278d3699e3bf24cb4981829b6563a6, type: 3}
+    - {fileID: 21300000, guid: 98ec04eaa837526469789cba30409b0a, type: 3}
+    - {fileID: 21300000, guid: 73f4fcd785d273a4cb7a09139a95742e, type: 3}
+    - {fileID: 21300000, guid: 98d489b9b8acb9740bc878ac90efdcd7, type: 3}
+    - {fileID: 21300000, guid: b398c74ce7d303e48bf3527675acaa41, type: 3}
+    - {fileID: 21300000, guid: aa84c74c8b78d8f4392e2cadee320e11, type: 3}
+    - {fileID: 21300000, guid: 74d6df1c8090ecf45bcd226bcee251cb, type: 3}
+    - {fileID: 21300000, guid: 88382649484a91342b5f6e2fee46e758, type: 3}
+    - {fileID: 21300000, guid: cd444f031b30a2e4c9f0a58bafb7b09e, type: 3}
+    - {fileID: 21300000, guid: c68df4cb3d8b8134f8c9a15923e3c764, type: 3}
+    - {fileID: 21300000, guid: 2d8f41920270a584884aac693fd87e3d, type: 3}
+    - {fileID: 21300000, guid: 3f89fbf0f16d7d34f91b1ab30d3d8d34, type: 3}
+    - {fileID: 21300000, guid: 532d8ba9bdfe7fe4db17147ae4951c96, type: 3}
+    - {fileID: 21300000, guid: 39d0f4ba516df134e8385bc71ea00d57, type: 3}
+    - {fileID: 21300000, guid: ce5342b55598bd3468a747393f3b83cc, type: 3}
+    - {fileID: 21300000, guid: 17f662709bb96bd408248fe3b6bfb798, type: 3}
+    - {fileID: 21300000, guid: 0348571d31fafc1448283daa241c1afa, type: 3}
+    - {fileID: 21300000, guid: b39b3cc951f91e64cbe2d818ec79c2ca, type: 3}
+    - {fileID: 21300000, guid: 19121c29343ba6c4ea3587a5d829690f, type: 3}
+    - {fileID: 21300000, guid: 4cb2eaf9cc5044a49915b10fa192c868, type: 3}
+    - {fileID: 21300000, guid: 7aa3fabe259f2e1439e42d91b65a2983, type: 3}
+    - {fileID: 21300000, guid: ee296872d41d985429e4180677b97a40, type: 3}
+    - {fileID: 21300000, guid: 2d46204d51d68bb42ada590daff014a8, type: 3}
+    - {fileID: 21300000, guid: e552cd31b4b13b34e8afb628c6af6304, type: 3}
+    - {fileID: 21300000, guid: ec19d46f176feda43a65b1d27a696ec3, type: 3}
+    - {fileID: 21300000, guid: f6203da8f30fba543a41b8a82190224b, type: 3}
+    - {fileID: 21300000, guid: 4ed7bc1d5dc69de45bee03cf8f4d6cc8, type: 3}
+    - {fileID: 21300000, guid: 163519e19f23c8645bb411d254dd83f7, type: 3}
+    - {fileID: 21300000, guid: 2352d969ac7971144956a0a18841036e, type: 3}
+    - {fileID: 21300000, guid: 4b57dd77f8d0e6a4db2407846f1f1a1f, type: 3}
+    - {fileID: 21300000, guid: 57a7ee8bef28b3748959765cb9de42e0, type: 3}
+    - {fileID: 21300000, guid: 85f41345dacccf7478d4cc540aa184bd, type: 3}
+    - {fileID: 21300000, guid: 43b81733f95860341b1f521db9e88fa9, type: 3}
+    - {fileID: 21300000, guid: da1fe1db4e8e18c4dab6deb0f81d1a24, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: cardDataConfigDict
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[MatchingGame.Gameplay.CardDataConfig,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 99
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0001
+    - Name: $v
+      Entry: 7
+      Data: 2|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 0
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 1
+    - Name: advanceSprite
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0002
+    - Name: $v
+      Entry: 7
+      Data: 3|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 3
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 4
+    - Name: advanceSprite
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0003
+    - Name: $v
+      Entry: 7
+      Data: 4|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 6
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 7
+    - Name: advanceSprite
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0004
+    - Name: $v
+      Entry: 7
+      Data: 5|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 9
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 10
+    - Name: advanceSprite
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0005
+    - Name: $v
+      Entry: 7
+      Data: 6|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 12
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 13
+    - Name: advanceSprite
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0006
+    - Name: $v
+      Entry: 7
+      Data: 7|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 15
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 16
+    - Name: advanceSprite
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0007
+    - Name: $v
+      Entry: 7
+      Data: 8|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 18
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 19
+    - Name: advanceSprite
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0008
+    - Name: $v
+      Entry: 7
+      Data: 9|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 21
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 22
+    - Name: advanceSprite
+      Entry: 10
+      Data: 23
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0009
+    - Name: $v
+      Entry: 7
+      Data: 10|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 24
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 25
+    - Name: advanceSprite
+      Entry: 10
+      Data: 26
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0010
+    - Name: $v
+      Entry: 7
+      Data: 11|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 27
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 28
+    - Name: advanceSprite
+      Entry: 10
+      Data: 29
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0011
+    - Name: $v
+      Entry: 7
+      Data: 12|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 30
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 31
+    - Name: advanceSprite
+      Entry: 10
+      Data: 32
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0012
+    - Name: $v
+      Entry: 7
+      Data: 13|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 33
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 34
+    - Name: advanceSprite
+      Entry: 10
+      Data: 35
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0013
+    - Name: $v
+      Entry: 7
+      Data: 14|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 36
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 37
+    - Name: advanceSprite
+      Entry: 10
+      Data: 38
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0014
+    - Name: $v
+      Entry: 7
+      Data: 15|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 39
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 40
+    - Name: advanceSprite
+      Entry: 10
+      Data: 41
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0015
+    - Name: $v
+      Entry: 7
+      Data: 16|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 42
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 43
+    - Name: advanceSprite
+      Entry: 10
+      Data: 44
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0016
+    - Name: $v
+      Entry: 7
+      Data: 17|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 45
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 46
+    - Name: advanceSprite
+      Entry: 10
+      Data: 47
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0017
+    - Name: $v
+      Entry: 7
+      Data: 18|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 48
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 49
+    - Name: advanceSprite
+      Entry: 10
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0018
+    - Name: $v
+      Entry: 7
+      Data: 19|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 51
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 52
+    - Name: advanceSprite
+      Entry: 10
+      Data: 53
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0019
+    - Name: $v
+      Entry: 7
+      Data: 20|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 54
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 55
+    - Name: advanceSprite
+      Entry: 10
+      Data: 56
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0020
+    - Name: $v
+      Entry: 7
+      Data: 21|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 57
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 58
+    - Name: advanceSprite
+      Entry: 10
+      Data: 59
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0021
+    - Name: $v
+      Entry: 7
+      Data: 22|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 60
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 61
+    - Name: advanceSprite
+      Entry: 10
+      Data: 62
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0022
+    - Name: $v
+      Entry: 7
+      Data: 23|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 63
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 64
+    - Name: advanceSprite
+      Entry: 10
+      Data: 65
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0023
+    - Name: $v
+      Entry: 7
+      Data: 24|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 66
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 67
+    - Name: advanceSprite
+      Entry: 10
+      Data: 68
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0024
+    - Name: $v
+      Entry: 7
+      Data: 25|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 69
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 70
+    - Name: advanceSprite
+      Entry: 10
+      Data: 71
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0025
+    - Name: $v
+      Entry: 7
+      Data: 26|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 72
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 73
+    - Name: advanceSprite
+      Entry: 10
+      Data: 74
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0026
+    - Name: $v
+      Entry: 7
+      Data: 27|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 75
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 76
+    - Name: advanceSprite
+      Entry: 10
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0027
+    - Name: $v
+      Entry: 7
+      Data: 28|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 78
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 79
+    - Name: advanceSprite
+      Entry: 10
+      Data: 80
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0028
+    - Name: $v
+      Entry: 7
+      Data: 29|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 81
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 82
+    - Name: advanceSprite
+      Entry: 10
+      Data: 83
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0029
+    - Name: $v
+      Entry: 7
+      Data: 30|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 84
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 85
+    - Name: advanceSprite
+      Entry: 10
+      Data: 86
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0030
+    - Name: $v
+      Entry: 7
+      Data: 31|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 87
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 88
+    - Name: advanceSprite
+      Entry: 10
+      Data: 89
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0031
+    - Name: $v
+      Entry: 7
+      Data: 32|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 90
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 91
+    - Name: advanceSprite
+      Entry: 10
+      Data: 92
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0032
+    - Name: $v
+      Entry: 7
+      Data: 33|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 93
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 94
+    - Name: advanceSprite
+      Entry: 10
+      Data: 95
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0033
+    - Name: $v
+      Entry: 7
+      Data: 34|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 96
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 97
+    - Name: advanceSprite
+      Entry: 10
+      Data: 98
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0034
+    - Name: $v
+      Entry: 7
+      Data: 35|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 99
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 100
+    - Name: advanceSprite
+      Entry: 10
+      Data: 101
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0035
+    - Name: $v
+      Entry: 7
+      Data: 36|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 102
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 103
+    - Name: advanceSprite
+      Entry: 10
+      Data: 104
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0036
+    - Name: $v
+      Entry: 7
+      Data: 37|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 105
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 106
+    - Name: advanceSprite
+      Entry: 10
+      Data: 107
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0037
+    - Name: $v
+      Entry: 7
+      Data: 38|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 108
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 109
+    - Name: advanceSprite
+      Entry: 10
+      Data: 110
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0038
+    - Name: $v
+      Entry: 7
+      Data: 39|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 111
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 112
+    - Name: advanceSprite
+      Entry: 10
+      Data: 113
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0039
+    - Name: $v
+      Entry: 7
+      Data: 40|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 114
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 115
+    - Name: advanceSprite
+      Entry: 10
+      Data: 116
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0040
+    - Name: $v
+      Entry: 7
+      Data: 41|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 117
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 118
+    - Name: advanceSprite
+      Entry: 10
+      Data: 119
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0041
+    - Name: $v
+      Entry: 7
+      Data: 42|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 120
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 121
+    - Name: advanceSprite
+      Entry: 10
+      Data: 122
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0042
+    - Name: $v
+      Entry: 7
+      Data: 43|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 123
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 124
+    - Name: advanceSprite
+      Entry: 10
+      Data: 125
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0043
+    - Name: $v
+      Entry: 7
+      Data: 44|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 126
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 127
+    - Name: advanceSprite
+      Entry: 10
+      Data: 128
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0044
+    - Name: $v
+      Entry: 7
+      Data: 45|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 129
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 130
+    - Name: advanceSprite
+      Entry: 10
+      Data: 131
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0045
+    - Name: $v
+      Entry: 7
+      Data: 46|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 132
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 133
+    - Name: advanceSprite
+      Entry: 10
+      Data: 134
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0046
+    - Name: $v
+      Entry: 7
+      Data: 47|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 135
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 136
+    - Name: advanceSprite
+      Entry: 10
+      Data: 137
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0047
+    - Name: $v
+      Entry: 7
+      Data: 48|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 138
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 139
+    - Name: advanceSprite
+      Entry: 10
+      Data: 140
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0048
+    - Name: $v
+      Entry: 7
+      Data: 49|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 141
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 142
+    - Name: advanceSprite
+      Entry: 10
+      Data: 143
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0049
+    - Name: $v
+      Entry: 7
+      Data: 50|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 144
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 145
+    - Name: advanceSprite
+      Entry: 10
+      Data: 146
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0050
+    - Name: $v
+      Entry: 7
+      Data: 51|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 10
+      Data: 147
+    - Name: normalSprite
+      Entry: 6
+      Data: 
+    - Name: hardSprite
+      Entry: 10
+      Data: 148
+    - Name: advanceSprite
+      Entry: 10
+      Data: 149
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0051
+    - Name: $v
+      Entry: 7
+      Data: 52|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 150
+    - Name: hardSprite
+      Entry: 10
+      Data: 151
+    - Name: advanceSprite
+      Entry: 10
+      Data: 152
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0052
+    - Name: $v
+      Entry: 7
+      Data: 53|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 153
+    - Name: hardSprite
+      Entry: 10
+      Data: 154
+    - Name: advanceSprite
+      Entry: 10
+      Data: 155
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0053
+    - Name: $v
+      Entry: 7
+      Data: 54|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 156
+    - Name: hardSprite
+      Entry: 10
+      Data: 157
+    - Name: advanceSprite
+      Entry: 10
+      Data: 158
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0054
+    - Name: $v
+      Entry: 7
+      Data: 55|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 159
+    - Name: hardSprite
+      Entry: 10
+      Data: 160
+    - Name: advanceSprite
+      Entry: 10
+      Data: 161
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0055
+    - Name: $v
+      Entry: 7
+      Data: 56|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 162
+    - Name: hardSprite
+      Entry: 10
+      Data: 163
+    - Name: advanceSprite
+      Entry: 10
+      Data: 164
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0056
+    - Name: $v
+      Entry: 7
+      Data: 57|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 165
+    - Name: hardSprite
+      Entry: 10
+      Data: 166
+    - Name: advanceSprite
+      Entry: 10
+      Data: 167
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0057
+    - Name: $v
+      Entry: 7
+      Data: 58|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 168
+    - Name: hardSprite
+      Entry: 10
+      Data: 169
+    - Name: advanceSprite
+      Entry: 10
+      Data: 170
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0058
+    - Name: $v
+      Entry: 7
+      Data: 59|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 171
+    - Name: hardSprite
+      Entry: 10
+      Data: 172
+    - Name: advanceSprite
+      Entry: 10
+      Data: 173
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0059
+    - Name: $v
+      Entry: 7
+      Data: 60|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 174
+    - Name: hardSprite
+      Entry: 10
+      Data: 175
+    - Name: advanceSprite
+      Entry: 10
+      Data: 176
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0060
+    - Name: $v
+      Entry: 7
+      Data: 61|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 177
+    - Name: hardSprite
+      Entry: 10
+      Data: 178
+    - Name: advanceSprite
+      Entry: 10
+      Data: 179
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0061
+    - Name: $v
+      Entry: 7
+      Data: 62|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 180
+    - Name: hardSprite
+      Entry: 10
+      Data: 181
+    - Name: advanceSprite
+      Entry: 10
+      Data: 182
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0062
+    - Name: $v
+      Entry: 7
+      Data: 63|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 183
+    - Name: hardSprite
+      Entry: 10
+      Data: 184
+    - Name: advanceSprite
+      Entry: 10
+      Data: 185
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0063
+    - Name: $v
+      Entry: 7
+      Data: 64|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 186
+    - Name: hardSprite
+      Entry: 10
+      Data: 187
+    - Name: advanceSprite
+      Entry: 10
+      Data: 188
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0064
+    - Name: $v
+      Entry: 7
+      Data: 65|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 189
+    - Name: hardSprite
+      Entry: 10
+      Data: 190
+    - Name: advanceSprite
+      Entry: 10
+      Data: 191
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0065
+    - Name: $v
+      Entry: 7
+      Data: 66|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 192
+    - Name: hardSprite
+      Entry: 10
+      Data: 193
+    - Name: advanceSprite
+      Entry: 10
+      Data: 194
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0066
+    - Name: $v
+      Entry: 7
+      Data: 67|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 195
+    - Name: hardSprite
+      Entry: 10
+      Data: 196
+    - Name: advanceSprite
+      Entry: 10
+      Data: 197
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0067
+    - Name: $v
+      Entry: 7
+      Data: 68|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 198
+    - Name: hardSprite
+      Entry: 10
+      Data: 199
+    - Name: advanceSprite
+      Entry: 10
+      Data: 200
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0068
+    - Name: $v
+      Entry: 7
+      Data: 69|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 201
+    - Name: hardSprite
+      Entry: 10
+      Data: 202
+    - Name: advanceSprite
+      Entry: 10
+      Data: 203
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0069
+    - Name: $v
+      Entry: 7
+      Data: 70|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 204
+    - Name: hardSprite
+      Entry: 10
+      Data: 205
+    - Name: advanceSprite
+      Entry: 10
+      Data: 206
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0070
+    - Name: $v
+      Entry: 7
+      Data: 71|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 207
+    - Name: hardSprite
+      Entry: 10
+      Data: 208
+    - Name: advanceSprite
+      Entry: 10
+      Data: 209
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0071
+    - Name: $v
+      Entry: 7
+      Data: 72|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 210
+    - Name: hardSprite
+      Entry: 10
+      Data: 211
+    - Name: advanceSprite
+      Entry: 10
+      Data: 212
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0072
+    - Name: $v
+      Entry: 7
+      Data: 73|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 213
+    - Name: hardSprite
+      Entry: 10
+      Data: 214
+    - Name: advanceSprite
+      Entry: 10
+      Data: 215
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0073
+    - Name: $v
+      Entry: 7
+      Data: 74|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 216
+    - Name: hardSprite
+      Entry: 10
+      Data: 217
+    - Name: advanceSprite
+      Entry: 10
+      Data: 218
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0074
+    - Name: $v
+      Entry: 7
+      Data: 75|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 219
+    - Name: hardSprite
+      Entry: 10
+      Data: 220
+    - Name: advanceSprite
+      Entry: 10
+      Data: 221
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0075
+    - Name: $v
+      Entry: 7
+      Data: 76|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 222
+    - Name: hardSprite
+      Entry: 10
+      Data: 223
+    - Name: advanceSprite
+      Entry: 10
+      Data: 224
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0076
+    - Name: $v
+      Entry: 7
+      Data: 77|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 225
+    - Name: hardSprite
+      Entry: 10
+      Data: 226
+    - Name: advanceSprite
+      Entry: 10
+      Data: 227
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0077
+    - Name: $v
+      Entry: 7
+      Data: 78|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 228
+    - Name: hardSprite
+      Entry: 10
+      Data: 229
+    - Name: advanceSprite
+      Entry: 10
+      Data: 230
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0078
+    - Name: $v
+      Entry: 7
+      Data: 79|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 231
+    - Name: hardSprite
+      Entry: 10
+      Data: 232
+    - Name: advanceSprite
+      Entry: 10
+      Data: 233
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0079
+    - Name: $v
+      Entry: 7
+      Data: 80|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 234
+    - Name: hardSprite
+      Entry: 10
+      Data: 235
+    - Name: advanceSprite
+      Entry: 10
+      Data: 236
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0080
+    - Name: $v
+      Entry: 7
+      Data: 81|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 237
+    - Name: hardSprite
+      Entry: 10
+      Data: 238
+    - Name: advanceSprite
+      Entry: 10
+      Data: 239
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0081
+    - Name: $v
+      Entry: 7
+      Data: 82|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 240
+    - Name: hardSprite
+      Entry: 10
+      Data: 241
+    - Name: advanceSprite
+      Entry: 10
+      Data: 242
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0082
+    - Name: $v
+      Entry: 7
+      Data: 83|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 243
+    - Name: hardSprite
+      Entry: 10
+      Data: 244
+    - Name: advanceSprite
+      Entry: 10
+      Data: 245
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0083
+    - Name: $v
+      Entry: 7
+      Data: 84|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 246
+    - Name: hardSprite
+      Entry: 10
+      Data: 247
+    - Name: advanceSprite
+      Entry: 10
+      Data: 248
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0084
+    - Name: $v
+      Entry: 7
+      Data: 85|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 249
+    - Name: hardSprite
+      Entry: 10
+      Data: 250
+    - Name: advanceSprite
+      Entry: 10
+      Data: 251
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0085
+    - Name: $v
+      Entry: 7
+      Data: 86|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 252
+    - Name: hardSprite
+      Entry: 10
+      Data: 253
+    - Name: advanceSprite
+      Entry: 10
+      Data: 254
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0086
+    - Name: $v
+      Entry: 7
+      Data: 87|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 255
+    - Name: hardSprite
+      Entry: 10
+      Data: 256
+    - Name: advanceSprite
+      Entry: 10
+      Data: 257
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0087
+    - Name: $v
+      Entry: 7
+      Data: 88|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 258
+    - Name: hardSprite
+      Entry: 10
+      Data: 259
+    - Name: advanceSprite
+      Entry: 10
+      Data: 260
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0088
+    - Name: $v
+      Entry: 7
+      Data: 89|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 261
+    - Name: hardSprite
+      Entry: 10
+      Data: 262
+    - Name: advanceSprite
+      Entry: 10
+      Data: 263
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0089
+    - Name: $v
+      Entry: 7
+      Data: 90|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 264
+    - Name: hardSprite
+      Entry: 10
+      Data: 265
+    - Name: advanceSprite
+      Entry: 10
+      Data: 266
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0090
+    - Name: $v
+      Entry: 7
+      Data: 91|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 267
+    - Name: hardSprite
+      Entry: 10
+      Data: 268
+    - Name: advanceSprite
+      Entry: 10
+      Data: 269
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0091
+    - Name: $v
+      Entry: 7
+      Data: 92|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 270
+    - Name: hardSprite
+      Entry: 10
+      Data: 271
+    - Name: advanceSprite
+      Entry: 10
+      Data: 272
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0092
+    - Name: $v
+      Entry: 7
+      Data: 93|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 273
+    - Name: hardSprite
+      Entry: 10
+      Data: 274
+    - Name: advanceSprite
+      Entry: 10
+      Data: 275
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0093
+    - Name: $v
+      Entry: 7
+      Data: 94|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 276
+    - Name: hardSprite
+      Entry: 10
+      Data: 277
+    - Name: advanceSprite
+      Entry: 10
+      Data: 278
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0094
+    - Name: $v
+      Entry: 7
+      Data: 95|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 279
+    - Name: hardSprite
+      Entry: 10
+      Data: 280
+    - Name: advanceSprite
+      Entry: 10
+      Data: 281
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0095
+    - Name: $v
+      Entry: 7
+      Data: 96|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 282
+    - Name: hardSprite
+      Entry: 10
+      Data: 283
+    - Name: advanceSprite
+      Entry: 10
+      Data: 284
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0096
+    - Name: $v
+      Entry: 7
+      Data: 97|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 285
+    - Name: hardSprite
+      Entry: 10
+      Data: 286
+    - Name: advanceSprite
+      Entry: 10
+      Data: 287
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0097
+    - Name: $v
+      Entry: 7
+      Data: 98|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 288
+    - Name: hardSprite
+      Entry: 10
+      Data: 289
+    - Name: advanceSprite
+      Entry: 10
+      Data: 290
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0098
+    - Name: $v
+      Entry: 7
+      Data: 99|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 291
+    - Name: hardSprite
+      Entry: 10
+      Data: 292
+    - Name: advanceSprite
+      Entry: 10
+      Data: 293
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Cloth_0099
+    - Name: $v
+      Entry: 7
+      Data: 100|MatchingGame.Gameplay.CardDataConfig, Assembly-CSharp
+    - Name: easySprite
+      Entry: 6
+      Data: 
+    - Name: normalSprite
+      Entry: 10
+      Data: 294
+    - Name: hardSprite
+      Entry: 10
+      Data: 295
+    - Name: advanceSprite
+      Entry: 10
+      Data: 296
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  category: Cloth
+  key: Cloth
+  number: 100
+  easyObjID: []
+  normalObjID: []
+  hardObjID: []
+  advanceObjID: []
