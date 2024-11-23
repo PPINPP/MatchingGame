@@ -83,17 +83,20 @@ public class MinigameManager : MonoInstance<MinigameManager>
         }
         for (int i = 0; i < 17; i++)
         {
-            if(sequenceObj[i] == 6){
+            if (sequenceObj[i] == 6)
+            {
                 sequenceObj[i] = object_type;
             }
-            else{
-                do{
-                    _tempval = UnityEngine.Random.Range(0,4);
-                }while(object_type == _tempval);
+            else
+            {
+                do
+                {
+                    _tempval = UnityEngine.Random.Range(0, 4);
+                } while (object_type == _tempval);
                 sequenceObj[i] = _tempval;
             }
         }
-        
+
         GameplayResultManager.Instance.MinigameResult.RandomIDLogList = sequenceObj;
         // for (int i = 0; i < 10; i++)
         // {
@@ -154,7 +157,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
                 NextImg();
                 RandomPosition();
                 timer = 0;
-                AudioController.SetnPlay("audio/SFX/SpecilTaskSFX");
+                // AudioController.SetnPlay("audio/SFX/SpecilTaskSFX");
             }
             else
             {
@@ -191,6 +194,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     public void NextImg()
     {
         clickObjImg.sprite = objSprites[sequenceObj[curr_index]];
+        curr_obj = sequenceObj[curr_index];
         curr_index++;
     }
 
@@ -210,6 +214,14 @@ public class MinigameManager : MonoInstance<MinigameManager>
         GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(timer);
         GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus = MinigameClickStatusEnum.NORMAL;
         GameplayResultManager.Instance.MinigameClickLogList[^1].isCorrect = object_type == curr_obj ? true : false;
+        if (object_type == curr_obj)
+        {
+            AudioController.SetnPlay("audio/SFX/Correct_SpecialT");
+        }
+        else
+        {
+            AudioController.SetnPlay("audio/SFX/Wrong_SpecialT");
+        }
         clickObjImg.gameObject.SetActive(false);
         isRoundActive = false;
         disposable.Dispose();

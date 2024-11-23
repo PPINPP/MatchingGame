@@ -215,10 +215,10 @@ public class FirebaseMockUpTester : SerializedMonoBehaviour
             new GameplayClickLog(2.0f,4.0f,3.5f,GameplayClickStatusEnum.ON_CARD,GameplayClickResultEnum.UNMATCH),
         };
         GamePlayResult result1 = new GamePlayResult("stage1", PairType.FOUR, GameLayout.GRID,
-            GameDifficult.HARD, 30f, 150, 5, 1920, 1080, cardPosLogList, gameplayClickLogList,pauseLogList,0,0,PassiveLogList);
+            GameDifficult.HARD, 30f, 150, 5, 1920, 1080, cardPosLogList, gameplayClickLogList,pauseLogList,0,0,PassiveLogList,0,0);
        
         GamePlayResult result2 = new GamePlayResult("stage2", PairType.EIGHT, GameLayout.RANDOM,
-            GameDifficult.HARD, 40f, 160, 5, 1920, 1080, cardPosLogList, gameplayClickLogList,pauseLogList,0,0,PassiveLogList);
+            GameDifficult.HARD, 40f, 160, 5, 1920, 1080, cardPosLogList, gameplayClickLogList,pauseLogList,0,0,PassiveLogList,0,0);
 
         results.Add(result1);
         results.Add(result2);

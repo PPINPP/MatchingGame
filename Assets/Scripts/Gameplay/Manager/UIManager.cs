@@ -112,7 +112,7 @@ namespace MatchingGame.Gameplay
 
             OnTime += () =>
             {
-                timer = 150;
+                timer = 180;
                 var sequence = SequenceManager.Instance.GetSequenceDetail();
                 var sequenceSetting = sequence.GetGameplaySequenceSetting();
                 if (!sequenceSetting.isTutorial)
@@ -164,7 +164,7 @@ namespace MatchingGame.Gameplay
                         {
                             timerTxt.text = $"{Mathf.Floor(timer)}";
                         }
-                        float r = (180.0f - timer) * 1.67f;
+                        float r = (210.0f - timer) * 1.67f;
                         if (r >= 150.0f)
                         {
                             r = 150.0f;

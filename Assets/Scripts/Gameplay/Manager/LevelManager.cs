@@ -30,6 +30,8 @@ namespace MatchingGame.Gameplay
         private float referenceTime = 0f;
         private float startHintTime = 0f;
         private bool addedTime = false;
+        private int outCard = 0;
+        private int repeatCount = 0;
         private List<string> keyContain = new List<string>();
 
         protected override void Start()
@@ -52,12 +54,16 @@ namespace MatchingGame.Gameplay
 
         protected override void Update()
         {
+            Debug.Log(repeatCount);
             if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
                 lastClick = Time.time;
                 ClearHint();
                 clickCount++;
-                GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
+                GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
+                repeatCount++;
+                outCard++;
+
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
             if (Time.time - lastClick > 10.0f && lastClick != -1f)
@@ -179,14 +185,24 @@ namespace MatchingGame.Gameplay
                 return;
             }
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+            outCard--;
+            repeatCount--;
         }
 
         protected override void OnSelectCardAdd(Card card)
         {
             if (_selectedCardList.Count == 1)
+            {
                 GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+                repeatCount--;
+            }
+
             else
+            {
                 card.IndexClick = GameplayResultManager.Instance.GameplayClickLogList.Count - 1;
+                repeatCount--;
+            }
+
         }
 
         public override void CheckCard()
@@ -228,10 +244,12 @@ namespace MatchingGame.Gameplay
                         ClearHint();
                         lastClick = -1f;
                         rewardPanel.SetActive(true);
-                        GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 180-UIManager.Instance.Timer:150-UIManager.Instance.Timer;
+                        GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                         GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                         GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                         GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
+                        GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
+                        GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
                         GameplayResultManager.Instance.OnEndGame();
 
                         disposable.Dispose();
@@ -284,17 +302,17 @@ namespace MatchingGame.Gameplay
         {
             pauseImage.sprite = pauseSprite;
             Time.timeScale = 1;
-            PauseLog pauseLog = new PauseLog(addedTime ? (180.0f-UIManager.Instance.GetTimer()).ToString() : (150.0f-UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
+            PauseLog pauseLog = new PauseLog(addedTime ? (180.0f - UIManager.Instance.GetTimer()).ToString() : (150.0f - UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
             GameplayResultManager.Instance.GamePlayResult.PauseLogList.Add(pauseLog);
             pausePanel.SetActive(false);
         }
         public void AddTime()
         {
-            GameplayResultManager.Instance.GamePlayResult.AddTimeUsed = 150.0f - UIManager.Instance.GetTimer();
+            GameplayResultManager.Instance.GamePlayResult.AddTimeUsed = 180.0f - UIManager.Instance.GetTimer();
             UIManager.Instance.AddTime(30.0f);
             addTime.interactable = false;
             addedTime = true;
-            
+
 
         }
         public void FlipAll()
@@ -311,7 +329,7 @@ namespace MatchingGame.Gameplay
             }
             System.Collections.IEnumerator startFlip()
             {
-                
+
                 yield return new WaitForSecondsRealtime(5);// Wait a bit
                 foreach (var item in _cardList)
                 {
@@ -325,14 +343,17 @@ namespace MatchingGame.Gameplay
                 disableArea.SetActive(false);
                 UIManager.Instance.freezeTimer = false;
             }
-            if(addedTime){
-                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 180.0f- UIManager.Instance.GetTimer();
-            }else{
-                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 150.0f- UIManager.Instance.GetTimer();
+            if (addedTime)
+            {
+                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 180.0f - UIManager.Instance.GetTimer();
+            }
+            else
+            {
+                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 150.0f - UIManager.Instance.GetTimer();
             }
             UIManager.Instance.freezeTimer = true;
             StartCoroutine(startFlip());
-            
+
         }
         public void StartPassive()
         {
@@ -341,7 +362,7 @@ namespace MatchingGame.Gameplay
         public void TriggerPassive()
         {
             var a = Random.Range(0, keyContain.Count);
-            while(keyContain[a] == "")
+            while (keyContain[a] == "")
             {
                 a = a + 1;
                 if (a == keyContain.Count)
@@ -365,10 +386,11 @@ namespace MatchingGame.Gameplay
         {
             if (_hintCardList.Count == 2)
             {
-                if(addedTime){
+                if (addedTime)
+                {
 
                 }
-                PassiveLog passiveLog = new PassiveLog(startHintTime-referenceTime,Time.time-referenceTime,Time.time-startHintTime,_hintCardList[0].CardProperty.key);
+                PassiveLog passiveLog = new PassiveLog(startHintTime - referenceTime, Time.time - referenceTime, Time.time - startHintTime, _hintCardList[0].CardProperty.key);
                 GameplayResultManager.Instance.GamePlayResult.PassiveLogList.Add(passiveLog);
                 foreach (var item in _hintCardList)
                 {
@@ -389,7 +411,7 @@ namespace MatchingGame.Gameplay
             {
                 //SceneManager.LoadScene("Menu");
                 rewardPanel.SetActive(true);
-                GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 180-UIManager.Instance.Timer:150-UIManager.Instance.Timer;
+                GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                 GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                 GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;

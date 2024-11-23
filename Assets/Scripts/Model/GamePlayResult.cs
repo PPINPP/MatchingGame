@@ -26,6 +26,8 @@ namespace Model
         public List<PauseLog> PauseLogList { get; set; }
         public float FlipAllUsed { get; set; }
         public float AddTimeUsed { get; set; }
+        public int OutareaCount {get;set;}
+        public int RepeatCount {get;set;}
         public List<PassiveLog> PassiveLogList { get; set; }
 
 
@@ -37,7 +39,7 @@ namespace Model
         public GamePlayResult(string stageID, PairType cardPair, GameLayout cardParrenLayout,
             GameDifficult gameDifficult, float timeUsed, int clickCount, int matchFalseCount,
             int screenHeight, int screenWidth, List<CardPosLog> cardPosLogList,
-            List<GameplayClickLog> gameplayClickLogList, List<PauseLog> pauseLogList, float flipAllUsed, float addTimeUsed, List<PassiveLog> passiveLogList) : base()
+            List<GameplayClickLog> gameplayClickLogList, List<PauseLog> pauseLogList, float flipAllUsed, float addTimeUsed, List<PassiveLog> passiveLogList,int outAreaCount, int repeatCount) : base()
         {
             StageID = stageID;
             CardPair = cardPair;
@@ -54,6 +56,8 @@ namespace Model
             FlipAllUsed = flipAllUsed;
             AddTimeUsed = addTimeUsed;
             PassiveLogList = passiveLogList;
+            OutareaCount =  outAreaCount;
+            RepeatCount = repeatCount;
             CompletedAt = DateTime.Now;
         }
 
@@ -79,7 +83,9 @@ namespace Model
                 FlipAllUsed = this.FlipAllUsed,
                 AddTimeUsed = this.AddTimeUsed,
                 PassiveLogList = new List<PassiveLogFs>(),
-                GameplayClickLogList = new List<GameplayClickLogFs>()
+                GameplayClickLogList = new List<GameplayClickLogFs>(),
+                OutareaCount = this.OutareaCount,
+                RepeatCount = this.RepeatCount
             };
 
             if (this.CardPosLogList != null || this.CardPosLogList.Count > 0)
@@ -145,6 +151,8 @@ namespace Model
         [FirestoreProperty] public List<GameplayClickLogFs> GameplayClickLogList { get; set; }
         [FirestoreProperty] public float FlipAllUsed { get; set; }
         [FirestoreProperty] public float AddTimeUsed { get; set; }
+        [FirestoreProperty] public int RepeatCount  { get; set; }
+        [FirestoreProperty] public int OutareaCount  { get; set; }
 
         [FirestoreProperty] public List<PassiveLogFs> PassiveLogList { get; set; }
 

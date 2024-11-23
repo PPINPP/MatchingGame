@@ -36,6 +36,8 @@ namespace MatchingGame.Gameplay
         private int clickCount = 0;
         private int matchFalseCount = 0;
         private bool successInit = false;
+        private int outCard = 0;
+        private int repeatCount = 0;
 
         protected override void Start()
         {
@@ -91,7 +93,10 @@ namespace MatchingGame.Gameplay
             {
                 clickCount++;
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
-                TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT)); 
+                TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, 180.0f-UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
+                outCard++;
+                repeatCount++;
+
             }
         }
 
@@ -226,10 +231,12 @@ namespace MatchingGame.Gameplay
                             }
                         }
                         
-                        TutorialResultManager.Instance.TutorialResult.TimeUsed = 150-UIManager.Instance.Timer;
+                        TutorialResultManager.Instance.TutorialResult.TimeUsed = 180-UIManager.Instance.Timer;
                         TutorialResultManager.Instance.TutorialResult.ClickCount = clickCount;
                         TutorialResultManager.Instance.TutorialResult.MatchFalseCount = matchFalseCount;
                         TutorialResultManager.Instance.TutorialResult.CompletedAt = DateTime.Now;
+                        GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
+                        GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
                         TutorialResultManager.Instance.OnEndTutorial();
 
                         disposable.Dispose();
