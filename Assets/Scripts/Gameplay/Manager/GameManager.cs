@@ -182,6 +182,10 @@ namespace MatchingGame.Gameplay
         {
 
         }
+        public virtual void OnCardRepeat()
+        {
+
+        }
 
         public bool CheckCanFlipCard()
         {

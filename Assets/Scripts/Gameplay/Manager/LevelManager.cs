@@ -17,10 +17,14 @@ namespace MatchingGame.Gameplay
         [SerializeField] Button addTime;
         [SerializeField] Button flipCard;
         [SerializeField] Button pauseGame;
+        [SerializeField] Button settingPage;
         [SerializeField] Image pauseImage;
         [SerializeField] GameObject disableArea;
         [SerializeField] Sprite pauseSprite;
         [SerializeField] Sprite playSprite;
+        [SerializeField] Image backGround;
+        [SerializeField] List<Sprite> themeBackGround;
+        [SerializeField] Button playArea;
 
         private int clickCount = 0;
         private int matchFalseCount = 0;
@@ -39,10 +43,12 @@ namespace MatchingGame.Gameplay
             base.Start();
             settingPanel.SetActive(false);
             rewardPanel.SetActive(false);
+            playArea.onClick.AddListener(OnPlayAreaClick);
 
             //TODO: Follow Sequence To Setting
             var sequenceSetting = SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting();
             GamplayLayoutSetting layoutSetting = new GamplayLayoutSetting();
+            backGround.sprite = themeBackGround[(int)sequenceSetting.categoryTheme];
             layoutSetting.categoryTheme = sequenceSetting.categoryTheme;
             layoutSetting.targetPairType = sequenceSetting.pairType;
             layoutSetting.gameDifficult = sequenceSetting.GameDifficult;
@@ -54,15 +60,12 @@ namespace MatchingGame.Gameplay
 
         protected override void Update()
         {
-            Debug.Log(repeatCount);
             if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
                 lastClick = Time.time;
                 ClearHint();
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
-                repeatCount++;
-                outCard++;
 
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
@@ -185,8 +188,12 @@ namespace MatchingGame.Gameplay
                 return;
             }
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
-            outCard--;
-            repeatCount--;
+        }
+        public override void OnCardRepeat(){
+            repeatCount++;
+        }
+        public void OnPlayAreaClick(){
+            outCard++;
         }
 
         protected override void OnSelectCardAdd(Card card)
@@ -194,13 +201,11 @@ namespace MatchingGame.Gameplay
             if (_selectedCardList.Count == 1)
             {
                 GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
-                repeatCount--;
             }
 
             else
             {
                 card.IndexClick = GameplayResultManager.Instance.GameplayClickLogList.Count - 1;
-                repeatCount--;
             }
 
         }
@@ -241,9 +246,23 @@ namespace MatchingGame.Gameplay
                     disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                     {
                         //SceneManager.LoadScene("Menu");
+                        var rp = 0;
+                        var oc = 0;
                         ClearHint();
                         lastClick = -1f;
                         rewardPanel.SetActive(true);
+                        foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
+                        {
+                            if (itemc.ClickResult == GameplayClickResultEnum.REPEAT)
+                            {
+                                rp++;
+                            }
+                            if(itemc.ClickStatus == GameplayClickStatusEnum.OUT_CARD){
+                                oc++;
+                            }
+                            Debug.Log(rp);
+                            Debug.Log(oc);
+                        }
                         GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                         GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                         GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
@@ -297,12 +316,16 @@ namespace MatchingGame.Gameplay
             stopTime = Time.realtimeSinceStartup;
             pausePanel.SetActive(true);
         }
+        public void SettingGame(){
+            Time.timeScale = 0;
+            stopTime = Time.realtimeSinceStartup;
+        }
 
         public void Resume()
         {
             pauseImage.sprite = pauseSprite;
             Time.timeScale = 1;
-            PauseLog pauseLog = new PauseLog(addedTime ? (180.0f - UIManager.Instance.GetTimer()).ToString() : (150.0f - UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
+            PauseLog pauseLog = new PauseLog(addedTime ? (210.0f - UIManager.Instance.GetTimer()).ToString() : (180.0f - UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
             GameplayResultManager.Instance.GamePlayResult.PauseLogList.Add(pauseLog);
             pausePanel.SetActive(false);
         }
@@ -345,11 +368,11 @@ namespace MatchingGame.Gameplay
             }
             if (addedTime)
             {
-                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 180.0f - UIManager.Instance.GetTimer();
+                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 210.0f - UIManager.Instance.GetTimer();
             }
             else
             {
-                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 150.0f - UIManager.Instance.GetTimer();
+                GameplayResultManager.Instance.GamePlayResult.FlipAllUsed = 180.0f - UIManager.Instance.GetTimer();
             }
             UIManager.Instance.freezeTimer = true;
             StartCoroutine(startFlip());
@@ -425,6 +448,7 @@ namespace MatchingGame.Gameplay
             addTime.interactable = true;
             flipCard.interactable = true;
             pauseGame.interactable = true;
+            settingPage.interactable = true;
         }
     }
 }
