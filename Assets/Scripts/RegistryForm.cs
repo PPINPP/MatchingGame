@@ -40,5 +40,7 @@ public class UserRegisterForm
 
     [FirestoreProperty]
     public string Email {get; set;}
+    [FirestoreProperty]
+    public bool TutorialPassed {get; set;}
 }
 }

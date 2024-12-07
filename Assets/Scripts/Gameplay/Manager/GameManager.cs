@@ -25,7 +25,7 @@ namespace MatchingGame.Gameplay
         HOME,
         CLOTH,
         MARKET,
-        DESSERT
+        STORE
     }
 
     public enum GameState

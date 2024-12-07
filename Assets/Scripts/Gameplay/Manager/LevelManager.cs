@@ -2,6 +2,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,6 +26,8 @@ namespace MatchingGame.Gameplay
         [SerializeField] Image backGround;
         [SerializeField] List<Sprite> themeBackGround;
         [SerializeField] Button playArea;
+        [SerializeField] GameObject dimBackground;
+        [SerializeField] GameObject gridObject;
 
         private int clickCount = 0;
         private int matchFalseCount = 0;
@@ -36,6 +39,10 @@ namespace MatchingGame.Gameplay
         private bool addedTime = false;
         private int outCard = 0;
         private int repeatCount = 0;
+        private bool inTutorialState = false;
+        private int[] tutorialIndex = new int[2];
+
+
         private List<string> keyContain = new List<string>();
 
         protected override void Start()
@@ -44,7 +51,6 @@ namespace MatchingGame.Gameplay
             settingPanel.SetActive(false);
             rewardPanel.SetActive(false);
             playArea.onClick.AddListener(OnPlayAreaClick);
-
             //TODO: Follow Sequence To Setting
             var sequenceSetting = SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting();
             GamplayLayoutSetting layoutSetting = new GamplayLayoutSetting();
@@ -62,8 +68,12 @@ namespace MatchingGame.Gameplay
         {
             if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
-                lastClick = Time.time;
-                ClearHint();
+                if (!inTutorialState)
+                {
+                    lastClick = Time.time;
+                    ClearHint();
+                }
+
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
 
@@ -73,6 +83,23 @@ namespace MatchingGame.Gameplay
             {
                 lastClick = -1f;
                 TriggerPassive();
+            }
+            if (inTutorialState)
+            {
+                if (!_hintCardList[0].IsInComplete() && !_hintCardList[1].IsInComplete())
+                {
+                    inTutorialState = false;
+                    lastClick = Time.time;
+                    _hintCardList[0].transform.SetParent(gridObject.transform);
+                    _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                    _hintCardList[1].transform.SetParent(gridObject.transform);
+                    _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                    gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                    dimBackground.SetActive(false);
+                    FirebaseManagerV2.Instance.passTutorial = true;
+                    FirebaseManagerV2.Instance.SetTutorial(true);
+                    ClearHint();
+                }
             }
         }
 
@@ -119,9 +146,20 @@ namespace MatchingGame.Gameplay
             }
             else
             {
-                var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
-                cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
-                cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+                if (FirebaseManagerV2.Instance.curr_username == "hfelab.come")
+                {
+                    var randomedCard = GameplayUtils.GetRndCardFromTargetAmountWithPreviousCard(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme],SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString());
+                    cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                    cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+                }
+                else
+                {
+                    var randomedCard = GameplayUtils.GetRndCardFromTargetAmount(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
+                    cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
+                    cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
+                }
+
+
 
                 //foreach (var cardProp in cardPropList)
                 //{
@@ -189,10 +227,12 @@ namespace MatchingGame.Gameplay
             }
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
         }
-        public override void OnCardRepeat(){
+        public override void OnCardRepeat()
+        {
             repeatCount++;
         }
-        public void OnPlayAreaClick(){
+        public void OnPlayAreaClick()
+        {
             outCard++;
         }
 
@@ -257,12 +297,37 @@ namespace MatchingGame.Gameplay
                             {
                                 rp++;
                             }
-                            if(itemc.ClickStatus == GameplayClickStatusEnum.OUT_CARD){
+                            if (itemc.ClickStatus == GameplayClickStatusEnum.OUT_CARD)
+                            {
                                 oc++;
                             }
                             Debug.Log(rp);
                             Debug.Log(oc);
                         }
+                        List<string> allCard = new List<string>();
+                        List<string> saveCard = new List<string>();
+
+                        foreach (var item in _cardList)
+                        {
+                            Debug.Log(item.CardProperty.key);
+                            if (!allCard.Contains(item.CardProperty.key))
+                            {
+                                allCard.Add(item.CardProperty.key);
+                            }
+                        }
+                        int cardReq = (int)Mathf.Floor((int)GameplayResultManager.Instance.GamePlayResult.CardPair / 2);
+                        while (cardReq > 0)
+                        {
+                            cardReq--;
+                            int cardIndex = Random.Range(0, allCard.Count);
+                            saveCard.Add(allCard[cardIndex]);
+                            allCard.RemoveAt(cardIndex);
+                        }
+                        foreach (var item in saveCard)
+                        {
+                            Debug.Log(item);
+                        }
+                        FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
                         GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                         GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                         GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
@@ -316,7 +381,8 @@ namespace MatchingGame.Gameplay
             stopTime = Time.realtimeSinceStartup;
             pausePanel.SetActive(true);
         }
-        public void SettingGame(){
+        public void SettingGame()
+        {
             Time.timeScale = 0;
             stopTime = Time.realtimeSinceStartup;
         }
@@ -340,6 +406,7 @@ namespace MatchingGame.Gameplay
         }
         public void FlipAll()
         {
+            lastClick = -1f;
             flipCard.interactable = false;
             disableArea.SetActive(true);
             foreach (var item in _cardList)
@@ -364,6 +431,7 @@ namespace MatchingGame.Gameplay
                 }
                 yield return new WaitForSecondsRealtime(0.3f);
                 disableArea.SetActive(false);
+                lastClick = Time.time;
                 UIManager.Instance.freezeTimer = false;
             }
             if (addedTime)
@@ -384,25 +452,58 @@ namespace MatchingGame.Gameplay
         }
         public void TriggerPassive()
         {
-            var a = Random.Range(0, keyContain.Count);
-            while (keyContain[a] == "")
+            if (_selectedCardList.Count > 0)
             {
-                a = a + 1;
-                if (a == keyContain.Count)
+                foreach (var item in _cardList)
                 {
-                    a = 0;
+
+                    if (item.CardProperty.key == _selectedCardList[0].CardProperty.key)
+                    {
+                        _hintCardList.Add(item);
+                    }
                 }
             }
-            foreach (var item in _cardList)
+            else
             {
-                if (item.CardProperty.key == keyContain[a])
+                var a = Random.Range(0, keyContain.Count);
+                while (keyContain[a] == "")
                 {
-                    _hintCardList.Add(item);
+                    a = a + 1;
+                    if (a == keyContain.Count)
+                    {
+                        a = 0;
+                    }
                 }
+                foreach (var item in _cardList)
+                {
+                    Debug.Log(item.CardProperty.key);
+                    if (item.CardProperty.key == keyContain[a])
+                    {
+                        _hintCardList.Add(item);
+                    }
+                }
+
             }
             _hintCardList[0].StartFading();
             _hintCardList[1].StartFading();
             startHintTime = Time.time;
+            if (!FirebaseManagerV2.Instance.passTutorial)
+            {
+                inTutorialState = true;
+                dimBackground.SetActive(true);
+                gridObject.GetComponent<GridLayoutGroup>().enabled = false;
+
+                tutorialIndex[0] = _hintCardList[0].transform.GetSiblingIndex();
+                tutorialIndex[1] = _hintCardList[1].transform.GetSiblingIndex();
+                Debug.Log(tutorialIndex[0]);
+                Debug.Log(tutorialIndex[1]);
+                _hintCardList[0].transform.SetParent(dimBackground.transform);
+                _hintCardList[1].transform.SetParent(dimBackground.transform);
+                //create dim
+                //random new one
+                //
+            }
+
 
         }
         public void ClearHint()
@@ -421,6 +522,8 @@ namespace MatchingGame.Gameplay
                 }
                 _hintCardList.Clear();
             }
+            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+            dimBackground.SetActive(false);
             return;
 
         }

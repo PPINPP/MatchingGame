@@ -86,6 +86,8 @@ public class SequenceCreator : MonoSingleton<SequenceCreator>
         _so.NextSequence();
     }
 
+    
+
     public void Reset(){
         _dm.ClearData();
         _so.ResetGame();

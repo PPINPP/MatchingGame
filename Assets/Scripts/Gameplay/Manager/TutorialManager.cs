@@ -102,6 +102,19 @@ namespace MatchingGame.Gameplay
 
         void SetCurrentStageSequence()
         {
+            if(curStageObj.sequences[curStageObjIndex].currentSequence == "start_game"){
+                UIManager.Instance.BeginCountDownShowCard();
+                UIManager.Instance.OnTime += StartGame;
+                
+                var gameResult = TutorialResultManager.Instance;
+                gameResult.TutorialResult.StageID = SequenceManager.Instance.GetSequenceDetail().stageID;
+                gameResult.TutorialResult.CardPair = setting.TargetPairType;
+                gameResult.TutorialResult.CardPatternLayout = setting.GameLayout;
+                gameResult.TutorialResult.GameDifficult = setting.GameDifficult;
+                gameResult.TutorialResult.ScreenHeight = Screen.height;
+                gameResult.TutorialResult.ScreenWidth = Screen.width;
+                return;
+            }
             curStageObj.map.TryGetValue(curStageObj.sequences[curStageObjIndex].currentSequence, out Transform sequenceTrans);
             sequenceTrans.gameObject.SetActive(true);
             Button button = sequenceTrans.GetComponentInChildren<Button>();

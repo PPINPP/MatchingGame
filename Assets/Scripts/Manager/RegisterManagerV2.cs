@@ -92,7 +92,7 @@ public class RegisterManagerV2 : MonoBehaviour
         {
             //next on first page
             loadbg.SetActive(true);
-            FirebaseManagerV2.Instance.RegisterUsernameCheck(usernameField.text.Trim(),OnResultUsernameCheck);
+            FirebaseManagerV2.Instance.RegisterUsernameCheck(usernameField.text.Trim(), OnResultUsernameCheck);
         }
         if (usernameField.text.Trim().Length > 0 && passwordField.text.Trim().Length > 0)
         {
@@ -309,6 +309,7 @@ public class RegisterManagerV2 : MonoBehaviour
             DateCreated = DateTime.Now.ToString("s"),
             DateUpdated = DateTime.Now.ToString("s"),
             MedicalHistory = new Dictionary<string, bool>
+
         {
             {"Hypertension", mdch[0] },
             {"Diabetes", mdch[1] },
@@ -316,10 +317,11 @@ public class RegisterManagerV2 : MonoBehaviour
             {"Hyperlipid", mdch[3] },
             {"Stroke", mdch[4]},
             {"Cardiac", mdch[5]},
-        }
+        },
+            TutorialPassed = false
 
         };
-        FirebaseManagerV2.Instance.NewRegister(userInfo,OnCompleteRegister);
+        FirebaseManagerV2.Instance.NewRegister(userInfo, OnCompleteRegister);
     }
     public void OnCompleteRegister()
     {
@@ -374,7 +376,7 @@ public class RegisterManagerV2 : MonoBehaviour
     ////////////////////////Google Interface//////////////////////////////////
     public void GoogleSignInClick()
     {
-        FirebaseManagerV2.Instance.FBMGoogleSignUp(OnSuccessRegisterWithGoogleAccount,OnFailedRegisterWithGoogleAccount);
+        FirebaseManagerV2.Instance.FBMGoogleSignUp(OnSuccessRegisterWithGoogleAccount, OnFailedRegisterWithGoogleAccount);
     }
     public void OnSuccessRegisterWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {

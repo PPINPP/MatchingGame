@@ -15,7 +15,7 @@ namespace MatchingGame.Gameplay
             targetAmount.ForEach(x =>
             {
                 if (data.cardDataConfigDict.TryGetValue(x, out var cardDataConfig))
-                stageConfigs.Add(x, cardDataConfig);
+                    stageConfigs.Add(x, cardDataConfig);
             });
 
             return stageConfigs;
@@ -42,6 +42,57 @@ namespace MatchingGame.Gameplay
 
             return stageConfigs;
         }
+
+        public static Dictionary<string, CardDataConfig> GetRndCardFromTargetAmountWithPreviousCard(int targetAmount, GameDifficult gameDifficult, CardCategoryDataSO data, string cardType)
+        {
+            Dictionary<string, CardDataConfig> stageConfigs = new Dictionary<string, CardDataConfig>();
+            List<string> idList = new List<string>(data.GetObjByGameDiff(gameDifficult));
+            List<string> preCard = new List<string>();
+            int cardReq = (int)Mathf.Floor(targetAmount / 2);
+            if (FirebaseManagerV2.Instance.cardList[cardType].Count >= cardReq)
+            {
+                while (cardReq > 0)
+                {
+                    int indexRemove;
+                    cardReq--;
+                    do
+                    {
+                        indexRemove = UnityEngine.Random.Range(0, FirebaseManagerV2.Instance.cardList[cardType].Count);
+                    }
+                    while (preCard.Contains(FirebaseManagerV2.Instance.cardList[cardType][indexRemove]));
+                    preCard.Add(FirebaseManagerV2.Instance.cardList[cardType][indexRemove]);
+                }
+            }
+
+            foreach (var item in preCard)
+            {
+                string ranConfig;
+                ranConfig = idList.ElementAt(idList.IndexOf(item));
+                stageConfigs.Add(ranConfig, data.cardDataConfigDict[ranConfig]);
+                idList.Remove(ranConfig);
+                targetAmount--;
+            }
+            foreach (var item in idList)
+            {
+                Debug.Log(item);
+            }
+            for (int i = 0; i < targetAmount; i++)
+            {
+                string ranConfig;
+                do
+                {
+                    int ranNum = UnityEngine.Random.Range(0, idList.Count);
+                    ranConfig = idList.ElementAt(ranNum);
+                }
+                while (!data.cardDataConfigDict.TryGetValue(ranConfig, out var obj));
+
+                stageConfigs.Add(ranConfig, data.cardDataConfigDict[ranConfig]);
+                idList.Remove(ranConfig);
+            }
+
+            return stageConfigs;
+        }
+
 
         public static List<CardProperty> CreateCardPair(GameDifficult difficult, Dictionary<string, CardDataConfig> dataPairs)
         {

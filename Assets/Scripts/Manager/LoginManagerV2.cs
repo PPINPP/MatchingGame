@@ -16,7 +16,7 @@ public class LoginManagerV2 : MonoBehaviour
     public TMP_Text usernameWarn;
     public TMP_Text passwordWarn;
     public GameObject loadbg;
-    
+
     [Header("Login Method Button")]
     public Button googleButton;
     public Button facebookButton;
@@ -50,7 +50,7 @@ public class LoginManagerV2 : MonoBehaviour
         }
         else
         {
-            FirebaseManagerV2.Instance.GetUser(usernameField.text.ToString().Contains("@") ? true : false, usernameField.text.ToString(), passwordField.text.ToString(),OnVerifiedUser,OnFailedLogin);
+            FirebaseManagerV2.Instance.GetUser(usernameField.text.ToString().Contains("@") ? true : false, usernameField.text.ToString(), passwordField.text.ToString(), OnVerifiedUser, OnFailedLogin);
         }
 
     }
@@ -58,12 +58,12 @@ public class LoginManagerV2 : MonoBehaviour
     public void LogInWithGoogleAccount()
     {
         loadbg.SetActive(true);
-        FirebaseManagerV2.Instance.FBMGoogleSignIn(OnSuccessSignInWithGoogleAccount,OnFailedSignInWithGoogleAccount);
+        FirebaseManagerV2.Instance.FBMGoogleSignIn(OnSuccessSignInWithGoogleAccount, OnFailedSignInWithGoogleAccount);
     }
     public void OnSuccessSignInWithGoogleAccount(Firebase.Auth.FirebaseUser reg_info)
     {
         usernameField.text = reg_info.Email;
-        FirebaseManagerV2.Instance.GetUser(true, reg_info.Email, "",OnVerifiedUser,OnFailedLogin);
+        FirebaseManagerV2.Instance.GetUser(true, reg_info.Email, "", OnVerifiedUser, OnFailedLogin);
     }
     public void OnFailedSignInWithGoogleAccount(string error_log)
     {
@@ -72,7 +72,13 @@ public class LoginManagerV2 : MonoBehaviour
     public void OnVerifiedUser()
     {
         //REMOVE
-        if(usernameField.text.ToString() == "hfelab.come"){
+        if (usernameField.text.ToString() == "hfelab.come")
+        {
+            SceneManager.LoadScene("SequenceScriptTester");
+            return;
+        }
+        if (usernameField.text.ToString() == "tentest")
+        {
             SceneManager.LoadScene("SequenceScriptTester");
             return;
         }
@@ -81,21 +87,20 @@ public class LoginManagerV2 : MonoBehaviour
         dm.AddComponent<DataManager>();
         GameObject sm = new GameObject("SequenceManager");
         sm.AddComponent<SequenceManager>();
-
-        
         SequenceManager.Instance.NextSequence();
     }
     // Start is called before the first frame update
-    public void OnFailedLogin(){
+    public void OnFailedLogin()
+    {
         loadbg.SetActive(false);
         usernameWarn.text = "*ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
     }
     void Start()
     {
-        #if UNITY_EDITOR || UNITY_STANDALONE
-            googleButton.interactable = false;
-            facebookButton.interactable = false;
-            lineButton.interactable = false;
-        #endif
+#if UNITY_EDITOR || UNITY_STANDALONE
+        googleButton.interactable = false;
+        facebookButton.interactable = false;
+        lineButton.interactable = false;
+#endif
     }
 }

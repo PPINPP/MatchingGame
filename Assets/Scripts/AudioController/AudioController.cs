@@ -12,6 +12,8 @@ public static class AudioController
     public static AudioSource audio_player;
     public static AudioSource audio_bgm;
     private static string path;
+    public static bool effect;
+    public static bool bgm;
     private static Dictionary<string, AudioClip> audio_files = new Dictionary<string, AudioClip>();
     public static void InitialLoadAudioClip()
     {
@@ -35,31 +37,39 @@ public static class AudioController
                 }
             }
         }
-        // string line_path;
-        // while (reader.Peek() > 0)
-        // {
-        //     line_path = reader.ReadLine();
-        //     if (line_path.Count() > 0)
-        //     {
-        //         audio_files.Add(line_path, Resources.Load<AudioClip>(line_path));
-        //         if (audio_files[line_path] == null)
-        //         {
-        //             Debug.Log("its null");
-        //         }
+        if (PlayerPrefs.HasKey("effect") && PlayerPrefs.HasKey("bgm"))
+        {
+            if (PlayerPrefs.GetInt("effect") == 0)
+            {
+                effect = false;
+            }
+            else
+            {
+                effect = true;
+            }
+            if (PlayerPrefs.GetInt("bgm") == 0)
+            {
+                bgm = false;
+            }
+            else
+            {
+                bgm = true;
+            }
+        }
+        else{
+            PlayerPrefs.SetInt("effect",1);
+            PlayerPrefs.SetInt("bgm",1);
+            effect = true;
+            bgm = true;
+        }
 
-        //     }
-        //     else
-        //     {
-        //         break;
-        //     }
-
-        // }
-        // reader.Close();
     }
     public static void SetAudioSource(AudioSource audioSource, AudioSource audioSourceBGM)
     {
         audio_player = audioSource;
         audio_bgm = audioSourceBGM;
+        SetVolume();
+        
     }
     public static void SetnPlay(string file_path)
     {
@@ -81,4 +91,27 @@ public static class AudioController
     {
         audio_bgm.Stop();
     }
+    public static void ToggleEffect()
+    {
+        effect = !effect;
+        PlayerPrefs.SetInt("effect", effect?1:0);
+        audio_player.volume = effect?1:0;
+        
+    }
+    public static void ToggleBGM()
+    {
+        bgm = !bgm;
+        PlayerPrefs.SetInt("bgm", bgm?1:0);
+        audio_bgm.volume =  bgm?1:0;
+    }
+
+    public static void ForceVolume(){
+        audio_bgm.volume =  1;
+        audio_player.volume = 1;
+    }
+    public static void SetVolume(){
+        audio_player.volume = effect?1:0;
+        audio_bgm.volume =  bgm?1:0;
+    }
+
 }

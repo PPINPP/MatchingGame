@@ -118,6 +118,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
         popupStartGameObj.transform.GetChild(1).GetComponent<Image>().sprite = popupSprites[object_type];
         popupStartGameObj.SetActive(true);
         GameplayResultManager.Instance.MinigameResult.ObjectID = object_type;
+        AudioController.ForceVolume();
     }
 
     public void StartGame()
@@ -176,6 +177,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
             disposable.Dispose();
             clickObjImg.gameObject.SetActive(false);
             finishUIObj.SetActive(true);
+            AudioController.SetVolume();
 
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();

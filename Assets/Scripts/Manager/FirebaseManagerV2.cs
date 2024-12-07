@@ -15,6 +15,9 @@ using Unity.VisualScripting;
 using Model;
 using System.Data.OleDb;
 using System.Configuration;
+using UniRx;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 {
@@ -35,11 +38,16 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     // [SerializeField] private bool syncnetwork;
     private bool syncnetwork = true;
+
     /// 
     /// This will be reset on signout ///
-    string curr_username;
+
     string curr_id;
     string prefix_locate = "all_user_test";
+    public string curr_username;
+    public bool passTutorial { get; set; }
+    public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
+
 
     public override void Init()
     {
@@ -52,17 +60,22 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
         }
-        #if UNITY_ANDROID || UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_EDITOR
         configuration = new GoogleSignInConfiguration
         {
             WebClientId = GoogleAPI,
             RequestIdToken = true,
         };
         GoogleSetConfiguration();
-        #endif
-        
+#endif
+
         InitializeApp();
-        
+        cardList.Add("HOME", new List<string>());
+        cardList.Add("MARKET", new List<string>());
+        cardList.Add("STORE", new List<string>());
+        cardList.Add("CLOTH", new List<string>());
+
+
     }
 
     // void Awake()
@@ -133,37 +146,39 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     public void FBMGoogleSignIn(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
         // GoogleSetConfiguration();
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>{
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        {
             if (task.IsFaulted)
-        {
-            Debug.LogError("Faulted");
-        }
-        else if (task.IsCanceled)
-        {
-            Debug.LogError("Cancelled");
-        }
-        else
-        {
-            Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-
-            auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
             {
-                if (task.IsCanceled)
+                Debug.LogError("Faulted");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("Cancelled");
+            }
+            else
+            {
+                Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+
+                auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
                 {
-                    failed?.Invoke("Cancel");
-                }
+                    if (task.IsCanceled)
+                    {
+                        failed?.Invoke("Cancel");
+                    }
 
-                if (task.IsFaulted)
-                {
-                    failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                }
+                    if (task.IsFaulted)
+                    {
+                        failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                    }
 
-                user = auth.CurrentUser;
-                curr_id = user.UserId;
+                    user = auth.CurrentUser;
+                    curr_id = user.UserId;
 
-                success?.Invoke(user);
-            });
-        }
+
+                    success?.Invoke(user);
+                });
+            }
         });
     }
     public void FBMGoogleSignOut()
@@ -289,7 +304,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
         });
     }
-    public void NewRegister(UserRegisterForm form,Action callback)
+    public void NewRegister(UserRegisterForm form, Action callback)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(form.Uuid);
         docRef.SetAsync(form);
@@ -297,22 +312,40 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         callback?.Invoke();
     }
 
-    public void GetUser(bool loginType, string nkey, string pkey,Action success, Action failed)
+    public void GetUser(bool loginType, string nkey, string pkey, Action success, Action failed)
     {
-        
+
         string[] lType = new string[] { "Username", "Email" };
         Query capitalQuery = db.Collection(prefix_locate).WhereEqualTo(lType[loginType ? 1 : 0], nkey).WhereEqualTo("Password", pkey);
         capitalQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            
+
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count == 1)
             {
                 foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
                 {
                     curr_id = documentSnapshot.Id;
+                    GetCard();
+                    Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
+                    foreach (KeyValuePair<string, object> pair in fieldVal)
+                    {
+                        Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                        if (pair.Key == "Username")
+                        {
+                            curr_username = (string)pair.Value;
+                        }
+                        if (pair.Key == "TutorialPassed")
+                        {
+                            if ((bool)pair.Value == true)
+                            {
+                                passTutorial = true;
+                            }
+                        }
+                    }
+
                 }
-                
+
                 success?.Invoke();
                 return;
             }
@@ -331,6 +364,111 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         });
         return;
     }
+    public void SetTutorial(bool isPass)
+    {
+        DocumentReference userRef = db.Collection(prefix_locate).Document(curr_id);
+        db.RunTransactionAsync(transaction =>
+            {
+                return transaction.GetSnapshotAsync(userRef).ContinueWith((snapshotTask) =>
+                {
+                    DocumentSnapshot snapshot = snapshotTask.Result;
+                    Dictionary<string, object> updates = new Dictionary<string, object>
+                    {
+                { "TutorialPassed", isPass}
+                    };
+                    transaction.Update(userRef, updates);
+                });
+            });
+    }
+
+    public void SaveCard(string cardType, List<string> cardNames)
+    {
+        foreach(var item in cardNames){
+            if(!cardList[cardType].Contains(item)){
+                cardList[cardType].Add(item);
+            }
+        }
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/CardLog/" + cardType);
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
+            {
+                Dictionary<string, object> snapshotData = snapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in snapshotData)
+                {
+                    if (pair.Key == "AllCard")
+                    {
+                        if (pair.Value is List<object> objList)
+                        {
+                            List<string> stringList = objList.Cast<string>().ToList();
+                            foreach (var str in stringList)
+                            {
+                                Debug.Log(str);
+                                if(!cardNames.Contains(str)){
+                                    cardNames.Add(str);
+                                    
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+                Dictionary<string, object> updates = new Dictionary<string, object>
+{
+        { "AllCard", cardNames },
+};
+                docRef.UpdateAsync(updates);
+
+            }
+            else
+            {
+                Dictionary<string, object> updates = new Dictionary<string, object>
+{
+        { "AllCard", cardNames },
+};
+                docRef.SetAsync(updates);
+            }
+        });
+
+
+        // docRef.SetAsync(updates);
+        // docRef.UpdateAsync(updates).ContinueWithOnMainThread(task =>
+        // {
+        //     Debug.Log(
+        //             "Updated the Capital field of the new-city-id document in the cities collection.");
+        // });
+        // docRef.SetAsync(docData);
+    }
+
+    public void GetCard()
+    {
+        // DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/CardLog/" + cardType);
+        Query allCitiesQuery = db.Collection(prefix_locate+"/"+curr_id+"/CardLog");
+        allCitiesQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot allCitiesQuerySnapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapshot in allCitiesQuerySnapshot.Documents)
+            {
+                Dictionary<string, object> data = documentSnapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in data)
+                {
+                    if (pair.Key == "AllCard")
+                    {
+                        if (pair.Value is List<object> objList)
+                        {
+                            List<string> stringList = objList.Cast<string>().ToList();
+                            foreach (var str in stringList)
+                            {
+                                cardList[documentSnapshot.Id].Add(str);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     public void UploadMiniGameResult(MinigameResult mini_result, int idnum)
     {
         // ConvertToFirestoreModel()
