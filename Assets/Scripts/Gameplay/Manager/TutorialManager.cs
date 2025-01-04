@@ -260,7 +260,7 @@ namespace MatchingGame.Gameplay
             
             AudioController.StopPlayBGM();
             _state = GameState.RESULT;
-            disposable = GameplayUtils.CountDown(0.1f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+            disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
             {
                 if (SequenceManager.Instance.GetNextSequenceDetail() != null)
                 {
@@ -273,6 +273,9 @@ namespace MatchingGame.Gameplay
                     {
                         endTutorialPanel.SetActive(true);
                     }
+                }
+                else{
+                    endTutorialPanel.SetActive(true);
                 }
 
                 TutorialResultManager.Instance.TutorialResult.TimeUsed = 180 - UIManager.Instance.Timer;

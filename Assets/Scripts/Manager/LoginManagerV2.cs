@@ -91,10 +91,10 @@ public class LoginManagerV2 : MonoBehaviour
         {
             SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("3"));
         }
-        else if (FirebaseManagerV2.Instance.gameData["TTR4"] == false)
-        {
-            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("4"));
-        }
+        // else if (FirebaseManagerV2.Instance.gameData["TTR4"] == false)
+        // {
+        //     SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("4"));
+        // }
         SequenceManager.Instance._test2mode = true;
         SequenceManager.Instance.NextSequence();
         return;
