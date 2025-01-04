@@ -14,6 +14,10 @@ namespace MatchingGame.Gameplay
         private GameplaySequenceSO _sequenceSO;
 
         public bool _testmode = false;
+        public bool _selectormode = false;
+        public bool _test2mode = false;
+        public int game_no;
+        public int game_score =1;
 
         public override void Init()
         {
@@ -52,9 +56,20 @@ namespace MatchingGame.Gameplay
             {
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
                 // SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);
+                if(_test2mode){
+                    _test2mode = false;
+                    SceneManager.LoadScene("LevelSelector");
+                    return;
+                }
                 if(_testmode){
                     SequenceCreator.Instance.Reset();
                     SceneManager.LoadScene("SequenceScriptTester");
+                    return;
+                }
+                if(_selectormode){
+                    LevelSelectorManager.Instance.OnSuccessLevel(game_no,game_score);
+                    LevelSelectorManager.Instance.Reset();
+                    SceneManager.LoadScene("LevelSelector");
                     return;
                 }
                 SceneManager.LoadScene("EndTest");

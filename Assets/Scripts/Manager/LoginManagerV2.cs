@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LoginManagerV2 : MonoBehaviour
 {
@@ -71,25 +72,129 @@ public class LoginManagerV2 : MonoBehaviour
     }
     public void OnVerifiedUser()
     {
-        //REMOVE
+        //hfelab.come
+        GameObject dm = new GameObject("DataManager");
+        dm.AddComponent<DataManager>();
+        GameObject sm = new GameObject("SequenceManager");
+        sm.AddComponent<SequenceManager>();
+
+
+        if (FirebaseManagerV2.Instance.gameData["TTR1"] == false)
+        {
+            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("1"));
+        }
+        else if (FirebaseManagerV2.Instance.gameData["TTR2"] == false)
+        {
+            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("2"));
+        }
+        else if (FirebaseManagerV2.Instance.gameData["TTR3"] == false)
+        {
+            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("3"));
+        }
+        else if (FirebaseManagerV2.Instance.gameData["TTR4"] == false)
+        {
+            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("4"));
+        }
+        SequenceManager.Instance._test2mode = true;
+        SequenceManager.Instance.NextSequence();
+        return;
+        // else
+        // {
+        //     SceneManager.LoadScene("LevelSelector");
+        //     return;
+        // }
         if (usernameField.text.ToString() == "hfelab.come")
         {
             SceneManager.LoadScene("SequenceScriptTester");
             return;
         }
-        if (usernameField.text.ToString() == "tentest")
+        //REMOVE
+        if (usernameField.text.ToString() == "levelselector")
         {
-            SceneManager.LoadScene("SequenceScriptTester");
+            SceneManager.LoadScene("LevelSelector");
             return;
         }
-        SceneManager.LoadScene("Tutorial");
-        GameObject dm = new GameObject("DataManager");
-        dm.AddComponent<DataManager>();
-        GameObject sm = new GameObject("SequenceManager");
-        sm.AddComponent<SequenceManager>();
-        SequenceManager.Instance.NextSequence();
+
+        // SceneManager.LoadScene("Tutorial");
+
+
+
     }
-    // Start is called before the first frame update
+    GameplaySequenceSO CreateTutorialSequence(string start_seq)
+    {
+        GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
+        for (int i = int.Parse(start_seq); i < 4; i++)
+        {
+            Debug.Log("tutorial_" + i.ToString());
+            SequenceDetail sequenceDetail = new SequenceDetail()
+            {
+                stageID = "tutorial_" + i.ToString(),
+                isGamePlay = true,
+                gameplay = RandomTutorial(i==1?i-1:i),
+            };
+            gameplaySequenceSO.sequences.Add(sequenceDetail);
+        }
+        return gameplaySequenceSO;
+        // gameplaySequenceSO.ReloadSequence(gameplaySequenceSO);
+    }
+
+    GameplaySequenceSetting RandomTutorial(int difficulty)
+    {
+        GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
+        gameplaySequenceSetting.isTutorial = true;
+        gameplaySequenceSetting.categoryTheme = (CategoryTheme)Random.Range(0, 4);
+        gameplaySequenceSetting.pairType = PairType.TWO;
+        gameplaySequenceSetting.GameDifficult = (GameDifficult)difficulty;
+        gameplaySequenceSetting.layout = GameLayout.GRID;
+        gameplaySequenceSetting.isForceCardID = true;
+        var all_card = new List<string>();
+        if ((int)gameplaySequenceSetting.GameDifficult == 0)
+        {
+            all_card.Add(RandomTutorialCard(1, 51,gameplaySequenceSetting.categoryTheme.ToString()));
+            string temp_card = "";
+            do
+            {
+                temp_card = RandomTutorialCard(1, 51,gameplaySequenceSetting.categoryTheme.ToString());
+            } while (all_card.Contains(temp_card));
+            all_card.Add(temp_card);
+        }
+        else if ((int)gameplaySequenceSetting.GameDifficult == 1)
+        {
+            all_card.Add(RandomTutorialCard(51, 100,gameplaySequenceSetting.categoryTheme.ToString()));
+            string temp_card = "";
+            do
+            {
+                temp_card = RandomTutorialCard(51, 100,gameplaySequenceSetting.categoryTheme.ToString());
+            } while (all_card.Contains(temp_card));
+            all_card.Add(temp_card);
+        }
+        else
+        {
+            all_card.Add(RandomTutorialCard(1, 100,gameplaySequenceSetting.categoryTheme.ToString()));
+            string temp_card = "";
+            do
+            {
+                temp_card = RandomTutorialCard(1, 100,gameplaySequenceSetting.categoryTheme.ToString());
+            } while (all_card.Contains(temp_card));
+            all_card.Add(temp_card);
+        }
+        gameplaySequenceSetting.cardIDList = all_card;
+        return gameplaySequenceSetting;
+    }
+
+    string RandomTutorialCard(int startr, int stopr ,string cardType)
+    {
+        Debug.Log(FirstCharToUpper(cardType+"_0") + Random.Range(startr, stopr).ToString("D3"));
+        return FirstCharToUpper(cardType+"_0") + Random.Range(startr, stopr).ToString("D3");
+    }
+    string FirstCharToUpper(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+    }
+
     public void OnFailedLogin()
     {
         loadbg.SetActive(false);

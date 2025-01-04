@@ -86,14 +86,14 @@ namespace MatchingGame.Gameplay
                 }
             }
         }
-        
+
         protected override void Update()
         {
             if (Input.GetMouseButtonDown(0) && _state == GameState.PLAYING)
             {
                 clickCount++;
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
-                TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, 180.0f-UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
+                TutorialResultManager.Instance.TutorialClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, 180.0f - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
                 outCard++;
                 repeatCount++;
 
@@ -102,10 +102,11 @@ namespace MatchingGame.Gameplay
 
         void SetCurrentStageSequence()
         {
-            if(curStageObj.sequences[curStageObjIndex].currentSequence == "start_game"){
+            if (curStageObj.sequences[curStageObjIndex].currentSequence == "start_game")
+            {
                 UIManager.Instance.BeginCountDownShowCard();
                 UIManager.Instance.OnTime += StartGame;
-                
+
                 var gameResult = TutorialResultManager.Instance;
                 gameResult.TutorialResult.StageID = SequenceManager.Instance.GetSequenceDetail().stageID;
                 gameResult.TutorialResult.CardPair = setting.TargetPairType;
@@ -140,7 +141,7 @@ namespace MatchingGame.Gameplay
             {
                 UIManager.Instance.BeginCountDownShowCard();
                 UIManager.Instance.OnTime += StartGame;
-                
+
                 var gameResult = TutorialResultManager.Instance;
                 gameResult.TutorialResult.StageID = SequenceManager.Instance.GetSequenceDetail().stageID;
                 gameResult.TutorialResult.CardPair = setting.TargetPairType;
@@ -161,7 +162,7 @@ namespace MatchingGame.Gameplay
             var randomedCard = GameplayUtils.GetCardFromTargetID(sequenceSetting.cardIDList, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme]);
             var cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
             cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
-            
+
             foreach (var cardProp in cardPropList)
             {
                 Card card = Instantiate(setting.cardPrefab);
@@ -180,14 +181,15 @@ namespace MatchingGame.Gameplay
 
             _state = GameState.PLAYING;
             successInit = true;
-            _cardList.ForEach(card => {
+            _cardList.ForEach(card =>
+            {
                 RectTransform rectTransform = card.gameObject.GetComponent<RectTransform>();
                 TutorialResultManager.Instance.CreateCardPosLog(card.CardProperty.sprite.name.ToString(),
                     rectTransform.position.x, rectTransform.position.y);
                 //Debug.Log(rectTransform.position);
             });
         }
-        
+
         public override void OnCardClick()
         {
             if (!successInit)
@@ -196,7 +198,7 @@ namespace MatchingGame.Gameplay
             }
             TutorialResultManager.Instance.TutorialClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
         }
-        
+
         protected override void OnSelectCardAdd(Card card)
         {
             if (_selectedCardList.Count == 1)
@@ -227,36 +229,7 @@ namespace MatchingGame.Gameplay
 
                 if (_remainPairMatchCount <= 0)
                 {
-                    AudioController.StopPlayGBM();
-                    _state = GameState.RESULT;
-                    disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
-                    {
-                        if (SequenceManager.Instance.GetNextSequenceDetail() != null)
-                        {
-                            if (SequenceManager.Instance.GetNextSequenceDetail().isGamePlay &&
-                                SequenceManager.Instance.GetNextSequenceDetail().GetGameplaySequenceSetting().isTutorial)
-                            {
-                                fisnishTutorialPanel.SetActive(true);
-                            }
-                            else
-                            {
-                                endTutorialPanel.SetActive(true);
-                            }
-                        }
-                        
-                        TutorialResultManager.Instance.TutorialResult.TimeUsed = 180-UIManager.Instance.Timer;
-                        TutorialResultManager.Instance.TutorialResult.ClickCount = clickCount;
-                        TutorialResultManager.Instance.TutorialResult.MatchFalseCount = matchFalseCount;
-                        TutorialResultManager.Instance.TutorialResult.CompletedAt = DateTime.Now;
-                        GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
-                        GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
-                        TutorialResultManager.Instance.OnEndTutorial();
-
-                        disposable.Dispose();
-                    }).AddTo(this);
-                    if(SequenceCreator.Instance._testmode){
-                        EndTutorial();
-                    }
+                    EndGame();
                 }
                 else
                 {
@@ -282,6 +255,44 @@ namespace MatchingGame.Gameplay
             }
         }
 
+        public void EndGame()
+        {
+            
+            AudioController.StopPlayBGM();
+            _state = GameState.RESULT;
+            disposable = GameplayUtils.CountDown(0.1f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+            {
+                if (SequenceManager.Instance.GetNextSequenceDetail() != null)
+                {
+                    if (SequenceManager.Instance.GetNextSequenceDetail().isGamePlay &&
+                        SequenceManager.Instance.GetNextSequenceDetail().GetGameplaySequenceSetting().isTutorial)
+                    {
+                        fisnishTutorialPanel.SetActive(true);
+                    }
+                    else
+                    {
+                        endTutorialPanel.SetActive(true);
+                    }
+                }
+
+                TutorialResultManager.Instance.TutorialResult.TimeUsed = 180 - UIManager.Instance.Timer;
+                TutorialResultManager.Instance.TutorialResult.ClickCount = clickCount;
+                TutorialResultManager.Instance.TutorialResult.MatchFalseCount = matchFalseCount;
+                TutorialResultManager.Instance.TutorialResult.CompletedAt = DateTime.Now;
+                GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
+                GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
+                TutorialResultManager.Instance.OnEndTutorial();
+
+                disposable.Dispose();
+            }).AddTo(this);
+            if (SequenceCreator.HasInstance)
+            {
+                if (SequenceCreator.Instance._testmode)
+                {
+                    EndTutorial();
+                }
+            }
+        }
         public void Retutorial()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

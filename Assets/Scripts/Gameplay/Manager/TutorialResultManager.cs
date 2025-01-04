@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Manager;
+using MatchingGame.Gameplay;
 using Model;
 using UnityEngine;
 
@@ -35,6 +36,8 @@ public class TutorialResultManager : MonoInstance<TutorialResultManager>
         _tutorialResult.GameplayClickLogList = _tutorialClickLogList;
         DataManager.Instance.TutorialResultList.Add(_tutorialResult);
         FirebaseManagerV2.Instance.UploadTutorialResult(_tutorialResult);
+        var sequence = SequenceManager.Instance.GetSequenceDetail();
+        FirebaseManagerV2.Instance.SaveTutorialUserGameData(sequence.stageID[sequence.stageID.Length -1].ToString(),true);
 
     }
 }

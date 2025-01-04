@@ -37,6 +37,7 @@ namespace MatchingGame.Gameplay
         private float referenceTime = 0f;
         private float startHintTime = 0f;
         private bool addedTime = false;
+        private bool flipped = false;
         private int outCard = 0;
         private int repeatCount = 0;
         private bool inTutorialState = false;
@@ -96,7 +97,7 @@ namespace MatchingGame.Gameplay
                     _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
                     gridObject.GetComponent<GridLayoutGroup>().enabled = true;
                     dimBackground.SetActive(false);
-                    FirebaseManagerV2.Instance.passTutorial = true;
+                    FirebaseManagerV2.Instance.gameData["PASSIVE"] = true;
                     FirebaseManagerV2.Instance.SetTutorial(true);
                     ClearHint();
                 }
@@ -148,7 +149,7 @@ namespace MatchingGame.Gameplay
             {
                 if (FirebaseManagerV2.Instance.curr_username == "hfelab.come")
                 {
-                    var randomedCard = GameplayUtils.GetRndCardFromTargetAmountWithPreviousCard(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme],SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString());
+                    var randomedCard = GameplayUtils.GetRndCardFromTargetAmountWithPreviousCard(_targetPairMatchCount, setting.GameDifficult, GameplayResources.Instance.CardCategoryDataDic[setting.CategoryTheme], SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString());
                     cardPropList = GameplayUtils.CreateCardPair(setting.GameDifficult, randomedCard);
                     cardPropList = new List<CardProperty>(GameplayUtils.ShuffleCard(cardPropList, pairConfig.roundShuffle));
                 }
@@ -281,7 +282,7 @@ namespace MatchingGame.Gameplay
 
                 if (_remainPairMatchCount <= 0)
                 {
-                    AudioController.StopPlayGBM();
+                    AudioController.StopPlayBGM();
                     _state = GameState.RESULT;
                     disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                     {
@@ -291,6 +292,37 @@ namespace MatchingGame.Gameplay
                         ClearHint();
                         lastClick = -1f;
                         rewardPanel.SetActive(true);
+                        // I need to calculate here
+                        float score = 100.0f;
+                        int flower = 3;
+                        int click_count = 0;
+                        int a = (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * 2;
+                        foreach (var clickc in GameplayResultManager.Instance.GameplayClickLogList)
+                        {
+                            if (clickc.ClickStatus == GameplayClickStatusEnum.ON_CARD)
+                            {
+                                click_count++;
+                            }
+                        }
+                        score = ((float)a/(float)click_count)*100.0f;
+                        if(score>=70){
+                            flower = 3;
+                        }
+                        else if(score <70 && score>=30){
+                            flower = 2;
+                        }
+                        else{
+                            flower = 1;
+                        }
+                        if (flipped || addedTime)
+                        {
+                            flower--;
+                        }
+                        if(flower <=0){
+                            flower = 1;
+                        }
+                        rewardPanel.GetComponent<RewardManager>().SetScore(flower, 4*(int)Mathf.Pow(2,flower-1));
+                        SequenceManager.Instance.game_score = flower;
                         foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
                         {
                             if (itemc.ClickResult == GameplayClickResultEnum.REPEAT)
@@ -327,6 +359,7 @@ namespace MatchingGame.Gameplay
                         {
                             Debug.Log(item);
                         }
+
                         FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
                         GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                         GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
@@ -406,6 +439,7 @@ namespace MatchingGame.Gameplay
         }
         public void FlipAll()
         {
+            flipped = true;
             lastClick = -1f;
             flipCard.interactable = false;
             disableArea.SetActive(true);
@@ -487,7 +521,7 @@ namespace MatchingGame.Gameplay
             _hintCardList[0].StartFading();
             _hintCardList[1].StartFading();
             startHintTime = Time.time;
-            if (!FirebaseManagerV2.Instance.passTutorial)
+            if (!FirebaseManagerV2.Instance.gameData["PASSIVE"])
             {
                 inTutorialState = true;
                 dimBackground.SetActive(true);
@@ -529,14 +563,16 @@ namespace MatchingGame.Gameplay
         }
         public void EndGame()
         {
+            //timeout
             ClearHint();
             lastClick = -1f;
-            AudioController.StopPlayGBM();
+            AudioController.StopPlayBGM();
             _state = GameState.RESULT;
             disposable = GameplayUtils.CountDown(0.1f).ObserveOnMainThread().Subscribe(_ => { }, () =>
             {
                 //SceneManager.LoadScene("Menu");
                 rewardPanel.SetActive(true);
+                rewardPanel.GetComponent<RewardManager>().SetScore(1, 4);
                 GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                 GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;

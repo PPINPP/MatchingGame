@@ -74,7 +74,7 @@ public class SequenceCreator : MonoSingleton<SequenceCreator>
     }
 
     public void Tutorial(string stageID,GameplaySequenceSetting gameplaySequenceSetting){
-         GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
+        GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
         SequenceDetail sequenceDetail = new SequenceDetail()
         {
             stageID = stageID,

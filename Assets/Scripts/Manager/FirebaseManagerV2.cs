@@ -18,6 +18,8 @@ using System.Configuration;
 using UniRx;
 using System.Linq;
 using Random = UnityEngine.Random;
+using UnityEngine.UIElements;
+using UnityEngine.TestTools;
 
 public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 {
@@ -31,6 +33,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     private GoogleSignInConfiguration configuration;
     private static FirebaseManagerV2 fbm_instance = null;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
+    private string _app_launch_version = "1.0";
 
     /// Callback Interface ///
     DataManager dataManager;
@@ -43,10 +46,16 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// This will be reset on signout ///
 
     string curr_id;
-    string prefix_locate = "all_user_test";
+    string prefix_locate = "demo_week";
     public string curr_username;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
+    public Dictionary<string, bool> gameData = new Dictionary<string, bool>();
+    public Dictionary<string, List<int>> gameState = new Dictionary<string, List<int>>();
+    public Dictionary<string, List<int>> gameScore = new Dictionary<string, List<int>>();
+    public int curr_week = 1;
+    List<string> timeRules = new List<string>();
+
 
 
     public override void Init()
@@ -74,6 +83,16 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         cardList.Add("MARKET", new List<string>());
         cardList.Add("STORE", new List<string>());
         cardList.Add("CLOTH", new List<string>());
+        gameData.Add("TTR1", false);
+        gameData.Add("TTR2", false);
+        gameData.Add("TTR3", false);
+        gameData.Add("TTR4", false);
+        gameData.Add("TTRP", false);
+        for (int i = 1; i < 9; i++)
+        {
+            gameScore["W" + i.ToString()] = new List<int>();
+            gameState["W" + i.ToString()] = new List<int>();
+        }
 
 
     }
@@ -326,27 +345,23 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
                 {
                     curr_id = documentSnapshot.Id;
-                    GetCard();
+                    StartCoroutine(GetUserGameData());
+                    // StartCoroutine(GameRuleTimeChecker(success));
+                    GameRuleTimeChecker(success);
+                    //GetStatex
+                    //GetRule
+                    // StartCoroutine(compareTime(GameRuleTimeChecker(),success, failed));
                     Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
                     foreach (KeyValuePair<string, object> pair in fieldVal)
                     {
-                        Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                        // Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
                         if (pair.Key == "Username")
                         {
                             curr_username = (string)pair.Value;
                         }
-                        if (pair.Key == "TutorialPassed")
-                        {
-                            if ((bool)pair.Value == true)
-                            {
-                                passTutorial = true;
-                            }
-                        }
                     }
 
                 }
-
-                success?.Invoke();
                 return;
             }
             else if (capitalQuerySnapshot.Count == 0)
@@ -383,12 +398,23 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void SaveCard(string cardType, List<string> cardNames)
     {
-        foreach(var item in cardNames){
-            if(!cardList[cardType].Contains(item)){
+        foreach (var item in cardNames)
+        {
+            if (!cardList[cardType].Contains(item))
+            {
                 cardList[cardType].Add(item);
             }
         }
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/CardLog/" + cardType);
+        int use_week = 0;
+        if (curr_week % 2 == 0)
+        {
+            use_week = curr_week - 1;
+        }
+        else
+        {
+            use_week = curr_week;
+        }
+        DocumentReference docRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation/W" + use_week.ToString() + "/CardLog").Document(cardType);
         docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             DocumentSnapshot snapshot = task.Result;
@@ -405,11 +431,12 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             foreach (var str in stringList)
                             {
                                 Debug.Log(str);
-                                if(!cardNames.Contains(str)){
+                                if (!cardNames.Contains(str))
+                                {
                                     cardNames.Add(str);
-                                    
+
                                 }
-                                
+
                             }
                         }
                     }
@@ -441,14 +468,30 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         // docRef.SetAsync(docData);
     }
 
-    public void GetCard()
+    private IEnumerator GetCard()
     {
-        // DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/CardLog/" + cardType);
-        Query allCitiesQuery = db.Collection(prefix_locate+"/"+curr_id+"/CardLog");
-        allCitiesQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        int use_week = 0;
+        if (curr_week % 2 == 0)
         {
-            QuerySnapshot allCitiesQuerySnapshot = task.Result;
-            foreach (DocumentSnapshot documentSnapshot in allCitiesQuerySnapshot.Documents)
+            use_week = curr_week - 1;
+        }
+        else
+        {
+            use_week = curr_week;
+        }
+        Query allCardQuery = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation/W" + use_week.ToString() + "/CardLog");
+
+        Task<QuerySnapshot> task = allCardQuery.GetSnapshotAsync();
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
+            Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+        }
+        else if (task.Result != null)
+        {
+            QuerySnapshot allCardQuerySnapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapshot in allCardQuerySnapshot.Documents)
             {
                 Dictionary<string, object> data = documentSnapshot.ToDictionary();
                 foreach (KeyValuePair<string, object> pair in data)
@@ -461,14 +504,326 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             foreach (var str in stringList)
                             {
                                 cardList[documentSnapshot.Id].Add(str);
+                                // Debug.Log(str);
                             }
                         }
                     }
                 }
             }
-        });
+        }
+        else
+        {
+            Debug.Log("No data found.");
+        }
     }
 
+    private IEnumerator GetUserGameData()
+    {
+        DocumentReference gameDataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
+
+        Task<DocumentSnapshot> task = gameDataRef.GetSnapshotAsync();
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
+            Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+        }
+        else if (task.Result != null)
+        {
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
+            {
+                // Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
+                Dictionary<string, object> data = snapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in data)
+                {
+                    gameData[pair.Key] = (bool)pair.Value;
+                    // Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                }
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
+                List<string> keysCopy = new List<string>(gameData.Keys);
+
+                foreach (var key in keysCopy)
+                {
+                    gameData[key] = false;
+                }
+                CreateTTRState();
+            }
+        }
+        else
+        {
+            Debug.Log("No data found.");
+        }
+    }
+    private void CreateTTRState()
+    {
+        DocumentReference docRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
+        Dictionary<string, bool> docData = new Dictionary<string, bool>
+{
+    { "TTR1", false },
+    { "TTR2", false },
+    { "TTR3", false },
+    { "TTR4", false },
+    { "PASSIVE", false },
+};
+        docRef.SetAsync(docData);
+    }
+    private IEnumerator GetGameState(Action success)
+    {
+        DocumentReference gameDataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("W" + curr_week.ToString());
+
+        Task<DocumentSnapshot> task = gameDataRef.GetSnapshotAsync();
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
+            Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+        }
+        else if (task.Result != null)
+        {
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
+            {
+                Dictionary<string, object> data = snapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in data)
+                {
+                    if (pair.Key == "game_state")
+                    {
+                        if (pair.Value is List<object> objList)
+                        {
+                            List<string> intList = objList.Cast<string>().ToList();
+                            foreach (var state in intList)
+                            {
+                                gameState["W" + curr_week.ToString()].Add(int.Parse(state));
+                            }
+                        }
+                    }
+                    if (pair.Key == "game_score")
+                    {
+                        if (pair.Value is List<object> objList)
+                        {
+                            List<string> intList = objList.Cast<string>().ToList();
+                            foreach (var state in intList)
+                            {
+                                gameScore["W" + curr_week.ToString()].Add(int.Parse(state));
+                            }
+                        }
+                    }
+                }
+                success?.Invoke();
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
+                gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                gameScore["W" + curr_week.ToString()] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+                SaveWeekUserGameData("W" + curr_week.ToString());
+                Debug.Log("W" + curr_week.ToString());
+                success?.Invoke();
+                //create Database game_state
+            }
+        }
+        else
+        {
+            Debug.Log("No data found.");
+        }
+
+    }
+    public void compareTime(List<string> timeRule)
+    {
+        DateTime checkpointDateTime;
+        DateTime currentDateTime = DateTime.Now;
+        List<int> tempTimeNow;
+        bool isPass = false;
+        for (int i = 0; i < timeRule.Count; i++)
+        {
+            tempTimeNow = timeRule[i].Split(',').Select(int.Parse).ToList();
+            checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
+            if (currentDateTime > checkpointDateTime)
+            {
+                curr_week = i + 1;
+                isPass = true;
+                Debug.Log("Time now Week" + i + 1.ToString() + "(W" + i + 1.ToString() + ")");
+            }
+            else
+            {
+                // Debug.Log("The current datetime has NOT yet passed the checkpoint datetime.");
+                // Debug.Log(checkpointDateTime);
+            }
+        }
+        tempTimeNow = timeRule[8].Split(',').Select(int.Parse).ToList();
+        checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
+        if (currentDateTime > checkpointDateTime || !isPass)
+        {
+            Debug.Log("EndTestingTime");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            Application.Quit();
+        }
+        foreach (var item in timeRule)
+        {
+            timeRules.Add(item);
+        }
+        StartCoroutine(GetCard());
+    }
+    public void checkTimeChange()
+    {
+        DateTime checkpointDateTime;
+        DateTime currentDateTime = DateTime.Now;
+        List<int> tempTimeNow;
+        int tempWeek = 0;
+        for (int i = 0; i < timeRules.Count; i++)
+        {
+            tempTimeNow = timeRules[i].Split(',').Select(int.Parse).ToList();
+            checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
+            if (currentDateTime > checkpointDateTime)
+            {
+                tempWeek = i + 1;
+                Debug.Log("Time now Week" + i + 1.ToString() + "(W" + i + 1.ToString() + ")");
+            }
+            else
+            {
+                // Debug.Log("The current datetime has NOT yet passed the checkpoint datetime.");
+                // Debug.Log(checkpointDateTime);
+            }
+        }
+        tempTimeNow = timeRules[8].Split(',').Select(int.Parse).ToList();
+        checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
+        if (currentDateTime > checkpointDateTime || tempWeek != curr_week)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            Application.Quit();
+        }
+    }
+    public async void GameRuleTimeChecker(Action success)
+    {
+        DocumentReference gameRuleRef = db.Collection("game_information").Document("game_rules");
+        using (var cts = new CancellationTokenSource())
+        {
+            cts.CancelAfter(TimeSpan.FromSeconds(10));
+            try
+            {
+                var snapshot = await gameRuleRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+                        {
+                            if (task.IsCanceled)
+                            {
+                                Debug.LogWarning("Firestore read canceled (timeout or manually).");
+                                return null;
+                            }
+                            if (task.IsFaulted)
+                            {
+                                //Offline!!!!!!!!
+                                Debug.Log("You're Offline. The App may exit");
+                                Application.Quit();
+                                return null;
+                            }
+                            return task.Result;
+                        });
+                if (snapshot != null && snapshot.Exists)
+                {
+                    List<string> stringList = new List<string>();
+                    Dictionary<string, object> data = snapshot.ToDictionary();
+                    foreach (KeyValuePair<string, object> pair in data)
+                    {
+                        if (pair.Value is List<object> objList)
+                        {
+                            List<string> tempStringList = objList.Cast<string>().ToList();
+                            foreach (var item in tempStringList)
+                            {
+                                stringList.Add(item);
+                            }
+
+                        }
+                        Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                    }
+                    compareTime(stringList);
+                    StartCoroutine(GetGameState(success));
+
+                }
+                else
+                {
+                    Debug.LogWarning("Document does not exist or timeout occurred.");
+                }
+
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("You're Offline. The App may exit");
+                Application.Quit();
+                return;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex);
+            }
+        }
+
+    }
+    // int CheckInternetAccess()
+    // {
+    //     switch (Application.internetReachability)
+    //     {
+    //         case NetworkReachability.NotReachable:
+
+    //             Debug.Log("No internet connection.");
+    //             break;
+
+    //         case NetworkReachability.ReachableViaCarrierDataNetwork:
+    //             Debug.Log("Connected to the internet via cellular data.");
+    //             break;
+
+    //         case NetworkReachability.ReachableViaLocalAreaNetwork:
+    //             Debug.Log("Connected to the internet via Wi-Fi.");
+    //             break;
+    //     }
+    // }
+    public void SaveTutorialUserGameData(string fkey, bool fval)
+    {
+        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
+        Dictionary<string, object> updates = new Dictionary<string, object>
+{
+    { "TTR" + fkey, fval }
+};
+
+        dataRef.UpdateAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log(
+                "Updated TTR_State.");
+        });
+    }
+    public void SaveWeekUserGameData(string fkey)
+    {
+        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document(fkey);
+        Dictionary<string, object> updates = new Dictionary<string, object>
+{
+    { "game_score", new List<object>(){"1","1","1","1","1","1","1","1","1","1"} },
+    { "game_state", new List<object>(){"1","0","0","0","0","0","0","0","0","0"} }
+};
+
+        dataRef.SetAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log(
+                "Updated " + fkey + " State.");
+        });
+    }
+    public void UploadGameStateAndGameScore(List<int> game_state, List<int> game_score)
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString());
+        List<string> stateList = game_state.Select(number => number.ToString()).ToList();
+        List<string> scoreList = game_score.Select(number => number.ToString()).ToList();
+        Dictionary<string, object> updates = new Dictionary<string, object>
+{
+    { "game_score", scoreList },
+    { "game_state", stateList }
+};
+        docRef.UpdateAsync(updates);
+    }
     public void UploadMiniGameResult(MinigameResult mini_result, int idnum)
     {
         // ConvertToFirestoreModel()

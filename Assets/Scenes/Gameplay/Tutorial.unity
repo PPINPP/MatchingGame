@@ -4435,6 +4435,7 @@ MonoBehaviour:
   timerTxtB: {fileID: 2052015025}
   timerGameObject: {fileID: 2052015023}
   levelManager: {fileID: 0}
+  tutorialManager: {fileID: 375574344}
   timerMaterial: {fileID: -6234944075114507316, guid: b1ed3d75f7db44d45a0301d7296b1c9f, type: 2}
   countdownObjList:
   - {fileID: 1895488770}

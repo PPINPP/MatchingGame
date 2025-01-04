@@ -49,6 +49,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
 
     public static bool isTemporaryInstance { private set; get; }
 
+     public static bool HasInstance => m_Instance != null;
     private static bool _isInitialized;
 
     // If no other monobehaviour request the instance in an awake function

@@ -87,7 +87,7 @@ public static class AudioController
         audio_bgm.Play();
 
     }
-    public static void StopPlayGBM()
+    public static void StopPlayBGM()
     {
         audio_bgm.Stop();
     }

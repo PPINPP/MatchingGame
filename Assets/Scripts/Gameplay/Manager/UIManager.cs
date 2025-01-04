@@ -19,6 +19,7 @@ namespace MatchingGame.Gameplay
         [SerializeField] TMP_Text timerTxtB;
         [SerializeField] GameObject timerGameObject;
         [SerializeField] LevelManager levelManager;
+        [SerializeField] TutorialManager tutorialManager;
 
         [SerializeField] Material timerMaterial;
 
@@ -156,8 +157,9 @@ namespace MatchingGame.Gameplay
                             {
                                 levelManager.EndGame();
                             }
-
-                            print("end");
+                            else{
+                                tutorialManager.EndGame();
+                            }
 
                         }
                         else
