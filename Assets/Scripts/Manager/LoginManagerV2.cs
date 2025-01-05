@@ -97,9 +97,41 @@ public class LoginManagerV2 : MonoBehaviour
         }
         else
         {
-            // SequenceManager.Instance._test2mode = true;
-            SceneManager.LoadScene("LevelSelector");
+            GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
+            if (PlayerPrefs.HasKey("daily_check"))
+            {
+                if (DateTime.Now.Day != PlayerPrefs.GetInt("daily_check"))
+                {
+                    gameplaySequenceSO.sequences.Add(new SequenceDetail()
+                    {
+                        isDailyFeeling = true,
+                    });
+                    PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+                    SequenceManager.Instance._test2mode = true;
+                    SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
+                    SequenceManager.Instance.NextSequence();
+                    return;
+                }
+                else
+                {
+                    SceneManager.LoadScene("LevelSelector");
+                    return;
+                }
+            }
+            else
+            {
+                gameplaySequenceSO.sequences.Add(new SequenceDetail()
+                {
+                    isDailyFeeling = true,
+                });
+                PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+            }
+            SequenceManager.Instance._test2mode = true;
+            SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
+            SequenceManager.Instance.NextSequence();
             return;
+            // SequenceManager.Instance._test2mode = true;
+
         }
         // else if (FirebaseManagerV2.Instance.gameData["TTR4"] == false)
         // {
@@ -157,6 +189,25 @@ public class LoginManagerV2 : MonoBehaviour
             isGamePlay = true,
             gameplay = RandomTutorial(0, false),
         });
+        if (PlayerPrefs.HasKey("daily_check"))
+        {
+            if (DateTime.Now.Day != PlayerPrefs.GetInt("daily_check"))
+            {
+                gameplaySequenceSO.sequences.Add(new SequenceDetail()
+                {
+                    isDailyFeeling = true,
+                });
+                PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+            }
+        }
+        else
+        {
+            gameplaySequenceSO.sequences.Add(new SequenceDetail()
+            {
+                isDailyFeeling = true,
+            });
+            PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+        }
         return gameplaySequenceSO;
         // gameplaySequenceSO.ReloadSequence(gameplaySequenceSO);
     }

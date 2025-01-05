@@ -683,7 +683,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             if (currentDateTime > checkpointDateTime)
             {
                 tempWeek = i + 1;
-                Debug.Log("Time now Week" + i + 1.ToString() + "(W" + i + 1.ToString() + ")");
+                Debug.Log("Time now Week" + (i + 1).ToString() + "(W" + (i + 1).ToString() + ")");
             }
             else
             {

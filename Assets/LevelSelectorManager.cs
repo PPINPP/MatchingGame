@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Manager;
@@ -40,7 +41,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         tile_image["Clothes"] = clothes_tile;
         tile_image["Market"] = market_tile;
         tile_image["Store"] = store_tile;
-        
+
         //Fetch
 
     }
@@ -59,7 +60,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
             game_state[current_state] = 1;
         }
         //UPDATE SCORE and STATE
-        FirebaseManagerV2.Instance.UploadGameStateAndGameScore(game_state,game_score);
+        FirebaseManagerV2.Instance.UploadGameStateAndGameScore(game_state, game_score);
     }
     public void ResetGame()
     {
@@ -151,62 +152,70 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     {
         save_curr_page = curr_page;
         //0-lock 1-unlock 2-minigame 3-played 4-playedmini
-        tile.GetComponent<Image>().sprite = tile_image[rule_tiles[FirebaseManagerV2.Instance.curr_week-1]][curr_page];
+        tile.GetComponent<Image>().sprite = tile_image[rule_tiles[FirebaseManagerV2.Instance.curr_week - 1]][curr_page];
         tile.transform.GetChild(3).gameObject.SetActive(true);
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++)
+        {
             tile.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
         }
         for (int i = curr_page * 4; i < (curr_page * 4) + 4; i++)
         {
             if (i == 11)
             {
-                tile.transform.GetChild(i-(curr_page*4)).gameObject.SetActive(false);
+                tile.transform.GetChild(i - (curr_page * 4)).gameObject.SetActive(false);
             }
             else
             {
                 if (game_state[i] == 0)
                 {
-                    tile.transform.GetChild(i-(curr_page*4)).GetComponent<Button>().interactable = false;
-                    tile.transform.GetChild(i-(curr_page*4)).GetComponent<Image>().sprite = state_pics[0];
-                } 
-                else if(game_state[i] == 1){
-                    tile.transform.GetChild(i-(curr_page*4)).GetComponent<Button>().interactable = true;
-                    if(game_role[i] == 4){
-                        tile.transform.GetChild(i-(curr_page*4)).GetComponent<Image>().sprite = state_pics[1];
+                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = false;
+                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[0];
+                }
+                else if (game_state[i] == 1)
+                {
+                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = true;
+                    if (game_role[i] == 4)
+                    {
+                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[1];
                     }
-                    else{
-                        tile.transform.GetChild(i-(curr_page*4)).GetComponent<Image>().sprite = state_pics[2];
+                    else
+                    {
+                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[2];
                     }
                 }
-                else if(game_state[i] == 2){
-                    tile.transform.GetChild(i-(curr_page*4)).GetComponent<Button>().interactable = true;
-                    if(game_role[i] == 4){
-                        tile.transform.GetChild(i-(curr_page*4)).GetComponent<Image>().sprite = state_pics[3];
-                        if(game_score[i] == 3){
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(2).gameObject.SetActive(true);
+                else if (game_state[i] == 2)
+                {
+                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = true;
+                    if (game_role[i] == 4)
+                    {
+                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[3];
+                        if (game_score[i] == 3)
+                        {
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(true);
                         }
-                        else if(game_score[i] == 2){
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
+                        else if (game_score[i] == 2)
+                        {
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
                         }
-                        else{
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(1).gameObject.SetActive(false);
-                            tile.transform.GetChild(i-(curr_page*4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
+                        else
+                        {
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(false);
+                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
                         }
                     }
-                    else{
-                        tile.transform.GetChild(i).GetComponent<Image>().sprite = state_pics[4];
+                    else
+                    {
+                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[4];
                     }
 
                 }
             }
         }
-        // tile.transform.GetChild()
-
     }
 
     public void Reset()

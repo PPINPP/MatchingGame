@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using MatchingGame.Gameplay;
 using UnityEngine;
 
 public class LevelSelectorUIManager : MonoBehaviour
@@ -12,8 +14,11 @@ public class LevelSelectorUIManager : MonoBehaviour
     {
         // LevelSelectorManager.Instance.UpdateLevelState(levelButton);
         curr_page = LevelSelectorManager.Instance.save_curr_page;
-        LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
+        if(curr_page == 1){
+            PlayerPrefs.SetInt("daily_check", 0);
+        }
         FirebaseManagerV2.Instance.checkTimeChange();
+        LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
     }
 
     // Update is called once per frame
@@ -21,6 +26,7 @@ public class LevelSelectorUIManager : MonoBehaviour
     {
         LevelSelectorManager.Instance.StartLevel(levelnum+(curr_page*4));
     }
+    
     public void Next()
     {
         curr_page++;

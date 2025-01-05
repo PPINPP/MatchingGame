@@ -463,16 +463,16 @@ namespace MatchingGame.Gameplay
             else if (ttr4_state == 1) //press time
             {
                 helper.transform.GetChild(1).gameObject.SetActive(false);
-                helper.transform.GetChild(2).gameObject.SetActive(true);
                 helper.transform.GetChild(3).gameObject.SetActive(true);
                 helper.transform.GetChild(6).gameObject.SetActive(true);
                 helper.transform.GetChild(7).GetChild(0).gameObject.SetActive(false);
-                helper.transform.GetChild(7).GetChild(1).gameObject.SetActive(true);
                 flipCard.interactable = true;
-                disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                disposable = GameplayUtils.CountDown(2.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                                     {
                                         helper.transform.GetChild(3).gameObject.SetActive(false);
                                         helper.transform.GetChild(6).gameObject.SetActive(false);
+                                        helper.transform.GetChild(2).gameObject.SetActive(true);
+                                        helper.transform.GetChild(7).GetChild(1).gameObject.SetActive(true);
                                         disposable.Dispose();
                                     }).AddTo(this);
             }
