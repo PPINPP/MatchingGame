@@ -91,7 +91,12 @@ public class LoginManagerV2 : MonoBehaviour
         {
             SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("3"));
         }
-        else{
+        else if (FirebaseManagerV2.Instance.gameData["TTR4"] == false)
+        {
+            SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("4"));
+        }
+        else
+        {
             // SequenceManager.Instance._test2mode = true;
             SceneManager.LoadScene("LevelSelector");
             return;
@@ -135,18 +140,31 @@ public class LoginManagerV2 : MonoBehaviour
             {
                 stageID = "tutorial_" + i.ToString(),
                 isGamePlay = true,
-                gameplay = RandomTutorial(i==1?i-1:i),
+                gameplay = RandomTutorial(i == 1 ? i - 1 : i),
             };
             gameplaySequenceSO.sequences.Add(sequenceDetail);
         }
+        SequenceManager.Instance._ttr4 = true;
+        // SequenceDetail sequenceDetail = new SequenceDetail()
+        // {
+        //     stageID = "tutorial_4",
+        //     isGamePlay = true,
+        //     gameplay = RandomTutorial(0, false),
+        // };
+        gameplaySequenceSO.sequences.Add(new SequenceDetail()
+        {
+            stageID = "tutorial_4",
+            isGamePlay = true,
+            gameplay = RandomTutorial(0, false),
+        });
         return gameplaySequenceSO;
         // gameplaySequenceSO.ReloadSequence(gameplaySequenceSO);
     }
 
-    GameplaySequenceSetting RandomTutorial(int difficulty)
+    GameplaySequenceSetting RandomTutorial(int difficulty, bool bypass_tutorial = true)
     {
         GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
-        gameplaySequenceSetting.isTutorial = true;
+        gameplaySequenceSetting.isTutorial = bypass_tutorial;
         gameplaySequenceSetting.categoryTheme = (CategoryTheme)Random.Range(0, 4);
         gameplaySequenceSetting.pairType = PairType.TWO;
         gameplaySequenceSetting.GameDifficult = (GameDifficult)difficulty;
@@ -155,31 +173,31 @@ public class LoginManagerV2 : MonoBehaviour
         var all_card = new List<string>();
         if ((int)gameplaySequenceSetting.GameDifficult == 0)
         {
-            all_card.Add(RandomTutorialCard(1, 51,gameplaySequenceSetting.categoryTheme.ToString()));
+            all_card.Add(RandomTutorialCard(1, 51, gameplaySequenceSetting.categoryTheme.ToString()));
             string temp_card = "";
             do
             {
-                temp_card = RandomTutorialCard(1, 51,gameplaySequenceSetting.categoryTheme.ToString());
+                temp_card = RandomTutorialCard(1, 51, gameplaySequenceSetting.categoryTheme.ToString());
             } while (all_card.Contains(temp_card));
             all_card.Add(temp_card);
         }
         else if ((int)gameplaySequenceSetting.GameDifficult == 1)
         {
-            all_card.Add(RandomTutorialCard(51, 100,gameplaySequenceSetting.categoryTheme.ToString()));
+            all_card.Add(RandomTutorialCard(51, 100, gameplaySequenceSetting.categoryTheme.ToString()));
             string temp_card = "";
             do
             {
-                temp_card = RandomTutorialCard(51, 100,gameplaySequenceSetting.categoryTheme.ToString());
+                temp_card = RandomTutorialCard(51, 100, gameplaySequenceSetting.categoryTheme.ToString());
             } while (all_card.Contains(temp_card));
             all_card.Add(temp_card);
         }
         else
         {
-            all_card.Add(RandomTutorialCard(1, 100,gameplaySequenceSetting.categoryTheme.ToString()));
+            all_card.Add(RandomTutorialCard(1, 100, gameplaySequenceSetting.categoryTheme.ToString()));
             string temp_card = "";
             do
             {
-                temp_card = RandomTutorialCard(1, 100,gameplaySequenceSetting.categoryTheme.ToString());
+                temp_card = RandomTutorialCard(1, 100, gameplaySequenceSetting.categoryTheme.ToString());
             } while (all_card.Contains(temp_card));
             all_card.Add(temp_card);
         }
@@ -187,10 +205,10 @@ public class LoginManagerV2 : MonoBehaviour
         return gameplaySequenceSetting;
     }
 
-    string RandomTutorialCard(int startr, int stopr ,string cardType)
+    string RandomTutorialCard(int startr, int stopr, string cardType)
     {
-        Debug.Log(FirstCharToUpper(cardType+"_0") + Random.Range(startr, stopr).ToString("D3"));
-        return FirstCharToUpper(cardType+"_0") + Random.Range(startr, stopr).ToString("D3");
+        Debug.Log(FirstCharToUpper(cardType + "_0") + Random.Range(startr, stopr).ToString("D3"));
+        return FirstCharToUpper(cardType + "_0") + Random.Range(startr, stopr).ToString("D3");
     }
     string FirstCharToUpper(string input)
     {

@@ -16,6 +16,8 @@ namespace MatchingGame.Gameplay
         public bool _testmode = false;
         public bool _selectormode = false;
         public bool _test2mode = false;
+        public bool _ttr4 = false;
+        public bool _ttr4_play = false;
         public int game_no;
         public int game_score =1;
 

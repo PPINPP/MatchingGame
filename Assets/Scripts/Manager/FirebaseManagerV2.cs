@@ -646,7 +646,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             {
                 curr_week = i + 1;
                 isPass = true;
-                Debug.Log("Time now Week" + i + 1.ToString() + "(W" + i + 1.ToString() + ")");
+                Debug.Log("Time now Week" + (i + 1).ToString() + "(W" + (i + 1).ToString() + ")");
             }
             else
             {

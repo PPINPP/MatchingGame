@@ -28,6 +28,10 @@ namespace MatchingGame.Gameplay
         [SerializeField] Button playArea;
         [SerializeField] GameObject dimBackground;
         [SerializeField] GameObject gridObject;
+        [SerializeField] GameObject helper;
+        [SerializeField] GameObject helpPanel;
+        [SerializeField] GameObject rightPanel;
+        [SerializeField] GameObject endPanel;
 
         private int clickCount = 0;
         private int matchFalseCount = 0;
@@ -42,6 +46,7 @@ namespace MatchingGame.Gameplay
         private int repeatCount = 0;
         private bool inTutorialState = false;
         private int[] tutorialIndex = new int[2];
+        private int ttr4_state = 0;
 
 
         private List<string> keyContain = new List<string>();
@@ -284,93 +289,107 @@ namespace MatchingGame.Gameplay
                 {
                     AudioController.StopPlayBGM();
                     _state = GameState.RESULT;
-                    disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                    if (SequenceManager.Instance._ttr4_play)
                     {
-                        //SceneManager.LoadScene("Menu");
-                        var rp = 0;
-                        var oc = 0;
                         ClearHint();
                         lastClick = -1f;
-                        rewardPanel.SetActive(true);
-                        // I need to calculate here
-                        float score = 100.0f;
-                        int flower = 3;
-                        int click_count = 0;
-                        int a = (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * 2;
-                        foreach (var clickc in GameplayResultManager.Instance.GameplayClickLogList)
-                        {
-                            if (clickc.ClickStatus == GameplayClickStatusEnum.ON_CARD)
-                            {
-                                click_count++;
-                            }
-                        }
-                        score = ((float)a/(float)click_count)*100.0f;
-                        if(score>=70){
-                            flower = 3;
-                        }
-                        else if(score <70 && score>=30){
-                            flower = 2;
-                        }
-                        else{
-                            flower = 1;
-                        }
-                        if (flipped || addedTime)
-                        {
-                            flower--;
-                        }
-                        if(flower <=0){
-                            flower = 1;
-                        }
-                        rewardPanel.GetComponent<RewardManager>().SetScore(flower, 4*(int)Mathf.Pow(2,flower-1));
-                        SequenceManager.Instance.game_score = flower;
-                        foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
-                        {
-                            if (itemc.ClickResult == GameplayClickResultEnum.REPEAT)
-                            {
-                                rp++;
-                            }
-                            if (itemc.ClickStatus == GameplayClickStatusEnum.OUT_CARD)
-                            {
-                                oc++;
-                            }
-                            Debug.Log(rp);
-                            Debug.Log(oc);
-                        }
-                        List<string> allCard = new List<string>();
-                        List<string> saveCard = new List<string>();
+                        endPanel.SetActive(true);
+                    }
+                    else
+                    {
+                        disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                                            {
+                                                //SceneManager.LoadScene("Menu");
+                                                var rp = 0;
+                                                var oc = 0;
+                                                ClearHint();
+                                                lastClick = -1f;
+                                                rewardPanel.SetActive(true);
+                                                // I need to calculate here
+                                                float score = 100.0f;
+                                                int flower = 3;
+                                                int click_count = 0;
+                                                int a = (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * 2;
+                                                foreach (var clickc in GameplayResultManager.Instance.GameplayClickLogList)
+                                                {
+                                                    if (clickc.ClickStatus == GameplayClickStatusEnum.ON_CARD)
+                                                    {
+                                                        click_count++;
+                                                    }
+                                                }
+                                                score = ((float)a / (float)click_count) * 100.0f;
+                                                if (score >= 70)
+                                                {
+                                                    flower = 3;
+                                                }
+                                                else if (score < 70 && score >= 30)
+                                                {
+                                                    flower = 2;
+                                                }
+                                                else
+                                                {
+                                                    flower = 1;
+                                                }
+                                                if (flipped || addedTime)
+                                                {
+                                                    flower--;
+                                                }
+                                                if (flower <= 0)
+                                                {
+                                                    flower = 1;
+                                                }
+                                                rewardPanel.GetComponent<RewardManager>().SetScore(flower, 4 * (int)Mathf.Pow(2, flower - 1));
+                                                SequenceManager.Instance.game_score = flower;
+                                                foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
+                                                {
+                                                    if (itemc.ClickResult == GameplayClickResultEnum.REPEAT)
+                                                    {
+                                                        rp++;
+                                                    }
+                                                    if (itemc.ClickStatus == GameplayClickStatusEnum.OUT_CARD)
+                                                    {
+                                                        oc++;
+                                                    }
+                                                    Debug.Log(rp);
+                                                    Debug.Log(oc);
+                                                }
+                                                List<string> allCard = new List<string>();
+                                                List<string> saveCard = new List<string>();
 
-                        foreach (var item in _cardList)
-                        {
-                            Debug.Log(item.CardProperty.key);
-                            if (!allCard.Contains(item.CardProperty.key))
-                            {
-                                allCard.Add(item.CardProperty.key);
-                            }
-                        }
-                        int cardReq = (int)Mathf.Floor((int)GameplayResultManager.Instance.GamePlayResult.CardPair / 2);
-                        while (cardReq > 0)
-                        {
-                            cardReq--;
-                            int cardIndex = Random.Range(0, allCard.Count);
-                            saveCard.Add(allCard[cardIndex]);
-                            allCard.RemoveAt(cardIndex);
-                        }
-                        foreach (var item in saveCard)
-                        {
-                            Debug.Log(item);
-                        }
+                                                foreach (var item in _cardList)
+                                                {
+                                                    Debug.Log(item.CardProperty.key);
+                                                    if (!allCard.Contains(item.CardProperty.key))
+                                                    {
+                                                        allCard.Add(item.CardProperty.key);
+                                                    }
+                                                }
+                                                int cardReq = (int)Mathf.Floor((int)GameplayResultManager.Instance.GamePlayResult.CardPair / 2);
+                                                while (cardReq > 0)
+                                                {
+                                                    cardReq--;
+                                                    int cardIndex = Random.Range(0, allCard.Count);
+                                                    saveCard.Add(allCard[cardIndex]);
+                                                    allCard.RemoveAt(cardIndex);
+                                                }
+                                                foreach (var item in saveCard)
+                                                {
+                                                    Debug.Log(item);
+                                                }
 
-                        FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
-                        GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
-                        GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
-                        GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
-                        GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
-                        GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
-                        GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
-                        GameplayResultManager.Instance.OnEndGame();
+                                                FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
+                                                GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                                                GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
+                                                GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
+                                                GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
+                                                GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
+                                                GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
+                                                GameplayResultManager.Instance.OnEndGame();
 
-                        disposable.Dispose();
-                    }).AddTo(this);
+                                                disposable.Dispose();
+                                            }).AddTo(this);
+                    }
+
                 }
                 else
                 {
@@ -419,6 +438,83 @@ namespace MatchingGame.Gameplay
             Time.timeScale = 0;
             stopTime = Time.realtimeSinceStartup;
         }
+        public void StartTutorial4()
+        {
+            helper.SetActive(true);
+            disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                                    {
+                                        helper.transform.GetChild(0).gameObject.SetActive(true);
+                                        helper.transform.GetChild(6).gameObject.SetActive(false);
+                                        Time.timeScale = 0;
+                                    }).AddTo(this);
+
+
+        }
+        public void Tutorial4NextStep()
+        {
+            if (ttr4_state == 0)//press next
+            {
+                helper.transform.GetChild(5).gameObject.SetActive(true);
+                helpPanel.transform.parent = helper.transform.GetChild(5);
+                flipCard.interactable = false;
+                helper.transform.GetChild(7).gameObject.SetActive(true);
+                helper.transform.GetChild(7).GetChild(0).gameObject.SetActive(true);
+            }
+            else if (ttr4_state == 1) //press time
+            {
+                helper.transform.GetChild(1).gameObject.SetActive(false);
+                helper.transform.GetChild(2).gameObject.SetActive(true);
+                helper.transform.GetChild(3).gameObject.SetActive(true);
+                helper.transform.GetChild(6).gameObject.SetActive(true);
+                helper.transform.GetChild(7).GetChild(0).gameObject.SetActive(false);
+                helper.transform.GetChild(7).GetChild(1).gameObject.SetActive(true);
+                flipCard.interactable = true;
+                disposable = GameplayUtils.CountDown(1.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                                    {
+                                        helper.transform.GetChild(3).gameObject.SetActive(false);
+                                        helper.transform.GetChild(6).gameObject.SetActive(false);
+                                        disposable.Dispose();
+                                    }).AddTo(this);
+            }
+
+            else if (ttr4_state == 2)
+            { //press flip
+                helpPanel.transform.parent = rightPanel.transform;
+                helper.transform.GetChild(2).gameObject.SetActive(false);
+                helper.transform.GetChild(6).gameObject.SetActive(true);
+                helper.transform.GetChild(5).gameObject.SetActive(false);
+                helper.transform.GetChild(7).gameObject.SetActive(false);
+                
+                Time.timeScale = 1;
+                disposable = GameplayUtils.CountDown(6.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                                    {
+                                        Time.timeScale = 0;
+                                        helper.transform.GetChild(3).gameObject.SetActive(false);
+                                        helper.transform.GetChild(4).gameObject.SetActive(true);
+                                        helper.transform.GetChild(6).gameObject.SetActive(false);
+                                        disposable.Dispose();
+
+                                    }).AddTo(this);
+            }
+            else if (ttr4_state == 3)
+            {
+                Time.timeScale = 1;
+                SequenceManager.Instance._ttr4_play = true;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            ttr4_state++;
+        }
+
+        public void ReTTR4()
+        {
+            SequenceManager.Instance._ttr4_play = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        public void EndTTR4()
+        {
+            FirebaseManagerV2.Instance.SaveTutorialUserGameData("4",true);
+            SequenceManager.Instance.NextSequence();
+        }
 
         public void Resume()
         {
@@ -430,6 +526,10 @@ namespace MatchingGame.Gameplay
         }
         public void AddTime()
         {
+            if (ttr4_state == 1)
+            {
+                Tutorial4NextStep();
+            }
             GameplayResultManager.Instance.GamePlayResult.AddTimeUsed = 180.0f - UIManager.Instance.GetTimer();
             UIManager.Instance.AddTime(30.0f);
             addTime.interactable = false;
@@ -439,6 +539,10 @@ namespace MatchingGame.Gameplay
         }
         public void FlipAll()
         {
+            if (ttr4_state == 2)
+            {
+                Tutorial4NextStep();
+            }
             flipped = true;
             lastClick = -1f;
             flipCard.interactable = false;
@@ -563,8 +667,14 @@ namespace MatchingGame.Gameplay
         }
         public void EndGame()
         {
-            //timeout
-            ClearHint();
+            if (SequenceManager.Instance._ttr4_play)
+            {
+                ClearHint();
+                lastClick = -1f;
+                endPanel.SetActive(true);
+            }
+            else{
+ClearHint();
             lastClick = -1f;
             AudioController.StopPlayBGM();
             _state = GameState.RESULT;
@@ -581,6 +691,9 @@ namespace MatchingGame.Gameplay
 
                 disposable.Dispose();
             }).AddTo(this);
+            }
+            //timeout
+            
         }
         public void EnableTools()
         {

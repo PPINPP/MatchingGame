@@ -118,7 +118,13 @@ namespace MatchingGame.Gameplay
                 var sequenceSetting = sequence.GetGameplaySequenceSetting();
                 if (!sequenceSetting.isTutorial)
                 {
-                    levelManager.StartPassive();
+                    if(!SequenceManager.Instance._ttr4){
+                        levelManager.StartPassive();
+                    }
+                    else if(!SequenceManager.Instance._ttr4_play){
+                        levelManager.StartTutorial4();
+                    }
+                    
                 }
 
                 disposable.Dispose();
