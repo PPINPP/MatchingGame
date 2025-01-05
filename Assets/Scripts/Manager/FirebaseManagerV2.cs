@@ -802,8 +802,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document(fkey);
         Dictionary<string, object> updates = new Dictionary<string, object>
 {
-    { "game_score", new List<object>(){"1","1","1","1","1","1","1","1","1","1"} },
-    { "game_state", new List<object>(){"1","0","0","0","0","0","0","0","0","0"} }
+    { "game_score", new List<object>(){"1","1","1","1","1","1","1","1","1","1","1"} },
+    { "game_state", new List<object>(){"1","0","0","0","0","0","0","0","0","0","0"} }
 };
 
         dataRef.SetAsync(updates).ContinueWithOnMainThread(task =>

@@ -11,6 +11,7 @@ public class LevelSelectorUIManager : MonoBehaviour
     void Start()
     {
         // LevelSelectorManager.Instance.UpdateLevelState(levelButton);
+        curr_page = LevelSelectorManager.Instance.save_curr_page;
         LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
         FirebaseManagerV2.Instance.checkTimeChange();
     }

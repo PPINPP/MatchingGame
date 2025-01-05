@@ -21,6 +21,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     [SerializeField] List<Sprite> store_tile = new List<Sprite>();
     [SerializeField] List<Sprite> game_icon = new List<Sprite>();
     int current_state = 0;
+    public int save_curr_page = 0;
     GameObject gameObject;
     SequenceManager _so;
     DataManager _dm;
@@ -148,6 +149,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     // }
     public void UpdateTile(GameObject tile, int curr_page)
     {
+        save_curr_page = curr_page;
         //0-lock 1-unlock 2-minigame 3-played 4-playedmini
         tile.GetComponent<Image>().sprite = tile_image[rule_tiles[FirebaseManagerV2.Instance.curr_week-1]][curr_page];
         tile.transform.GetChild(3).gameObject.SetActive(true);
