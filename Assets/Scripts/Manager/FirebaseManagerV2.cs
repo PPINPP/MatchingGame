@@ -87,7 +87,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         gameData.Add("TTR2", false);
         gameData.Add("TTR3", false);
         gameData.Add("TTR4", false);
-        gameData.Add("TTRP", false);
+        gameData.Add("PASSIVE", false);
         for (int i = 1; i < 9; i++)
         {
             gameScore["W" + i.ToString()] = new List<int>();
@@ -654,6 +654,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 // Debug.Log(checkpointDateTime);
             }
         }
+
         tempTimeNow = timeRule[8].Split(',').Select(int.Parse).ToList();
         checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
         if (currentDateTime > checkpointDateTime || !isPass)
@@ -691,6 +692,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 // Debug.Log(checkpointDateTime);
             }
         }
+        
         tempTimeNow = timeRules[8].Split(',').Select(int.Parse).ToList();
         checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
         if (currentDateTime > checkpointDateTime || tempWeek != curr_week)

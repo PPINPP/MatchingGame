@@ -512,6 +512,8 @@ namespace MatchingGame.Gameplay
         }
         public void EndTTR4()
         {
+            SequenceManager.Instance._ttr4_play = false;
+            SequenceManager.Instance._ttr4 = false;
             FirebaseManagerV2.Instance.SaveTutorialUserGameData("4", true);
             SequenceManager.Instance.NextSequence();
         }

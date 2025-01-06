@@ -24,7 +24,6 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     [SerializeField] List<Sprite> game_icon = new List<Sprite>();
     int current_state = 0;
     public int save_curr_page = 0;
-    GameObject gameObject;
     SequenceManager _so;
     DataManager _dm;
     public override void Init()
@@ -103,7 +102,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         {
             GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
             gameplaySequenceSetting.isTutorial = false;
-            gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week];
+            gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week-1];
             gameplaySequenceSetting.pairType = (PairType)game_pairType[levelnum];
             gameplaySequenceSetting.GameDifficult = GameDifficult.EASY;
             gameplaySequenceSetting.layout = GameLayout.GRID;
