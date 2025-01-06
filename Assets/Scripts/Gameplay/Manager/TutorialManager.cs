@@ -271,11 +271,13 @@ namespace MatchingGame.Gameplay
                     }
                     else
                     {
-                        endTutorialPanel.SetActive(true);
+                        fisnishTutorialPanel.SetActive(true);
+                        // endTutorialPanel.SetActive(true);
                     }
                 }
                 else{
-                    endTutorialPanel.SetActive(true);
+                    fisnishTutorialPanel.SetActive(true);
+                    // endTutorialPanel.SetActive(true);
                 }
 
                 TutorialResultManager.Instance.TutorialResult.TimeUsed = 180 - UIManager.Instance.Timer;

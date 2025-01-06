@@ -381,7 +381,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void SetTutorial(bool isPass)
     {
-        DocumentReference userRef = db.Collection(prefix_locate).Document(curr_id);
+        DocumentReference userRef = db.Collection(prefix_locate).Document(curr_id+"/GameDataInformation/Tutorial-State");
         db.RunTransactionAsync(transaction =>
             {
                 return transaction.GetSnapshotAsync(userRef).ContinueWith((snapshotTask) =>
@@ -389,7 +389,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     DocumentSnapshot snapshot = snapshotTask.Result;
                     Dictionary<string, object> updates = new Dictionary<string, object>
                     {
-                { "TutorialPassed", isPass}
+                { "PASSIVE", isPass}
                     };
                     transaction.Update(userRef, updates);
                 });

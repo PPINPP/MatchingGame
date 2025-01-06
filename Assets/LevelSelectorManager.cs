@@ -14,6 +14,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     List<int> game_score = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     List<int> game_role = new List<int>() { 2, 4, 4, 4, 4, 2, 4, 4, 4, 4, 2 }; //2=minigame+smileo 4=gameplay
     List<string> rule_tiles = new List<string>() { "Home", "Home", "Clothes", "Clothes", "Market", "Market", "Store", "Store" };
+    List<int> categoryThemes = new List<int>(){0,0,1,1,2,2,3,3};
     List<int> game_pairType = new List<int>() { 0, 4, 4, 6, 8, 0, 4, 4, 6, 8, 0 };
     Dictionary<string, List<Sprite>> tile_image = new Dictionary<string, List<Sprite>>();
     [SerializeField] List<Sprite> home_tile = new List<Sprite>();
@@ -102,7 +103,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         {
             GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
             gameplaySequenceSetting.isTutorial = false;
-            gameplaySequenceSetting.categoryTheme = CategoryTheme.HOME;
+            gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week];
             gameplaySequenceSetting.pairType = (PairType)game_pairType[levelnum];
             gameplaySequenceSetting.GameDifficult = GameDifficult.EASY;
             gameplaySequenceSetting.layout = GameLayout.GRID;

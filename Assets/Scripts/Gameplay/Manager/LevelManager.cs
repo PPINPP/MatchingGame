@@ -484,7 +484,7 @@ namespace MatchingGame.Gameplay
                 helper.transform.GetChild(6).gameObject.SetActive(true);
                 helper.transform.GetChild(5).gameObject.SetActive(false);
                 helper.transform.GetChild(7).gameObject.SetActive(false);
-                
+
                 Time.timeScale = 1;
                 disposable = GameplayUtils.CountDown(6.0f).ObserveOnMainThread().Subscribe(_ => { }, () =>
                                     {
@@ -512,7 +512,7 @@ namespace MatchingGame.Gameplay
         }
         public void EndTTR4()
         {
-            FirebaseManagerV2.Instance.SaveTutorialUserGameData("4",true);
+            FirebaseManagerV2.Instance.SaveTutorialUserGameData("4", true);
             SequenceManager.Instance.NextSequence();
         }
 
@@ -673,27 +673,28 @@ namespace MatchingGame.Gameplay
                 lastClick = -1f;
                 endPanel.SetActive(true);
             }
-            else{
-ClearHint();
-            lastClick = -1f;
-            AudioController.StopPlayBGM();
-            _state = GameState.RESULT;
-            disposable = GameplayUtils.CountDown(0.1f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+            else
             {
-                //SceneManager.LoadScene("Menu");
-                rewardPanel.SetActive(true);
-                rewardPanel.GetComponent<RewardManager>().SetScore(1, 4);
-                GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
-                GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
-                GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
-                GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
-                GameplayResultManager.Instance.OnEndGame();
+                ClearHint();
+                lastClick = -1f;
+                AudioController.StopPlayBGM();
+                _state = GameState.RESULT;
+                disposable = GameplayUtils.CountDown(0.1f).ObserveOnMainThread().Subscribe(_ => { }, () =>
+                {
+                    //SceneManager.LoadScene("Menu");
+                    rewardPanel.SetActive(true);
+                    rewardPanel.GetComponent<RewardManager>().SetScore(1, 4);
+                    GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                    GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
+                    GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
+                    GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
+                    GameplayResultManager.Instance.OnEndGame();
 
-                disposable.Dispose();
-            }).AddTo(this);
+                    disposable.Dispose();
+                }).AddTo(this);
             }
             //timeout
-            
+
         }
         public void EnableTools()
         {
