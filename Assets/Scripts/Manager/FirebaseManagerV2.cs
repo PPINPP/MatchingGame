@@ -20,7 +20,6 @@ using System.Linq;
 using Random = UnityEngine.Random;
 using UnityEngine.UIElements;
 using UnityEngine.TestTools;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 
 public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
