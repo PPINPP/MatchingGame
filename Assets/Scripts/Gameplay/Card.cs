@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,6 +41,7 @@ namespace MatchingGame.Gameplay
         public CardProperty CardProperty { get => _cardProperty; }
         public bool IsFliping { get => _isFliping; }
         public int IndexClick { get => _indexClick; set => _indexClick = value; }
+        public CategoryTheme CardType;
 
         private void Update()
         {
@@ -73,7 +75,7 @@ namespace MatchingGame.Gameplay
             _curState = CardState.FACE_UP;
             _canFlip = true;
             SetupGraphic();
-
+            CardType = SequenceManager.Instance.GetSequenceDetail().gameplay.categoryTheme;
             Button bt = GetComponent<Button>();
             bt.onClick.AddListener(CardClick);
         }
@@ -109,7 +111,8 @@ namespace MatchingGame.Gameplay
         {
             AudioController.SetnPlay("audio/SFX/Click");
             GameManager.Instance.OnCardClick();
-            if(!_canFlip){
+            if (!_canFlip)
+            {
                 GameManager.Instance.OnCardRepeat();
             }
             if (!GameManager.Instance.CheckCanFlipCard() || !_canFlip || _isFliping) return;
@@ -131,30 +134,63 @@ namespace MatchingGame.Gameplay
 
         public void StartFading()
         {
-            InvokeRepeating("Fade", 0f, 0.1f);
+            if (CardType == CategoryTheme.CLOTH)
+            {
+                InvokeRepeating("FadeBlue", 0f, 0.1f);
+            }
+            else
+            {
+                InvokeRepeating("Fade", 0f, 0.1f);
+            }
         }
         public void StopFading()
         {
             CancelInvoke();
-            _backgroundImg.color = new Color(1.0f,1.0f,1.0f);;
+            _backgroundImg.color = new Color(1.0f, 1.0f, 1.0f); ;
         }
 
         void Fade()
         {
-            if(hintDirection){
-                hintTimer -=1;
-                 if(hintTimer== 0){
+            if (hintDirection)
+            {
+                hintTimer -= 1;
+                if (hintTimer == 0)
+                {
                     hintDirection = false;
                 }
             }
-            else{
-                hintTimer +=1;
-                if(hintTimer== 5){
+            else
+            {
+                hintTimer += 1;
+                if (hintTimer == 5)
+                {
                     hintDirection = true;
                 }
             }
-            float hintVal = hintTimer*0.04f;
-            Color nColor = new Color(1.0f-hintVal,1.0f,1.0f);
+            float hintVal = hintTimer * 0.1f;
+            Color nColor = new Color(1.0f - hintVal, 1.0f, 1.0f);
+            _backgroundImg.color = nColor;
+        }
+        void FadeBlue()
+        {
+            if (hintDirection)
+            {
+                hintTimer -= 1;
+                if (hintTimer == 0)
+                {
+                    hintDirection = false;
+                }
+            }
+            else
+            {
+                hintTimer += 1;
+                if (hintTimer == 5)
+                {
+                    hintDirection = true;
+                }
+            }
+            float hintVal = hintTimer * 0.1f;
+            Color nColor = new Color(1.0f - hintVal, 1.0f, 1.0f - hintVal);
             _backgroundImg.color = nColor;
         }
     }

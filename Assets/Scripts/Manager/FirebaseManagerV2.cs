@@ -20,6 +20,8 @@ using System.Linq;
 using Random = UnityEngine.Random;
 using UnityEngine.UIElements;
 using UnityEngine.TestTools;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 {
@@ -33,20 +35,12 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     private GoogleSignInConfiguration configuration;
     private static FirebaseManagerV2 fbm_instance = null;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
-    private string _app_launch_version = "1.0";
-
-    /// Callback Interface ///
-    DataManager dataManager;
 
     /// Profile Parameter ///
-    // [SerializeField] private bool syncnetwork;
     private bool syncnetwork = true;
-
-    /// 
-    /// This will be reset on signout ///
-
     string curr_id;
-    string prefix_locate = "demo_week";
+    string prefix_locate = "all_user_test";
+    string prefix_time_locate = "game_information_test";
     public string curr_username;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
@@ -55,7 +49,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     public Dictionary<string, List<int>> gameScore = new Dictionary<string, List<int>>();
     public int curr_week = 1;
     List<string> timeRules = new List<string>();
-
+    /// This will be reset on signout ///
 
 
     public override void Init()
@@ -79,22 +73,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 #endif
 
         InitializeApp();
-        cardList.Add("HOME", new List<string>());
-        cardList.Add("MARKET", new List<string>());
-        cardList.Add("STORE", new List<string>());
-        cardList.Add("CLOTH", new List<string>());
-        gameData.Add("TTR1", false);
-        gameData.Add("TTR2", false);
-        gameData.Add("TTR3", false);
-        gameData.Add("TTR4", false);
-        gameData.Add("PASSIVE", false);
-        for (int i = 1; i < 9; i++)
-        {
-            gameScore["W" + i.ToString()] = new List<int>();
-            gameState["W" + i.ToString()] = new List<int>();
-        }
-
-
+SetParameter();
     }
 
     // void Awake()
@@ -113,7 +92,37 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     //     /// Configure Google Service ///
     //     return;
     // }
+    public void SetParameter()
+    {
+        curr_username = "";
+        curr_id = "";
+        curr_week = 0;
+        cardList.Clear();
+        gameData.Clear();
+        timeRules.Clear();
+        gameScore.Clear();
+        gameState.Clear();
 
+        cardList.Add("HOME", new List<string>());
+        cardList.Add("MARKET", new List<string>());
+        cardList.Add("STORE", new List<string>());
+        cardList.Add("CLOTH", new List<string>());
+        gameData.Add("TTR1", false);
+        gameData.Add("TTR2", false);
+        gameData.Add("TTR3", false);
+        gameData.Add("TTR4", false);
+        gameData.Add("PASSIVE", false);
+        for (int i = 1; i < 9; i++)
+        {
+            gameScore["W" + i.ToString()] = new List<int>();
+            gameState["W" + i.ToString()] = new List<int>();
+        }
+    }
+    public void UserLogout()
+    {
+        SetParameter();
+        SceneManager.LoadScene("Main_P");
+    }
     public static FirebaseManagerV2 GetInstance()
     {
         return fbm_instance;
@@ -313,7 +322,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
                 // FirebaseFirestore.GetInstance(app).Settings.CacheSizeBytes = _cacheSize;
 
-
             }
             else
             {
@@ -346,15 +354,10 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 {
                     curr_id = documentSnapshot.Id;
                     StartCoroutine(GetUserGameData());
-                    // StartCoroutine(GameRuleTimeChecker(success));
                     GameRuleTimeChecker(success);
-                    //GetStatex
-                    //GetRule
-                    // StartCoroutine(compareTime(GameRuleTimeChecker(),success, failed));
                     Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
                     foreach (KeyValuePair<string, object> pair in fieldVal)
                     {
-                        // Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
                         if (pair.Key == "Username")
                         {
                             curr_username = (string)pair.Value;
@@ -379,22 +382,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         });
         return;
     }
-    public void SetTutorial(bool isPass)
-    {
-        DocumentReference userRef = db.Collection(prefix_locate).Document(curr_id+"/GameDataInformation/Tutorial-State");
-        db.RunTransactionAsync(transaction =>
-            {
-                return transaction.GetSnapshotAsync(userRef).ContinueWith((snapshotTask) =>
-                {
-                    DocumentSnapshot snapshot = snapshotTask.Result;
-                    Dictionary<string, object> updates = new Dictionary<string, object>
-                    {
-                { "PASSIVE", isPass}
-                    };
-                    transaction.Update(userRef, updates);
-                });
-            });
-    }
+
 
     public void SaveCard(string cardType, List<string> cardNames)
     {
@@ -571,6 +559,32 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 };
         docRef.SetAsync(docData);
     }
+    public void SetTutorial(bool isPass)
+    {
+        DocumentReference userRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/Tutorial-State");
+        db.RunTransactionAsync(transaction =>
+            {
+                return transaction.GetSnapshotAsync(userRef).ContinueWith((snapshotTask) =>
+                {
+                    DocumentSnapshot snapshot = snapshotTask.Result;
+                    Dictionary<string, object> updates = new Dictionary<string, object>
+                    {
+                { "PASSIVE", isPass}
+                    };
+                    transaction.Update(userRef, updates);
+                });
+            });
+    }
+    public void SaveTutorialUserGameData(string fkey, bool fval)
+    {
+        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
+        Dictionary<string, object> updates = new Dictionary<string, object>
+{
+    { "TTR" + fkey, fval }
+};
+
+        dataRef.UpdateAsync(updates);
+    }
     private IEnumerator GetGameState(Action success)
     {
         DocumentReference gameDataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("W" + curr_week.ToString());
@@ -617,13 +631,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
             else
             {
-                Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-                gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                gameScore["W" + curr_week.ToString()] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
                 SaveWeekUserGameData("W" + curr_week.ToString());
-                Debug.Log("W" + curr_week.ToString());
                 success?.Invoke();
-                //create Database game_state
             }
         }
         else
@@ -646,12 +655,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             {
                 curr_week = i + 1;
                 isPass = true;
-                Debug.Log("Time now Week" + (i + 1).ToString() + "(W" + (i + 1).ToString() + ")");
-            }
-            else
-            {
-                // Debug.Log("The current datetime has NOT yet passed the checkpoint datetime.");
-                // Debug.Log(checkpointDateTime);
             }
         }
 
@@ -684,19 +687,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             if (currentDateTime > checkpointDateTime)
             {
                 tempWeek = i + 1;
-                Debug.Log("Time now Week" + (i + 1).ToString() + "(W" + (i + 1).ToString() + ")");
-            }
-            else
-            {
-                // Debug.Log("The current datetime has NOT yet passed the checkpoint datetime.");
-                // Debug.Log(checkpointDateTime);
             }
         }
-        
+
         tempTimeNow = timeRules[8].Split(',').Select(int.Parse).ToList();
         checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
         if (currentDateTime > checkpointDateTime || tempWeek != curr_week)
         {
+            Debug.Log("End Testing Time or Time Change");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
@@ -705,7 +703,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public async void GameRuleTimeChecker(Action success)
     {
-        DocumentReference gameRuleRef = db.Collection("game_information").Document("game_rules");
+        DocumentReference gameRuleRef = db.Collection(prefix_time_locate).Document("game_rules");
         using (var cts = new CancellationTokenSource())
         {
             cts.CancelAfter(TimeSpan.FromSeconds(10));
@@ -715,13 +713,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                         {
                             if (task.IsCanceled)
                             {
-                                Debug.LogWarning("Firestore read canceled (timeout or manually).");
                                 return null;
                             }
                             if (task.IsFaulted)
                             {
-                                //Offline!!!!!!!!
                                 Debug.Log("You're Offline. The App may exit");
+#if UNITY_EDITOR
+                                UnityEditor.EditorApplication.isPlaying = false;
+#endif
                                 Application.Quit();
                                 return null;
                             }
@@ -742,17 +741,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             }
 
                         }
-                        Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
                     }
                     compareTime(stringList);
                     StartCoroutine(GetGameState(success));
-
                 }
                 else
                 {
                     Debug.LogWarning("Document does not exist or timeout occurred.");
                 }
-
             }
             catch (OperationCanceledException)
             {
@@ -767,47 +763,16 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         }
 
     }
-    // int CheckInternetAccess()
-    // {
-    //     switch (Application.internetReachability)
-    //     {
-    //         case NetworkReachability.NotReachable:
-
-    //             Debug.Log("No internet connection.");
-    //             break;
-
-    //         case NetworkReachability.ReachableViaCarrierDataNetwork:
-    //             Debug.Log("Connected to the internet via cellular data.");
-    //             break;
-
-    //         case NetworkReachability.ReachableViaLocalAreaNetwork:
-    //             Debug.Log("Connected to the internet via Wi-Fi.");
-    //             break;
-    //     }
-    // }
-    public void SaveTutorialUserGameData(string fkey, bool fval)
-    {
-        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
-        Dictionary<string, object> updates = new Dictionary<string, object>
-{
-    { "TTR" + fkey, fval }
-};
-
-        dataRef.UpdateAsync(updates).ContinueWithOnMainThread(task =>
-        {
-            Debug.Log(
-                "Updated TTR_State.");
-        });
-    }
     public void SaveWeekUserGameData(string fkey)
     {
+        gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        gameScore["W" + curr_week.ToString()] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document(fkey);
         Dictionary<string, object> updates = new Dictionary<string, object>
 {
     { "game_score", new List<object>(){"1","1","1","1","1","1","1","1","1","1","1"} },
     { "game_state", new List<object>(){"1","0","0","0","0","0","0","0","0","0","0"} }
 };
-
         dataRef.SetAsync(updates).ContinueWithOnMainThread(task =>
         {
             Debug.Log(
@@ -839,7 +804,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void UploadSmileyoMeterResult(SmileyoMeterResult smile_result, int idnum)
     {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/SmileyoMeter/task" + idnum.ToString("00"));
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/SmileyoMeter/task_" + DateTime.Now.ToString("s"));
         _ = docRef.SetAsync(smile_result.ConvertSmileyoMeterResultToSmileyoMeterResultFs());
     }
     public void UploadTutorialResult(GamePlayResult tutorial_result)
@@ -857,10 +822,9 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/UI Test/task" + idnum.ToString("00"));
         _ = docRef.SetAsync(ui_result);
     }
-
     public void UploadDailyFeelingResult(DailyFeelingResult daily_result, int idnum)
     {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/DailyFeeling/task" + idnum.ToString("00"));
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/DailyFeeling/task_" + DateTime.Now.ToString("s"));
         _ = docRef.SetAsync(daily_result.ConvertDailyFeelingResultToDailyFeelingResultFs());
     }
 }

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class MinigameManager : MonoInstance<MinigameManager>
 {
     [SerializeField] Image clickObjImg;
+    [SerializeField] Image clickObjLateImg;
     [SerializeField] List<Sprite> popupSprites = new List<Sprite>();
     [SerializeField] GameObject popupStartGameObj;
     [SerializeField] GameObject finishUIObj;
@@ -32,6 +33,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     private int curr_obj;
     private int curr_index = 0;
     private List<int> sequenceObj = new List<int>();
+    private float timeLate = 0.0f;
 
 
     public override void Init()
@@ -137,7 +139,8 @@ public class MinigameManager : MonoInstance<MinigameManager>
             if (Input.GetMouseButtonDown(0))
             {
                 GameplayResultManager.Instance.MinigameClickLogList.Add(new MinigameClickLog(Input.mousePosition.x, Input.mousePosition.y, timer
-                    , isRoundActive ? MinigameClickStatusEnum.FALSE : MinigameClickStatusEnum.LATE)); ;
+                    , MinigameClickStatusEnum.FALSE));
+                Debug.Log(GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus);
             }
         }
     }
@@ -162,13 +165,22 @@ public class MinigameManager : MonoInstance<MinigameManager>
             }
             else
             {
-                GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(0);
+                GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(0); //FIX
             }
             clickObjImg.gameObject.SetActive(isRoundActive);
+            clickObjLateImg.gameObject.SetActive(!isRoundActive);
+            timeLate = Time.time;
+            clickObjLateImg.GetComponent<RectTransform>().position = clickObjImg.GetComponent<RectTransform>().position;
             if (spawnCounter >= spawnTime)
                 onComplete?.Invoke();
             if (isRoundActive)
+            {
                 spawnCounter++;
+            }
+            else
+            {
+                //ADD ALPHA IMAGE
+            }
         }).AddTo(this);
 
         onComplete = () =>
@@ -228,6 +240,16 @@ public class MinigameManager : MonoInstance<MinigameManager>
         isRoundActive = false;
         disposable.Dispose();
         CountDown();
+        Debug.Log(GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus);
+    }
+    public void OnLateClick()
+    {
+        GameplayResultManager.Instance.MinigameResult.TimeUsed[^1] = Time.time-timeLate;
+        GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus = MinigameClickStatusEnum.LATE;
+        GameplayResultManager.Instance.MinigameClickLogList[^1].isCorrect = object_type == curr_obj ? true : false;
+        clickObjLateImg.gameObject.SetActive(false);
+        Debug.Log(GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus);
+        Debug.Log(GameplayResultManager.Instance.MinigameResult.TimeUsed[^1]);
     }
 
     public List<int> GenerateList()

@@ -19,4 +19,11 @@ public class SettingPanelSetter : MonoBehaviour
         else
             AudioController.ToggleEffect();
     }
+    public void Logout(){
+        //Need Fix for Google Login
+        FirebaseManagerV2.Instance.UserLogout();
+    }
+    public void DataSync(){
+
+    }
 }

@@ -338,7 +338,7 @@ namespace MatchingGame.Gameplay
                                                 {
                                                     flower = 1;
                                                 }
-                                                rewardPanel.GetComponent<RewardManager>().SetScore(flower, 4 * (int)Mathf.Pow(2, flower - 1));
+                                                rewardPanel.GetComponent<RewardManager>().SetScore(flower, (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * (int)Mathf.Pow(2, flower - 1));
                                                 SequenceManager.Instance.game_score = flower;
                                                 foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
                                                 {
