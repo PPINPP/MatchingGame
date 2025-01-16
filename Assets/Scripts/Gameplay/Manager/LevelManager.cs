@@ -42,6 +42,7 @@ namespace MatchingGame.Gameplay
         private float startHintTime = 0f;
         private bool addedTime = false;
         private bool flipped = false;
+        private bool passiveUsed = false;
         private int outCard = 0;
         private int repeatCount = 0;
         private bool inTutorialState = false;
@@ -89,6 +90,7 @@ namespace MatchingGame.Gameplay
             {
                 lastClick = -1f;
                 TriggerPassive();
+                passiveUsed = true;
             }
             if (inTutorialState)
             {
@@ -330,7 +332,7 @@ namespace MatchingGame.Gameplay
                                                 {
                                                     flower = 1;
                                                 }
-                                                if (flipped || addedTime)
+                                                if (flipped || addedTime || passiveUsed)
                                                 {
                                                     flower--;
                                                 }
