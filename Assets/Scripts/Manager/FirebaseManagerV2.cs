@@ -38,8 +38,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "all_user_test";
-    string prefix_time_locate = "game_information_test";
+    string prefix_locate = "demo_week2";
+    string prefix_time_locate = "game_information";
     public string curr_username;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
@@ -72,7 +72,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 #endif
 
         InitializeApp();
-SetParameter();
+        SetParameter();
     }
 
     // void Awake()
@@ -101,7 +101,6 @@ SetParameter();
         timeRules.Clear();
         gameScore.Clear();
         gameState.Clear();
-
         cardList.Add("HOME", new List<string>());
         cardList.Add("MARKET", new List<string>());
         cardList.Add("STORE", new List<string>());
@@ -136,8 +135,6 @@ SetParameter();
     }
     public void FBMGoogleSignUp(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
-        // GoogleSetConfiguration();
-        // GoogleSignIn.DefaultInstance.SignIn().ContinueWith(this.OnGoogleAuthenticatedFinishedForSignUp);
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
         {
             if (task.IsFaulted)
@@ -151,7 +148,6 @@ SetParameter();
             else
             {
                 Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-
                 auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
                 {
                     if (task.IsCanceled)
@@ -230,73 +226,6 @@ SetParameter();
 
         });
     }
-    // public void OnGoogleAuthenticatedFinishedForSignUp(Task<GoogleSignInUser> task)
-    // {
-    //     if (task.IsFaulted)
-    //     {
-    //         Debug.LogError("Faulted");
-    //     }
-    //     else if (task.IsCanceled)
-    //     {
-    //         Debug.LogError("Cancelled");
-    //     }
-    //     else
-    //     {
-    //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-
-    //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-    //         {
-    //             if (task.IsCanceled)
-    //             {
-    //                 RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("Task cancaled");
-    //                 return;
-    //             }
-
-    //             if (task.IsFaulted)
-    //             {
-    //                 RegisterManagerV2.Instance.OnFailedRegisterWithGoogleAccount("SignInWithCredentialAsync encountered an error: " + task.Exception);
-    //                 return;
-    //             }
-
-    //             user = auth.CurrentUser;
-    //             RegisterManagerV2.Instance.OnSuccessRegisterWithGoogleAccount(user);
-    //         });
-    //     }
-    // }
-    // public void OnGoogleAuthenticatedFinishedForSignIn(Task<GoogleSignInUser> task)
-    // {
-    //     if (task.IsFaulted)
-    //     {
-    //         Debug.LogError("Faulted");
-    //     }
-    //     else if (task.IsCanceled)
-    //     {
-    //         Debug.LogError("Cancelled");
-    //     }
-    //     else
-    //     {
-    //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-
-    //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-    //         {
-    //             if (task.IsCanceled)
-    //             {
-    //                 Debug.LogError("Cancel");
-    //                 return;
-    //             }
-
-    //             if (task.IsFaulted)
-    //             {
-    //                 Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-    //                 return;
-    //             }
-
-    //             user = auth.CurrentUser;
-    //             curr_id = user.UserId;
-    //             LoginManagerV2.Instance.OnSuccessSignInWithGoogleAccount(user);
-    //         });
-    //     }
-    // }
     void InitializeApp()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -318,7 +247,6 @@ SetParameter();
                 //     db.Settings.CacheSizeBytes = _cacheSize;
                 // }
                 // Debug.Log(db.Settings.CacheSizeBytes);
-
                 // FirebaseFirestore.GetInstance(app).Settings.CacheSizeBytes = _cacheSize;
 
             }
@@ -326,7 +254,6 @@ SetParameter();
             {
                 UnityEngine.Debug.LogError(System.String.Format(
                   "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-                // Firebase Unity SDK is not safe to use here.
             }
         });
     }
@@ -334,18 +261,14 @@ SetParameter();
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(form.Uuid);
         docRef.SetAsync(form);
-        Debug.Log("Added User to " + prefix_locate);
         callback?.Invoke();
     }
-
     public void GetUser(bool loginType, string nkey, string pkey, Action success, Action failed)
     {
-
         string[] lType = new string[] { "Username", "Email" };
         Query capitalQuery = db.Collection(prefix_locate).WhereEqualTo(lType[loginType ? 1 : 0], nkey).WhereEqualTo("Password", pkey);
         capitalQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-
             QuerySnapshot capitalQuerySnapshot = task.Result;
             if (capitalQuerySnapshot.Count == 1)
             {
@@ -362,7 +285,6 @@ SetParameter();
                             curr_username = (string)pair.Value;
                         }
                     }
-
                 }
                 return;
             }
@@ -381,8 +303,6 @@ SetParameter();
         });
         return;
     }
-
-
     public void SaveCard(string cardType, List<string> cardNames)
     {
         foreach (var item in cardNames)
@@ -429,7 +349,7 @@ SetParameter();
                     }
                 }
                 Dictionary<string, object> updates = new Dictionary<string, object>
-{
+                {
         { "AllCard", cardNames },
 };
                 docRef.UpdateAsync(updates);
@@ -445,16 +365,7 @@ SetParameter();
             }
         });
 
-
-        // docRef.SetAsync(updates);
-        // docRef.UpdateAsync(updates).ContinueWithOnMainThread(task =>
-        // {
-        //     Debug.Log(
-        //             "Updated the Capital field of the new-city-id document in the cities collection.");
-        // });
-        // docRef.SetAsync(docData);
     }
-
     private IEnumerator GetCard()
     {
         int use_week = 0;
@@ -491,7 +402,6 @@ SetParameter();
                             foreach (var str in stringList)
                             {
                                 cardList[documentSnapshot.Id].Add(str);
-                                // Debug.Log(str);
                             }
                         }
                     }
@@ -520,12 +430,10 @@ SetParameter();
             DocumentSnapshot snapshot = task.Result;
             if (snapshot.Exists)
             {
-                // Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
                 Dictionary<string, object> data = snapshot.ToDictionary();
                 foreach (KeyValuePair<string, object> pair in data)
                 {
                     gameData[pair.Key] = (bool)pair.Value;
-                    // Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
                 }
             }
             else
@@ -630,7 +538,7 @@ SetParameter();
             }
             else
             {
-                SaveWeekUserGameData("W" + curr_week.ToString());
+                CreateWeekUserGameData("W" + curr_week.ToString());
                 success?.Invoke();
             }
         }
@@ -640,7 +548,7 @@ SetParameter();
         }
 
     }
-    public void compareTime(List<string> timeRule)
+    public void CompareTime(List<string> timeRule)
     {
         DateTime checkpointDateTime;
         DateTime currentDateTime = DateTime.Now;
@@ -741,7 +649,7 @@ SetParameter();
 
                         }
                     }
-                    compareTime(stringList);
+                    CompareTime(stringList);
                     StartCoroutine(GetGameState(success));
                 }
                 else
@@ -762,7 +670,7 @@ SetParameter();
         }
 
     }
-    public void SaveWeekUserGameData(string fkey)
+    public void CreateWeekUserGameData(string fkey)
     {
         gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         gameScore["W" + curr_week.ToString()] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
