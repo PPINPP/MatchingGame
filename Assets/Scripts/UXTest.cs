@@ -23,7 +23,6 @@ namespace UxTest
     void Start()
     {
       dataManager = DataManager.Instance;
-      fbm = FirebaseManagerV2.GetInstance();
     }
 
     void Update()
@@ -53,7 +52,7 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-      FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
+      // FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
       totalClick = 0;
       startedAt = DateTime.Now;
       uxClickLogs = new List<UxClickLog>();
@@ -70,7 +69,7 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-      FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
+      // FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
       totalClick = 0;
       startedAt = DateTime.Now;
       uxClickLogs = new List<UxClickLog>();
@@ -88,7 +87,7 @@ namespace UxTest
       float timeUsed = (float)completedAt.Subtract(startedAt).TotalSeconds;
       UxTestResult uxTestResult = new UxTestResult(totalClick, startedAt, completedAt, timeUsed, new List<UxClickLog>(uxClickLogs));
       dataManager.UxTestResultList.Add(uxTestResult);
-      FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
+      // FirebaseManagerV2.Instance.UploadUxTestResult(uxTestResult.ConvertUxTestResultToUxTestResultFs(), dataManager.UxTestResultList.Count - 1);
       SceneManager.LoadScene("EndTest");
       // DataManager.Instance.PushDataToFirebase();
 

@@ -35,6 +35,7 @@ namespace MatchingGame.Gameplay
 
         private int clickCount = 0;
         private int matchFalseCount = 0;
+        private int matchTotalCount = 0;
         private bool successInit = false;
         private float stopTime = 0f;
         private float lastClick = -1f;
@@ -48,6 +49,12 @@ namespace MatchingGame.Gameplay
         private bool inTutorialState = false;
         private int[] tutorialIndex = new int[2];
         private int ttr4_state = 0;
+        private string game_state = "";
+        private bool ccOpen = true;
+        private bool allCardOpen = false;
+        private List<int> CardPhase = new List<int>(){0,0,0};
+        private List<string> HelperSeq = new List<string>();
+        private float firstMatchTime = 0f;
 
 
         private List<string> keyContain = new List<string>();
@@ -80,10 +87,9 @@ namespace MatchingGame.Gameplay
                     lastClick = Time.time;
                     ClearHint();
                 }
-
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
-
+                Debug.Log(1);
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
             if (Time.time - lastClick > 10.0f && lastClick != -1f)
@@ -91,23 +97,31 @@ namespace MatchingGame.Gameplay
                 lastClick = -1f;
                 TriggerPassive();
                 passiveUsed = true;
+                HelperSeq.Add("Passive");
             }
             if (inTutorialState)
             {
-                if (!_hintCardList[0].IsInComplete() && !_hintCardList[1].IsInComplete())
+                if (_state == GameState.PLAYING)
                 {
-                    inTutorialState = false;
-                    lastClick = Time.time;
-                    _hintCardList[0].transform.SetParent(gridObject.transform);
-                    _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
-                    _hintCardList[1].transform.SetParent(gridObject.transform);
-                    _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
-                    gridObject.GetComponent<GridLayoutGroup>().enabled = true;
-                    dimBackground.SetActive(false);
-                    FirebaseManagerV2.Instance.gameData["PASSIVE"] = true;
-                    FirebaseManagerV2.Instance.SetTutorial(true);
-                    ClearHint();
+                    if (_hintCardList.Count > 0)
+                    {
+                        if (!_hintCardList[0].IsInComplete() && !_hintCardList[1].IsInComplete())
+                        {
+                            inTutorialState = false;
+                            lastClick = Time.time;
+                            _hintCardList[0].transform.SetParent(gridObject.transform);
+                            _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                            _hintCardList[1].transform.SetParent(gridObject.transform);
+                            _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                            dimBackground.SetActive(false);
+                            FirebaseManagerV2.Instance.gameData["PASSIVE"] = true;
+                            FirebaseManagerV2.Instance.SetTutorial(true);
+                            ClearHint();
+                        }
+                    }
                 }
+
             }
         }
 
@@ -115,6 +129,7 @@ namespace MatchingGame.Gameplay
         {
             clickCount = 0;
             matchFalseCount = 0;
+            matchTotalCount = 0;
             _state = GameState.PENDING;
             pairConfig = GameplayResources.Instance.PairConfigData.pairConfigs.Find(x => setting.TargetPairType == x.pairType);
             _targetPairMatchCount = (int)pairConfig.pairType;
@@ -234,6 +249,7 @@ namespace MatchingGame.Gameplay
                 return;
             }
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+            //Here
         }
         public override void OnCardRepeat()
         {
@@ -249,11 +265,14 @@ namespace MatchingGame.Gameplay
             if (_selectedCardList.Count == 1)
             {
                 GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+                Debug.Log(2);
+                //Here
             }
 
             else
             {
                 card.IndexClick = GameplayResultManager.Instance.GameplayClickLogList.Count - 1;
+                //Here
             }
 
         }
@@ -261,7 +280,6 @@ namespace MatchingGame.Gameplay
         public override void CheckCard()
         {
             if (_selectedCardList.Count < 2) return;
-
 
             var cardFliping = _selectedCardList.Find(x => x.IsFliping);
 
@@ -280,7 +298,22 @@ namespace MatchingGame.Gameplay
                     }
                 }
                 AudioController.SetnPlay("audio/SFX/Correct_Match");
+                matchTotalCount++;
+                if(firstMatchTime == 0f){
+                    firstMatchTime = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                }
+                if(ccOpen){
+                    CardPhase[0]++;
+                }
+                else if(!allCardOpen){
+                    CardPhase[1]++;
+                }
+                else{
+                    CardPhase[2]++;
+                }
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
+                Debug.Log(3);
+                //Here
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
                 _remainPairMatchCount--;
@@ -313,6 +346,7 @@ namespace MatchingGame.Gameplay
                                                 int click_count = 0;
                                                 int a = (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * 2;
                                                 foreach (var clickc in GameplayResultManager.Instance.GameplayClickLogList)
+                                                //Here
                                                 {
                                                     if (clickc.ClickStatus == GameplayClickStatusEnum.ON_CARD)
                                                     {
@@ -343,6 +377,7 @@ namespace MatchingGame.Gameplay
                                                 rewardPanel.GetComponent<RewardManager>().SetScore(flower, (int)SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().pairType * (int)Mathf.Pow(2, flower - 1));
                                                 SequenceManager.Instance.game_score = flower;
                                                 foreach (var itemc in GameplayResultManager.Instance.GameplayClickLogList)
+                                                //Here
                                                 {
                                                     if (itemc.ClickResult == GameplayClickResultEnum.REPEAT)
                                                     {
@@ -378,14 +413,27 @@ namespace MatchingGame.Gameplay
                                                 {
                                                     Debug.Log(item);
                                                 }
-
                                                 FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
+                                                //GameplayResult
                                                 GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                                                 GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                                                 GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                                                 GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
                                                 GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
                                                 GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
+                                                //FuzzyGameData
+                                                GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
+                                                GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
+                                                GameplayResultManager.Instance.FuzzyGameResult.Complete = true;
+                                                GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                                                GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
+                                                GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
+                                                GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
+                                                GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = matchTotalCount;
+                                                GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
+
+                                                // GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool>{addedTime,flipped,passiveUsed};
+
                                                 GameplayResultManager.Instance.OnEndGame();
 
                                                 disposable.Dispose();
@@ -401,9 +449,13 @@ namespace MatchingGame.Gameplay
             else
             {
                 AudioController.SetnPlay("audio/SFX/Wrong_Match");
+                ccOpen = false;
                 matchFalseCount++;
-                //SoundManager.Instance.PlaySoundEffect(SoundType.WrongMatch);
+                matchTotalCount++;
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
+                Debug.Log(4);
+
+                //Here
                 _selectedCardList[1].IndexClick = -1;
                 disposable = GameplayUtils.CountDown(GameplayResources.Instance.GameplayProperty.WrongPairShowDuration).ObserveOnMainThread().Subscribe(_ => { }, () =>
                 {
@@ -430,15 +482,21 @@ namespace MatchingGame.Gameplay
 
         public void PauseGame()
         {
-            pauseImage.sprite = playSprite;
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+            // pauseImage.sprite = playSprite;
             Time.timeScale = 0;
             stopTime = Time.realtimeSinceStartup;
             pausePanel.SetActive(true);
+            game_state = "PAUSE";
         }
         public void SettingGame()
         {
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.REPEAT;
             Time.timeScale = 0;
             stopTime = Time.realtimeSinceStartup;
+            game_state = "SETTING";
         }
         public void StartTutorial4()
         {
@@ -522,10 +580,23 @@ namespace MatchingGame.Gameplay
 
         public void Resume()
         {
+            if (game_state == "PAUSE")
+            {
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
+            }
+            else
+            {
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.REPEAT;
+            }
+            game_state = "";
+
             pauseImage.sprite = pauseSprite;
             Time.timeScale = 1;
             PauseLog pauseLog = new PauseLog(addedTime ? (210.0f - UIManager.Instance.GetTimer()).ToString() : (180.0f - UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
             GameplayResultManager.Instance.GamePlayResult.PauseLogList.Add(pauseLog);
+            GameplayResultManager.Instance.FuzzyGameResult.PauseUsed = true;
             pausePanel.SetActive(false);
         }
         public void AddTime()
@@ -534,10 +605,13 @@ namespace MatchingGame.Gameplay
             {
                 Tutorial4NextStep();
             }
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.MATCHED;
             GameplayResultManager.Instance.GamePlayResult.AddTimeUsed = 180.0f - UIManager.Instance.GetTimer();
             UIManager.Instance.AddTime(30.0f);
             addTime.interactable = false;
             addedTime = true;
+            HelperSeq.Add("Time");
 
 
         }
@@ -547,7 +621,10 @@ namespace MatchingGame.Gameplay
             {
                 Tutorial4NextStep();
             }
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
+            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
             flipped = true;
+            HelperSeq.Add("Flip");
             lastClick = -1f;
             flipCard.interactable = false;
             disableArea.SetActive(true);
@@ -641,9 +718,6 @@ namespace MatchingGame.Gameplay
                 Debug.Log(tutorialIndex[1]);
                 _hintCardList[0].transform.SetParent(dimBackground.transform);
                 _hintCardList[1].transform.SetParent(dimBackground.transform);
-                //create dim
-                //random new one
-                //
             }
 
 
@@ -679,6 +753,14 @@ namespace MatchingGame.Gameplay
             }
             else
             {
+                if(_hintCardList.Count > 0){
+                    _hintCardList[0].transform.SetParent(gridObject.transform);
+                            _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                            _hintCardList[1].transform.SetParent(gridObject.transform);
+                            _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                            dimBackground.SetActive(false);
+                }
                 ClearHint();
                 lastClick = -1f;
                 AudioController.StopPlayBGM();
@@ -688,12 +770,22 @@ namespace MatchingGame.Gameplay
                     //SceneManager.LoadScene("Menu");
                     rewardPanel.SetActive(true);
                     rewardPanel.GetComponent<RewardManager>().SetScore(1, 4);
+                    SequenceManager.Instance.game_score = 0;
+                    //GameplayResultData
                     GameplayResultManager.Instance.GamePlayResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                     GameplayResultManager.Instance.GamePlayResult.ClickCount = clickCount;
                     GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                     GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
+                    //FuzzyGameData
+                    GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
+                    GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                    GameplayResultManager.Instance.FuzzyGameResult.Complete = false;
+                    GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
+                    GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
+                    GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
+                    GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = matchTotalCount;
+                    GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
                     GameplayResultManager.Instance.OnEndGame();
-
                     disposable.Dispose();
                 }).AddTo(this);
             }

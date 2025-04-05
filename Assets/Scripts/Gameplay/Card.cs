@@ -116,7 +116,6 @@ namespace MatchingGame.Gameplay
                 GameManager.Instance.OnCardRepeat();
             }
             if (!GameManager.Instance.CheckCanFlipCard() || !_canFlip || _isFliping) return;
-
             GameManager.Instance.AddCardToCheck(this);
             FlipCard(CardState.FACE_UP);
         }

@@ -31,7 +31,6 @@ namespace UiTest
     // Use this for initialization
     void Start()
     {
-      fbm = FirebaseManagerV2.GetInstance();
       mainMenu.SetActive(true);
       questionsHolder.SetActive(false);
 
@@ -69,7 +68,7 @@ namespace UiTest
               DateTime.Parse(completedAt.ToString()),
               timeUsed);
       DataManager.Instance.UiTestResultList.Add(uiTestResult);
-      FirebaseManagerV2.Instance.UploadUiTestResult(uiTestResult.ConvertUiTestResultToUiTestResultFs(),DataManager.Instance.UiTestResultList.Count-1);
+      // FirebaseManagerV2.Instance.UploadUiTestResult(uiTestResult.ConvertUiTestResultToUiTestResultFs(),DataManager.Instance.UiTestResultList.Count-1);
 
 
       startedAt = new DateTime(1999, 1, 1);

@@ -6,13 +6,14 @@ using Utils;
 public enum GameplayClickStatusEnum
 {
     OUT_CARD,
-    ON_CARD
+    ON_CARD,
+    OTHER
 }
 
 public enum GameplayClickResultEnum
 {
     REPEAT,
-    UNMATCH,
+    UNMATCH, 
     MATCHED,
     FALSE_MATCH
 }

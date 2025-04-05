@@ -32,13 +32,12 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
     private GoogleSignInConfiguration configuration;
-    private static FirebaseManagerV2 fbm_instance = null;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
 
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "demo_week2";
+    string prefix_locate = "fuzzy_demo";
     string prefix_time_locate = "game_information";
     public string curr_username;
     public bool passTutorial { get; set; }
@@ -49,8 +48,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     public int curr_week = 1;
     List<string> timeRules = new List<string>();
     /// This will be reset on signout ///
-
-
     public override void Init()
     {
         base.Init();
@@ -74,23 +71,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         InitializeApp();
         SetParameter();
     }
-
-    // void Awake()
-    // {
-
-    //     /// Keep Script Alive ///
-    //     // DontDestroyOnLoad(this.gameObject);
-    //     // if (fbm_instance == null)
-    //     // {
-    //     //     fbm_instance = this;
-    //     // }
-    //     // else
-    //     // {
-    //     //     Destroy(this.gameObject);
-    //     // }
-    //     /// Configure Google Service ///
-    //     return;
-    // }
     public void SetParameter()
     {
         curr_username = "";
@@ -120,10 +100,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     {
         SetParameter();
         SceneManager.LoadScene("Main_P");
-    }
-    public static FirebaseManagerV2 GetInstance()
-    {
-        return fbm_instance;
     }
 
     void GoogleSetConfiguration()
@@ -278,12 +254,30 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     StartCoroutine(GetUserGameData());
                     GameRuleTimeChecker(success);
                     Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
+                    int dp = 0;
+                    List<int> FuzzyProperties = new List<int>();
+                    List<int> CompleteGameID = new List<int>();
                     foreach (KeyValuePair<string, object> pair in fieldVal)
                     {
                         if (pair.Key == "Username")
                         {
                             curr_username = (string)pair.Value;
+
                         }
+                        if (pair.Key == "DayPassed")
+                        {
+                            dp = (int)pair.Value;
+                        }
+
+                    }
+                    if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
+                    {
+                        if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
+                        {
+                            FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
+                            GetFuzzyGameData(CompleteGameID);
+                        }
+
                     }
                 }
                 return;
@@ -302,6 +296,65 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
         });
         return;
+    }
+    public void GetFuzzyGameData(List<int> CompleteGameID)
+    {
+        List<object> _tempIDList = new List<object>(); 
+        if(CompleteGameID.Count >= 5){
+            for(int i = CompleteGameID.Count-5;i<CompleteGameID.Count;i++){
+                _tempIDList.Add(CompleteGameID[i]);
+            }
+
+        }
+        else{
+            _tempIDList = CompleteGameID.Cast<object>().ToList();
+        }
+        Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
+        GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot capitalQuerySnapshot = task.Result;
+            if (capitalQuerySnapshot.Count == _tempIDList.Count)
+            {
+                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+                {
+                    FuzzyBrain.Instance.UserFuzzyData.Add(new FuzzyGameData().ConvertToGameData(documentSnapshot.ConvertTo<FuzzyGameDataFs>()));
+                }
+                return;
+            }
+            else
+            {
+                Debug.Log("Something went wrong");
+                return;
+            }
+        });
+        return;
+
+                
+
+        // db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData")
+        //   .WhereIn("GameID", _tempIDList) // Query where GameID is in the list
+        //   .GetSnapshotAsync()
+        //   .ContinueWithOnMainThread(task =>
+        //   {
+        //       if (task.IsCompleted && !task.IsFaulted)
+        //       {
+        //           QuerySnapshot snapshot = task.Result;
+        //           foreach (DocumentSnapshot doc in snapshot.Documents)
+        //           {
+        //               Debug.Log($"Document ID: {doc.Id} | GameID: {doc.GetValue<int>("GameID")}");
+        //           }
+
+        //           if (snapshot.Documents.Count == 0)
+        //           {
+        //               Debug.Log("No matching documents found.");
+        //           }
+        //       }
+        //       else
+        //       {
+        //           Debug.LogError("Error fetching documents: " + task.Exception);
+        //       }
+        //   });
+
     }
     public void SaveCard(string cardType, List<string> cardNames)
     {
@@ -670,6 +723,19 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         }
 
     }
+
+    // public void GetFuzzyGameData(){
+    //     DocumentReference docRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("FuzzyData");
+    //     docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+    //     {
+    //         DocumentSnapshot snapshot = task.Result;
+    //         if (snapshot.Exists)
+    //         {
+    //         }
+    //     });
+    // }
+
+
     public void CreateWeekUserGameData(string fkey)
     {
         gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -719,20 +785,33 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/TutorialLog/" + tutorial_result.StageID + "_" + tutorial_result.CompletedAt.ToString("s"));
         _ = docRef.SetAsync(tutorial_result.ConvertToFirestoreModel());
     }
-    public void UploadUxTestResult(UxTestResultFs ux_result, int idnum)
-    {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/UX Test/task" + idnum.ToString("00"));
-        _ = docRef.SetAsync(ux_result);
-    }
-    public void UploadUiTestResult(UiTestResultFs ui_result, int idnum)
-    {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/UI Test/task" + idnum.ToString("00"));
-        _ = docRef.SetAsync(ui_result);
-    }
-    public void UploadDailyFeelingResult(DailyFeelingResult daily_result, int idnum)
+    public void UploadDailyFeelingResult(DailyFeelingResult daily_result)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/DailyFeeling/task_" + DateTime.Now.ToString("s"));
         _ = docRef.SetAsync(daily_result.ConvertDailyFeelingResultToDailyFeelingResultFs());
+    }
+    public void UploadFuzzyGameData(FuzzyGameData fuzzy_result)
+    {
+        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").Document(fuzzy_result.GameID);
+        // _ = docRef.SetAsync(fuzzy_result.ConvertDailyFeelingResultToDailyFeelingResultFs());
+    }
+    public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
+    {
+
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"FuzzyProperties",fuzzyProp},
+            {"CompleteGameID",completeGameID}
+        };
+        docRef.UpdateAsync(updates);
+    }
+    public void UpdateDayPassed(int dp)
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"DayPassed",dp}
+        };
+        docRef.UpdateAsync(updates);
     }
 }
 

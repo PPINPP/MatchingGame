@@ -7,7 +7,6 @@ public class WakeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FirebaseManagerV2.GetInstance();
     }
 
     // Update is called once per frame

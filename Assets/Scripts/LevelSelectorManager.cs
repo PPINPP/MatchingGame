@@ -211,6 +211,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
                     else
                     {
                         tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[4];
+                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = false;
                     }
 
                 }

@@ -109,13 +109,8 @@ public class DailyFeelingManager : MonoBehaviour
         }
         DailyFeelingResult dailyFeelingResult = new DailyFeelingResult(_state);
         DataManager.Instance.DailyFeelingResultList.Add(dailyFeelingResult);
-        if (fbm == null)
-        {
-            fbm = (FirebaseManagerV2)GameObject.FindObjectOfType(typeof(FirebaseManagerV2));
-        }
-        FirebaseManagerV2.Instance.UploadDailyFeelingResult(dailyFeelingResult, DataManager.Instance.SmileyoMeterResultList.Count - 1);
-
-        Debug.Log("Save result");
+        FuzzyBrain.Instance.PostDailyStage();
+        FirebaseManagerV2.Instance.UploadDailyFeelingResult(dailyFeelingResult);
         SequenceManager.Instance.NextSequence();
     }
 }

@@ -10,6 +10,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     private List<GameplayClickLog> _gameplayClickLogList = new List<GameplayClickLog>();
     private MinigameResult _minigameResult = new MinigameResult();
     private List<MinigameClickLog> _minigameClickLogList = new List<MinigameClickLog>();
+    private FuzzyGameData _fuzzygameResult = new FuzzyGameData();
 
     public GamePlayResult GamePlayResult { get { return _gameplayResult; } set => _gameplayResult = value; }
     public List<GameplayClickLog> GameplayClickLogList { get => _gameplayClickLogList; set => _gameplayClickLogList = value; }
@@ -19,7 +20,8 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         set => _minigameResult = value;
     }
     public List<MinigameClickLog> MinigameClickLogList { get => _minigameClickLogList; set => _minigameClickLogList = value; }
-    FirebaseManagerV2 fbm;
+    public FuzzyGameData FuzzyGameResult { get {return _fuzzygameResult; } set => _fuzzygameResult = value; }
+    
     
     public override void Init()
     {
@@ -42,15 +44,16 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
 
         //Debug.Log($"Id : {cardPosLog.ItemID} , Pos x:{cardPosLog.ScreenPosX},y:{cardPosLog.ScreenPosY}");
     }
-
+    
     public void OnEndGame()
     {
         _gameplayResult.GameplayClickLogList = _gameplayClickLogList;
         DataManager.Instance.GamePlayResultList.Add(_gameplayResult);
         //FirebaseManagerV2 upload Data
         FirebaseManagerV2.Instance.UploadGamePlayResult(_gameplayResult);
-        
-
+        //FuzzyBrain
+        FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
+        Debug.Log("Call");
     }
 
     public void OnEndMiniGame()
@@ -58,9 +61,6 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         _minigameResult.MinigameClickLogList = _minigameClickLogList;
         DataManager.Instance.MinigameResultList.Add(_minigameResult);
         //FirebaseManagerV2 upload Data
-        if(fbm == null){
-            fbm= (FirebaseManagerV2) GameObject.FindObjectOfType (typeof(FirebaseManagerV2));
-        }
         FirebaseManagerV2.Instance.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
         
     }

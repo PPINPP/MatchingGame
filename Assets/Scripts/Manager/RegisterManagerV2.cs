@@ -308,7 +308,8 @@ public class RegisterManagerV2 : MonoBehaviour
             Uuid = global_uuid == "" ? Guid.NewGuid().ToString() : curr_user.UserId,
             DateCreated = DateTime.Now.ToString("s"),
             DateUpdated = DateTime.Now.ToString("s"),
-            MedicalHistory = new Dictionary<string, bool>
+            MedicalHistory = new Dictionary<string, bool>()
+            
 
         {
             {"Hypertension", mdch[0] },
@@ -318,7 +319,9 @@ public class RegisterManagerV2 : MonoBehaviour
             {"Stroke", mdch[4]},
             {"Cardiac", mdch[5]},
         },
-            TutorialPassed = false
+            TutorialPassed = false,
+            DayPassed = 0,
+            FuzzyProperties = new List<int>(){0,0,0,0,1,0,0},
 
         };
         FirebaseManagerV2.Instance.NewRegister(userInfo, OnCompleteRegister);

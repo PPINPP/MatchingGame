@@ -72,18 +72,18 @@ public class MinigameManager : MonoInstance<MinigameManager>
         object_type = UnityEngine.Random.Range(0, 4);
         sequenceObj = GenerateList();
         int _tempval = 0;
-        for (int i = 0; i < 17; i++)
+        for (int i = 0; i < 20; i++)
         {
             if (sequenceObj[i] == 1)
             {
-                sequenceObj[i] = 5;
+                sequenceObj[i] = 5; //Incorrect
             }
             else
             {
-                sequenceObj[i] = 6;
+                sequenceObj[i] = 6; //Correct
             }
         }
-        for (int i = 0; i < 17; i++)
+        for (int i = 0; i < 20; i++)
         {
             if (sequenceObj[i] == 6)
             {
@@ -190,7 +190,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
             clickObjImg.gameObject.SetActive(false);
             finishUIObj.SetActive(true);
             AudioController.SetVolume();
-
+            FuzzyBrain.Instance.PostSpecialTaskStage();
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();
             Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { }, () =>
@@ -255,13 +255,13 @@ public class MinigameManager : MonoInstance<MinigameManager>
     public List<int> GenerateList()
     {
         int zeros = 10;
-        int ones = 7;
+        int ones = 10;
         List<int> result = new List<int>();
 
-        while (result.Count < 17)
+        while (result.Count < 20)
         {
             // Calculate how many slots are left
-            int slotsLeft = 17 - result.Count;
+            int slotsLeft = 20 - result.Count;
 
             // Ensure the remaining numbers can fit
             if (ones > 0 && (zeros + ones == slotsLeft ||
