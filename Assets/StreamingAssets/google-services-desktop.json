@@ -2,37 +2,34 @@
   "project_info": {
     "project_number": "415072983245",
     "project_id": "brain-memory-game-hfelab",
-    "storage_bucket": "brain-memory-game-hfelab.appspot.com"
+    "storage_bucket": "brain-memory-game-hfelab.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:415072983245:android:20e384ef5c561254fcb184",
+        "mobilesdk_app_id": "1:415072983245:ios:329d8957be582472fcb184",
         "android_client_info": {
           "package_name": "com.hfelab.Come"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAVXeAkOwKjkQZOfldtZeWRyIy1mHoR8YA"
+          "current_key": "AIzaSyDElaTiRqm3I4ZhzD-3Ohk3fOWGxiat2bM"
         }
       ],
       "services": {
+        "analytics_service": {
+          "status": 0
+        },
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1
         }
-      }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415072983245-5npa29cfnfn19e83lr327vdk8880hejb.apps.googleusercontent.com"
+        }
+      ]
     }
   ],
   "configuration_version": "1"

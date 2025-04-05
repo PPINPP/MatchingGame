@@ -31,7 +31,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     private FirebaseUser user;
 
     public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
-    private GoogleSignInConfiguration configuration;
+    // private GoogleSignInConfiguration configuration;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
 
     /// Profile Parameter ///
@@ -59,14 +59,15 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
         }
-#if UNITY_ANDROID || UNITY_EDITOR
-        configuration = new GoogleSignInConfiguration
-        {
-            WebClientId = GoogleAPI,
-            RequestIdToken = true,
-        };
-        GoogleSetConfiguration();
-#endif
+
+        // #if UNITY_ANDROID || UNITY_EDITOR
+        //         configuration = new GoogleSignInConfiguration
+        //         {
+        //             WebClientId = GoogleAPI,
+        //             RequestIdToken = true,
+        //         };
+        //         GoogleSetConfiguration();
+        // #endif
 
         InitializeApp();
         SetParameter();
@@ -102,83 +103,103 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         SceneManager.LoadScene("Main_P");
     }
 
-    void GoogleSetConfiguration()
-    {
-        GoogleSignIn.Configuration = configuration;
-        GoogleSignIn.Configuration.UseGameSignIn = false;
-        GoogleSignIn.Configuration.RequestIdToken = true;
-        GoogleSignIn.Configuration.RequestEmail = true;
-    }
+    // void GoogleSetConfiguration()
+    // {
+    //     GoogleSignIn.Configuration = configuration;
+    //     GoogleSignIn.Configuration.UseGameSignIn = false;
+    //     GoogleSignIn.Configuration.RequestIdToken = true;
+    //     GoogleSignIn.Configuration.RequestEmail = true;
+    // }
     public void FBMGoogleSignUp(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Faulted");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("Cancelled");
-            }
-            else
-            {
-                Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-                auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCanceled)
-                    {
-                        failed?.Invoke("Task cancaled");
-                    }
+        // Firebase.Auth.Credential credential =
+        //     Firebase.Auth.GoogleAuthProvider.GetCredential(googleIdToken, googleAccessToken);
+        // auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(task =>
+        // {
+        //     if (task.IsCanceled)
+        //     {
+        //         Debug.LogError("SignInAndRetrieveDataWithCredentialAsync was canceled.");
+        //         return;
+        //     }
+        //     if (task.IsFaulted)
+        //     {
+        //         Debug.LogError("SignInAndRetrieveDataWithCredentialAsync encountered an error: " + task.Exception);
+        //         return;
+        //     }
 
-                    if (task.IsFaulted)
-                    {
-                        failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                    }
+        //     Firebase.Auth.AuthResult result = task.Result;
+        //     Debug.LogFormat("User signed in successfully: {0} ({1})",
+        //         result.User.DisplayName, result.User.UserId);
+        // });
 
-                    user = auth.CurrentUser;
-                    success?.Invoke(user);
-                });
-            }
-        });
+        // GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        // {
+        //     if (task.IsFaulted)
+        //     {
+        //         Debug.LogError("Faulted");
+        //     }
+        //     else if (task.IsCanceled)
+        //     {
+        //         Debug.LogError("Cancelled");
+        //     }
+        //     else
+        //     {
+        //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+        //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+        //         {
+        //             if (task.IsCanceled)
+        //             {
+        //                 failed?.Invoke("Task cancaled");
+        //             }
+
+        //             if (task.IsFaulted)
+        //             {
+        //                 failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
+        //             }
+
+        //             user = auth.CurrentUser;
+        //             success?.Invoke(user);
+        //         });
+        //     }
+        // });
     }
     public void FBMGoogleSignIn(Action<Firebase.Auth.FirebaseUser> success, Action<string> failed)
     {
         // GoogleSetConfiguration();
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Faulted");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("Cancelled");
-            }
-            else
-            {
-                Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+        // GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        // {
+        //     if (task.IsFaulted)
+        //     {
+        //         Debug.LogError("Faulted");
+        //     }
+        //     else if (task.IsCanceled)
+        //     {
+        //         Debug.LogError("Cancelled");
+        //     }
+        //     else
+        //     {
+        //         Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
 
-                auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCanceled)
-                    {
-                        failed?.Invoke("Cancel");
-                    }
+        //         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+        //         {
+        //             if (task.IsCanceled)
+        //             {
+        //                 failed?.Invoke("Cancel");
+        //             }
 
-                    if (task.IsFaulted)
-                    {
-                        failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                    }
+        //             if (task.IsFaulted)
+        //             {
+        //                 failed?.Invoke("SignInWithCredentialAsync encountered an error: " + task.Exception);
+        //             }
 
-                    user = auth.CurrentUser;
-                    curr_id = user.UserId;
+        //             user = auth.CurrentUser;
+        //             curr_id = user.UserId;
 
 
-                    success?.Invoke(user);
-                });
-            }
-        });
+        //             success?.Invoke(user);
+        //         });
+        //     }
+        // });
     }
     public void FBMGoogleSignOut()
     {
@@ -299,14 +320,17 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void GetFuzzyGameData(List<int> CompleteGameID)
     {
-        List<object> _tempIDList = new List<object>(); 
-        if(CompleteGameID.Count >= 5){
-            for(int i = CompleteGameID.Count-5;i<CompleteGameID.Count;i++){
+        List<object> _tempIDList = new List<object>();
+        if (CompleteGameID.Count >= 5)
+        {
+            for (int i = CompleteGameID.Count - 5; i < CompleteGameID.Count; i++)
+            {
                 _tempIDList.Add(CompleteGameID[i]);
             }
 
         }
-        else{
+        else
+        {
             _tempIDList = CompleteGameID.Cast<object>().ToList();
         }
         Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
@@ -329,7 +353,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         });
         return;
 
-                
+
 
         // db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData")
         //   .WhereIn("GameID", _tempIDList) // Query where GameID is in the list
