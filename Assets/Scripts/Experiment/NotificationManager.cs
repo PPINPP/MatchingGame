@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System;
 using Unity.Notifications.Android;
 using UnityEngine;
@@ -35,3 +36,5 @@ public class NotificationManager : MonoBehaviour
     }
 
 }
+
+#endif
