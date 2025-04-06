@@ -60,13 +60,13 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             FirebaseFirestore.DefaultInstance.DisableNetworkAsync();
         }
 
-        // #if UNITY_ANDROID || UNITY_EDITOR
-        //         configuration = new GoogleSignInConfiguration
+        // #if UNITY_ANDROID || UNITY_EDITOR || UNITY_IOS
+        //         var configuration = new GoogleSignInConfiguration
         //         {
         //             WebClientId = GoogleAPI,
         //             RequestIdToken = true,
         //         };
-        //         GoogleSetConfiguration();
+                // GoogleSetConfiguration();
         // #endif
 
         InitializeApp();
