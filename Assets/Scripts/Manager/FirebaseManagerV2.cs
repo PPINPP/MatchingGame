@@ -9,7 +9,7 @@ using Firebase.Extensions;
 using RegistryForm;
 using System;
 using System.Threading.Tasks;
-using Google;
+// using Google;
 using Manager;
 using Unity.VisualScripting;
 using Model;
@@ -30,7 +30,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     private FirebaseAuth auth;
     private FirebaseUser user;
 
-    public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
+    // public string GoogleAPI = "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com";
     // private GoogleSignInConfiguration configuration;
     private long _cacheSize = 314572800; //Default = 104857600 : New = 314572800
 

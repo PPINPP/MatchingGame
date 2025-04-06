@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "415072983245",
     "project_id": "brain-memory-game-hfelab",
-    "storage_bucket": "brain-memory-game-hfelab.appspot.com"
+    "storage_bucket": "brain-memory-game-hfelab.firebasestorage.app"
   },
   "client": [
     {
@@ -10,6 +10,50 @@
         "mobilesdk_app_id": "1:415072983245:android:20e384ef5c561254fcb184",
         "android_client_info": {
           "package_name": "com.hfelab.Come"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415072983245-1625ef0jlgo365njmvsc7slak8mds3l4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hfelab.Come",
+            "certificate_hash": "505a33197c0760c5315881ffd03a6549ce805f90"
+          }
+        },
+        {
+          "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVXeAkOwKjkQZOfldtZeWRyIy1mHoR8YA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415072983245-gi4qu1mt1i4di25s72pfv2ee8hhro6p2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "415072983245-5npa29cfnfn19e83lr327vdk8880hejb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hfelab.Come"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415072983245:android:45acc9668f40cb5cfcb184",
+        "android_client_info": {
+          "package_name": "com.test.build"
         }
       },
       "oauth_client": [
@@ -27,8 +71,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com",
+              "client_id": "415072983245-gi4qu1mt1i4di25s72pfv2ee8hhro6p2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "415072983245-5npa29cfnfn19e83lr327vdk8880hejb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hfelab.Come"
+              }
             }
           ]
         }
