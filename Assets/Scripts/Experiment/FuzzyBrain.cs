@@ -6,10 +6,13 @@ using TMPro;
 using UnityEngine.Timeline;
 using Model;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class FuzzyBrain : MonoSingleton<FuzzyBrain>
 {
     // Start is called before the first frame update
+    [SerializeField]
+    public bool debugMode;
     public List<FuzzyGameData> UserFuzzyData = new List<FuzzyGameData>();
     public TMP_Text vrbBox;
     public TMP_Text ruleBox;
@@ -32,7 +35,14 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     {
         DLS = new DifficultyLevelSequence();
         ClearParameter();
-        StartRuntimeText();
+        if(debugMode){
+            StartRuntimeText();
+        }
+        else{
+            for(int i=0;i<3;i++){
+                this.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
     }
     public void ClearParameter()
     {
