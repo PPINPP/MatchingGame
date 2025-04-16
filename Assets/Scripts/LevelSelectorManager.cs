@@ -31,15 +31,21 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         // gameObject = new GameObject();
         // _so = gameObject.AddComponent<SequenceManager>();
         // _dm = gameObject.AddComponent<DataManager>();
-        _so = (SequenceManager)FindObjectOfType(typeof(SequenceManager));
-        _dm = (DataManager)FindObjectOfType(typeof(DataManager));
-        _so._selectormode = true;
-        game_state = FirebaseManagerV2.Instance.gameState["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
-        game_score = FirebaseManagerV2.Instance.gameScore["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
+        // game_state = FirebaseManagerV2.Instance.gameState["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
+        // game_score = FirebaseManagerV2.Instance.gameScore["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
         tile_image["Home"] = home_tile;
         tile_image["Clothes"] = clothes_tile;
         tile_image["Market"] = market_tile;
         tile_image["Store"] = store_tile;
+    }
+    public void UpdateGameData(){
+        game_state = FirebaseManagerV2.Instance.gameState["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
+        game_score = FirebaseManagerV2.Instance.gameScore["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
+    }
+    public void GetGameConponent(){
+        _so = (SequenceManager)FindObjectOfType(typeof(SequenceManager));
+        _dm = (DataManager)FindObjectOfType(typeof(DataManager));
+        _so._selectormode = true;
     }
 
     public void OnSuccessLevel(int game_no, int score = 1)

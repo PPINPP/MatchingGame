@@ -77,8 +77,8 @@ public class LoginManagerV2 : MonoBehaviour
         dm.AddComponent<DataManager>();
         GameObject sm = new GameObject("SequenceManager");
         sm.AddComponent<SequenceManager>();
-
-
+        LevelSelectorManager.Instance.GetGameConponent();
+        LevelSelectorManager.Instance.UpdateGameData();
         if (FirebaseManagerV2.Instance.gameData["TTR1"] == false)
         {
             SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("1"));

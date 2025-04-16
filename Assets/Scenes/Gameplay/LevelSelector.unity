@@ -3454,7 +3454,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 896887674}
-  - component: {fileID: 896887675}
   - component: {fileID: 896887676}
   m_Layer: 0
   m_Name: Level Selector
@@ -3478,41 +3477,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &896887675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896887673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37b11431855f62a4ab6dfd2a931ceed2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state_pics:
-  - {fileID: 21300000, guid: a47f03e40aba68b48bb2db78316e50e8, type: 3}
-  - {fileID: 21300000, guid: 27df6ad3e713f214493d154d3999af39, type: 3}
-  - {fileID: 21300000, guid: 926a07f70fc1df54095f51aff88faadc, type: 3}
-  - {fileID: 21300000, guid: 59c07ba8f349d4c44b06c8910d857505, type: 3}
-  - {fileID: 21300000, guid: 6255f6b93db78084da31924996143cb4, type: 3}
-  home_tile:
-  - {fileID: 21300000, guid: 07c4b8b84c3144d4c8918fbe10c5797e, type: 3}
-  - {fileID: 21300000, guid: 36892c0df33fcbb4ca529a75b139d663, type: 3}
-  - {fileID: 21300000, guid: c5d9c6a709fab8a49b6e0b96f479b15c, type: 3}
-  clothes_tile:
-  - {fileID: 21300000, guid: bba79517ddc312b469d519e688cb19fa, type: 3}
-  - {fileID: 21300000, guid: cffbb9e4cb8a10648b0cd3df970157b4, type: 3}
-  - {fileID: 21300000, guid: d110818cd6915774db5bc2b9ae2cecc1, type: 3}
-  market_tile:
-  - {fileID: 21300000, guid: b8095e071941bde41a3907f30db73e70, type: 3}
-  - {fileID: 21300000, guid: df422a651d403fc43b5cda5a108d7c6b, type: 3}
-  - {fileID: 21300000, guid: c439234ce383b614298034651b7ceff6, type: 3}
-  store_tile:
-  - {fileID: 21300000, guid: 010e7d99a5c2aec40811a4d16db9afe7, type: 3}
-  - {fileID: 21300000, guid: 162017dce6cbb644bb6b6911ba47df67, type: 3}
-  - {fileID: 21300000, guid: 622de551a28ed6146903375802836271, type: 3}
-  save_curr_page: 0
 --- !u!114 &896887676
 MonoBehaviour:
   m_ObjectHideFlags: 0
