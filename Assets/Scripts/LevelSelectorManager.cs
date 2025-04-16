@@ -14,16 +14,15 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     List<int> game_score = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     List<int> game_role = new List<int>() { 2, 4, 4, 4, 4, 2, 4, 4, 4, 4, 2 }; //2=minigame+smileo 4=gameplay
     List<string> rule_tiles = new List<string>() { "Home", "Home", "Clothes", "Clothes", "Market", "Market", "Store", "Store" };
-    List<int> categoryThemes = new List<int>(){0,0,1,1,2,2,3,3};
+    List<int> categoryThemes = new List<int>() { 0, 0, 1, 1, 2, 2, 3, 3 };
     List<int> game_pairType = new List<int>() { 0, 4, 4, 6, 8, 0, 4, 4, 6, 8, 0 };
     Dictionary<string, List<Sprite>> tile_image = new Dictionary<string, List<Sprite>>();
     [SerializeField] List<Sprite> home_tile = new List<Sprite>();
     [SerializeField] List<Sprite> clothes_tile = new List<Sprite>();
     [SerializeField] List<Sprite> market_tile = new List<Sprite>();
     [SerializeField] List<Sprite> store_tile = new List<Sprite>();
-    [SerializeField] List<Sprite> game_icon = new List<Sprite>();
     int current_state = 0;
-    public int save_curr_page = 0;
+    public float save_curr_page = 0.0f;
     SequenceManager _so;
     DataManager _dm;
     public override void Init()
@@ -41,9 +40,6 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         tile_image["Clothes"] = clothes_tile;
         tile_image["Market"] = market_tile;
         tile_image["Store"] = store_tile;
-
-        //Fetch
-
     }
 
     public void OnSuccessLevel(int game_no, int score = 1)
@@ -67,8 +63,9 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         game_state = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         game_score = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     }
-    public void StartLevel(int levelnum)
+    public void StartLevel(int levelnum,float curr_page)
     {
+        save_curr_page = curr_page;
         if (game_role[levelnum] == 2)
         {
             GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
@@ -86,7 +83,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
             _so.game_no = levelnum;
             _so.NextSequence();
         }
-        else if (game_role[levelnum] == 3)
+        else if (game_role[levelnum] == 3) //No use now
         {
             GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
             SequenceDetail sequenceDetail = new SequenceDetail()
@@ -100,12 +97,13 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         }
         else if (game_role[levelnum] == 4)
         {
+            var (pt,gl,gd) = FuzzyBrain.Instance.DLS.GetDifficulty();
             GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
             gameplaySequenceSetting.isTutorial = false;
-            gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week-1];
-            gameplaySequenceSetting.pairType = (PairType)game_pairType[levelnum];
-            gameplaySequenceSetting.GameDifficult = GameDifficult.EASY;
-            gameplaySequenceSetting.layout = GameLayout.GRID;
+            gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week - 1];
+            gameplaySequenceSetting.pairType = pt;
+            gameplaySequenceSetting.GameDifficult = gd;
+            gameplaySequenceSetting.layout = gl;
             GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
             SequenceDetail sequenceDetail = new SequenceDetail()
             {
@@ -148,70 +146,58 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
     //         }
     //     }
     // }
-    public void UpdateTile(GameObject tile, int curr_page)
+    public void UpdateTile(List<Image> BackgroudTile, List<GameObject> LevelButton)
     {
-        save_curr_page = curr_page;
-        //0-lock 1-unlock 2-minigame 3-played 4-playedmini
-        tile.GetComponent<Image>().sprite = tile_image[rule_tiles[FirebaseManagerV2.Instance.curr_week - 1]][curr_page];
-        tile.transform.GetChild(3).gameObject.SetActive(true);
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
-            tile.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            BackgroudTile[i].sprite = tile_image[rule_tiles[FirebaseManagerV2.Instance.curr_week - 1]][i];
         }
-        for (int i = curr_page * 4; i < (curr_page * 4) + 4; i++)
+        //0-lock 1-unlock 2-minigame 3-played 4-playedmini
+        for (int i = 0; i < 11; i++)
         {
-            if (i == 11)
+            if (game_state[i] == 0)
             {
-                tile.transform.GetChild(i - (curr_page * 4)).gameObject.SetActive(false);
+                LevelButton[i].GetComponent<Button>().interactable = false;
+                LevelButton[i].GetComponent<Image>().sprite = state_pics[0];
+            }
+            else if (game_state[i] == 1)
+            {
+                LevelButton[i].GetComponent<Button>().interactable = true;
+                if (game_role[i] == 4)
+                {
+                    LevelButton[i].GetComponent<Image>().sprite = state_pics[1];
+                }
+                else
+                {
+                    LevelButton[i].GetComponent<Image>().sprite = state_pics[2];
+                }
             }
             else
             {
-                if (game_state[i] == 0)
+                if (game_role[i] == 2)
                 {
-                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = false;
-                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[0];
+                    LevelButton[i].GetComponent<Button>().interactable = false;
+                    LevelButton[i].GetComponent<Image>().sprite = state_pics[4];
                 }
-                else if (game_state[i] == 1)
+                else
                 {
-                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = true;
-                    if (game_role[i] == 4)
+                    LevelButton[i].GetComponent<Button>().interactable = true;
+                    LevelButton[i].GetComponent<Image>().sprite = state_pics[3];
+                    LevelButton[i].transform.GetChild(0).gameObject.SetActive(true);
+                    if (game_score[i] == 3)
                     {
-                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[1];
+                        LevelButton[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                        LevelButton[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                    }
+                    else if (game_score[i] == 2)
+                    {
+                        LevelButton[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                        LevelButton[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
                     }
                     else
                     {
-                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[2];
-                    }
-                }
-                else if (game_state[i] == 2)
-                {
-                    tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = true;
-                    if (game_role[i] == 4)
-                    {
-                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[3];
-                        if (game_score[i] == 3)
-                        {
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(true);
-                        }
-                        else if (game_score[i] == 2)
-                        {
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(true);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).gameObject.SetActive(true);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(1).gameObject.SetActive(false);
-                            tile.transform.GetChild(i - (curr_page * 4)).GetChild(0).GetChild(2).gameObject.SetActive(false);
-                        }
-                    }
-                    else
-                    {
-                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Image>().sprite = state_pics[4];
-                        tile.transform.GetChild(i - (curr_page * 4)).GetComponent<Button>().interactable = false;
+                        LevelButton[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                        LevelButton[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
                     }
 
                 }

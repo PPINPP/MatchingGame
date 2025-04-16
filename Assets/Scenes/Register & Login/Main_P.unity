@@ -1432,8 +1432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd0fb15a765034e835b0f03b92ada1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 1
+  UserFuzzyData: []
   vrbBox: {fileID: 772059082}
   ruleBox: {fileID: 1520486199}
+  gameCount: 0
 --- !u!114 &1724085786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1618,6 +1621,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd51f57eeed96146babe1829beee70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoogleAPI: 415072983245-jbn838hn0mhq1s9h9t2cq8i67steeejl.apps.googleusercontent.com
   curr_username: 
   curr_week: 1

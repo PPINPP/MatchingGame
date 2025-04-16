@@ -3,43 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using MatchingGame.Gameplay;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectorUIManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int curr_page = 0;
-    [SerializeField] GameObject levelButton;
-    [SerializeField] GameObject Tile;
+    float curr_page = 0.0f;
+    [SerializeField] List<Image> BackgroudTile = new List<Image>();
+    [SerializeField] List<GameObject> LevelButton = new List<GameObject>(); 
+    [SerializeField] Transform BGTile;
     void Start()
     {
-        // LevelSelectorManager.Instance.UpdateLevelState(levelButton);
         curr_page = LevelSelectorManager.Instance.save_curr_page;
-        FirebaseManagerV2.Instance.checkTimeChange();
-        LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
+        BGTile.localPosition = new Vector3(curr_page,0,0);
+        // FirebaseManagerV2.Instance.checkTimeChange();
+        LevelSelectorManager.Instance.UpdateTile(BackgroudTile,LevelButton);
     }
 
     // Update is called once per frame
     public void OnButtonClickToStartGame(int levelnum)
     {
-        LevelSelectorManager.Instance.StartLevel(levelnum+(curr_page*4));
+        curr_page = BGTile.localPosition.x;
+        LevelSelectorManager.Instance.StartLevel(levelnum,curr_page);
     }
-    
-    public void Next()
-    {
-        curr_page++;
-        if (curr_page > 2)
-        {
-            curr_page = 2;
-        }
-        LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
-    }
-    public void Previous()
-    {
-        curr_page--;
-        if (curr_page < 0)
-        {
-            curr_page = 0;
-        }
-        LevelSelectorManager.Instance.UpdateTile(Tile, curr_page);
-    }
+
 }
