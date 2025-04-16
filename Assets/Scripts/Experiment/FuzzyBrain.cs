@@ -26,7 +26,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     int minigameCount;
     int dayPassed;
     int ruleCount;
-    int difficultyState;
+    List<float> difficultyState = new List<float>(){0,0,0};
     List<object> ShowList = new List<object>();
     List<string> RuleTextList = new List<string>();
     List<int> CompleteGameID = new List<int>();
@@ -54,14 +54,14 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         mtDiff = false;
         dayPassed = 0;
         ruleCount = 0;
-        difficultyState = 0;
+        difficultyState = new List<float>(){0,0,0};
     }
     public void PostGameStage(FuzzyGameData _fuzzyGameData)
     {
         ShowList.Clear();
         gameCount++;
         bool redPoint = false;
-        difficultyState = 0;
+        difficultyState = new List<float>(){0,0,0};
         if (_fuzzyGameData.Complete)
         {
             gameComplete++;
@@ -85,7 +85,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                     ShowList.Add(string.Join(", ", _fuzzyGameData.Helper));
                     if (_fuzzyGameData.HelperSeq.Count == 0)
                     {
-                        difficultyState++;
+                        difficultyState[2]+=0.7f;
+                        difficultyState[1]+=0.3f;
                         ShowList.Add("Increase");
                     }
                     else
@@ -98,11 +99,14 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         {
                             if (_fuzzyGameData.HelperSeq[0] == "Passive")
                             {
+                                difficultyState[1] +=0.7f;
+                                difficultyState[0] +=0.3f;
                                 ShowList.Add("Maintain");
                             }
                             else
                             {
-                                difficultyState++;
+                                difficultyState[2] +=0.7f;
+                                difficultyState[1] +=0.3f;
                                 ShowList.Add("Increase");
                             }
                         }
@@ -110,12 +114,15 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         {
                             if (_fuzzyGameData.HelperSeq[0] == "Passive")
                             {
-                                difficultyState++;
+                                difficultyState[2] +=0.7f;
+                                difficultyState[1] +=0.3f;
                                 ShowList.Add("Increase");
 
                             }
                             else
                             {
+                                difficultyState[1] +=0.7f;
+                                difficultyState[0] +=0.3f;
                                 ShowList.Add("Maintain");
                             }
                         }
@@ -188,19 +195,22 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         if (irm > spm && irm > esm)//F Increase
                         {
                             ShowList.Add("Increase");
-                            difficultyState++;
+                            difficultyState[2]+=1.0f;
                         }
                         else if (spm > irm && spm > esm)//M Maintain
                         {
                             ShowList.Add("Maintain");
+                            difficultyState[1]+=1.0f;
                         }
                         else if (esm > irm && esm > spm)//S Maintain
                         {
                             ShowList.Add("Maintain");
+                            difficultyState[1]+=1.0f;
                         }
                         else //EQUAL
                         {
                             ShowList.Add("Maintain");
+                            difficultyState[1]+=1.0f;
                         }
                         SetRuleTextList(ShowList);
                     }
@@ -222,22 +232,33 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         { //F
                           //Increase
                             ShowList.Add("Increase");
-                            difficultyState++;
+                            difficultyState[2]+=0.7f;
+                            difficultyState[1]+=0.15f;
+                            difficultyState[0]+=0.15f;
                         }
                         else if (spm > irm && spm > esm)
                         { //M
                           //Maintain
                             ShowList.Add("Maintain");
+                            difficultyState[2]+=0.15f;
+                            difficultyState[1]+=0.7f;
+                            difficultyState[0]+=0.15f;
                         }
                         else if (esm > irm && esm > spm)
                         { //S
                           //Maintain
-                            ShowList.Add("Maintain");
+                            ShowList.Add("Decrease");
+                            difficultyState[2]+=0.15f;
+                            difficultyState[1]+=0.15f;
+                            difficultyState[0]+=0.7f;
                         }
                         else
                         {
                             //Equal
                             ShowList.Add("Maintain");
+                            difficultyState[2]+=0.15f;
+                            difficultyState[1]+=0.7f;
+                            difficultyState[0]+=0.15f;
                         }
                         SetRuleTextList(ShowList);
                         // End Fifth Rule
@@ -257,16 +278,19 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         string fmrPerformance = GetPerformanceLevel(rfmr, rmadr);
                         if (fmrPerformance == "Good")
                         {
-                            difficultyState++;
+                            // difficultyState++;
+                            //FIXCTC
                             ShowList.Add("Increase");
                         }
                         else if (fmrPerformance == "Maintain")
                         {
+                            //FIXCTC
                             ShowList.Add("Maintain");
                         }
                         else
                         {
-                            difficultyState--;
+                            //FIXCTC
+                            // difficultyState--;
                             ShowList.Add("Decrease");
                         }
                         SetRuleTextList(ShowList);
@@ -284,16 +308,19 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         string fmtPerformance = GetPerformanceLevel(rmt, rmadt);
                         if (fmtPerformance == "Good")
                         {
-                            difficultyState++;
+                            //FIXCTC
+                            // difficultyState++;
                             ShowList.Add("Increase");
                         }
                         else if (fmtPerformance == "Maintain")
                         {
+                            //FIXCTC
                             ShowList.Add("Maintain");
                         }
                         else
                         {
-                            difficultyState--;
+                            //FIXCTC
+                            // difficultyState--;
                             ShowList.Add("Decrease");
                         }
                         SetRuleTextList(ShowList);
@@ -307,7 +334,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         {
             //N3
             gameInComplete++;
-            difficultyState--;
+            difficultyState[1]+=1.0f;
             SetRuleText("Rule:\nN3, " + _fuzzyGameData.Complete.ToString());
         }
         if (redPoint)
@@ -341,9 +368,31 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         ShowList.Clear();
         ShowRuleText();
     }
-    private void OutputCalculate(int dival){
-        if(dival!=0){
-            if(dival > 0){
+    private void OutputCalculate(List<float> dival){
+        int temp_diff = 0;
+        if(dival[0] == dival[1] && dival[0]== dival[2]){
+            temp_diff=0;
+        }
+        else if(dival[0] == dival[1]){
+            temp_diff=-1;
+        }
+        else if(dival[0] == dival[2]){
+            temp_diff=-1;
+        }
+        else if(dival[1] == dival[2]){
+            temp_diff=0;
+        }
+        else if(dival[0]>dival[1] && dival[0]>dival[2]){
+           temp_diff=-1;
+        }
+        else if(dival[1]>dival[0] && dival[1]>dival[2]){
+           temp_diff=0;
+        }
+        else if(dival[2]>dival[0] && dival[2]>dival[1]){
+            temp_diff=1;
+        }
+        if(temp_diff!=0){
+            if(temp_diff > 0){
                     DLS.IncreaseDifficulty();
             }
             else{
@@ -537,6 +586,7 @@ public class DifficultyLevelSequence
     bool gridMode = true;
     int currentDiff = 0;
     int currLevel = 0;
+    int currImageType = 0;
     public void IncreaseDifficulty()
     {
         currLevel++;
@@ -558,6 +608,9 @@ public class DifficultyLevelSequence
             }
         }
 
+    }
+    public void ChangeImageType(){
+        currImageType = (currImageType++)%4;
     }
     public void DecreaseDifficulty()
     {
