@@ -16,6 +16,7 @@ namespace Assets.Scripts
         public string targetScene;
         FirebaseManagerV2 fbm;
         [SerializeField] List<Image> bgfade = new List<Image>();
+        [SerializeField] Button confirm;
         float colorVal = 0.1f;
         bool direction = false;
 
@@ -83,6 +84,7 @@ namespace Assets.Scripts
                 
             }
             if(fatigueGrp.AnyTogglesOn()&&enjoyableGrp.AnyTogglesOn()){
+                confirm.interactable = true;
                 CancelInvoke();
             }
         }
