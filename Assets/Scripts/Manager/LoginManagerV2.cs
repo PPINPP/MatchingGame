@@ -167,7 +167,6 @@ public class LoginManagerV2 : MonoBehaviour
         GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
         for (int i = int.Parse(start_seq); i < 4; i++)
         {
-            Debug.Log("tutorial_" + i.ToString());
             SequenceDetail sequenceDetail = new SequenceDetail()
             {
                 stageID = "tutorial_" + i.ToString(),
@@ -258,7 +257,6 @@ public class LoginManagerV2 : MonoBehaviour
 
     string RandomTutorialCard(int startr, int stopr, string cardType)
     {
-        Debug.Log(FirstCharToUpper(cardType + "_0") + Random.Range(startr, stopr).ToString("D3"));
         return FirstCharToUpper(cardType + "_0") + Random.Range(startr, stopr).ToString("D3");
     }
     string FirstCharToUpper(string input)

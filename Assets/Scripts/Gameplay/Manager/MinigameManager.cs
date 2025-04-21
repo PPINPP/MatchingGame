@@ -29,11 +29,13 @@ public class MinigameManager : MonoInstance<MinigameManager>
     private IDisposable disposable;
     private float timer = 0.0f;
     private bool isStartGame = false;
+    private float startTime = 0f;
     private int object_type;
     private int curr_obj;
     private int curr_index = 0;
     private List<int> sequenceObj = new List<int>();
     private float timeLate = 0.0f;
+    private SpecialFuzzyData specialFuzzyData = new SpecialFuzzyData();
 
 
     public override void Init()
@@ -61,10 +63,6 @@ public class MinigameManager : MonoInstance<MinigameManager>
             maxX = Screen.width - offset;
             maxY = Screen.height - offset;
         }
-        Debug.Log(minX);
-        Debug.Log(minY);
-        Debug.Log(maxX);
-        Debug.Log(maxY);
         GameplayResultManager.Instance.MinigameResult.ScreenHeight = Screen.height;
         GameplayResultManager.Instance.MinigameResult.ScreenWidth = Screen.width;
         clickObjImg.gameObject.SetActive(false);
@@ -113,14 +111,15 @@ public class MinigameManager : MonoInstance<MinigameManager>
         //     }
         //     sequenceObj[correct_order] = 1;
         // }
-        foreach (var item in sequenceObj)
-        {
-            Debug.Log(item);
-        }
         popupStartGameObj.transform.GetChild(1).GetComponent<Image>().sprite = popupSprites[object_type];
         popupStartGameObj.SetActive(true);
         GameplayResultManager.Instance.MinigameResult.ObjectID = object_type;
         AudioController.ForceVolume();
+        specialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
+        startTime = Time.time;
+        specialFuzzyData.ObjectSequence = sequenceObj;
+        specialFuzzyData.CorrectObject = object_type;
+        
     }
 
     public void StartGame()
@@ -190,7 +189,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
             clickObjImg.gameObject.SetActive(false);
             finishUIObj.SetActive(true);
             AudioController.SetVolume();
-            FuzzyBrain.Instance.PostSpecialTaskStage();
+            // FuzzyBrain.Instance.PostSpecialTaskStage();
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();
             Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { }, () =>
@@ -244,7 +243,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     }
     public void OnLateClick()
     {
-        GameplayResultManager.Instance.MinigameResult.TimeUsed[^1] = Time.time-timeLate;
+        GameplayResultManager.Instance.MinigameResult.TimeUsed[^1] = Time.time - timeLate;
         GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus = MinigameClickStatusEnum.LATE;
         GameplayResultManager.Instance.MinigameClickLogList[^1].isCorrect = object_type == curr_obj ? true : false;
         clickObjLateImg.gameObject.SetActive(false);

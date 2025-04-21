@@ -1,6 +1,7 @@
 ﻿using Manager;
 using MatchingGame.Gameplay;
 using Model;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,12 +15,76 @@ namespace Assets.Scripts
         [SerializeField] private ToggleGroup fatigueGrp;
         public string targetScene;
         FirebaseManagerV2 fbm;
+        [SerializeField] List<Image> bgfade = new List<Image>();
+        float colorVal = 0.1f;
+        bool direction = false;
 
         // Use this for initialization
         void Start()
         {
             enjoyableGrp.SetAllTogglesOff();
             fatigueGrp.SetAllTogglesOff();
+            InvokeRepeating("Fade", 0f, 0.1f);
+
+        }
+
+        void Fade()
+        {
+            if (direction)
+            {
+                colorVal -= 0.1f;
+                if (colorVal <= 0.1f)
+                {
+                    direction = !direction;
+                }
+            }
+            else
+            {
+                colorVal += 0.1f;
+                if (colorVal >= 1.0f)
+                {
+                    direction = !direction;
+                }
+            }
+
+            if (!enjoyableGrp.AnyTogglesOn())
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    var temp_color = bgfade[i].color;
+                    temp_color.a = colorVal;
+                    bgfade[i].color = temp_color;
+                }
+            }
+            else{
+                for (int i = 0; i < 5; i++)
+                {
+                    var temp_color = bgfade[i].color;
+                    temp_color.a = 0.1f;
+                    bgfade[i].color = temp_color;
+                }
+            }
+            if (!fatigueGrp.AnyTogglesOn())
+            {
+                for (int i = 5; i < 10; i++)
+                {
+                    var temp_color = bgfade[i].color;
+                    temp_color.a = colorVal;
+                    bgfade[i].color = temp_color;
+                }
+            }
+            else{
+                for (int i = 5; i < 10; i++)
+                {
+                    var temp_color = bgfade[i].color;
+                    temp_color.a = 0.1f;
+                    bgfade[i].color = temp_color;
+                }
+                
+            }
+            if(fatigueGrp.AnyTogglesOn()&&enjoyableGrp.AnyTogglesOn()){
+                CancelInvoke();
+            }
         }
 
         void Update()
@@ -59,7 +124,7 @@ namespace Assets.Scripts
             {
                 fbm = (FirebaseManagerV2)GameObject.FindObjectOfType(typeof(FirebaseManagerV2));
             }
-            FirebaseManagerV2.Instance.UploadSmileyoMeterResult(smileyoMeterResult,DataManager.Instance.SmileyoMeterResultList.Count-1);
+            FirebaseManagerV2.Instance.UploadSmileyoMeterResult(smileyoMeterResult, DataManager.Instance.SmileyoMeterResultList.Count - 1);
 
             Debug.Log("Save result");
 

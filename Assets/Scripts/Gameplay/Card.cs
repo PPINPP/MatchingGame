@@ -37,11 +37,13 @@ namespace MatchingGame.Gameplay
         private int _indexClick = -1;
         private int hintTimer = 0;
         private bool hintDirection = false;
+        private bool flipOnce = false;
 
         public CardProperty CardProperty { get => _cardProperty; }
         public bool IsFliping { get => _isFliping; }
         public int IndexClick { get => _indexClick; set => _indexClick = value; }
         public CategoryTheme CardType;
+        public bool FlipOnce { get => flipOnce; set => flipOnce = value;}
 
         private void Update()
         {
@@ -118,6 +120,7 @@ namespace MatchingGame.Gameplay
             if (!GameManager.Instance.CheckCanFlipCard() || !_canFlip || _isFliping) return;
             GameManager.Instance.AddCardToCheck(this);
             FlipCard(CardState.FACE_UP);
+            flipOnce = true;
         }
 
         public void SelectedCorrect()

@@ -321,7 +321,7 @@ public class RegisterManagerV2 : MonoBehaviour
         },
             TutorialPassed = false,
             DayPassed = 0,
-            FuzzyProperties = new List<int>(){0,0,0,0,1,0,0},
+            FuzzyProperties = new List<int>(){0,0,0,0,0,1,0,0},
 
         };
         FirebaseManagerV2.Instance.NewRegister(userInfo, OnCompleteRegister);

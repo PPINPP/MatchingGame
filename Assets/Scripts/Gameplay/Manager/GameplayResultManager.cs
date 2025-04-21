@@ -11,6 +11,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     private MinigameResult _minigameResult = new MinigameResult();
     private List<MinigameClickLog> _minigameClickLogList = new List<MinigameClickLog>();
     private FuzzyGameData _fuzzygameResult = new FuzzyGameData();
+    private SpecialFuzzyData _specialgameResult = new SpecialFuzzyData();
 
     public GamePlayResult GamePlayResult { get { return _gameplayResult; } set => _gameplayResult = value; }
     public List<GameplayClickLog> GameplayClickLogList { get => _gameplayClickLogList; set => _gameplayClickLogList = value; }
@@ -21,6 +22,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     }
     public List<MinigameClickLog> MinigameClickLogList { get => _minigameClickLogList; set => _minigameClickLogList = value; }
     public FuzzyGameData FuzzyGameResult { get {return _fuzzygameResult; } set => _fuzzygameResult = value; }
+    public SpecialFuzzyData SpecialFuzzyData { get {return _specialgameResult; } set => _specialgameResult = value; }
     
     
     public override void Init()
@@ -33,6 +35,9 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         _minigameResult.MinigameClickLogList = new List<MinigameClickLog>();
         _minigameResult.TargetPosX = new List<float>();
         _minigameResult.TargetPosY = new List<float>();
+        _specialgameResult.CorrectSeq = new List<bool>();
+        _specialgameResult.ClickTypeList = new List<int>();
+        _specialgameResult.TimeClick = new List<float>();
         // _minigameResult.RandomIDLogList = new List<int>();
 
     }
@@ -53,7 +58,6 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         FirebaseManagerV2.Instance.UploadGamePlayResult(_gameplayResult);
         //FuzzyBrain
         FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
-        Debug.Log("Call");
     }
 
     public void OnEndMiniGame()
@@ -62,6 +66,8 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         DataManager.Instance.MinigameResultList.Add(_minigameResult);
         //FirebaseManagerV2 upload Data
         FirebaseManagerV2.Instance.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
+        //FuzzyBrain
+        FuzzyBrain.Instance.PostSpecialTaskStage(_specialgameResult);
         
     }
 }

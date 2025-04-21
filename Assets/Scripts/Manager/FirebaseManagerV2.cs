@@ -273,33 +273,27 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 {
                     curr_id = documentSnapshot.Id;
                     StartCoroutine(GetUserGameData());
-                    GameRuleTimeChecker(success);
                     Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
                     int dp = 0;
                     List<int> FuzzyProperties = new List<int>();
                     List<int> CompleteGameID = new List<int>();
-                    foreach (KeyValuePair<string, object> pair in fieldVal)
-                    {
-                        if (pair.Key == "Username")
-                        {
-                            curr_username = (string)pair.Value;
-
-                        }
-                        if (pair.Key == "DayPassed")
-                        {
-                            dp = (int)pair.Value;
-                        }
-
-                    }
+                    curr_username = fieldVal["Username"].ToString(); 
+                    dp = Convert.ToInt32(fieldVal["DayPassed"]);
                     if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
                     {
                         if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
-                        {
-                            FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
-                            GetFuzzyGameData(CompleteGameID);
+                        {  
+                            if(CompleteGameID.Count>0){
+                                    GetFuzzyGameData(CompleteGameID);
+                            }
+                            else{
+                                CompleteGameID = new List<int>();
+                            }
+                            
                         }
-
+                        FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
                     }
+                    GameRuleTimeChecker(success);
                 }
                 return;
             }
@@ -325,18 +319,26 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             for (int i = CompleteGameID.Count - 5; i < CompleteGameID.Count; i++)
             {
-                _tempIDList.Add(CompleteGameID[i]);
+                _tempIDList.Add(CompleteGameID[i].ToString());
             }
 
         }
         else
         {
-            _tempIDList = CompleteGameID.Cast<object>().ToList();
+            for (int i = 0; i < CompleteGameID.Count; i++)
+            {
+                _tempIDList.Add(CompleteGameID[i].ToString());
+            }
+
+        }
+        foreach(var item in _tempIDList){
+            Debug.Log(item);
         }
         Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
         GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot capitalQuerySnapshot = task.Result;
+            
             if (capitalQuerySnapshot.Count == _tempIDList.Count)
             {
                 foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
@@ -517,7 +519,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             {
                 Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
                 List<string> keysCopy = new List<string>(gameData.Keys);
-
                 foreach (var key in keysCopy)
                 {
                     gameData[key] = false;
@@ -817,7 +818,12 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     public void UploadFuzzyGameData(FuzzyGameData fuzzy_result)
     {
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").Document(fuzzy_result.GameID);
-        // _ = docRef.SetAsync(fuzzy_result.ConvertDailyFeelingResultToDailyFeelingResultFs());
+        _ = dataRef.SetAsync(fuzzy_result.ConvertToFirestoreModel());
+    }
+    public void UploadSpecialGameData(FuzzyGameData special_result)
+    {
+        DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/SpecialGameData").Document(special_result.GameID);
+        _ = dataRef.SetAsync(special_result.ConvertToFirestoreModel());
     }
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
     {

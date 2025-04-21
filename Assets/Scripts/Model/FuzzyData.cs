@@ -22,10 +22,11 @@ namespace Model
         public int TotalMatch { get; set; }
         public int MatchCount { get; set; }
         public bool PauseUsed { get; set; }
-        public float FirstMatchTime { get; set;}
+        public float FirstMatchTime { get; set; }
         public List<bool> Helper { get; set; }
         public List<int> Phase { get; set; }
         public List<string> HelperSeq { get; set; }
+        public int GameLevel { get; set; }
 
         public FuzzyGameData() : base()
         {
@@ -42,6 +43,8 @@ namespace Model
                 GridMode = this.GridMode,
                 TimeUsed = this.TimeUsed, // 
                 IdealMatch = this.IdealMatch,
+                TotalMatch = this.TotalMatch,
+                GameLevel = this.GameLevel,
                 FalseMatch = this.FalseMatch,
                 MatchCount = this.MatchCount,
                 PauseUsed = this.PauseUsed,//
@@ -56,26 +59,28 @@ namespace Model
             return _fuzzygameData;
         }
 
-        public FuzzyGameData ConvertToGameData(FuzzyGameDataFs fuzzyGameData){
-            return new FuzzyGameData
+        public FuzzyGameData ConvertToGameData(FuzzyGameDataFs fuzzyGameData)
         {
-            GameID = fuzzyGameData.GameID,
-            Complete = fuzzyGameData.Complete,
-            Difficulty = fuzzyGameData.Difficulty,
-            GridMode = fuzzyGameData.GridMode,
-            TimeUsed = fuzzyGameData.TimeUsed,
-            IdealMatch = fuzzyGameData.IdealMatch,
-            FalseMatch = fuzzyGameData.FalseMatch,
-            TotalMatch = fuzzyGameData.TotalMatch,
-            MatchCount = fuzzyGameData.MatchCount,
-            PauseUsed = fuzzyGameData.PauseUsed,
-            FirstMatchTime = fuzzyGameData.FirstMatchTime,
-            Helper = new List<bool>(fuzzyGameData.Helper),
-            Phase = new List<int>(fuzzyGameData.Phase),
-            HelperSeq = new List<string>(fuzzyGameData.HelperSeq),
-            Uuid = fuzzyGameData.Uuid,
+            return new FuzzyGameData
+            {
+                GameID = fuzzyGameData.GameID,
+                Complete = fuzzyGameData.Complete,
+                Difficulty = fuzzyGameData.Difficulty,
+                GridMode = fuzzyGameData.GridMode,
+                TimeUsed = fuzzyGameData.TimeUsed,
+                IdealMatch = fuzzyGameData.IdealMatch,
+                GameLevel = fuzzyGameData.GameLevel,
+                FalseMatch = fuzzyGameData.FalseMatch,
+                TotalMatch = fuzzyGameData.TotalMatch,
+                MatchCount = fuzzyGameData.MatchCount,
+                PauseUsed = fuzzyGameData.PauseUsed,
+                FirstMatchTime = fuzzyGameData.FirstMatchTime,
+                Helper = new List<bool>(fuzzyGameData.Helper),
+                Phase = new List<int>(fuzzyGameData.Phase),
+                HelperSeq = new List<string>(fuzzyGameData.HelperSeq),
+                Uuid = fuzzyGameData.Uuid,
 
-        };
+            };
         }
 
     }
@@ -92,6 +97,7 @@ namespace Model
         [FirestoreProperty] public int FalseMatch { get; set; }
         [FirestoreProperty] public int TotalMatch { get; set; }
         [FirestoreProperty] public int MatchCount { get; set; }
+        [FirestoreProperty] public int GameLevel { get; set; }
         [FirestoreProperty] public bool PauseUsed { get; set; }
         [FirestoreProperty] public float FirstMatchTime { get; set; }
         [FirestoreProperty] public List<bool> Helper { get; set; }
@@ -105,5 +111,69 @@ namespace Model
         {
             return StringHelper.ToStringObj(this);
         }
+    }
+
+    [Serializable]
+    public class SpecialFuzzyData : Base
+    {
+        public string GameID { get; set; }
+        public float TimeUsed { get; set; }
+        public List<int> ObjectSequence { get; set; }
+        public int CorrectObject { get; set; }
+        public List<bool> CorrectSeq { get; set; }
+        public List<int> ClickTypeList { get; set; }
+        public List<float> TimeClick { get; set; }
+
+        public SpecialFuzzyData() : base()
+        {
+
+        }
+        public SpecialFuzzyDataFs ConvertToFirestoreModel()
+        {
+            SpecialFuzzyDataFs _fuzzygameData = new SpecialFuzzyDataFs
+            {
+                GameID = this.GameID,
+                TimeUsed = this.TimeUsed,
+                ObjectSequence = this.ObjectSequence,
+                CorrectObject = this.CorrectObject,
+                CorrectSeq = this.CorrectSeq,
+                ClickTypeList = this.ClickTypeList,
+                TimeClick = this.TimeClick
+            };
+
+            return _fuzzygameData;
+        }
+
+        public SpecialFuzzyData ConvertToGameData(SpecialFuzzyDataFs specialgameData)
+        {
+            return new SpecialFuzzyData
+            {
+                GameID = specialgameData.GameID,
+                TimeUsed = specialgameData.TimeUsed,
+                ObjectSequence = specialgameData.ObjectSequence,
+                CorrectObject = specialgameData.CorrectObject,
+                CorrectSeq = specialgameData.CorrectSeq,
+                ClickTypeList = specialgameData.ClickTypeList,
+                TimeClick = specialgameData.TimeClick
+
+            };
+        }
+
+    }
+    [FirestoreData]
+    public struct SpecialFuzzyDataFs
+    {
+        [FirestoreProperty] public string GameID { get; set; }
+        [FirestoreProperty] public float TimeUsed { get; set; }
+        [FirestoreProperty] public List<int> ObjectSequence { get; set; }
+        [FirestoreProperty] public int CorrectObject { get; set; }
+        [FirestoreProperty] public List<bool> CorrectSeq { get; set; }
+        [FirestoreProperty] public List<int> ClickTypeList { get; set; }
+        [FirestoreProperty] public List<float> TimeClick { get; set; }
+        public override string ToString()
+        {
+            return StringHelper.ToStringObj(this);
+        }
+
     }
 }

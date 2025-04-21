@@ -52,7 +52,7 @@ namespace MatchingGame.Gameplay
         private string game_state = "";
         private bool ccOpen = true;
         private bool allCardOpen = false;
-        private List<int> CardPhase = new List<int>(){0,0,0};
+        private List<int> CardPhase = new List<int>() { 0, 0, 0 };
         private List<string> HelperSeq = new List<string>();
         private float firstMatchTime = 0f;
 
@@ -89,7 +89,6 @@ namespace MatchingGame.Gameplay
                 }
                 clickCount++;
                 GameplayResultManager.Instance.GameplayClickLogList.Add(new GameplayClickLog(Input.mousePosition.x, Input.mousePosition.y, addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer, GameplayClickStatusEnum.OUT_CARD, GameplayClickResultEnum.REPEAT));
-                Debug.Log(1);
                 //SoundManager.Instance.PlaySoundEffect(SoundType.Click);
             }
             if (Time.time - lastClick > 10.0f && lastClick != -1f)
@@ -248,7 +247,10 @@ namespace MatchingGame.Gameplay
             {
                 return;
             }
-            GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+            if(GameplayResultManager.Instance.GameplayClickLogList.Count >0){
+                GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
+            }
+            
             //Here
         }
         public override void OnCardRepeat()
@@ -298,19 +300,26 @@ namespace MatchingGame.Gameplay
                     }
                 }
                 AudioController.SetnPlay("audio/SFX/Correct_Match");
-                matchTotalCount++;
-                if(firstMatchTime == 0f){
+                matchFalseCount++;
+                if (firstMatchTime == 0f)
+                {
                     firstMatchTime = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 }
-                if(ccOpen){
+                if (ccOpen)
+                {
                     CardPhase[0]++;
                 }
-                else if(!allCardOpen){
+                else if (!allCardOpen)
+                {
                     CardPhase[1]++;
+
                 }
-                else{
+                else
+                {
                     CardPhase[2]++;
                 }
+                AllCardOpen();
+
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
                 Debug.Log(3);
                 //Here
@@ -429,8 +438,13 @@ namespace MatchingGame.Gameplay
                                                 GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
                                                 GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
                                                 GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
-                                                GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = matchTotalCount;
+                                                GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
                                                 GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
+                                                var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
+                                                GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
+                                                GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
+                                                GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
+
 
                                                 // GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool>{addedTime,flipped,passiveUsed};
 
@@ -449,9 +463,10 @@ namespace MatchingGame.Gameplay
             else
             {
                 AudioController.SetnPlay("audio/SFX/Wrong_Match");
+                AllCardOpen();
                 ccOpen = false;
                 matchFalseCount++;
-                matchTotalCount++;
+                // matchTotalCount++;
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
                 Debug.Log(4);
 
@@ -467,6 +482,22 @@ namespace MatchingGame.Gameplay
 
                     disposable.Dispose();
                 }).AddTo(this);
+            }
+        }
+
+        public void AllCardOpen()
+        {
+            bool checker = true;
+            foreach (var item in _cardList)
+            {
+                if (item.FlipOnce == false)
+                {
+                    checker = false;
+                }
+            }
+            if (checker)
+            {
+                allCardOpen = true;
             }
         }
 
@@ -753,13 +784,14 @@ namespace MatchingGame.Gameplay
             }
             else
             {
-                if(_hintCardList.Count > 0){
+                if (_hintCardList.Count > 0)
+                {
                     _hintCardList[0].transform.SetParent(gridObject.transform);
-                            _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
-                            _hintCardList[1].transform.SetParent(gridObject.transform);
-                            _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
-                            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
-                            dimBackground.SetActive(false);
+                    _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                    _hintCardList[1].transform.SetParent(gridObject.transform);
+                    _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                    gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                    dimBackground.SetActive(false);
                 }
                 ClearHint();
                 lastClick = -1f;
@@ -777,16 +809,22 @@ namespace MatchingGame.Gameplay
                     GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                     GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
                     //FuzzyGameData
+                    GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
                     GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
                     GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                     GameplayResultManager.Instance.FuzzyGameResult.Complete = false;
                     GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
                     GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
                     GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
-                    GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = matchTotalCount;
+                    GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
                     GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
+                    var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
+                    GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
+                    GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
+                    GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
                     GameplayResultManager.Instance.OnEndGame();
                     disposable.Dispose();
+
                 }).AddTo(this);
             }
             //timeout

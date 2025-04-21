@@ -1,4 +1,4 @@
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 using System;
 using Unity.Notifications.Android;
 using UnityEngine;
@@ -6,7 +6,9 @@ using UnityEngine;
 public class NotificationManager : MonoBehaviour
 {
     void Start() {
-        CreateNotificationChannel();
+        if(!NotificationChannelExists("exit_channel")){
+            CreateNotificationChannel();
+        }
         ScheduleExitNotification();
     }
     void CreateNotificationChannel() {
@@ -34,6 +36,29 @@ public class NotificationManager : MonoBehaviour
 
         AndroidNotificationCenter.SendNotification(notification, "exit_channel");
     }
+    public static bool NotificationChannelExists(string channelId)
+    {
+        try
+        {
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+            using (AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext"))
+            using (AndroidJavaObject notificationManager = context.Call<AndroidJavaObject>("getSystemService", "notification"))
+            {
+                if (notificationManager == null)
+                    return false;
+
+                AndroidJavaObject channel = notificationManager.Call<AndroidJavaObject>("getNotificationChannel", channelId);
+                return channel != null;
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error checking notification channel: " + e.Message);
+            return false;
+        }
+    }
+    
 
 }
 
