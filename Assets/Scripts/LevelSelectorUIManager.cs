@@ -16,7 +16,7 @@ public class LevelSelectorUIManager : MonoBehaviour
     {
         curr_page = LevelSelectorManager.Instance.save_curr_page;
         BGTile.localPosition = new Vector3(curr_page,0,0);
-        // FirebaseManagerV2.Instance.checkTimeChange();
+        FirebaseManagerV2.Instance.checkTimeChange();
         LevelSelectorManager.Instance.UpdateTile(BackgroudTile,LevelButton);
     }
 
@@ -25,6 +25,10 @@ public class LevelSelectorUIManager : MonoBehaviour
     {
         curr_page = BGTile.localPosition.x;
         LevelSelectorManager.Instance.StartLevel(levelnum,curr_page);
+    }
+
+    public void SyncData(){
+        FirebaseManagerV2.Instance.SyncData();
     }
 
 }

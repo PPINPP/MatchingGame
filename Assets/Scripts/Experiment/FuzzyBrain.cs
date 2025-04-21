@@ -558,6 +558,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 mtDiff = true;
             }
         }
+        SetRuleText("Increase:"+dival[2].ToString()+", Maintain:"+dival[1].ToString()+", Decrease:"+dival[0].ToString());
     }
     private float CalculateMedian(List<float> values)
     {
@@ -795,6 +796,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
 
     public void PostSpecialTaskStage(SpecialFuzzyData _specialgameData)
     {
+        minigameCount++;
         if (minigameCount >= 2)
         {
             //N8
@@ -847,7 +849,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     }
     public void RuntimeText()
     {
-        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}", DLS.GetParameterInfo(), mtDiff, isFirstDay);
+
+        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}", DLS.GetParameterInfo(), mtDiff, isFirstDay,gameCount,gameComplete,minigameCount);
 
     }
     public void StopRuntimeText()
@@ -892,7 +895,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         foreach (var item in RuleTextList)
         {
             ruleBox.text += item;
-            ruleBox.text += "\n";
+            // ruleBox.text += "\n";
         }
         RuleTextList.Clear();
     }

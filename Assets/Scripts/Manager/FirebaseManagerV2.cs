@@ -843,6 +843,13 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
+    public void SyncData(){
+        DocumentReference docRef = db.Collection("Sync").Document("Sync");
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"dump","dump"}
+        };
+        docRef.UpdateAsync(updates);
+    }
 }
 
 
