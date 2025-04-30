@@ -187,7 +187,7 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
                 }
                 else
                 {
-                    LevelButton[i].GetComponent<Button>().interactable = true;
+                    LevelButton[i].GetComponent<Button>().interactable = false;
                     LevelButton[i].GetComponent<Image>().sprite = state_pics[3];
                     LevelButton[i].transform.GetChild(0).gameObject.SetActive(true);
                     if (game_score[i] == 3)

@@ -35,7 +35,9 @@ public class MinigameManager : MonoInstance<MinigameManager>
     private int curr_index = 0;
     private List<int> sequenceObj = new List<int>();
     private float timeLate = 0.0f;
-    private SpecialFuzzyData specialFuzzyData = new SpecialFuzzyData();
+    private List<int> game_score = new List<int>();
+    private List<float> time_use = new List<float>();
+    private List<int> click_type_list = new List<int>(){0,0,0,0};
 
 
     public override void Init()
@@ -72,6 +74,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
         int _tempval = 0;
         for (int i = 0; i < 20; i++)
         {
+            game_score.Add(0);
             if (sequenceObj[i] == 1)
             {
                 sequenceObj[i] = 5; //Incorrect
@@ -115,11 +118,8 @@ public class MinigameManager : MonoInstance<MinigameManager>
         popupStartGameObj.SetActive(true);
         GameplayResultManager.Instance.MinigameResult.ObjectID = object_type;
         AudioController.ForceVolume();
-        specialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
         startTime = Time.time;
-        specialFuzzyData.ObjectSequence = sequenceObj;
-        specialFuzzyData.CorrectObject = object_type;
-        
+
     }
 
     public void StartGame()
@@ -139,7 +139,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
             {
                 GameplayResultManager.Instance.MinigameClickLogList.Add(new MinigameClickLog(Input.mousePosition.x, Input.mousePosition.y, timer
                     , MinigameClickStatusEnum.FALSE));
-                Debug.Log(GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus);
+                    
             }
         }
     }
@@ -151,7 +151,6 @@ public class MinigameManager : MonoInstance<MinigameManager>
             isRoundActive = !isRoundActive;
             if (isRoundActive)
             {
-                // RandomImg();
                 if (curr_index == spawnTime)
                 {
                     onComplete?.Invoke();
@@ -160,11 +159,18 @@ public class MinigameManager : MonoInstance<MinigameManager>
                 NextImg();
                 RandomPosition();
                 timer = 0;
-                // AudioController.SetnPlay("audio/SFX/SpecilTaskSFX");
             }
             else
             {
-                GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(0); //FIX
+                GameplayResultManager.Instance.MinigameResult.TimeUsed.Add(0);
+                if (object_type == curr_obj)
+                {
+                    game_score[spawnCounter - 1] = 1;
+                }
+                else
+                {
+                    game_score[spawnCounter - 1] = 0;
+                }
             }
             clickObjImg.gameObject.SetActive(isRoundActive);
             clickObjLateImg.gameObject.SetActive(!isRoundActive);
@@ -189,7 +195,15 @@ public class MinigameManager : MonoInstance<MinigameManager>
             clickObjImg.gameObject.SetActive(false);
             finishUIObj.SetActive(true);
             AudioController.SetVolume();
-            // FuzzyBrain.Instance.PostSpecialTaskStage();
+            GameplayResultManager.Instance.SpecialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
+            GameplayResultManager.Instance.SpecialFuzzyData.GameScore = game_score;
+            GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use;
+            foreach(var item in GameplayResultManager.Instance.MinigameClickLogList){
+                if(item.ClickStatus == MinigameClickStatusEnum.FALSE){
+                    click_type_list[3]++;
+                }
+            }
+            GameplayResultManager.Instance.SpecialFuzzyData.ClickTypeList = click_type_list;
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();
             Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { }, () =>
@@ -230,10 +244,14 @@ public class MinigameManager : MonoInstance<MinigameManager>
         if (object_type == curr_obj)
         {
             AudioController.SetnPlay("audio/SFX/Correct_SpecialT");
+            game_score[spawnCounter-1] = 1;
+            time_use.Add(timer);
         }
         else
         {
             AudioController.SetnPlay("audio/SFX/Wrong_SpecialT");
+            game_score[spawnCounter-1] = 0;
+            click_type_list[1]++;
         }
         clickObjImg.gameObject.SetActive(false);
         isRoundActive = false;
@@ -246,9 +264,16 @@ public class MinigameManager : MonoInstance<MinigameManager>
         GameplayResultManager.Instance.MinigameResult.TimeUsed[^1] = Time.time - timeLate;
         GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus = MinigameClickStatusEnum.LATE;
         GameplayResultManager.Instance.MinigameClickLogList[^1].isCorrect = object_type == curr_obj ? true : false;
+        if(object_type == curr_obj){
+            // game_score[spawnCounter-1] = 1;
+            click_type_list[0]++;
+        }
+        else
+        {
+            // game_score[spawnCounter-1] = 0;
+            click_type_list[2]++;
+        }
         clickObjLateImg.gameObject.SetActive(false);
-        Debug.Log(GameplayResultManager.Instance.MinigameClickLogList[^1].ClickStatus);
-        Debug.Log(GameplayResultManager.Instance.MinigameResult.TimeUsed[^1]);
     }
 
     public List<int> GenerateList()

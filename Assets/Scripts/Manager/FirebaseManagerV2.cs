@@ -37,8 +37,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "fuzzy_demo";
-    string prefix_time_locate = "game_information";
+    string prefix_locate = "fuzzy_demo129";
+    string prefix_time_locate = "game_information_test";
     public string curr_username;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
@@ -820,7 +820,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").Document(fuzzy_result.GameID);
         _ = dataRef.SetAsync(fuzzy_result.ConvertToFirestoreModel());
     }
-    public void UploadSpecialGameData(FuzzyGameData special_result)
+    public void UploadSpecialGameData(SpecialFuzzyData special_result)
     {
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/SpecialGameData").Document(special_result.GameID);
         _ = dataRef.SetAsync(special_result.ConvertToFirestoreModel());
@@ -835,6 +835,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
+
     public void UpdateDayPassed(int dp)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);

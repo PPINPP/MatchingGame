@@ -35,9 +35,8 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         _minigameResult.MinigameClickLogList = new List<MinigameClickLog>();
         _minigameResult.TargetPosX = new List<float>();
         _minigameResult.TargetPosY = new List<float>();
-        _specialgameResult.CorrectSeq = new List<bool>();
         _specialgameResult.ClickTypeList = new List<int>();
-        _specialgameResult.TimeClick = new List<float>();
+        _specialgameResult.TimeUsed = new List<float>();
         // _minigameResult.RandomIDLogList = new List<int>();
 
     }

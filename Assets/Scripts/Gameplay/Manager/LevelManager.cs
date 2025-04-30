@@ -28,6 +28,7 @@ namespace MatchingGame.Gameplay
         [SerializeField] Button playArea;
         [SerializeField] GameObject dimBackground;
         [SerializeField] GameObject gridObject;
+        [SerializeField] GameObject randObject;
         [SerializeField] GameObject helper;
         [SerializeField] GameObject helpPanel;
         [SerializeField] GameObject rightPanel;
@@ -108,11 +109,22 @@ namespace MatchingGame.Gameplay
                         {
                             inTutorialState = false;
                             lastClick = Time.time;
-                            _hintCardList[0].transform.SetParent(gridObject.transform);
-                            _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
-                            _hintCardList[1].transform.SetParent(gridObject.transform);
-                            _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
-                            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                            if (GameplayResultManager.Instance.GamePlayResult.CardPatternLayout == GameLayout.GRID)
+                            {
+                                _hintCardList[0].transform.SetParent(gridObject.transform);
+                                _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                                _hintCardList[1].transform.SetParent(gridObject.transform);
+                                _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                                gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                            }
+                            else
+                            {
+
+                                _hintCardList[0].transform.SetParent(randObject.transform);
+                                _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                                _hintCardList[1].transform.SetParent(randObject.transform);
+                                _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                            }
                             dimBackground.SetActive(false);
                             FirebaseManagerV2.Instance.gameData["PASSIVE"] = true;
                             FirebaseManagerV2.Instance.SetTutorial(true);
@@ -247,10 +259,11 @@ namespace MatchingGame.Gameplay
             {
                 return;
             }
-            if(GameplayResultManager.Instance.GameplayClickLogList.Count >0){
+            if (GameplayResultManager.Instance.GameplayClickLogList.Count > 0)
+            {
                 GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.ON_CARD;
             }
-            
+
             //Here
         }
         public override void OnCardRepeat()
@@ -300,7 +313,7 @@ namespace MatchingGame.Gameplay
                     }
                 }
                 AudioController.SetnPlay("audio/SFX/Correct_Match");
-                matchFalseCount++;
+                // matchFalseCount++;
                 if (firstMatchTime == 0f)
                 {
                     firstMatchTime = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
@@ -741,7 +754,10 @@ namespace MatchingGame.Gameplay
             {
                 inTutorialState = true;
                 dimBackground.SetActive(true);
-                gridObject.GetComponent<GridLayoutGroup>().enabled = false;
+                if (GameplayResultManager.Instance.GamePlayResult.CardPatternLayout == GameLayout.GRID)
+                {
+                    gridObject.GetComponent<GridLayoutGroup>().enabled = false;
+                }
 
                 tutorialIndex[0] = _hintCardList[0].transform.GetSiblingIndex();
                 tutorialIndex[1] = _hintCardList[1].transform.GetSiblingIndex();
@@ -769,7 +785,10 @@ namespace MatchingGame.Gameplay
                 }
                 _hintCardList.Clear();
             }
-            gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+            if (GameplayResultManager.Instance.GamePlayResult.CardPatternLayout == GameLayout.GRID)
+            {
+                gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+            }
             dimBackground.SetActive(false);
             return;
 
@@ -786,11 +805,21 @@ namespace MatchingGame.Gameplay
             {
                 if (_hintCardList.Count > 0)
                 {
-                    _hintCardList[0].transform.SetParent(gridObject.transform);
-                    _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
-                    _hintCardList[1].transform.SetParent(gridObject.transform);
-                    _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
-                    gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                    if (GameplayResultManager.Instance.GamePlayResult.CardPatternLayout == GameLayout.GRID)
+                    {
+                        _hintCardList[0].transform.SetParent(gridObject.transform);
+                        _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                        _hintCardList[1].transform.SetParent(gridObject.transform);
+                        _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                        gridObject.GetComponent<GridLayoutGroup>().enabled = true;
+                    }
+                    else
+                    {
+                        _hintCardList[0].transform.SetParent(randObject.transform);
+                        _hintCardList[0].transform.SetSiblingIndex(tutorialIndex[0]);
+                        _hintCardList[1].transform.SetParent(randObject.transform);
+                        _hintCardList[1].transform.SetSiblingIndex(tutorialIndex[1]);
+                    }
                     dimBackground.SetActive(false);
                 }
                 ClearHint();

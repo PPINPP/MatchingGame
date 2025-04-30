@@ -117,12 +117,9 @@ namespace Model
     public class SpecialFuzzyData : Base
     {
         public string GameID { get; set; }
-        public float TimeUsed { get; set; }
-        public List<int> ObjectSequence { get; set; }
-        public int CorrectObject { get; set; }
-        public List<bool> CorrectSeq { get; set; }
+        public List<float> TimeUsed { get; set; }
         public List<int> ClickTypeList { get; set; }
-        public List<float> TimeClick { get; set; }
+        public List<int> GameScore {get; set;}
 
         public SpecialFuzzyData() : base()
         {
@@ -134,11 +131,8 @@ namespace Model
             {
                 GameID = this.GameID,
                 TimeUsed = this.TimeUsed,
-                ObjectSequence = this.ObjectSequence,
-                CorrectObject = this.CorrectObject,
-                CorrectSeq = this.CorrectSeq,
                 ClickTypeList = this.ClickTypeList,
-                TimeClick = this.TimeClick
+                GameScore = this.GameScore
             };
 
             return _fuzzygameData;
@@ -150,11 +144,8 @@ namespace Model
             {
                 GameID = specialgameData.GameID,
                 TimeUsed = specialgameData.TimeUsed,
-                ObjectSequence = specialgameData.ObjectSequence,
-                CorrectObject = specialgameData.CorrectObject,
-                CorrectSeq = specialgameData.CorrectSeq,
                 ClickTypeList = specialgameData.ClickTypeList,
-                TimeClick = specialgameData.TimeClick
+                GameScore = specialgameData.GameScore
 
             };
         }
@@ -164,12 +155,9 @@ namespace Model
     public struct SpecialFuzzyDataFs
     {
         [FirestoreProperty] public string GameID { get; set; }
-        [FirestoreProperty] public float TimeUsed { get; set; }
-        [FirestoreProperty] public List<int> ObjectSequence { get; set; }
-        [FirestoreProperty] public int CorrectObject { get; set; }
-        [FirestoreProperty] public List<bool> CorrectSeq { get; set; }
+        [FirestoreProperty] public List<float> TimeUsed { get; set; }
         [FirestoreProperty] public List<int> ClickTypeList { get; set; }
-        [FirestoreProperty] public List<float> TimeClick { get; set; }
+        [FirestoreProperty] public List<int> GameScore {get; set;}
         public override string ToString()
         {
             return StringHelper.ToStringObj(this);

@@ -53,6 +53,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void ClearParameter()
     {
         UserFuzzyData.Clear();
+        SpecialFuzzyData.Clear();
         gameCount = 0;
         gameComplete = 0;
         gameInComplete = 0;
@@ -77,6 +78,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             {
                 //N4
                 SetRuleText("N4, " + _fuzzyGameData.PauseUsed.ToString());
+                difficultyState[1] = 1.0f;
             }
             else
             {
@@ -367,6 +369,12 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                             man_val = 0f;
                             dec_val = 1f;
                         }
+                        else if (rfmr == upperr && rfmr == lowerr)
+                        {
+                            inc_val = 0f;
+                            man_val = 1f;
+                            dec_val = 0f;
+                        }
                         else
                         {
                             float[] x_range = Linspace(0f, 2f, 100);
@@ -376,7 +384,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                             float[] increase_mf = Trapmf(x_range, imf);
                             float[] maintain_mf = Trimf(x_range, mmf);
                             float[] Decrease_mf = Trapmf(x_range, dmf);
-                            
+
                             inc_val = InterpMembership(x_range, increase_mf, rfmr);
                             man_val = InterpMembership(x_range, maintain_mf, rfmr);
                             dec_val = InterpMembership(x_range, Decrease_mf, rfmr);
@@ -400,8 +408,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         var (rmt, rmadt) = CalculateFuzzyMatchTime(_fmt, _fuzzyGameData.FirstMatchTime);
                         ShowList.Add(rmt);
                         ShowList.Add(rmadt);
-                        float lowert = 1 - 2 * rmadt;
-                        float uppert = 1 + 2 * rmadt;
+                        float lowert = 1 - rmadt;
+                        float uppert = 1 + rmadt;
 
                         ShowList.Add(lowert);
                         ShowList.Add(uppert);
@@ -432,6 +440,12 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                             man_val = 0f;
                             dec_val = 1f;
                         }
+                        else if (rmt == uppert && rmt == lowert)
+                        {
+                            inc_val = 0f;
+                            man_val = 1f;
+                            dec_val = 0f;
+                        }
                         else
                         {
                             float[] x_range = Linspace(0f, 2f, 100);
@@ -456,14 +470,20 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         // End Seventh Rule
                     }
                 }
+                if (UserFuzzyData.Count >= 4)
+                {
+                    UserFuzzyData.RemoveAt(0);
+                }
+                UserFuzzyData.Add(_fuzzyGameData);
             }
         }
         else
         {
             //N3
             gameInComplete++;
-            difficultyState[1] += 1.0f;
+            difficultyState[0] += 1.0f;
             SetRuleText("N3, " + _fuzzyGameData.Complete.ToString());
+
         }
         if (redPoint)
         {
@@ -485,14 +505,9 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             OutputCalculate(difficultyState);
         }
 
-        if (UserFuzzyData.Count == 4)
-        {
-            UserFuzzyData.RemoveAt(0);
-        }
-        UserFuzzyData.Add(_fuzzyGameData);
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount }, CompleteGameID);
-        _fuzzyGameData.GameID = (gameCount-1).ToString();
+        _fuzzyGameData.GameID = (gameCount - 1).ToString();
         FirebaseManagerV2.Instance.UploadFuzzyGameData(_fuzzyGameData);
         ShowList.Clear();
         ShowRuleText();
@@ -558,7 +573,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 mtDiff = true;
             }
         }
-        SetRuleText("Increase:"+dival[2].ToString()+", Maintain:"+dival[1].ToString()+", Decrease:"+dival[0].ToString());
+        SetRuleText("Increase:" + dival[2].ToString() + ", Maintain:" + dival[1].ToString() + ", Decrease:" + dival[0].ToString());
     }
     private float CalculateMedian(List<float> values)
     {
@@ -621,25 +636,6 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         float RMAD = madMatchTime / medianMatchTime;
 
         return (RMT, RMAD);
-    }
-
-    // Determine the performance level based on the given thresholds
-    private string GetPerformanceLevel(float ratio, float deviation)
-    {
-        // 0.7 - 1.3
-        //ratio คือ RFMR = 0.625
-        //deviation คือ RMAD = 0.15
-        float lowThreshold = ratio - deviation;
-        float highThreshold = ratio + deviation;
-        //หา Threshold
-        //low = 0.475
-        //high = 0.775
-
-        if (lowThreshold >= 1.0f) return "Low";
-        if (highThreshold <= 1.0f) return "Good";
-        return "Maintain";
-        //เมื่อนำมาเทียบจะได้ Performance ในระดับที่ดี
-
     }
     private float[] Trimf(float[] x, float[] abc)
     {
@@ -796,19 +792,104 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
 
     public void PostSpecialTaskStage(SpecialFuzzyData _specialgameData)
     {
+        difficultyState = new List<float>() { 0, 0, 0 };
         minigameCount++;
         if (minigameCount >= 2)
         {
+            float inc_val = 0;
+            float man_val = 0;
+            float dec_val = 0;
             //N8
+            // ShowList.Add("N8");
+            // SetRuleTextList(ShowList);
 
 
+            //N9 GameScore
+            // ShowList.Add("N9");
+            // _specialgameData.GameScore
+            // SetRuleTextList(ShowList);
 
-            //N9
+
             //N10
-            //ITS BROKEN, NEED FIX!!!!!!!!!
-        }
+            ShowList.Add("N10");
+            foreach(var ctl in _specialgameData.ClickTypeList){
+                ShowList.Add(ctl);
+            }
+            int mcount = 0;
+            int dcount = 0;
+            if (_specialgameData.ClickTypeList[0] > 0)
+            {
+                mcount++;
+            }
+            if (_specialgameData.ClickTypeList[1] > 0)
+            {
+                dcount++;
+            }
+            if (_specialgameData.ClickTypeList[2] > 0)
+            {
+                dcount++;
+            }
+            if (_specialgameData.ClickTypeList[3] > 0)
+            {
+                dcount++;
+            }
+            if (mcount == dcount)
+            {
+                bool compare_check = true;
+                if (_specialgameData.ClickTypeList[0] < _specialgameData.ClickTypeList[1])
+                {
+                    compare_check = false;
+                }
+                if (_specialgameData.ClickTypeList[0] < _specialgameData.ClickTypeList[2])
+                {
+                    compare_check = false;
+                }
+                if (_specialgameData.ClickTypeList[0] < _specialgameData.ClickTypeList[3])
+                {
+                    compare_check = false;
+                }
+                if (compare_check)
+                {
+                    difficultyState[2] = 0f;
+                    difficultyState[1] = 0.7f;
+                    difficultyState[0] = 0.3f;
+                    ShowList.Add("Maintain");
+                }
+                else
+                {
+                    difficultyState[2] = 0f;
+                    difficultyState[1] = 0.3f;
+                    difficultyState[0] = 0.7f;
+                    ShowList.Add("Decrease");
+                }
 
-        //UPLOAD
+            }
+            else
+            {
+                if (mcount > dcount)
+                {
+                    difficultyState[2] = 0f;
+                    difficultyState[1] = 0.7f;
+                    difficultyState[0] = 0.3f;
+                    ShowList.Add("Maintain");
+
+                }
+                else
+                {
+                    difficultyState[2] = 0f;
+                    difficultyState[1] = 0.3f;
+                    difficultyState[0] = 0.7f;
+                    ShowList.Add("Decrease");
+                }
+            }
+
+            SetRuleTextList(ShowList);
+        }
+        FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameData);
+        List<int> _upTemp = DLS.GetUploadProperties();
+        FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount }, CompleteGameID);
+        ShowList.Clear();
+        ShowRuleText();
     }
     public void PostDailyStage()
     {
@@ -850,7 +931,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void RuntimeText()
     {
 
-        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}", DLS.GetParameterInfo(), mtDiff, isFirstDay,gameCount,gameComplete,minigameCount);
+        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}", DLS.GetParameterInfo(), mtDiff, isFirstDay, gameCount, gameComplete, minigameCount);
 
     }
     public void StopRuntimeText()
@@ -873,7 +954,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     }
     public void SetRuleText(string ruleText)
     {
-        RuleTextList.Add(ruleText);
+        RuleTextList.Add(ruleText + "\n");
         ShowList.Clear();
     }
     public void SetRuleTextList(List<object> textList)
@@ -911,13 +992,11 @@ public class DifficultyLevelSequence
     List<List<object>> randVal = new List<List<object>>{
         new List<object> { PairType.FOUR, GameLayout.RANDOM },
         new List<object> { PairType.SIX, GameLayout.RANDOM },
-        new List<object> { PairType.EIGHT, GameLayout.RANDOM },
         new List<object> { PairType.EIGHT, GameLayout.RANDOM }
     };
     bool gridMode = true;
     int currentDiff = 0;
     int currLevel = 0;
-    int currImageType = 0;
     public bool IncreaseDifficulty()
     {
         currLevel++;
@@ -926,13 +1005,14 @@ public class DifficultyLevelSequence
             if (currLevel == 3)
             {
                 gridMode = false;
+                currLevel = 2;
             }
         }
         else
         {
-            if (currLevel == 4)
+            if (currLevel == 3)
             {
-                currLevel = 3;
+                currLevel = 2;
                 ChangeImageType();
                 return true;
 
@@ -943,7 +1023,11 @@ public class DifficultyLevelSequence
     }
     public void ChangeImageType()
     {
-        currImageType = (currImageType++) % 4;
+        currentDiff = currentDiff + 1;
+        if (currentDiff == 4)
+        {
+            currentDiff = 0;
+        }
     }
     public bool DecreaseDifficulty()
     {

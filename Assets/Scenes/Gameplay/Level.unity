@@ -1317,6 +1317,7 @@ MonoBehaviour:
   playArea: {fileID: 6964978400281510055}
   dimBackground: {fileID: 53856423}
   gridObject: {fileID: 6964978399750738816}
+  randObject: {fileID: 6964978400023654508}
   helper: {fileID: 1030190341}
   helpPanel: {fileID: 1024669894}
   rightPanel: {fileID: 7781074579268046624}
