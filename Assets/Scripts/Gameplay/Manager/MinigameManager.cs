@@ -39,7 +39,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
     private List<int> game_score = new List<int>();
     private List<float> time_use = new List<float>();
     private List<int> click_type_list = new List<int>(){0,0,0,0};
-
+    private List<int> count_missed_click = new List<int>();
 
     public override void Init()
     {
@@ -76,6 +76,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
         for (int i = 0; i < 20; i++)
         {
             game_score.Add(0);
+            count_missed_click.Add(0);
             if (sequenceObj[i] == 1)
             {
                 sequenceObj[i] = 5; //Incorrect
@@ -199,14 +200,11 @@ public class MinigameManager : MonoInstance<MinigameManager>
             GameplayResultManager.Instance.SpecialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
             GameplayResultManager.Instance.SpecialFuzzyData.GameScore = game_score;
             GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use.ToList();
-            foreach(var item in time_use){
-                Debug.Log(item);
+            for(int i=0;i<20;i++){
+                if(count_missed_click[i] == 0 && sequenceObj[i] == object_type )
+                click_type_list[3]++;
             }
-            foreach(var item in GameplayResultManager.Instance.MinigameClickLogList){
-                if(item.ClickStatus == MinigameClickStatusEnum.FALSE){
-                    click_type_list[3]++;
-                }
-            }
+            Debug.Log(click_type_list[3]);
             GameplayResultManager.Instance.SpecialFuzzyData.ClickTypeList = click_type_list.ToList();
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();
@@ -250,12 +248,14 @@ public class MinigameManager : MonoInstance<MinigameManager>
             AudioController.SetnPlay("audio/SFX/Correct_SpecialT");
             game_score[spawnCounter-1] = 1;
             time_use.Add(timer);
+            count_missed_click[spawnCounter-1] = 1;
         }
         else
         {
             AudioController.SetnPlay("audio/SFX/Wrong_SpecialT");
             game_score[spawnCounter-1] = 0;
             click_type_list[1]++;
+            count_missed_click[spawnCounter-1] = 1;
         }
         clickObjImg.gameObject.SetActive(false);
         isRoundActive = false;
@@ -271,11 +271,13 @@ public class MinigameManager : MonoInstance<MinigameManager>
         if(object_type == curr_obj){
             // game_score[spawnCounter-1] = 1;
             click_type_list[0]++;
+            count_missed_click[spawnCounter-1] = 1;
         }
         else
         {
             // game_score[spawnCounter-1] = 0;
             click_type_list[2]++;
+            count_missed_click[spawnCounter-1] = 1;
         }
         clickObjLateImg.gameObject.SetActive(false);
     }
