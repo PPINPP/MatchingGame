@@ -485,25 +485,32 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             SetRuleText("N3, " + _fuzzyGameData.Complete.ToString());
 
         }
-        if (redPoint)
+        if (gameCount > 2)
         {
-            if (mtDiff)
+            if (redPoint)
             {
-                //N13
-                DLS.ChangeImageType();
-                SetRuleText("N13,CIT");
-                mtDiff = false;
+                if (mtDiff)
+                {
+                    //N13
+                    DLS.ChangeImageType();
+                    SetRuleText("N13,CIT");
+                    mtDiff = false;
+                }
+                else
+                {
+                    mtDiff = true;
+                    SetRuleText("N15, Maintain");
+                }
             }
             else
             {
-                mtDiff = true;
-                SetRuleText("N15, Maintain");
+                OutputCalculate(difficultyState);
             }
         }
-        else
-        {
-            OutputCalculate(difficultyState);
+        else{
+            SetRuleText("gameCount, "+gameCount.ToString()+", Rule not activate");
         }
+
 
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount }, CompleteGameID);
@@ -519,15 +526,16 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         {
             temp_diff = 0;
         }
-        else if (dival[0] == dival[1] && dival[0]>dival[2])
+        else if (dival[0] == dival[1] && dival[0] > dival[2])
         {
             temp_diff = -1;
         }
-        else if (dival[0] == dival[2] && dival[0]>dival[1])
+        else if (dival[0] == dival[2] && dival[0] > dival[1])
         {
             temp_diff = -1;
         }
-        else if(dival[1] == dival[2]&& dival[1] >dival[0]){
+        else if (dival[1] == dival[2] && dival[1] > dival[0])
+        {
             temp_diff = 0;
         }
         else if (dival[0] > dival[1] && dival[0] > dival[2])
@@ -573,6 +581,9 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
         }
         SetRuleText("Increase:" + dival[2].ToString() + ", Maintain:" + dival[1].ToString() + ", Decrease:" + dival[0].ToString());
+        difficultyState[0] = 0f;
+        difficultyState[1] = 0f;
+        difficultyState[2] = 0f;
     }
     private float CalculateMedian(List<float> values)
     {
@@ -795,23 +806,22 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         minigameCount++;
         if (minigameCount >= 2)
         {
-            float inc_val = 0;
-            float man_val = 0;
-            float dec_val = 0;
             //N8
             // ShowList.Add("N8");
             // SetRuleTextList(ShowList);
 
 
             //N9 GameScore
-            // ShowList.Add("N9");
+            ShowList.Add("N9");
+
             // _specialgameData.GameScore
-            // SetRuleTextList(ShowList);
+            SetRuleTextList(ShowList);
 
 
             //N10
             ShowList.Add("N10");
-            foreach(var ctl in _specialgameData.ClickTypeList){
+            foreach (var ctl in _specialgameData.ClickTypeList)
+            {
                 ShowList.Add(ctl);
             }
             int mcount = 0;
@@ -898,6 +908,10 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         if (dayPassed > 1) // Second Rule
         {
             SetRuleText("N2, " + dayPassed.ToString());
+            difficultyState[0] = 1f;
+            difficultyState[1] = 0f;
+            difficultyState[2] = 0f;
+            OutputCalculate(difficultyState);
         }
         ShowRuleText();
     }
@@ -931,9 +945,22 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void RuntimeText()
     {
 
-        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}", DLS.GetParameterInfo(), mtDiff, isFirstDay, gameCount, gameComplete, minigameCount);
+        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}\nTimeFactor: {6}", DLS.GetParameterInfo(), mtDiff, isFirstDay, gameCount, gameComplete, minigameCount,Time.timeScale.ToString());
 
     }
+    
+    public void ChangeTimeFactor(bool inc){
+        if(inc){
+            Time.timeScale += 1f;
+        }
+        else{
+            Time.timeScale -= 1f;
+            if(Time.timeScale < 1f){
+                Time.timeScale = 1f;
+            }
+        }
+    }
+
     public void StopRuntimeText()
     {
         if (IsInvoking("RuntimeText"))

@@ -41,6 +41,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     string prefix_time_locate = "game_information_test";
     public string curr_username;
     public bool isFirstLogin;
+    public string lastLogin;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
     public Dictionary<string, bool> gameData = new Dictionary<string, bool>();
@@ -283,6 +284,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     curr_username = fieldVal["Username"].ToString();
                     dp = Convert.ToInt32(fieldVal["DayPassed"]);
                     isFirstLogin = Convert.ToBoolean(fieldVal["IsFirstLogin"]);
+                    lastLogin = fieldVal["LastLogin"].ToString();
                     if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
                     {
                         if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
@@ -661,15 +663,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void checkTimeChange()
     {
-        var daily_key = "daily_check_" + curr_username;
-        if(PlayerPrefs.GetInt(daily_key) != DateTime.Now.Day){
+        if (lastLogin != DateTime.Now.ToString("yyyyMMdd"))
+        {
             Debug.Log("End Testing Time or Time Change");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
             Application.Quit();
         }
-
         //FIX
     }
     public async void GameRuleTimeChecker(Action success)
@@ -792,7 +793,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 };
         gameRuleRef.SetAsync(updates);
         List<string> dateListString = new List<string>();
-        foreach(var item in dateList){
+        foreach (var item in dateList)
+        {
             dateListString.Add(item.ToString());
         }
         return dateListString;
@@ -801,7 +803,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void UploadGameStateAndGameScore(List<int> game_state, List<int> game_score)
     {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString());
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString()+"_"+DateTime.Now.ToString("yyyyMMdd"));
         List<string> stateList = game_state.Select(number => number.ToString()).ToList();
         List<string> scoreList = game_score.Select(number => number.ToString()).ToList();
         Dictionary<string, object> updates = new Dictionary<string, object>
@@ -862,6 +864,15 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
         Dictionary<string, object> updates = new Dictionary<string, object>{
             {"IsFirstLogin",val},
+        };
+        docRef.UpdateAsync(updates);
+    }
+
+    public void UpdateLastLogin(){
+        lastLogin = DateTime.Now.ToString("yyyyMMdd");
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"LastLogin", lastLogin},
         };
         docRef.UpdateAsync(updates);
     }

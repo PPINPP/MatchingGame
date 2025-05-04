@@ -6,6 +6,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Linq;
 
 public class MinigameManager : MonoInstance<MinigameManager>
 {
@@ -203,7 +204,7 @@ public class MinigameManager : MonoInstance<MinigameManager>
                     click_type_list[3]++;
                 }
             }
-            GameplayResultManager.Instance.SpecialFuzzyData.ClickTypeList = click_type_list;
+            GameplayResultManager.Instance.SpecialFuzzyData.ClickTypeList = click_type_list.ToList();
             GameplayResultManager.Instance.MinigameResult.CompletedAt = DateTime.Now;
             GameplayResultManager.Instance.OnEndMiniGame();
             Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { }, () =>

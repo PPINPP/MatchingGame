@@ -79,7 +79,7 @@ public class LoginManagerV2 : MonoBehaviour
         sm.AddComponent<SequenceManager>();
         LevelSelectorManager.Instance.GetGameConponent();
         LevelSelectorManager.Instance.UpdateGameData();
-        if (FirebaseManagerV2.Instance.gameData["TTR1"] == false )
+        if (FirebaseManagerV2.Instance.gameData["TTR1"] == false)
         {
             SequenceManager.Instance.ReloadSequence(CreateTutorialSequence("1"));
         }
@@ -98,39 +98,23 @@ public class LoginManagerV2 : MonoBehaviour
         else
         {
             GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
-            var daily_key = "daily_check_" + FirebaseManagerV2.Instance.curr_username;
-            if (PlayerPrefs.HasKey(daily_key))
+            if (FirebaseManagerV2.Instance.lastLogin != DateTime.Now.ToString("yyyyMMdd"))
             {
-                if (DateTime.Now.Day != PlayerPrefs.GetInt(daily_key))
-                {
-                    gameplaySequenceSO.sequences.Add(new SequenceDetail()
-                    {
-                        isDailyFeeling = true,
-                    });
-                    PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
-                    SequenceManager.Instance._test2mode = true;
-                    SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
-                    SequenceManager.Instance.NextSequence();
-                    return;
-                }
-                else
-                {
-                    SceneManager.LoadScene("LevelSelector");
-                    return;
-                }
-            }
-            else
-            {
+                FirebaseManagerV2.Instance.UpdateLastLogin();
                 gameplaySequenceSO.sequences.Add(new SequenceDetail()
                 {
                     isDailyFeeling = true,
                 });
-                PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
+                SequenceManager.Instance._test2mode = true;
+                SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
+                SequenceManager.Instance.NextSequence();
+                return;
             }
-            SequenceManager.Instance._test2mode = true;
-            SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
-            SequenceManager.Instance.NextSequence();
-            return;
+            else
+            {
+                SceneManager.LoadScene("LevelSelector");
+                return;
+            }
             // SequenceManager.Instance._test2mode = true;
 
         }
@@ -190,25 +174,11 @@ public class LoginManagerV2 : MonoBehaviour
             isGamePlay = true,
             gameplay = RandomTutorial(0, false),
         });
-        if (PlayerPrefs.HasKey(daily_key))
+        FirebaseManagerV2.Instance.UpdateLastLogin();
+        gameplaySequenceSO.sequences.Add(new SequenceDetail()
         {
-            if (DateTime.Now.Day != PlayerPrefs.GetInt(daily_key))
-            {
-                gameplaySequenceSO.sequences.Add(new SequenceDetail()
-                {
-                    isDailyFeeling = true,
-                });
-                PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
-            }
-        }
-        else
-        {
-            gameplaySequenceSO.sequences.Add(new SequenceDetail()
-            {
-                isDailyFeeling = true,
-            });
-            PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
-        }
+            isDailyFeeling = true,
+        });
         return gameplaySequenceSO;
         // gameplaySequenceSO.ReloadSequence(gameplaySequenceSO);
     }

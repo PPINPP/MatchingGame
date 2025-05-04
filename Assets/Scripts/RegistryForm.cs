@@ -49,5 +49,7 @@ namespace RegistryForm
         public List<int> FuzzyProperties {get;set;}
         [FirestoreProperty]
         public bool IsFirstLogin {get;set;}
+        [FirestoreProperty]
+        public string LastLogin {get;set;}
     }
 }

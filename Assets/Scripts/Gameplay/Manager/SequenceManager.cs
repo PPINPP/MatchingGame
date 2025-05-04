@@ -59,33 +59,17 @@ namespace MatchingGame.Gameplay
             if (currentSequenceIndex >= _sequenceSO.sequences.Count)
             {
                 //Check
-                var daily_key = "daily_check_" + FirebaseManagerV2.Instance.curr_username;
-                if (PlayerPrefs.HasKey(daily_key))
+                if (FirebaseManagerV2.Instance.lastLogin != DateTime.Now.ToString("yyyyMMdd"))
                 {
-                    if (DateTime.Now.Day != PlayerPrefs.GetInt(daily_key))
-                    {
-                        SequenceDetail sequenceDetail = new SequenceDetail()
+                    FirebaseManagerV2.Instance.UpdateLastLogin();
+                    SequenceDetail sequenceDetail = new SequenceDetail()
                         {
                             isDailyFeeling = true,
                         };
                         _sequenceSO.sequences.Add(sequenceDetail);
-                        PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
                         LoadScene();
                         return;
-                    }
                 }
-                else
-                {
-                    SequenceDetail sequenceDetail = new SequenceDetail()
-                    {
-                        isDailyFeeling = true,
-                    };
-                    _sequenceSO.sequences.Add(sequenceDetail);
-                    PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
-                    LoadScene();
-                    return;
-                }
-
                 //EndCheck
                 currentSequenceIndex = _sequenceSO.sequences.Count - 1;
                 // SceneManager.LoadScene(GameplayResources.Instance.SceneNames.uiTestScene);

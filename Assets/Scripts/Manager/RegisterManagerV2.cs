@@ -309,9 +309,6 @@ public class RegisterManagerV2 : MonoBehaviour
             DateCreated = DateTime.Now.ToString("s"),
             DateUpdated = DateTime.Now.ToString("s"),
             MedicalHistory = new Dictionary<string, bool>()
-            
-            
-
         {
             {"Hypertension", mdch[0] },
             {"Diabetes", mdch[1] },
@@ -322,8 +319,9 @@ public class RegisterManagerV2 : MonoBehaviour
         },
             TutorialPassed = false,
             DayPassed = 0,
-            FuzzyProperties = new List<int>(){0,0,0,0,0,1,0,0},
+            FuzzyProperties = new List<int>() { 0, 0, 0, 0, 0, 1, 0, 0 },
             IsFirstLogin = true,
+            LastLogin = "",
 
         };
         FirebaseManagerV2.Instance.NewRegister(userInfo, OnCompleteRegister);
