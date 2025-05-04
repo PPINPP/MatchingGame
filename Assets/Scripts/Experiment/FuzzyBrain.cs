@@ -657,7 +657,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         float medianMatchTime = CalculateMedian(pastLevelsMatchTime);
         float RMT;
         float RMAD;
-         if (medianMatchTime == 0)
+        if (medianMatchTime == 0)
         {
             RMT = 0;
             RMAD = 0;
@@ -832,14 +832,25 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             //N8
             ShowList.Add("N8");
             List<float> _mpt = new List<float>();
-            var ampt = _specialgameData.TimeUsed.Sum()/_specialgameData.TimeUsed.Count();
+            var ampt = _specialgameData.TimeUsed.Sum() / _specialgameData.TimeUsed.Count();
+            if (_specialgameData.TimeUsed.Count() == 0)
+            {
+                ampt = 0;
+            }
             ShowList.Add(ampt);
             foreach (var item in UserSpecialData)
             {
-                _mpt.Add(item.TimeUsed.Sum()/item.TimeUsed.Count());
+                if (item.TimeUsed.Count() != 0)
+                {
+                    _mpt.Add(item.TimeUsed.Sum() / item.TimeUsed.Count());
+                }
+                else
+                {
+                    _mpt.Add(0f);
+                }
                 ShowList.Add(_mpt[^1]);
             }
-            
+
             var (rmpt, rmadpt) = CalculateFuzzyFMR(_mpt, ampt);
             ShowList.Add(rmpt);
             ShowList.Add(rmadpt);
@@ -905,15 +916,14 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             ShowList.Add("N9");
             List<float> _cc = new List<float>();
             var acc = 1f - _specialgameData.GameScore.Count(n => n == 1) / 20.0f;
-            
+
             foreach (var item in UserSpecialData)
             {
                 _cc.Add(1f - item.GameScore.Count(n => n == 1) / 20.0f);
-                Debug.Log(1f - item.GameScore.Count(n => n == 1) / 20.0f);
+                ShowList.Add(1f - item.GameScore.Count(n => n == 1) / 20.0f);
             }
-            Debug.Log(acc);
-            
             var (rcc, rmadc) = CalculateFuzzyFMR(_cc, acc);
+            ShowList.Add(acc);
             ShowList.Add(rcc);
             ShowList.Add(rmadc);
             float lowercc = 1f - rmadc;
@@ -1013,7 +1023,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 {
                     compare_check = false;
                 }
-                if(_specialgameData.ClickTypeList.Sum() == 0){
+                if (_specialgameData.ClickTypeList.Sum() == 0)
+                {
                     difficultyState[2] = 1f;
                     difficultyState[1] = 0f;
                     difficultyState[0] = 0f;
@@ -1032,7 +1043,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                     difficultyState[0] = 0.7f;
                     ShowList.Add("Decrease");
                 }
-                
+
 
             }
             else
