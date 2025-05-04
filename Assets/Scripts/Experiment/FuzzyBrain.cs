@@ -16,7 +16,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     [SerializeField]
     public bool debugMode;
     public List<FuzzyGameData> UserFuzzyData = new List<FuzzyGameData>();
-    public List<FuzzyGameData> SpecialFuzzyData = new List<FuzzyGameData>();
+    public List<SpecialFuzzyData> UserSpecialData = new List<SpecialFuzzyData>();
     public TMP_Text vrbBox;
     public TMP_Text ruleBox;
     public DifficultyLevelSequence DLS;
@@ -53,7 +53,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void ClearParameter()
     {
         UserFuzzyData.Clear();
-        SpecialFuzzyData.Clear();
+        UserSpecialData.Clear();
         gameCount = 0;
         gameComplete = 0;
         gameInComplete = 0;
@@ -63,7 +63,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         ruleCount = 0;
         difficultyState = new List<float>() { 0, 0, 0 };
         CompleteGameID = new List<int>();
-        SpecialFuzzyData.Clear();
+        UserSpecialData.Clear();
     }
     public void PostGameStage(FuzzyGameData _fuzzyGameData)
     {
@@ -507,8 +507,12 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 OutputCalculate(difficultyState);
             }
         }
-        else{
-            SetRuleText("gameCount, "+gameCount.ToString()+", Rule not activate");
+        else
+        {
+            SetRuleText("gameCount, " + gameCount.ToString() + ", Rule not activate");
+            difficultyState[0] = 0f;
+            difficultyState[1] = 0f;
+            difficultyState[2] = 0f;
         }
 
 
@@ -624,15 +628,26 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public (float RFMR, float RMAD) CalculateFuzzyFMR(List<float> pastLevelsFMR, float currentFMR)
     {
         float medianFMR = CalculateMedian(pastLevelsFMR);
+        float RFMR;
+        float RMAD;
         //หา Median โดยใช้แค่ 3 ด่านก่อนหน้า จะได้ (0.33+0.42+0.46)/3 = 20
+        if (medianFMR == 0)
+        {
+            RFMR = 0;
+            RMAD = 0;
+            return (RFMR, RMAD);
+        }
+        else
+        {
+            float madFMR = CalculateMAD(pastLevelsFMR, medianFMR);
+            //นำค่า Median ที่ได้คำนวณหา MAD ของ 3 ด่านก่อนหน้า
+            //โดย นำค่าของสามด่านแต่ละค่า มาลบด้วย Median แล้วทำ Absolute จะได้ = [0.07,0.02,0.06]
+            //จากนั้นนำค่าที่ได้หา Median อีกครั้งนึง จะได้เป็น MADFMR = 0.06
 
-        float madFMR = CalculateMAD(pastLevelsFMR, medianFMR);
-        //นำค่า Median ที่ได้คำนวณหา MAD ของ 3 ด่านก่อนหน้า
-        //โดย นำค่าของสามด่านแต่ละค่า มาลบด้วย Median แล้วทำ Absolute จะได้ = [0.07,0.02,0.06]
-        //จากนั้นนำค่าที่ได้หา Median อีกครั้งนึง จะได้เป็น MADFMR = 0.06
+            RFMR = currentFMR / medianFMR; //RFMR จะได้ค่าเท่ากับ ค่า FMR ด่านปัจจุบัน หารด้วย Median 0.25/ 0.40 = 0.625
+            RMAD = madFMR / medianFMR; //RMAD จะได้ค่าเท่ากับ ค่า MADFMR หารด้วย Median  0.06 / 0.40  = 0.15
+        }
 
-        float RFMR = currentFMR / medianFMR; //RFMR จะได้ค่าเท่ากับ ค่า FMR ด่านปัจจุบัน หารด้วย Median 0.25/ 0.40 = 0.625
-        float RMAD = madFMR / medianFMR; //RMAD จะได้ค่าเท่ากับ ค่า MADFMR หารด้วย Median  0.06 / 0.40  = 0.15
         return (RFMR, RMAD);
     }
 
@@ -807,16 +822,145 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         if (minigameCount >= 2)
         {
             //N8
-            // ShowList.Add("N8");
-            // SetRuleTextList(ShowList);
+            ShowList.Add("N8");
+            List<float> _mpt = new List<float>();
+            var ampt = _specialgameData.TimeUsed.Sum()/_specialgameData.TimeUsed.Count();
+            ShowList.Add(ampt);
+            foreach (var item in UserSpecialData)
+            {
+                _mpt.Add(item.TimeUsed.Sum()/item.TimeUsed.Count());
+                ShowList.Add(_mpt[^1]);
+            }
+            
+            var (rmpt, rmadpt) = CalculateFuzzyFMR(_mpt, ampt);
+            ShowList.Add(rmpt);
+            ShowList.Add(rmadpt);
+            float lowerpt = 1f - rmadpt;
+            float upperpt = 1f + rmadpt;
+            ShowList.Add(lowerpt);
+            ShowList.Add(upperpt);
+            float inc_val = 0f;
+            float man_val = 0f;
+            float dec_val = 0f;
+            if (lowerpt < 0f)
+            {
+                lowerpt = 0f;
+            }
+            if (rmpt == 0)
+            {
+                inc_val = 1f;
+                man_val = 0f;
+                dec_val = 0f;
+            }
+            else if ((rmpt == 0 || (upperpt == 0 && lowerpt == 0)) && rmpt > CalculateMedian(_mpt))
+            {
+                inc_val = 0f;
+                man_val = 1f;
+                dec_val = 0f;
+            }
+            else if (rmpt > (upperpt + lowerpt))
+            {
+                inc_val = 0f;
+                man_val = 0f;
+                dec_val = 1f;
+            }
+            else if (rmpt == upperpt && rmpt == lowerpt)
+            {
+                inc_val = 0f;
+                man_val = 1f;
+                dec_val = 0f;
+            }
+            else
+            {
+                float[] x_range = Linspace(0f, 2f, 100);
+                float[] imf = new float[4] { 0f, 0f, lowerpt, (lowerpt + upperpt) / 2 };
+                float[] mmf = new float[3] { lowerpt, (lowerpt + upperpt) / 2, upperpt };
+                float[] dmf = new float[4] { (lowerpt + upperpt) / 2, upperpt, 100, 100 };
+                float[] increase_mf = Trapmf(x_range, imf);
+                float[] maintain_mf = Trimf(x_range, mmf);
+                float[] Decrease_mf = Trapmf(x_range, dmf);
 
+                inc_val = InterpMembership(x_range, increase_mf, rmpt);
+                man_val = InterpMembership(x_range, maintain_mf, rmpt);
+                dec_val = InterpMembership(x_range, Decrease_mf, rmpt);
 
-            //N9 GameScore
-            ShowList.Add("N9");
-
-            // _specialgameData.GameScore
+            }
+            ShowList.Add(inc_val);
+            ShowList.Add(man_val);
+            ShowList.Add(dec_val);
+            difficultyState[0] += dec_val;
+            difficultyState[1] += man_val;
+            difficultyState[2] += inc_val;
             SetRuleTextList(ShowList);
 
+            //N9
+            ShowList.Add("N9");
+            List<float> _cc = new List<float>();
+            var acc = 1f - _specialgameData.GameScore.Count(n => n == 1) / 20.0f;
+            foreach (var item in UserSpecialData)
+            {
+                _cc.Add(1f - item.GameScore.Count(n => n == 1) / 20.0f);
+            }
+            var (rcc, rmadc) = CalculateFuzzyFMR(_cc, acc);
+            ShowList.Add(rcc);
+            ShowList.Add(rmadc);
+            float lowercc = 1f - rmadc;
+            float uppercc = 1f + rmadc;
+            ShowList.Add(lowercc);
+            ShowList.Add(uppercc);
+            inc_val = 0f;
+            man_val = 0f;
+            dec_val = 0f;
+            if (lowercc < 0f)
+            {
+                lowercc = 0f;
+            }
+            if (rcc == 0)
+            {
+                inc_val = 1f;
+                man_val = 0f;
+                dec_val = 0f;
+            }
+            else if ((rcc == 0 || (uppercc == 0 && lowercc == 0)) && rcc > CalculateMedian(_cc))
+            {
+                inc_val = 0f;
+                man_val = 1f;
+                dec_val = 0f;
+            }
+            else if (rcc > (uppercc + lowercc))
+            {
+                inc_val = 0f;
+                man_val = 0f;
+                dec_val = 1f;
+            }
+            else if (rcc == uppercc && rcc == lowercc)
+            {
+                inc_val = 0f;
+                man_val = 1f;
+                dec_val = 0f;
+            }
+            else
+            {
+                float[] x_range = Linspace(0f, 2f, 100);
+                float[] imf = new float[4] { 0f, 0f, lowercc, (lowercc + uppercc) / 2 };
+                float[] mmf = new float[3] { lowercc, (lowercc + uppercc) / 2, uppercc };
+                float[] dmf = new float[4] { (lowercc + lowercc) / 2, uppercc, 100, 100 };
+                float[] increase_mf = Trapmf(x_range, imf);
+                float[] maintain_mf = Trimf(x_range, mmf);
+                float[] Decrease_mf = Trapmf(x_range, dmf);
+
+                inc_val = InterpMembership(x_range, increase_mf, rcc);
+                man_val = InterpMembership(x_range, maintain_mf, rcc);
+                dec_val = InterpMembership(x_range, Decrease_mf, rcc);
+
+            }
+            ShowList.Add(inc_val);
+            ShowList.Add(man_val);
+            ShowList.Add(dec_val);
+            difficultyState[0] += dec_val;
+            difficultyState[1] += man_val;
+            difficultyState[2] += inc_val;
+            SetRuleTextList(ShowList);
 
             //N10
             ShowList.Add("N10");
@@ -893,8 +1037,9 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
 
             SetRuleTextList(ShowList);
+            OutputCalculate(difficultyState);
         }
-        OutputCalculate(difficultyState);
+        UserSpecialData.Add(_specialgameData);
         FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameData);
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount }, CompleteGameID);
@@ -945,17 +1090,21 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void RuntimeText()
     {
 
-        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}\nTimeFactor: {6}", DLS.GetParameterInfo(), mtDiff, isFirstDay, gameCount, gameComplete, minigameCount,Time.timeScale.ToString());
+        vrbBox.text = string.Format("{0}mtDiff: {1}\nisFirstDay: {2}\ngameCount: {3}\ngameComplete: {4}\nminigameCount: {5}\nTimeFactor: {6}", DLS.GetParameterInfo(), mtDiff, isFirstDay, gameCount, gameComplete, minigameCount, Time.timeScale.ToString());
 
     }
-    
-    public void ChangeTimeFactor(bool inc){
-        if(inc){
+
+    public void ChangeTimeFactor(bool inc)
+    {
+        if (inc)
+        {
             Time.timeScale += 1f;
         }
-        else{
+        else
+        {
             Time.timeScale -= 1f;
-            if(Time.timeScale < 1f){
+            if (Time.timeScale < 1f)
+            {
                 Time.timeScale = 1f;
             }
         }

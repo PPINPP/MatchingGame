@@ -198,7 +198,10 @@ public class MinigameManager : MonoInstance<MinigameManager>
             AudioController.SetVolume();
             GameplayResultManager.Instance.SpecialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
             GameplayResultManager.Instance.SpecialFuzzyData.GameScore = game_score;
-            GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use;
+            GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use.ToList();
+            foreach(var item in time_use){
+                Debug.Log(item);
+            }
             foreach(var item in GameplayResultManager.Instance.MinigameClickLogList){
                 if(item.ClickStatus == MinigameClickStatusEnum.FALSE){
                     click_type_list[3]++;

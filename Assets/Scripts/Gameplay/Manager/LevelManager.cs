@@ -280,7 +280,7 @@ namespace MatchingGame.Gameplay
             if (_selectedCardList.Count == 1)
             {
                 GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.UNMATCH;
-                Debug.Log(2);
+                // Debug.Log(2);
                 //Here
             }
 
@@ -334,7 +334,7 @@ namespace MatchingGame.Gameplay
                 AllCardOpen();
 
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
-                Debug.Log(3);
+                // Debug.Log(3);
                 //Here
                 ShowMatchCount.Instance.OnMatch(_targetPairMatchCount - _remainPairMatchCount);
                 _selectedCardList.ForEach(card => card.SelectedCorrect());
@@ -409,15 +409,12 @@ namespace MatchingGame.Gameplay
                                                     {
                                                         oc++;
                                                     }
-                                                    Debug.Log(rp);
-                                                    Debug.Log(oc);
                                                 }
                                                 List<string> allCard = new List<string>();
                                                 List<string> saveCard = new List<string>();
 
                                                 foreach (var item in _cardList)
                                                 {
-                                                    Debug.Log(item.CardProperty.key);
                                                     if (!allCard.Contains(item.CardProperty.key))
                                                     {
                                                         allCard.Add(item.CardProperty.key);
@@ -430,10 +427,6 @@ namespace MatchingGame.Gameplay
                                                     int cardIndex = Random.Range(0, allCard.Count);
                                                     saveCard.Add(allCard[cardIndex]);
                                                     allCard.RemoveAt(cardIndex);
-                                                }
-                                                foreach (var item in saveCard)
-                                                {
-                                                    Debug.Log(item);
                                                 }
                                                 FirebaseManagerV2.Instance.SaveCard(SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting().categoryTheme.ToString(), saveCard);
                                                 //GameplayResult
@@ -481,7 +474,7 @@ namespace MatchingGame.Gameplay
                 matchFalseCount++;
                 // matchTotalCount++;
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.FALSE_MATCH;
-                Debug.Log(4);
+                // Debug.Log(4);
 
                 //Here
                 _selectedCardList[1].IndexClick = -1;
@@ -739,7 +732,6 @@ namespace MatchingGame.Gameplay
                 }
                 foreach (var item in _cardList)
                 {
-                    Debug.Log(item.CardProperty.key);
                     if (item.CardProperty.key == keyContain[a])
                     {
                         _hintCardList.Add(item);
@@ -761,8 +753,6 @@ namespace MatchingGame.Gameplay
 
                 tutorialIndex[0] = _hintCardList[0].transform.GetSiblingIndex();
                 tutorialIndex[1] = _hintCardList[1].transform.GetSiblingIndex();
-                Debug.Log(tutorialIndex[0]);
-                Debug.Log(tutorialIndex[1]);
                 _hintCardList[0].transform.SetParent(dimBackground.transform);
                 _hintCardList[1].transform.SetParent(dimBackground.transform);
             }

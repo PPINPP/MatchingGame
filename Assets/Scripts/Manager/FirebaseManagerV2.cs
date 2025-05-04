@@ -301,6 +301,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                         }
                         FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
                     }
+                    GetSpecialGameData();
                     GameRuleTimeChecker(success);
                 }
                 return;
@@ -339,10 +340,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
 
         }
-        foreach (var item in _tempIDList)
-        {
-            Debug.Log(item);
-        }
         Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
         GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
@@ -361,35 +358,25 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 Debug.Log("Something went wrong");
                 return;
             }
+
         });
         return;
+    }
 
+    public void GetSpecialGameData()
+    {
+        Query SpecialDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/SpecialGameData");
+        SpecialDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot capitalQuerySnapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            {
+                FuzzyBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
 
-
-        // db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData")
-        //   .WhereIn("GameID", _tempIDList) // Query where GameID is in the list
-        //   .GetSnapshotAsync()
-        //   .ContinueWithOnMainThread(task =>
-        //   {
-        //       if (task.IsCompleted && !task.IsFaulted)
-        //       {
-        //           QuerySnapshot snapshot = task.Result;
-        //           foreach (DocumentSnapshot doc in snapshot.Documents)
-        //           {
-        //               Debug.Log($"Document ID: {doc.Id} | GameID: {doc.GetValue<int>("GameID")}");
-        //           }
-
-        //           if (snapshot.Documents.Count == 0)
-        //           {
-        //               Debug.Log("No matching documents found.");
-        //           }
-        //       }
-        //       else
-        //       {
-        //           Debug.LogError("Error fetching documents: " + task.Exception);
-        //       }
-        //   });
-
+            }
+            return;
+        });
+        return;
     }
     public void SaveCard(string cardType, List<string> cardNames)
     {
@@ -425,7 +412,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             List<string> stringList = objList.Cast<string>().ToList();
                             foreach (var str in stringList)
                             {
-                                Debug.Log(str);
                                 if (!cardNames.Contains(str))
                                 {
                                     cardNames.Add(str);
@@ -803,7 +789,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void UploadGameStateAndGameScore(List<int> game_state, List<int> game_score)
     {
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString()+"_"+DateTime.Now.ToString("yyyyMMdd"));
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString() + "_" + DateTime.Now.ToString("yyyyMMdd"));
         List<string> stateList = game_state.Select(number => number.ToString()).ToList();
         List<string> scoreList = game_score.Select(number => number.ToString()).ToList();
         Dictionary<string, object> updates = new Dictionary<string, object>
@@ -868,7 +854,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         docRef.UpdateAsync(updates);
     }
 
-    public void UpdateLastLogin(){
+    public void UpdateLastLogin()
+    {
         lastLogin = DateTime.Now.ToString("yyyyMMdd");
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
         Dictionary<string, object> updates = new Dictionary<string, object>{
