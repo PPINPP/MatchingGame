@@ -655,10 +655,18 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public (float RMT, float RMAD) CalculateFuzzyMatchTime(List<float> pastLevelsMatchTime, float currentMatchTime)
     {
         float medianMatchTime = CalculateMedian(pastLevelsMatchTime);
+        float RMT;
+        float RMAD;
+         if (medianMatchTime == 0)
+        {
+            RMT = 0;
+            RMAD = 0;
+            return (RMT, RMAD);
+        }
         float madMatchTime = CalculateMAD(pastLevelsMatchTime, medianMatchTime);
 
-        float RMT = currentMatchTime / medianMatchTime;
-        float RMAD = madMatchTime / medianMatchTime;
+        RMT = currentMatchTime / medianMatchTime;
+        RMAD = madMatchTime / medianMatchTime;
 
         return (RMT, RMAD);
     }
