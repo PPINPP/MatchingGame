@@ -827,6 +827,10 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     {
         difficultyState = new List<float>() { 0, 0, 0 };
         minigameCount++;
+        if(UserSpecialData.Count > 2){
+            var _temp_data = new List<SpecialFuzzyData>(){UserSpecialData[UserSpecialData.Count-2],UserSpecialData[UserSpecialData.Count-1]};
+            UserSpecialData = _temp_data.ToList();
+        }
         if (minigameCount >= 2)
         {
             //N8
