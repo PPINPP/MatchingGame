@@ -47,5 +47,7 @@ namespace RegistryForm
         public int DayPassed {get; set;}
         [FirestoreProperty]
         public List<int> FuzzyProperties {get;set;}
+        [FirestoreProperty]
+        public bool IsFirstLogin {get;set;}
     }
 }

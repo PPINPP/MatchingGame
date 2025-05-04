@@ -39,8 +39,8 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         tile_image["Store"] = store_tile;
     }
     public void UpdateGameData(){
-        game_state = FirebaseManagerV2.Instance.gameState["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
-        game_score = FirebaseManagerV2.Instance.gameScore["W" + FirebaseManagerV2.Instance.curr_week.ToString()];
+        game_state = FirebaseManagerV2.Instance.gameState["W" + FirebaseManagerV2.Instance.curr_week.ToString()+ "_" + DateTime.Now.ToString("yyyyMMdd")];
+        game_score = FirebaseManagerV2.Instance.gameScore["W" + FirebaseManagerV2.Instance.curr_week.ToString()+ "_" + DateTime.Now.ToString("yyyyMMdd")];
     }
     public void GetGameConponent(){
         _so = (SequenceManager)FindObjectOfType(typeof(SequenceManager));

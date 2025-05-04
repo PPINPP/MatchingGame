@@ -59,16 +59,17 @@ namespace MatchingGame.Gameplay
             if (currentSequenceIndex >= _sequenceSO.sequences.Count)
             {
                 //Check
-                if (PlayerPrefs.HasKey("daily_check"))
+                var daily_key = "daily_check_" + FirebaseManagerV2.Instance.curr_username;
+                if (PlayerPrefs.HasKey(daily_key))
                 {
-                    if (DateTime.Now.Day != PlayerPrefs.GetInt("daily_check"))
+                    if (DateTime.Now.Day != PlayerPrefs.GetInt(daily_key))
                     {
                         SequenceDetail sequenceDetail = new SequenceDetail()
                         {
                             isDailyFeeling = true,
                         };
                         _sequenceSO.sequences.Add(sequenceDetail);
-                        PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+                        PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
                         LoadScene();
                         return;
                     }
@@ -80,7 +81,7 @@ namespace MatchingGame.Gameplay
                         isDailyFeeling = true,
                     };
                     _sequenceSO.sequences.Add(sequenceDetail);
-                    PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+                    PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
                     LoadScene();
                     return;
                 }

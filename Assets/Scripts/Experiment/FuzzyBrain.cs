@@ -519,16 +519,15 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         {
             temp_diff = 0;
         }
-        else if (dival[0] == dival[1])
+        else if (dival[0] == dival[1] && dival[0]>dival[2])
         {
             temp_diff = -1;
         }
-        else if (dival[0] == dival[2])
+        else if (dival[0] == dival[2] && dival[0]>dival[1])
         {
             temp_diff = -1;
         }
-        else if (dival[1] == dival[2])
-        {
+        else if(dival[1] == dival[2]&& dival[1] >dival[0]){
             temp_diff = 0;
         }
         else if (dival[0] > dival[1] && dival[0] > dival[2])
@@ -885,6 +884,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
 
             SetRuleTextList(ShowList);
         }
+        OutputCalculate(difficultyState);
         FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameData);
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount }, CompleteGameID);

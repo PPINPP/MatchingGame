@@ -40,6 +40,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     string prefix_locate = "fuzzy_demo129";
     string prefix_time_locate = "game_information_test";
     public string curr_username;
+    public bool isFirstLogin;
     public bool passTutorial { get; set; }
     public Dictionary<string, List<string>> cardList = new Dictionary<string, List<string>>();
     public Dictionary<string, bool> gameData = new Dictionary<string, bool>();
@@ -66,7 +67,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         //             WebClientId = GoogleAPI,
         //             RequestIdToken = true,
         //         };
-                // GoogleSetConfiguration();
+        // GoogleSetConfiguration();
         // #endif
 
         InitializeApp();
@@ -76,7 +77,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     {
         curr_username = "";
         curr_id = "";
-        curr_week = 0;
+        curr_week = 1;
         cardList.Clear();
         gameData.Clear();
         timeRules.Clear();
@@ -96,6 +97,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             gameScore["W" + i.ToString()] = new List<int>();
             gameState["W" + i.ToString()] = new List<int>();
         }
+
+        //FIX
     }
     public void UserLogout()
     {
@@ -277,19 +280,22 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     int dp = 0;
                     List<int> FuzzyProperties = new List<int>();
                     List<int> CompleteGameID = new List<int>();
-                    curr_username = fieldVal["Username"].ToString(); 
+                    curr_username = fieldVal["Username"].ToString();
                     dp = Convert.ToInt32(fieldVal["DayPassed"]);
+                    isFirstLogin = Convert.ToBoolean(fieldVal["IsFirstLogin"]);
                     if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
                     {
                         if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
-                        {  
-                            if(CompleteGameID.Count>0){
-                                    GetFuzzyGameData(CompleteGameID);
+                        {
+                            if (CompleteGameID.Count > 0)
+                            {
+                                GetFuzzyGameData(CompleteGameID);
                             }
-                            else{
+                            else
+                            {
                                 CompleteGameID = new List<int>();
                             }
-                            
+
                         }
                         FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
                     }
@@ -331,14 +337,15 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
 
         }
-        foreach(var item in _tempIDList){
+        foreach (var item in _tempIDList)
+        {
             Debug.Log(item);
         }
         Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
         GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot capitalQuerySnapshot = task.Result;
-            
+
             if (capitalQuerySnapshot.Count == _tempIDList.Count)
             {
                 foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
@@ -572,7 +579,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     private IEnumerator GetGameState(Action success)
     {
-        DocumentReference gameDataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("W" + curr_week.ToString());
+        string doc_name = "W" + curr_week.ToString() + "_" + DateTime.Now.ToString("yyyyMMdd");
+        DocumentReference gameDataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document(doc_name);
 
         Task<DocumentSnapshot> task = gameDataRef.GetSnapshotAsync();
         yield return new WaitUntil(() => task.IsCompleted);
@@ -586,6 +594,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             DocumentSnapshot snapshot = task.Result;
             if (snapshot.Exists)
             {
+                gameState[doc_name] = new List<int>();
+                gameScore[doc_name] = new List<int>();
                 Dictionary<string, object> data = snapshot.ToDictionary();
                 foreach (KeyValuePair<string, object> pair in data)
                 {
@@ -596,7 +606,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             List<string> intList = objList.Cast<string>().ToList();
                             foreach (var state in intList)
                             {
-                                gameState["W" + curr_week.ToString()].Add(int.Parse(state));
+                                gameState[doc_name].Add(int.Parse(state));
                             }
                         }
                     }
@@ -607,7 +617,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             List<string> intList = objList.Cast<string>().ToList();
                             foreach (var state in intList)
                             {
-                                gameScore["W" + curr_week.ToString()].Add(int.Parse(state));
+                                gameScore[doc_name].Add(int.Parse(state));
                             }
                         }
                     }
@@ -616,7 +626,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
             else
             {
-                CreateWeekUserGameData("W" + curr_week.ToString());
+                CreateWeekUserGameData(doc_name);
                 success?.Invoke();
             }
         }
@@ -628,24 +638,13 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void CompareTime(List<string> timeRule)
     {
-        DateTime checkpointDateTime;
-        DateTime currentDateTime = DateTime.Now;
-        List<int> tempTimeNow;
-        bool isPass = false;
-        for (int i = 0; i < timeRule.Count; i++)
+        DateTime currentDateTime = DateTime.Now.Date;
+        List<DateTime> tempDateTime = new List<DateTime>();
+        foreach (var item in timeRule)
         {
-            tempTimeNow = timeRule[i].Split(',').Select(int.Parse).ToList();
-            checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
-            if (currentDateTime > checkpointDateTime)
-            {
-                curr_week = i + 1;
-                isPass = true;
-            }
+            tempDateTime.Add(DateTime.ParseExact(item, "yyyyMMdd", null));
         }
-
-        tempTimeNow = timeRule[8].Split(',').Select(int.Parse).ToList();
-        checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
-        if (currentDateTime > checkpointDateTime || !isPass)
+        if (currentDateTime > tempDateTime[^1])
         {
             Debug.Log("EndTestingTime");
 #if UNITY_EDITOR
@@ -653,99 +652,97 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 #endif
             Application.Quit();
         }
-        foreach (var item in timeRule)
+        else
         {
-            timeRules.Add(item);
+            curr_week = (int)Mathf.Floor(tempDateTime.IndexOf(currentDateTime) / 7) + 1;
         }
         StartCoroutine(GetCard());
     }
+
     public void checkTimeChange()
     {
-        DateTime checkpointDateTime;
-        DateTime currentDateTime = DateTime.Now;
-        List<int> tempTimeNow;
-        int tempWeek = 0;
-        for (int i = 0; i < timeRules.Count; i++)
-        {
-            tempTimeNow = timeRules[i].Split(',').Select(int.Parse).ToList();
-            checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
-            if (currentDateTime > checkpointDateTime)
-            {
-                tempWeek = i + 1;
-            }
-        }
-
-        tempTimeNow = timeRules[8].Split(',').Select(int.Parse).ToList();
-        checkpointDateTime = new DateTime(tempTimeNow[0], tempTimeNow[1], tempTimeNow[2], tempTimeNow[3], tempTimeNow[4], tempTimeNow[5]);
-        if (currentDateTime > checkpointDateTime || tempWeek != curr_week)
-        {
+        var daily_key = "daily_check_" + curr_username;
+        if(PlayerPrefs.GetInt(daily_key) != DateTime.Now.Day){
             Debug.Log("End Testing Time or Time Change");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
             Application.Quit();
         }
+
+        //FIX
     }
     public async void GameRuleTimeChecker(Action success)
     {
-        DocumentReference gameRuleRef = db.Collection(prefix_time_locate).Document("game_rules");
-        using (var cts = new CancellationTokenSource())
+        if (isFirstLogin)
         {
-            cts.CancelAfter(TimeSpan.FromSeconds(10));
-            try
+            isFirstLogin = false;
+            UpdateFirstLogin(isFirstLogin);
+            CompareTime(CreateGameRules());
+            StartCoroutine(GetGameState(success));
+        }
+        else
+        {
+            DocumentReference gameRuleRef = db.Collection(prefix_locate + "/" + curr_id + "/" + "GameRules").Document("game_rules");
+            using (var cts = new CancellationTokenSource())
             {
-                var snapshot = await gameRuleRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-                        {
-                            if (task.IsCanceled)
+                cts.CancelAfter(TimeSpan.FromSeconds(10));
+                try
+                {
+                    var snapshot = await gameRuleRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
                             {
-                                return null;
-                            }
-                            if (task.IsFaulted)
-                            {
-                                Debug.Log("You're Offline. The App may exit");
+                                if (task.IsCanceled)
+                                {
+                                    return null;
+                                }
+                                if (task.IsFaulted)
+                                {
+                                    Debug.Log("You're Offline. The App may exit");
 #if UNITY_EDITOR
-                                UnityEditor.EditorApplication.isPlaying = false;
+                                    UnityEditor.EditorApplication.isPlaying = false;
 #endif
-                                Application.Quit();
-                                return null;
-                            }
-                            return task.Result;
-                        });
-                if (snapshot != null && snapshot.Exists)
-                {
-                    List<string> stringList = new List<string>();
-                    Dictionary<string, object> data = snapshot.ToDictionary();
-                    foreach (KeyValuePair<string, object> pair in data)
+                                    Application.Quit();
+                                    return null;
+                                }
+                                return task.Result;
+                            });
+                    if (snapshot != null && snapshot.Exists)
                     {
-                        if (pair.Value is List<object> objList)
+                        List<string> stringList = new List<string>();
+                        Dictionary<string, object> data = snapshot.ToDictionary();
+                        foreach (KeyValuePair<string, object> pair in data)
                         {
-                            List<string> tempStringList = objList.Cast<string>().ToList();
-                            foreach (var item in tempStringList)
+                            if (pair.Value is List<object> objList)
                             {
-                                stringList.Add(item);
-                            }
+                                List<string> tempStringList = objList.Cast<string>().ToList();
+                                foreach (var item in tempStringList)
+                                {
+                                    stringList.Add(item);
+                                }
 
+                            }
                         }
+                        CompareTime(stringList);
+                        StartCoroutine(GetGameState(success));
                     }
-                    CompareTime(stringList);
-                    StartCoroutine(GetGameState(success));
+                    else
+                    {
+                        Debug.LogWarning("Document does not exist or timeout occurred.");
+                    }
                 }
-                else
+                catch (OperationCanceledException)
                 {
-                    Debug.LogWarning("Document does not exist or timeout occurred.");
+                    Debug.Log("You're Offline. The App may exit");
+                    Application.Quit();
+                    return;
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.Log("You're Offline. The App may exit");
-                Application.Quit();
-                return;
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex);
+                catch (Exception ex)
+                {
+                    Debug.Log(ex);
+                }
             }
         }
+
 
     }
 
@@ -763,8 +760,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void CreateWeekUserGameData(string fkey)
     {
-        gameState["W" + curr_week.ToString()] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        gameScore["W" + curr_week.ToString()] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        gameState[fkey] = new List<int>() { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        gameScore[fkey] = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document(fkey);
         Dictionary<string, object> updates = new Dictionary<string, object>
 {
@@ -777,6 +774,31 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 "Updated " + fkey + " State.");
         });
     }
+
+    public List<string> CreateGameRules()
+    {
+        List<object> dateList = new List<object>();
+        DateTime today = DateTime.Now;
+
+        for (int i = 0; i < 56; i++)
+        {
+            string formattedDate = today.AddDays(i).ToString("yyyyMMdd");
+            dateList.Add(formattedDate);
+        }
+        DocumentReference gameRuleRef = db.Collection(prefix_locate + "/" + curr_id + "/" + "GameRules").Document("game_rules");
+        Dictionary<string, object> updates = new Dictionary<string, object>
+{
+    { "DateTime", dateList },
+};
+        gameRuleRef.SetAsync(updates);
+        List<string> dateListString = new List<string>();
+        foreach(var item in dateList){
+            dateListString.Add(item.ToString());
+        }
+        return dateListString;
+    }
+
+
     public void UploadGameStateAndGameScore(List<int> game_state, List<int> game_score)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/GameDataInformation/W" + curr_week.ToString());
@@ -835,6 +857,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
+    public void UpdateFirstLogin(bool val)
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"IsFirstLogin",val},
+        };
+        docRef.UpdateAsync(updates);
+    }
 
     public void UpdateDayPassed(int dp)
     {
@@ -844,7 +874,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
-    public void SyncData(){
+    public void SyncData()
+    {
         DocumentReference docRef = db.Collection("Sync").Document("Sync");
         Dictionary<string, object> updates = new Dictionary<string, object>{
             {"dump","dump"}

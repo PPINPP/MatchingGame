@@ -165,6 +165,7 @@ public class LoginManagerV2 : MonoBehaviour
     }
     GameplaySequenceSO CreateTutorialSequence(string start_seq)
     {
+        var daily_key = "daily_check_" + FirebaseManagerV2.Instance.curr_username;
         GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
         for (int i = int.Parse(start_seq); i < 4; i++)
         {
@@ -189,15 +190,15 @@ public class LoginManagerV2 : MonoBehaviour
             isGamePlay = true,
             gameplay = RandomTutorial(0, false),
         });
-        if (PlayerPrefs.HasKey("daily_check"))
+        if (PlayerPrefs.HasKey(daily_key))
         {
-            if (DateTime.Now.Day != PlayerPrefs.GetInt("daily_check"))
+            if (DateTime.Now.Day != PlayerPrefs.GetInt(daily_key))
             {
                 gameplaySequenceSO.sequences.Add(new SequenceDetail()
                 {
                     isDailyFeeling = true,
                 });
-                PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+                PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
             }
         }
         else
@@ -206,7 +207,7 @@ public class LoginManagerV2 : MonoBehaviour
             {
                 isDailyFeeling = true,
             });
-            PlayerPrefs.SetInt("daily_check", DateTime.Now.Day);
+            PlayerPrefs.SetInt(daily_key, DateTime.Now.Day);
         }
         return gameplaySequenceSO;
         // gameplaySequenceSO.ReloadSequence(gameplaySequenceSO);
