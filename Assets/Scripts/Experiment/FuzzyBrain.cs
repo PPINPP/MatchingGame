@@ -905,10 +905,14 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             ShowList.Add("N9");
             List<float> _cc = new List<float>();
             var acc = 1f - _specialgameData.GameScore.Count(n => n == 1) / 20.0f;
+            
             foreach (var item in UserSpecialData)
             {
                 _cc.Add(1f - item.GameScore.Count(n => n == 1) / 20.0f);
+                Debug.Log(1f - item.GameScore.Count(n => n == 1) / 20.0f);
             }
+            Debug.Log(acc);
+            
             var (rcc, rmadc) = CalculateFuzzyFMR(_cc, acc);
             ShowList.Add(rcc);
             ShowList.Add(rmadc);
