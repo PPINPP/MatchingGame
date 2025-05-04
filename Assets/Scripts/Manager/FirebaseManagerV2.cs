@@ -98,6 +98,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             gameScore["W" + i.ToString()] = new List<int>();
             gameState["W" + i.ToString()] = new List<int>();
         }
+        FuzzyBrain.Instance.ClearParameter();
 
         //FIX
     }

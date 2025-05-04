@@ -57,13 +57,13 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         gameCount = 0;
         gameComplete = 0;
         gameInComplete = 0;
+        minigameCount = 0;
         isFirstDay = true;
         mtDiff = false;
         dayPassed = 0;
         ruleCount = 0;
         difficultyState = new List<float>() { 0, 0, 0 };
         CompleteGameID = new List<int>();
-        UserSpecialData.Clear();
     }
     public void PostGameStage(FuzzyGameData _fuzzyGameData)
     {
