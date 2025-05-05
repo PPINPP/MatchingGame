@@ -22,6 +22,7 @@ public class SettingPanelSetter : MonoBehaviour
     public void Logout(){
         //Need Fix for Google Login
         FirebaseManagerV2.Instance.UserLogout();
+        AudioController.StopPlayBGM();
     }
     public void DataSync(){
 
