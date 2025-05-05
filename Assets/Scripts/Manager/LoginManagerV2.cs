@@ -253,11 +253,14 @@ public class LoginManagerV2 : MonoBehaviour
         facebookButton.interactable = false;
         lineButton.interactable = false;
 #endif
-
-        if (PlayerPrefs.GetString("autologinname") != "")
+        if (PlayerPrefs.HasKey("autologinname"))
         {
-            loadbg.SetActive(true);
-            FirebaseManagerV2.Instance.GetUser(PlayerPrefs.GetString("autologinname").Contains("@") ? true : false, PlayerPrefs.GetString("autologinname"), PlayerPrefs.GetString("autologinpassword"), OnVerifiedUser, OnFailedLogin);
+            if (PlayerPrefs.GetString("autologinname") != "")
+            {
+                loadbg.SetActive(true);
+                FirebaseManagerV2.Instance.GetUser(PlayerPrefs.GetString("autologinname").Contains("@") ? true : false, PlayerPrefs.GetString("autologinname"), PlayerPrefs.GetString("autologinpassword"), OnVerifiedUser, OnFailedLogin);
+            }
         }
+
     }
 }
