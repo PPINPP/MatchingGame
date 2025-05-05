@@ -1054,17 +1054,17 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             {
                 if (mcount > dcount)
                 {
-                    difficultyState[2] = 0f;
-                    difficultyState[1] = 0.7f;
-                    difficultyState[0] = 0.3f;
+                    difficultyState[2] += 0f;
+                    difficultyState[1] += 0.7f;
+                    difficultyState[0] += 0.3f;
                     ShowList.Add("Maintain");
 
                 }
                 else
                 {
-                    difficultyState[2] = 0f;
-                    difficultyState[1] = 0.3f;
-                    difficultyState[0] = 0.7f;
+                    difficultyState[2] += 0f;
+                    difficultyState[1] += 0.3f;
+                    difficultyState[0] += 0.7f;
                     ShowList.Add("Decrease");
                 }
             }
