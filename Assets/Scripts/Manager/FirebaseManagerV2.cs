@@ -106,6 +106,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     {
         SetParameter();
         SceneManager.LoadScene("Main_P");
+        PlayerPrefs.SetString("autologinname", "");
+        PlayerPrefs.SetString("autologinpassword", "");
     }
 
     // void GoogleSetConfiguration()
@@ -286,6 +288,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     dp = Convert.ToInt32(fieldVal["DayPassed"]);
                     isFirstLogin = Convert.ToBoolean(fieldVal["IsFirstLogin"]);
                     lastLogin = fieldVal["LastLogin"].ToString();
+                    PlayerPrefs.SetString("autologinname", fieldVal["Username"].ToString());
+                    PlayerPrefs.SetString("autologinpassword", fieldVal["Password"].ToString());
                     if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
                     {
                         if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))

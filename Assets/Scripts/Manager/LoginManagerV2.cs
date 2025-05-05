@@ -241,6 +241,8 @@ public class LoginManagerV2 : MonoBehaviour
 
     public void OnFailedLogin()
     {
+        PlayerPrefs.SetString("autologinname", "");
+        PlayerPrefs.SetString("autologinpassword", "");
         loadbg.SetActive(false);
         usernameWarn.text = "*ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
     }
@@ -251,5 +253,11 @@ public class LoginManagerV2 : MonoBehaviour
         facebookButton.interactable = false;
         lineButton.interactable = false;
 #endif
+
+        if (PlayerPrefs.GetString("autologinname") != "")
+        {
+            loadbg.SetActive(true);
+            FirebaseManagerV2.Instance.GetUser(PlayerPrefs.GetString("autologinname").Contains("@") ? true : false, PlayerPrefs.GetString("autologinname"), PlayerPrefs.GetString("autologinpassword"), OnVerifiedUser, OnFailedLogin);
+        }
     }
 }
