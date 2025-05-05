@@ -1029,22 +1029,22 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 }
                 if (_specialgameData.ClickTypeList.Sum() == 0)
                 {
-                    difficultyState[2] = 1f;
-                    difficultyState[1] = 0f;
-                    difficultyState[0] = 0f;
+                    difficultyState[2] += 1f;
+                    difficultyState[1] += 0f;
+                    difficultyState[0] += 0f;
                 }
                 else if (compare_check)
                 {
-                    difficultyState[2] = 0f;
-                    difficultyState[1] = 0.7f;
-                    difficultyState[0] = 0.3f;
+                    difficultyState[2] += 0f;
+                    difficultyState[1] += 0.7f;
+                    difficultyState[0] += 0.3f;
                     ShowList.Add("Maintain");
                 }
                 else
                 {
-                    difficultyState[2] = 0f;
-                    difficultyState[1] = 0.3f;
-                    difficultyState[0] = 0.7f;
+                    difficultyState[2] += 0f;
+                    difficultyState[1] += 0.3f;
+                    difficultyState[0] += 0.7f;
                     ShowList.Add("Decrease");
                 }
 
