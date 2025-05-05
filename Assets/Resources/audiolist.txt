@@ -1,4 +1,5 @@
 audio/BGM/BGM
+audio/BGM/BGM_Main
 audio/SFX/Click
 audio/SFX/Correct_Match
 audio/SFX/Correct_SpecialT

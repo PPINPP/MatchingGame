@@ -20,11 +20,13 @@ public class LevelSelectorUIManager : MonoBehaviour
         checkTime = Time.time;
         FirebaseManagerV2.Instance.checkTimeChange();
         LevelSelectorManager.Instance.UpdateTile(BackgroudTile, LevelButton);
+        AudioController.SetnPlayBGM("audio/BGM/BGM_Main");
     }
 
     // Update is called once per frame
     public void OnButtonClickToStartGame(int levelnum)
     {
+        AudioController.StopPlayBGM();
         curr_page = BGTile.localPosition.x;
         LevelSelectorManager.Instance.StartLevel(levelnum, curr_page);
     }
@@ -35,7 +37,8 @@ public class LevelSelectorUIManager : MonoBehaviour
     }
     void Update()
     {
-        if(Time.time - checkTime > 5.0f){
+        if (Time.time - checkTime > 5.0f)
+        {
             FirebaseManagerV2.Instance.checkTimeChange();
             checkTime = Time.time;
         }

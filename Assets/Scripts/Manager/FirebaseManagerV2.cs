@@ -838,7 +838,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
     {
-
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
         Dictionary<string, object> updates = new Dictionary<string, object>{
             {"FuzzyProperties",fuzzyProp},

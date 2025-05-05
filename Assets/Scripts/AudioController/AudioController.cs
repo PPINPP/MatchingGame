@@ -30,7 +30,7 @@ public static class AudioController
             if (item.Count() > 0)
             {
                 audio_files.Add(item.Trim(), Resources.Load<AudioClip>(item.Trim()));
-                // Debug.Log(item.Trim());
+                Debug.Log(item.Trim());
                 if (audio_files[item.Trim()] == null)
                 {
                     Debug.Log("its null");

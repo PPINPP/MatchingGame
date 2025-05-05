@@ -27,6 +27,7 @@ namespace Model
         public List<int> Phase { get; set; }
         public List<string> HelperSeq { get; set; }
         public int GameLevel { get; set; }
+        public int Result { get; set;}
 
         public FuzzyGameData() : base()
         {
@@ -53,7 +54,8 @@ namespace Model
                 Phase = this.Phase,
                 HelperSeq = this.HelperSeq,
                 Uuid = this.Uuid, //
-                DateCreated = DateTime.Now.ToString("s")
+                DateCreated = DateTime.Now.ToString("s"),
+                Result = this.Result,
             };
 
             return _fuzzygameData;
@@ -79,6 +81,7 @@ namespace Model
                 Phase = new List<int>(fuzzyGameData.Phase),
                 HelperSeq = new List<string>(fuzzyGameData.HelperSeq),
                 Uuid = fuzzyGameData.Uuid,
+                Result = fuzzyGameData.Result,
 
             };
         }
@@ -105,6 +108,7 @@ namespace Model
         [FirestoreProperty] public List<string> HelperSeq { get; set; }
         [FirestoreProperty] public string Uuid { get; set; }
         [FirestoreProperty] public string DateCreated { get; set; }
+        [FirestoreProperty] public int Result { get; set; }
 
 
         public override string ToString()
