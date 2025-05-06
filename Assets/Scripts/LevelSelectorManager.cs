@@ -74,6 +74,9 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         if(levelnum == 4){
             FuzzyBrain.Instance.HoldOutput();
         }
+        else if(levelnum == 0){
+            FuzzyBrain.Instance.FirstMinigame();
+        }
         save_curr_page = curr_page;
         if (game_role[levelnum] == 2)
         {

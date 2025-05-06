@@ -56,6 +56,7 @@ namespace MatchingGame.Gameplay
         private List<int> CardPhase = new List<int>() { 0, 0, 0 };
         private List<string> HelperSeq = new List<string>();
         private float firstMatchTime = 0f;
+        private bool canUseFlipAll = true;
 
 
         private List<string> keyContain = new List<string>();
@@ -488,6 +489,7 @@ namespace MatchingGame.Gameplay
 
                     disposable.Dispose();
                 }).AddTo(this);
+                
             }
         }
 
@@ -657,6 +659,14 @@ namespace MatchingGame.Gameplay
             if (ttr4_state == 2)
             {
                 Tutorial4NextStep();
+            }
+            foreach(var item in _cardList){
+                if(item.IsFliping && item.IsInComplete()){
+                    return;
+                }
+            }
+            if(_selectedCardList.Count!=0){
+                return;
             }
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickStatus = GameplayClickStatusEnum.OTHER;
             GameplayResultManager.Instance.GameplayClickLogList[^1].ClickResult = GameplayClickResultEnum.FALSE_MATCH;

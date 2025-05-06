@@ -30,6 +30,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     int dayPassed;
     int ruleCount;
     bool holdOutput;
+    bool firstMinigame = false;
     List<float> difficultyState = new List<float>() { 0, 0, 0 };
     List<object> ShowList = new List<object>();
     List<string> RuleTextList = new List<string>();
@@ -70,6 +71,10 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
     public void HoldOutput()
     {
         holdOutput = true;
+    }
+    public void FirstMinigame()
+    {
+        firstMinigame = true;
     }
     public void PostGameStage(FuzzyGameData _fuzzyGameData)
     {
@@ -383,7 +388,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         }
                         else
                         {
-                            float[] x_range = Linspace(0f, 2f, 100);
+                            float[] x_range = Linspace(0f, upperr + lowerr, 100);
                             float[] imf = new float[4] { 0f, 0f, lowerr, (lowerr + upperr) / 2 };
                             float[] mmf = new float[3] { lowerr, (lowerr + upperr) / 2, upperr };
                             float[] dmf = new float[4] { (lowerr + upperr) / 2, upperr, 100, 100 };
@@ -454,7 +459,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         }
                         else
                         {
-                            float[] x_range = Linspace(0f, 2f, 100);
+                            float[] x_range = Linspace(0f, uppert + lowert, 100);
                             float[] imf = new float[4] { 0f, 0f, lowert, (lowert + uppert) / 2 };
                             float[] mmf = new float[3] { lowert, (lowert + uppert) / 2, uppert };
                             float[] dmf = new float[4] { (lowert + uppert) / 2, uppert, 100, 100 };
@@ -562,7 +567,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         }
         if (holdOutput && mode == 0)
         {
-            SetRuleText("HOLD OUTPUT:"+temp_diff.ToString());
+            SetRuleText("HOLD OUTPUT:" + temp_diff.ToString());
             SetRuleText("Increase:" + dival[2].ToString() + ", Maintain:" + dival[1].ToString() + ", Decrease:" + dival[0].ToString());
             difficultyState[0] = 0f;
             difficultyState[1] = 0f;
@@ -573,7 +578,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         {
             holdOutput = false;
             int lastResult = UserFuzzyData[^1].Result;
-            SetRuleText("CLEAR OUTPUT:"+lastResult.ToString());
+            SetRuleText("CLEAR OUTPUT:" + lastResult.ToString());
             if (lastResult != 0)
             {
                 if (lastResult > 0)
@@ -609,7 +614,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         {
             holdOutput = false;
             temp_diff += UserFuzzyData[^1].Result;
-            SetRuleText("COMBINE OUTPUT:"+temp_diff.ToString());
+            SetRuleText("COMBINE OUTPUT:" + temp_diff.ToString());
         }
         if (temp_diff != 0)
         {
@@ -883,6 +888,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
 
     public void PostSpecialTaskStage(SpecialFuzzyData _specialgameData)
     {
+
         difficultyState = new List<float>() { 0, 0, 0 };
         minigameCount++;
         if (UserSpecialData.Count > 2)
@@ -954,7 +960,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
             else
             {
-                float[] x_range = Linspace(0f, 2f, 100);
+                float[] x_range = Linspace(0f, upperpt + lowerpt, 100);
                 float[] imf = new float[4] { 0f, 0f, lowerpt, (lowerpt + upperpt) / 2 };
                 float[] mmf = new float[3] { lowerpt, (lowerpt + upperpt) / 2, upperpt };
                 float[] dmf = new float[4] { (lowerpt + upperpt) / 2, upperpt, 100, 100 };
@@ -1026,7 +1032,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
             else
             {
-                float[] x_range = Linspace(0f, 2f, 100);
+                float[] x_range = Linspace(0f, uppercc + lowercc, 100);
                 float[] imf = new float[4] { 0f, 0f, lowercc, (lowercc + uppercc) / 2 };
                 float[] mmf = new float[3] { lowercc, (lowercc + uppercc) / 2, uppercc };
                 float[] dmf = new float[4] { (lowercc + lowercc) / 2, uppercc, 100, 100 };
@@ -1129,7 +1135,11 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
 
             SetRuleTextList(ShowList);
-            OutputCalculate(difficultyState, 2);
+            if (!firstMinigame)
+            {
+                OutputCalculate(difficultyState, 2);
+            }
+            firstMinigame = false;
         }
         UserSpecialData.Add(_specialgameData);
         FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameData);
