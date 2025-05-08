@@ -562,7 +562,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         }
         if (holdOutput && mode == 0)
         {
-            SetRuleText("HOLD OUTPUT");
+            SetRuleText("HOLD OUTPUT:"+temp_diff.ToString());
             SetRuleText("Increase:" + dival[2].ToString() + ", Maintain:" + dival[1].ToString() + ", Decrease:" + dival[0].ToString());
             difficultyState[0] = 0f;
             difficultyState[1] = 0f;
@@ -572,8 +572,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         else if (holdOutput && mode == 1)
         {
             holdOutput = false;
-            SetRuleText("CLEAR OUTPUT");
             int lastResult = UserFuzzyData[^1].Result;
+            SetRuleText("CLEAR OUTPUT:"+lastResult.ToString());
             if (lastResult != 0)
             {
                 if (lastResult > 0)
@@ -608,8 +608,8 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         else if (holdOutput && mode == 2)
         {
             holdOutput = false;
-            SetRuleText("COMBINE OUTPUT");
             temp_diff += UserFuzzyData[^1].Result;
+            SetRuleText("COMBINE OUTPUT:"+temp_diff.ToString());
         }
         if (temp_diff != 0)
         {
