@@ -881,11 +881,12 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     public void SyncData()
     {
-        DocumentReference docRef = db.Collection("Sync").Document("Sync");
+        DocumentReference docRef = db.Collection("sync").Document(curr_id);
         Dictionary<string, object> updates = new Dictionary<string, object>{
-            {"dump","dump"}
+            {"LastUpdate",DateTime.Now}
         };
-        docRef.UpdateAsync(updates);
+        docRef.SetAsync(updates);
+        AudioController.SetnPlay("audio/SFX/Correct_SpecialT");
     }
 }
 
