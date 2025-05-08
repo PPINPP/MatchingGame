@@ -502,7 +502,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
         if (task.Exception != null)
         {
-            Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+            // Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+            CreateTTRState();
         }
         else if (task.Result != null)
         {
@@ -580,7 +581,9 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
         if (task.Exception != null)
         {
-            Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+            // Debug.LogError($"Error querying Firestore: {task.Exception.Message}");
+            CreateWeekUserGameData(doc_name);
+            success?.Invoke();
         }
         else if (task.Result != null)
         {
