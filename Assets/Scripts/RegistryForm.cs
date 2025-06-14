@@ -44,12 +44,14 @@ namespace RegistryForm
         [FirestoreProperty]
         public bool TutorialPassed { get; set; }
         [FirestoreProperty]
-        public int DayPassed {get; set;}
+        public int DayPassed { get; set; }
         [FirestoreProperty]
-        public List<int> FuzzyProperties {get;set;}
+        public List<int> FuzzyProperties { get; set; }
         [FirestoreProperty]
-        public bool IsFirstLogin {get;set;}
+        public bool IsFirstLogin { get; set; }
         [FirestoreProperty]
-        public string LastLogin {get;set;}
+        public string LastLogin { get; set; }
+        [FirestoreProperty]
+        public Dictionary<string, List<string>> WeekDays { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace Model
         public List<string> HelperSeq { get; set; }
         public int GameLevel { get; set; }
         public int Result { get; set;}
+        public string LogText { get; set; }
 
         public FuzzyGameData() : base()
         {
@@ -56,6 +57,7 @@ namespace Model
                 Uuid = this.Uuid, //
                 DateCreated = DateTime.Now.ToString("s"),
                 Result = this.Result,
+                LogText = this.LogText,
             };
 
             return _fuzzygameData;
@@ -82,6 +84,7 @@ namespace Model
                 HelperSeq = new List<string>(fuzzyGameData.HelperSeq),
                 Uuid = fuzzyGameData.Uuid,
                 Result = fuzzyGameData.Result,
+                LogText = fuzzyGameData.LogText,
 
             };
         }
@@ -109,6 +112,7 @@ namespace Model
         [FirestoreProperty] public string Uuid { get; set; }
         [FirestoreProperty] public string DateCreated { get; set; }
         [FirestoreProperty] public int Result { get; set; }
+        [FirestoreProperty] public string LogText { get; set; }
 
 
         public override string ToString()
@@ -124,6 +128,7 @@ namespace Model
         public List<float> TimeUsed { get; set; }
         public List<int> ClickTypeList { get; set; }
         public List<int> GameScore {get; set;}
+        public string LogText { get; set; }
 
         public SpecialFuzzyData() : base()
         {
@@ -136,7 +141,8 @@ namespace Model
                 GameID = this.GameID,
                 TimeUsed = this.TimeUsed,
                 ClickTypeList = this.ClickTypeList,
-                GameScore = this.GameScore
+                GameScore = this.GameScore,
+                LogText = this.LogText,
             };
 
             return _fuzzygameData;
@@ -149,7 +155,8 @@ namespace Model
                 GameID = specialgameData.GameID,
                 TimeUsed = specialgameData.TimeUsed,
                 ClickTypeList = specialgameData.ClickTypeList,
-                GameScore = specialgameData.GameScore
+                GameScore = specialgameData.GameScore,
+                LogText = this.LogText,
 
             };
         }
@@ -162,6 +169,7 @@ namespace Model
         [FirestoreProperty] public List<float> TimeUsed { get; set; }
         [FirestoreProperty] public List<int> ClickTypeList { get; set; }
         [FirestoreProperty] public List<int> GameScore {get; set;}
+        [FirestoreProperty] public string LogText { get; set; }
         public override string ToString()
         {
             return StringHelper.ToStringObj(this);

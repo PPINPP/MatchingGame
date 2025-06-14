@@ -97,18 +97,28 @@ public class LoginManagerV2 : MonoBehaviour
         }
         else
         {
+
             GameplaySequenceSO gameplaySequenceSO = ScriptableObject.CreateInstance<GameplaySequenceSO>();
             if (FirebaseManagerV2.Instance.lastLogin != DateTime.Now.ToString("yyyyMMdd"))
             {
-                FirebaseManagerV2.Instance.UpdateLastLogin();
-                gameplaySequenceSO.sequences.Add(new SequenceDetail()
+                if (FirebaseManagerV2.Instance.week_day[FirebaseManagerV2.Instance.curr_week.ToString()].Count <= 2)
                 {
-                    isDailyFeeling = true,
-                });
-                SequenceManager.Instance._test2mode = true;
-                SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
-                SequenceManager.Instance.NextSequence();
+                    FirebaseManagerV2.Instance.UpdateLastLogin();
+                    gameplaySequenceSO.sequences.Add(new SequenceDetail()
+                    {
+                        isDailyFeeling = true,
+                    });
+                    SequenceManager.Instance._test2mode = true;
+                    SequenceManager.Instance.ReloadSequence(gameplaySequenceSO);
+                    SequenceManager.Instance.NextSequence();
+                    return;
+                }
+                else
+                {
+                    SceneManager.LoadScene("LevelSelector");
                 return;
+                }
+
             }
             else
             {

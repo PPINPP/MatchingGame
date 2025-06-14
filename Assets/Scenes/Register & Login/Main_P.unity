@@ -2357,3 +2357,4 @@ MonoBehaviour:
   isFirstLogin: 0
   lastLogin: 
   curr_week: 1
+  timeRules: []

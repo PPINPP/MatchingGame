@@ -24,7 +24,10 @@ public class ReturnToMenu : MonoBehaviour
     void Update()
     {
         if(Time.time > curr_time+delay){
-            SceneManager.LoadScene("Main_P");
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            Application.Quit();
         }
     }
 

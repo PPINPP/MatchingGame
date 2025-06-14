@@ -84,7 +84,6 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         difficultyState = new List<float>() { 0, 0, 0 };
         if (_fuzzyGameData.Complete)
         {
-            gameComplete++;
             if (_fuzzyGameData.PauseUsed)
             {
                 //N4
@@ -93,6 +92,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
             else
             {
+                gameComplete++;
                 CompleteGameID.Add(int.Parse(_fuzzyGameData.GameID));
                 if (gameComplete <= 2)
                 {
@@ -149,6 +149,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         }
                     }
                     SetRuleTextList(ShowList);
+                    Debug.Log(UserFuzzyData.Count);
                     //N12
                     ShowList.Add("N12");
                     List<int> n12irm = new List<int>();
@@ -242,6 +243,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                             ShowList.Add("Increase");
                         }
                     }
+
                     SetRuleTextList(ShowList);
                     if (gameComplete == 3)
                     {
@@ -338,6 +340,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         /////////////////////////////////
                         // Sixth Rule
                         ShowList.Add("N6");
+                        Debug.Log(UserFuzzyData.Count);
                         ShowList.Add(UserFuzzyData[UserFuzzyData.Count - 2].FalseMatch);
                         ShowList.Add(UserFuzzyData[UserFuzzyData.Count - 2].TotalMatch);
                         ShowList.Add(UserFuzzyData[UserFuzzyData.Count - 1].FalseMatch);
@@ -480,6 +483,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                         SetRuleTextList(ShowList);
                         // End Seventh Rule
                     }
+
                 }
                 if (UserFuzzyData.Count >= 4)
                 {
@@ -487,6 +491,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
                 }
                 UserFuzzyData.Add(_fuzzyGameData);
             }
+
         }
         else
         {
@@ -525,18 +530,22 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             difficultyState[1] = 0f;
             difficultyState[2] = 0f;
         }
-
-
+        ShowList.Clear();
+        _fuzzyGameData.LogText = ShowRuleText();
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount, holdOutput ? 1 : 0 }, CompleteGameID);
         _fuzzyGameData.GameID = (gameCount - 1).ToString();
         FirebaseManagerV2.Instance.UploadFuzzyGameData(_fuzzyGameData);
-        ShowList.Clear();
-        ShowRuleText();
+
     }
     private int OutputCalculate(List<float> dival, int mode) //0=paircard,1=daily,2=minigame
     {
+        Debug.Log("try debug");
+        Debug.Log(mode);
         int temp_diff = 0;
+
+        //0.3     1.7        3
+
         if (dival[0] == dival[1] && dival[0] == dival[2])
         {
             temp_diff = 0;
@@ -1135,18 +1144,20 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             }
 
             SetRuleTextList(ShowList);
-            if (!firstMinigame)
-            {
-                OutputCalculate(difficultyState, 2);
-            }
-            firstMinigame = false;
         }
+        if (!firstMinigame)
+        {
+            OutputCalculate(difficultyState, 2);
+        }
+        firstMinigame = false;
+
         UserSpecialData.Add(_specialgameData);
+        ShowList.Clear();
+        _specialgameData.LogText = ShowRuleText();
         FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameData);
         List<int> _upTemp = DLS.GetUploadProperties();
         FirebaseManagerV2.Instance.UpdateFuzzyPostGameStage(new List<int>() { gameCount, gameComplete, gameInComplete, mtDiff ? 1 : 0, _upTemp[1], _upTemp[0], _upTemp[2], minigameCount, holdOutput ? 1 : 0 }, CompleteGameID);
-        ShowList.Clear();
-        ShowRuleText();
+
     }
     public void PostDailyStage()
     {
@@ -1251,7 +1262,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         SetRuleText(rtext);
         ShowList.Clear();
     }
-    public void ShowRuleText()
+    public string ShowRuleText()
     {
         ruleBox.text = "";
         foreach (var item in RuleTextList)
@@ -1260,6 +1271,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
             // ruleBox.text += "\n";
         }
         RuleTextList.Clear();
+        return ruleBox.text;
     }
 }
 

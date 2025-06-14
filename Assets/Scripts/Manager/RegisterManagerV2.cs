@@ -319,9 +319,20 @@ public class RegisterManagerV2 : MonoBehaviour
         },
             TutorialPassed = false,
             DayPassed = 0,
-            FuzzyProperties = new List<int>() { 0, 0, 0, 0, 0, 1, 0, 0 ,0 },
+            FuzzyProperties = new List<int>() { 0, 0, 0, 0, 0, 1, 0, 0, 0 },
             IsFirstLogin = true,
             LastLogin = "",
+            WeekDays = new Dictionary<string, List<string>>()
+            {
+                {"1",new List<string>() },
+                {"2",new List<string>() },
+                {"3",new List<string>() },
+                {"4",new List<string>() },
+                {"5",new List<string>() },
+                {"6",new List<string>() },
+                {"7",new List<string>() },
+                {"8",new List<string>() },
+            },
 
         };
         FirebaseManagerV2.Instance.NewRegister(userInfo, OnCompleteRegister);

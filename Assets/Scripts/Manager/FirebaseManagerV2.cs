@@ -37,7 +37,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "fuzzy_demo129";
+    string prefix_locate = "fuzzy_test";
+    // string prefix_locate = "Debug";
     string prefix_time_locate = "game_information_test";
     public string curr_username;
     public bool isFirstLogin;
@@ -47,8 +48,9 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     public Dictionary<string, bool> gameData = new Dictionary<string, bool>();
     public Dictionary<string, List<int>> gameState = new Dictionary<string, List<int>>();
     public Dictionary<string, List<int>> gameScore = new Dictionary<string, List<int>>();
+    public Dictionary<string, List<string>> week_day = new Dictionary<string, List<string>>();
     public int curr_week = 1;
-    List<string> timeRules = new List<string>();
+    public List<string> timeRules = new List<string>();
     /// This will be reset on signout ///
     public override void Init()
     {
@@ -84,6 +86,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         timeRules.Clear();
         gameScore.Clear();
         gameState.Clear();
+        week_day.Clear();
         cardList.Add("HOME", new List<string>());
         cardList.Add("MARKET", new List<string>());
         cardList.Add("STORE", new List<string>());
@@ -97,6 +100,10 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             gameScore["W" + i.ToString()] = new List<int>();
             gameState["W" + i.ToString()] = new List<int>();
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            week_day.Add((i + 1).ToString(), new List<string>());
         }
         FuzzyBrain.Instance.ClearParameter();
 
@@ -290,6 +297,21 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     lastLogin = fieldVal["LastLogin"].ToString();
                     PlayerPrefs.SetString("autologinname", fieldVal["Username"].ToString());
                     PlayerPrefs.SetString("autologinpassword", fieldVal["Password"].ToString());
+                    if (documentSnapshot.TryGetValue<Dictionary<string, object>>("WeekDays", out var rawDict))
+                    {
+                        foreach (var entry in rawDict)
+                        {
+                            if (entry.Value is List<object> objList)
+                            {
+                                List<string> strList = objList.ConvertAll(obj => obj.ToString());
+                                week_day[entry.Key] = strList;
+                            }
+                        }
+                        foreach (var kvp in week_day)
+                        {
+                            Debug.Log($"Key: {kvp.Key}, Value: {string.Join(", ", kvp.Value)}");
+                        }
+                    }
                     if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
                     {
                         if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
@@ -713,6 +735,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                                 foreach (var item in tempStringList)
                                 {
                                     stringList.Add(item);
+                                    timeRules.Add(item.ToString());
                                 }
 
                             }
@@ -790,6 +813,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         foreach (var item in dateList)
         {
             dateListString.Add(item.ToString());
+            timeRules.Add(item.ToString());
         }
         return dateListString;
     }
@@ -867,6 +891,14 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
         Dictionary<string, object> updates = new Dictionary<string, object>{
             {"LastLogin", lastLogin},
+        };
+        docRef.UpdateAsync(updates);
+    }
+    public void UpdateWeekDays()
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"WeekDays", week_day},
         };
         docRef.UpdateAsync(updates);
     }

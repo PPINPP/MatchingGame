@@ -6,6 +6,7 @@ using MatchingGame.Gameplay;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
 {
     [SerializeField] List<Sprite> state_pics = new List<Sprite>(); //0-lock 1-unlock 2-minigame 3-played1 4-played2 5-played3
@@ -215,6 +216,16 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
                 }
             }
         }
+    }
+
+    public bool AllCompleteCheck()
+    {
+        if (game_state.Count(n => n == 0) == 0 && game_state.Count(n => n == 1) == 0)
+        {
+            return true;
+        }
+        return false;
+        
     }
 
     public void Reset()
