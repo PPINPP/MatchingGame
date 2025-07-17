@@ -120,7 +120,6 @@ namespace MatchingGame.Gameplay
             sequenceTrans.gameObject.SetActive(true);
             Button button = sequenceTrans.GetComponentInChildren<Button>();
             button.onClick.AddListener(NextStageSequence);
-            //TODO: Set button to click next
         }
 
         void NextStageSequence()

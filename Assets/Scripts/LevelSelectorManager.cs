@@ -110,7 +110,9 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         }
         else if (game_role[levelnum] == 4)
         {
+            // TODO : 4. Change To Call QBrain To Get Next Stage Difficulty, PairType, Layout
             var (pt,gl,gd) = FuzzyBrain.Instance.DLS.GetDifficulty();
+            
             GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
             gameplaySequenceSetting.isTutorial = false;
             gameplaySequenceSetting.categoryTheme = (CategoryTheme)categoryThemes[FirebaseManagerV2.Instance.curr_week - 1];

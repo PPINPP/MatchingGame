@@ -558,13 +558,13 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     {
         DocumentReference docRef = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation").Document("Tutorial-State");
         Dictionary<string, bool> docData = new Dictionary<string, bool>
-{
-    { "TTR1", false },
-    { "TTR2", false },
-    { "TTR3", false },
-    { "TTR4", false },
-    { "PASSIVE", false },
-};
+        {
+            { "TTR1", false },
+            { "TTR2", false },
+            { "TTR3", false },
+            { "TTR4", false },
+            { "PASSIVE", false },
+        };
         docRef.SetAsync(docData);
     }
     public void SetTutorial(bool isPass)
@@ -866,6 +866,13 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     {
         DocumentReference dataRef = db.Collection(prefix_locate + "/" + curr_id + "/SpecialGameData").Document(special_result.GameID);
         _ = dataRef.SetAsync(special_result.ConvertToFirestoreModel());
+    }
+    
+    public void UploadGameQLearningData(QLogResult qLog)
+    {
+        // TODO : Change Path And Name For Store
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.StageID + "_" + qLog.CompletedAt.ToString("s"));
+        _ = docRef.SetAsync(qLog.ConvertToFirestoreModel());
     }
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
     {
