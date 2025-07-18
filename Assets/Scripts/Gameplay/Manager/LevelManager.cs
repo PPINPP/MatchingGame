@@ -322,15 +322,15 @@ namespace MatchingGame.Gameplay
                 }
                 
                 var phaseDataLength = _gameplayPhaseData.Count;
-                var time = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+                var timeClock = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 var timeUsed = phaseDataLength == 0
-                    ? time
-                    : time - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
+                    ? timeClock
+                    : timeClock - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
                     Debug.Log("====== Add =======");
                 if (ccOpen)
                 {
                     CardPhase[0]++;
-                    PhaseData p = new PhaseData(PhaseEnum.IRM,UIManager.Instance.Timer, timeUsed);
+                    PhaseData p = new PhaseData(PhaseEnum.IRM,timeClock, timeUsed);
                     
                     
                     Debug.Log($"Clock : {p.ClockTime}");
@@ -341,7 +341,7 @@ namespace MatchingGame.Gameplay
                 else if (!allCardOpen)
                 {
                     CardPhase[1]++;
-                    PhaseData p = new PhaseData(PhaseEnum.SPM,UIManager.Instance.Timer, timeUsed);
+                    PhaseData p = new PhaseData(PhaseEnum.SPM,timeClock, timeUsed);
                     
                     Debug.Log($"Clock : {p.ClockTime}");
                     Debug.Log($"Phase : {p.Phase}");
@@ -351,7 +351,7 @@ namespace MatchingGame.Gameplay
                 else
                 {
                     CardPhase[2]++;
-                    PhaseData p = new PhaseData(PhaseEnum.ESM,UIManager.Instance.Timer, timeUsed);
+                    PhaseData p = new PhaseData(PhaseEnum.ESM,timeClock, timeUsed);
                     
                     Debug.Log($"Clock : {p.ClockTime}");
                     Debug.Log($"Phase : {p.Phase}");
