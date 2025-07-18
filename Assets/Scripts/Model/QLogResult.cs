@@ -38,6 +38,13 @@ namespace Model
 
         public QLogResultFs ConvertToFirestoreModel()
         {
+            Debug.Log("============== Check Model ========");
+            foreach (var phaseData in PhaseDataList)
+            {
+                Debug.Log(phaseData);
+            }
+            Debug.Log("============== End Check Model ========");
+           
             QLogResultFs firestoreModel = new QLogResultFs
             {
                 Uuid = this.Uuid,
@@ -68,6 +75,12 @@ namespace Model
                 LogText = LogText,
 
             };
+            Debug.Log("============== Check struc ========");
+            foreach (var phaseData in firestoreModel.PhaseDataList)
+            {
+                Debug.Log(phaseData);
+            }
+            Debug.Log("============== End Check struc ========");
 
             return firestoreModel;
         }

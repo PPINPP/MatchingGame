@@ -325,11 +325,13 @@ namespace MatchingGame.Gameplay
                 var timeUsed = phaseDataLength == 0
                     ? UIManager.Instance.Timer
                     : UIManager.Instance.Timer - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
+                    Debug.Log("====== Add =======");
                 if (ccOpen)
                 {
                     CardPhase[0]++;
                     PhaseData p = new PhaseData(PhaseEnum.IRM,UIManager.Instance.Timer, timeUsed);
                     
+                    Debug.Log(p);
                     _gameplayPhaseData.Add(p);
                 }
                 else if (!allCardOpen)
@@ -337,6 +339,7 @@ namespace MatchingGame.Gameplay
                     CardPhase[1]++;
                     PhaseData p = new PhaseData(PhaseEnum.SPM,UIManager.Instance.Timer, timeUsed);
                     
+                    Debug.Log(p);
                     _gameplayPhaseData.Add(p);
                 }
                 else
@@ -344,8 +347,10 @@ namespace MatchingGame.Gameplay
                     CardPhase[2]++;
                     PhaseData p = new PhaseData(PhaseEnum.ESM,UIManager.Instance.Timer, timeUsed);
                     
+                    Debug.Log(p);
                     _gameplayPhaseData.Add(p);
                 }
+                Debug.Log("====== End Add =======");
                 AllCardOpen();
 
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
@@ -889,6 +894,8 @@ namespace MatchingGame.Gameplay
             GameplayResultManager.Instance.QLogResult.TotalMatch = (int)_cardList.Count;
             GameplayResultManager.Instance.QLogResult.FirstMatchTime = firstMatchTime;
             GameplayResultManager.Instance.QLogResult.PhaseDataList = _gameplayPhaseData;
+            
+            Debug.Log(_gameplayPhaseData);
             // TODO : Call Function to Set value
             // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
             // GameplayResultManager.Instance.QLogResult.GridMode = gm;
