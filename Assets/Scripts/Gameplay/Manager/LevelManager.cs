@@ -322,9 +322,10 @@ namespace MatchingGame.Gameplay
                 }
                 
                 var phaseDataLength = _gameplayPhaseData.Count;
+                var time = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 var timeUsed = phaseDataLength == 0
-                    ? UIManager.Instance.Timer
-                    : UIManager.Instance.Timer - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
+                    ? time
+                    : time - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
                     Debug.Log("====== Add =======");
                 if (ccOpen)
                 {
