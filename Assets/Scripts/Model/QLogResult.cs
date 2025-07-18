@@ -173,9 +173,9 @@ namespace Model
     [FirestoreData]
     public struct PhaseDataFs
     {
-        public int Phase { get; set; }
-        public float ClockTime { get; set; }
-        public float TimeUsed { get; set; }
+        [FirestoreProperty] public int Phase { get; set; }
+        [FirestoreProperty] public float ClockTime { get; set; }
+        [FirestoreProperty] public float TimeUsed { get; set; }
     }
    
 }
