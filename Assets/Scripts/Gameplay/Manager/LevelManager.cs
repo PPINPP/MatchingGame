@@ -331,7 +331,10 @@ namespace MatchingGame.Gameplay
                     CardPhase[0]++;
                     PhaseData p = new PhaseData(PhaseEnum.IRM,UIManager.Instance.Timer, timeUsed);
                     
-                    Debug.Log(p);
+                    
+                    Debug.Log($"Clock : {p.ClockTime}");
+                    Debug.Log($"Phase : {p.Phase}");
+                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
                 else if (!allCardOpen)
@@ -339,7 +342,9 @@ namespace MatchingGame.Gameplay
                     CardPhase[1]++;
                     PhaseData p = new PhaseData(PhaseEnum.SPM,UIManager.Instance.Timer, timeUsed);
                     
-                    Debug.Log(p);
+                    Debug.Log($"Clock : {p.ClockTime}");
+                    Debug.Log($"Phase : {p.Phase}");
+                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
                 else
@@ -347,7 +352,9 @@ namespace MatchingGame.Gameplay
                     CardPhase[2]++;
                     PhaseData p = new PhaseData(PhaseEnum.ESM,UIManager.Instance.Timer, timeUsed);
                     
-                    Debug.Log(p);
+                    Debug.Log($"Clock : {p.ClockTime}");
+                    Debug.Log($"Phase : {p.Phase}");
+                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
                 Debug.Log("====== End Add =======");
@@ -895,7 +902,17 @@ namespace MatchingGame.Gameplay
             GameplayResultManager.Instance.QLogResult.FirstMatchTime = firstMatchTime;
             GameplayResultManager.Instance.QLogResult.PhaseDataList = _gameplayPhaseData;
             
-            Debug.Log(_gameplayPhaseData);
+            Debug.Log("============== Check Model ========");
+            var index = 0;
+            foreach (var phaseData in _gameplayPhaseData)
+            {
+                Debug.Log(index);
+                Debug.Log($"Clock : {phaseData.ClockTime}");
+                Debug.Log($"Phase : {phaseData.Phase}");
+                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
+                index++;
+            }
+            Debug.Log("============== End Check Model ========");
             // TODO : Call Function to Set value
             // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
             // GameplayResultManager.Instance.QLogResult.GridMode = gm;

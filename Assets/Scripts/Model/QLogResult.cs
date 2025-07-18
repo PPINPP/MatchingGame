@@ -39,9 +39,14 @@ namespace Model
         public QLogResultFs ConvertToFirestoreModel()
         {
             Debug.Log("============== Check Model ========");
+            var index = 0;
             foreach (var phaseData in PhaseDataList)
             {
-                Debug.Log(phaseData);
+                Debug.Log(index);
+                Debug.Log($"Clock : {phaseData.ClockTime}");
+                Debug.Log($"Phase : {phaseData.Phase}");
+                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
+                index++;
             }
             Debug.Log("============== End Check Model ========");
            
@@ -76,9 +81,14 @@ namespace Model
 
             };
             Debug.Log("============== Check struc ========");
+            index = 0;
             foreach (var phaseData in firestoreModel.PhaseDataList)
             {
-                Debug.Log(phaseData);
+                Debug.Log(index);
+                Debug.Log($"Clock : {phaseData.ClockTime}");
+                Debug.Log($"Phase : {phaseData.Phase}");
+                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
+                index++;
             }
             Debug.Log("============== End Check struc ========");
 
