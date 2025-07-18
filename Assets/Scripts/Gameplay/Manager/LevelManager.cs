@@ -1,6 +1,7 @@
 using Model;
 using System;
 using System.Collections.Generic;
+using Enum;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -57,6 +58,7 @@ namespace MatchingGame.Gameplay
         private List<string> HelperSeq = new List<string>();
         private float firstMatchTime = 0f;
         private bool canUseFlipAll = true;
+        private List<PhaseData> _gameplayPhaseData = new List<PhaseData>();
 
 
         private List<string> keyContain = new List<string>();
@@ -67,7 +69,6 @@ namespace MatchingGame.Gameplay
             settingPanel.SetActive(false);
             rewardPanel.SetActive(false);
             playArea.onClick.AddListener(OnPlayAreaClick);
-            //TODO: Follow Sequence To Setting
             var sequenceSetting = SequenceManager.Instance.GetSequenceDetail().GetGameplaySequenceSetting();
             GamplayLayoutSetting layoutSetting = new GamplayLayoutSetting();
             backGround.sprite = themeBackGround[(int)sequenceSetting.categoryTheme];
@@ -319,18 +320,31 @@ namespace MatchingGame.Gameplay
                 {
                     firstMatchTime = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
                 }
+                
+                var phaseDataLength = _gameplayPhaseData.Count;
+                var timeUsed = phaseDataLength == 0
+                    ? UIManager.Instance.Timer
+                    : UIManager.Instance.Timer - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
                 if (ccOpen)
                 {
                     CardPhase[0]++;
+                    PhaseData p = new PhaseData(PhaseEnum.IRM,UIManager.Instance.Timer, timeUsed);
+                    
+                    _gameplayPhaseData.Add(p);
                 }
                 else if (!allCardOpen)
                 {
                     CardPhase[1]++;
-
+                    PhaseData p = new PhaseData(PhaseEnum.SPM,UIManager.Instance.Timer, timeUsed);
+                    
+                    _gameplayPhaseData.Add(p);
                 }
                 else
                 {
                     CardPhase[2]++;
+                    PhaseData p = new PhaseData(PhaseEnum.ESM,UIManager.Instance.Timer, timeUsed);
+                    
+                    _gameplayPhaseData.Add(p);
                 }
                 AllCardOpen();
 
@@ -438,20 +452,8 @@ namespace MatchingGame.Gameplay
                                                 GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
                                                 GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
                                                 //FuzzyGameData
-                                                GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
-                                                GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
-                                                GameplayResultManager.Instance.FuzzyGameResult.Complete = true;
-                                                GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
-                                                GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
-                                                GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
-                                                GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
-                                                GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
-                                                GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
-                                                var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
-                                                GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
-                                                GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
-                                                GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
-
+                                                PrepareFuzzyData(true);
+                                                PrepareQData(true);
 
                                                 // GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool>{addedTime,flipped,passiveUsed};
 
@@ -636,6 +638,7 @@ namespace MatchingGame.Gameplay
             PauseLog pauseLog = new PauseLog(addedTime ? (210.0f - UIManager.Instance.GetTimer()).ToString() : (180.0f - UIManager.Instance.GetTimer()).ToString(), (Time.realtimeSinceStartup - stopTime).ToString());
             GameplayResultManager.Instance.GamePlayResult.PauseLogList.Add(pauseLog);
             GameplayResultManager.Instance.FuzzyGameResult.PauseUsed = true;
+            GameplayResultManager.Instance.QLogResult.PauseUsed = true;
             pausePanel.SetActive(false);
         }
         public void AddTime()
@@ -838,19 +841,9 @@ namespace MatchingGame.Gameplay
                     GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                     GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
                     //FuzzyGameData
-                    GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
-                    GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
-                    GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
-                    GameplayResultManager.Instance.FuzzyGameResult.Complete = false;
-                    GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
-                    GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
-                    GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
-                    GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
-                    GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
-                    var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
-                    GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
-                    GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
-                    GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
+                    PrepareFuzzyData(false);
+                    PrepareQData(false);
+                    
                     GameplayResultManager.Instance.OnEndGame();
                     disposable.Dispose();
 
@@ -866,5 +859,40 @@ namespace MatchingGame.Gameplay
             pauseGame.interactable = true;
             settingPage.interactable = true;
         }
+
+        public void PrepareFuzzyData(bool IsGameComplete)
+        {
+            GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
+            GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
+            GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+            GameplayResultManager.Instance.FuzzyGameResult.Complete = IsGameComplete;
+            GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
+            GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
+            GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
+            GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
+            GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
+            var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
+            GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
+            GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
+            GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
+        }
+        
+        public void PrepareQData(bool IsGameComplete)
+        {
+            GameplayResultManager.Instance.QLogResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
+            GameplayResultManager.Instance.QLogResult.Phase = CardPhase;
+            GameplayResultManager.Instance.QLogResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+            GameplayResultManager.Instance.QLogResult.Complete = IsGameComplete;
+            GameplayResultManager.Instance.QLogResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
+            GameplayResultManager.Instance.QLogResult.HelperSeq = this.HelperSeq;
+            GameplayResultManager.Instance.QLogResult.FalseMatch = matchFalseCount;
+            GameplayResultManager.Instance.QLogResult.TotalMatch = (int)_cardList.Count;
+            GameplayResultManager.Instance.QLogResult.FirstMatchTime = firstMatchTime;
+            GameplayResultManager.Instance.QLogResult.PhaseDataList = _gameplayPhaseData;
+            // TODO : Call Function to Set value
+            // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
+            // GameplayResultManager.Instance.QLogResult.GridMode = gm;
+            // GameplayResultManager.Instance.QLogResult.GameLevel = cl;
+        } 
     }
 }

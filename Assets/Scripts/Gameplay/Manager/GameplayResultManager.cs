@@ -12,6 +12,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     private List<MinigameClickLog> _minigameClickLogList = new List<MinigameClickLog>();
     private FuzzyGameData _fuzzygameResult = new FuzzyGameData();
     private SpecialFuzzyData _specialgameResult = new SpecialFuzzyData();
+    private QLogResult _qlogResult = new QLogResult();
 
     public GamePlayResult GamePlayResult { get { return _gameplayResult; } set => _gameplayResult = value; }
     public List<GameplayClickLog> GameplayClickLogList { get => _gameplayClickLogList; set => _gameplayClickLogList = value; }
@@ -23,6 +24,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
     public List<MinigameClickLog> MinigameClickLogList { get => _minigameClickLogList; set => _minigameClickLogList = value; }
     public FuzzyGameData FuzzyGameResult { get {return _fuzzygameResult; } set => _fuzzygameResult = value; }
     public SpecialFuzzyData SpecialFuzzyData { get {return _specialgameResult; } set => _specialgameResult = value; }
+    public QLogResult QLogResult {get  { return _qlogResult; } set => _qlogResult = value; }
     
     
     public override void Init()
@@ -57,6 +59,9 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         FirebaseManagerV2.Instance.UploadGamePlayResult(_gameplayResult);
         //FuzzyBrain
         FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
+        
+        // TODO : Temp call, Have To Call When Complete Calculate
+        FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
     }
 
     public void OnEndMiniGame()

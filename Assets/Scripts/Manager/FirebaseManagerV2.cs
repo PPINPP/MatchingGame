@@ -870,8 +870,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     
     public void UploadGameQLearningData(QLogResult qLog)
     {
-        // TODO : Change Path And Name For Store
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.StageID + "_" + qLog.CompletedAt.ToString("s"));
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
         _ = docRef.SetAsync(qLog.ConvertToFirestoreModel());
     }
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)

@@ -1,4 +1,7 @@
-﻿namespace Experiment
+﻿using System.Collections.Generic;
+using Model;
+
+namespace Experiment
 {
     
     // TODO : Sequence Of Flow 
@@ -8,6 +11,6 @@
     // 4. Set Q Result For Decision Next Stage Difficulty, PairType, Layout
     public class QBrain: MonoSingleton<QBrain>
     {
-        
+        public List<QLogResult> UserQLogResultData = new List<QLogResult>();
     }
 }
