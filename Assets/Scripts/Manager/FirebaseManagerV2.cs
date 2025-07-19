@@ -462,6 +462,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     if (QBrain.Instance.LastUserQLogResult == null || data.GameID == lastGameID.ToString())
                     {
                         QBrain.Instance.LastUserQLogResult = data;
+                        QBrain.Instance.
+                            CalState(QBrain.Instance.LastUserQLogResult);
                     }
                 }
                 return;

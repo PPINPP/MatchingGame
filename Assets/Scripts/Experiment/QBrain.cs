@@ -54,26 +54,12 @@ namespace Experiment
         
         public void SetGameProperties(List<int> qProperties, List<int> completeGameID, int dp)
         {
-            var index = 0;
-            foreach (var qProperty in qProperties)
-            {
-                Debug.Log($"Index: {index}, Property: {qProperty}");
-                index++;
-            }
             gameCount = qProperties[0];
             gameCompleteCount = qProperties[1];
             lastGameId = qProperties[2];
             if (completeGameID != null)
             {
                 CompleteGameID = completeGameID;
-                
-                Debug.Log("==== game id ===");
-                foreach (var i in completeGameID)
-                {
-                    
-                Debug.Log($"Game ID: {i}");
-                    
-                }
             }
             else
             {
@@ -130,25 +116,106 @@ namespace Experiment
 
         public QGameplaySate CalState(QLogResult _qlogResult)
         {
-            var curGameIrmPhase = _qlogResult.PhaseDataList.Where(w => w.Phase == PhaseEnum.IRM).ToList();
-
-            List<float> previousGameIrmMedianList = new List<float>();
             UserQLogCompleteData.OrderBy(o => o.GameID);
-            
 
-            for (int i = UserQLogCompleteData.Count - 3; i < UserQLogCompleteData.Count; i++)
+            #region SpeedCategory
+            GetPhaseMedian(_qlogResult,PhaseEnum.IRM,out float curGameIrmPhaseMedian,out List<float> previousGameIrmMedianList);
+            GetPhaseMedian(_qlogResult,PhaseEnum.SPM,out float curGameSPMPhaseMedian,out List<float> previousGameSPMMedianList);
+            #endregion
+            
+            SpeedCategoryEnum speedCatIRM = CalPerformancePlaySpeedWithBound(curGameIrmPhaseMedian, previousGameIrmMedianList);
+            SpeedCategoryEnum speedCatSPM = CalPerformancePlaySpeedWithBound(curGameSPMPhaseMedian, previousGameSPMMedianList);
+
+            #region FailMatch
+
+            FailMatchData curGameFMD = new FailMatchData
             {
-                var gameData = UserQLogCompleteData[i];
-                var list = gameData.PhaseDataList.Where(w => w.Phase == PhaseEnum.IRM).ToList();
-                var median = list.Select(s => s.TimeUsed).Median();
-                previousGameIrmMedianList.Add(median);
+                FalseMatch = _qlogResult.FalseMatch,
+                TotalMatch = _qlogResult.TotalMatch
+            };
+            List<FailMatchData> previousGameFMD = new List<FailMatchData>();
+            for (int i = UserQLogCompleteData.Count - 3 < 0 ? 0 : UserQLogCompleteData.Count - 3;
+                 i < UserQLogCompleteData.Count; i++)
+            {
+                FailMatchData fmd = new FailMatchData
+                {
+                    FalseMatch = UserQLogCompleteData[i].FalseMatch,
+                    TotalMatch = UserQLogCompleteData[i].TotalMatch
+                };
+                previousGameFMD.Add(fmd);
             }
 
-            var curGameIrmPhaseMedian = curGameIrmPhase.Select(s => s.TimeUsed).Median();
-            var cat = CalPerformancePlaySpeedWithBound(curGameIrmPhaseMedian, previousGameIrmMedianList);
+            #endregion
+           
+            FailMatchResultEnum failMatchResult = CalPerformanceFailMatchResultWithBound(curGameFMD, previousGameFMD);
 
-            // TODO : Here
+            #region MemoryPhase
+            List<MemoryPhase> memoryPhaseList = new List<MemoryPhase>();
+            PhaseEnum phaseMax;
+            Dictionary<PhaseEnum,int> phaseCounts = _qlogResult.PhaseDataList
+                .GroupBy(pd => pd.Phase)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            int totalCount = _qlogResult.PhaseDataList.Count;
+
+            #region Find Highest Count In Phase
+            int maxCount = phaseCounts.Values.Max();
+            List<PhaseEnum> phasesWithMaxCount = phaseCounts
+                .Where(pair => pair.Value == maxCount)
+                .Select(pair => pair.Key)
+                .OrderByDescending(phase => (int)phase)
+                .ToList();
+            if (maxCount * 3 == totalCount)
+            {
+                phaseMax = PhaseEnum.SPM;
+            }
+            else
+            {
+                phaseMax = phasesWithMaxCount.First();
+            }
+
+            #endregion
+            
+            foreach (PhaseEnum phase in System.Enum.GetValues(typeof(PhaseEnum)))
+            {
+                phaseCounts.TryGetValue(phase, out int countForPhase);
+                float percentage = ((float)countForPhase / totalCount) * 100.0f;
+            
+                memoryPhaseList.Add(new MemoryPhase
+                {
+                    Phase = phase,
+                    InPhasePercentage = percentage
+                });
+            }
+
+            memoryPhaseList = memoryPhaseList.OrderBy(p => p.Phase).ToList();
+            _qlogResult.PhaseSuccessPercent = memoryPhaseList.Select(s=> s.InPhasePercentage).ToList();
+            
+            
+            #endregion
+
+            MemoryPhase selectMemoryPhase = memoryPhaseList.First(f => f.Phase == phaseMax);
+            
+            
+
+            
             return QGameplaySate.None;
+        }
+
+        public void GetPhaseMedian(QLogResult _qlogResult,PhaseEnum targetPhase, out float curGameMedian, out List<float> previousGameMedianList)
+        {
+            var curGameIrmPhase = _qlogResult.PhaseDataList.Where(w => w.Phase == targetPhase).ToList();
+            curGameMedian = curGameIrmPhase.Select(s => s.TimeUsed).Median();
+
+            previousGameMedianList = new List<float>();
+            for (int i = UserQLogCompleteData.Count - 3 < 0 ? 0 : UserQLogCompleteData.Count - 3;
+                 i < UserQLogCompleteData.Count; i++)
+            {
+                var gameData = UserQLogCompleteData[i];
+                var list = gameData.PhaseDataList.Where(w => w.Phase == targetPhase).ToList();
+                var median = list.Select(s => s.TimeUsed).Median();
+                previousGameMedianList.Add(median);
+            }
         }
         
         
@@ -173,12 +240,12 @@ namespace Experiment
         
         public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(FailMatchData curPhase,List<FailMatchData> pastPhase)
         {
-            float curPhasePercent = (curPhase.FailMatch * 2 / curPhase.ClickCount) * 100;
+            float curPhasePercent = (curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2)) * 100;
             
             List<float> pastPhasePercent = new List<float>();
             foreach (FailMatchData failMatchData in pastPhase)
             {
-                pastPhasePercent.Add((failMatchData.FailMatch * 2 / failMatchData.ClickCount) * 100);
+                pastPhasePercent.Add((curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2)) * 100);
             }
             
             float pastPhasePercentMedian = pastPhasePercent.Median();

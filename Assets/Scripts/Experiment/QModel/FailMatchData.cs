@@ -2,7 +2,7 @@
 {
     public class FailMatchData
     {
-        public int FailMatch { get; set; }
-        public int ClickCount { get; set; }
+        public int FalseMatch { get; set; }
+        public int TotalMatch { get; set; }
     }
 }
