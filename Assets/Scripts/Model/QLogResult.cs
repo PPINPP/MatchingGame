@@ -21,6 +21,7 @@ namespace Model
         public float TimeUsed { get; set; }
         public int FalseMatch { get; set; }
         public int TotalMatch { get; set; }
+        public int ClickCount { get; set; }
         public bool PauseUsed { get; set; }
         public float FirstMatchTime { get; set; }
         public List<float> PhaseSuccessPercent { get; set; }
@@ -38,18 +39,6 @@ namespace Model
 
         public QLogResultFs ConvertToFirestoreModel()
         {
-            Debug.Log("============== Check Model ========");
-            var index = 0;
-            foreach (var phaseData in PhaseDataList)
-            {
-                Debug.Log(index);
-                Debug.Log($"Clock : {phaseData.ClockTime}");
-                Debug.Log($"Phase : {phaseData.Phase}");
-                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
-                index++;
-            }
-            Debug.Log("============== End Check Model ========");
-           
             QLogResultFs firestoreModel = new QLogResultFs
             {
                 Uuid = this.Uuid,
@@ -63,6 +52,7 @@ namespace Model
                 TimeUsed = TimeUsed,
                 FalseMatch = FalseMatch,
                 TotalMatch = TotalMatch,
+                ClickCount = ClickCount,
                 PauseUsed = PauseUsed,
                 FirstMatchTime = FirstMatchTime,
                 PhaseSuccessPercent = PhaseSuccessPercent,
@@ -80,46 +70,41 @@ namespace Model
                 LogText = LogText,
 
             };
-            Debug.Log("============== Check struc ========");
-            index = 0;
-            foreach (var phaseData in firestoreModel.PhaseDataList)
-            {
-                Debug.Log(index);
-                Debug.Log($"Clock : {phaseData.ClockTime}");
-                Debug.Log($"Phase : {phaseData.Phase}");
-                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
-                index++;
-            }
-            Debug.Log("============== End Check struc ========");
 
             return firestoreModel;
         }
         
-        // public QLogResult ConvertToGameData(QLogResultFs fuzzyGameData)
-        // {
-        //     return new QLogResult
-        //     {
-        //         GameID = fuzzyGameData.GameID,
-        //         Complete = fuzzyGameData.Complete,
-        //         Difficulty = fuzzyGameData.Difficulty,
-        //         GridMode = fuzzyGameData.GridMode,
-        //         TimeUsed = fuzzyGameData.TimeUsed,
-        //         IdealMatch = fuzzyGameData.IdealMatch,
-        //         GameLevel = fuzzyGameData.GameLevel,
-        //         FalseMatch = fuzzyGameData.FalseMatch,
-        //         TotalMatch = fuzzyGameData.TotalMatch,
-        //         MatchCount = fuzzyGameData.MatchCount,
-        //         PauseUsed = fuzzyGameData.PauseUsed,
-        //         FirstMatchTime = fuzzyGameData.FirstMatchTime,
-        //         Helper = new List<bool>(fuzzyGameData.Helper),
-        //         Phase = new List<int>(fuzzyGameData.Phase),
-        //         HelperSeq = new List<string>(fuzzyGameData.HelperSeq),
-        //         Uuid = fuzzyGameData.Uuid,
-        //         Result = fuzzyGameData.Result,
-        //         LogText = fuzzyGameData.LogText,
-        //
-        //     };
-        // }
+        public QLogResult ConvertToGameData(QLogResultFs qLogResultData)
+        {
+            return new QLogResult
+            {
+                Uuid = qLogResultData.Uuid,
+                GameID = qLogResultData.GameID,
+                Complete = qLogResultData.Complete,
+                Difficulty = qLogResultData.Difficulty,
+                GridMode = qLogResultData.GridMode,
+                TimeUsed = qLogResultData.TimeUsed,
+                GameLevel = qLogResultData.GameLevel,
+                FalseMatch = qLogResultData.FalseMatch,
+                TotalMatch = qLogResultData.TotalMatch,
+                ClickCount = qLogResultData.ClickCount,
+                PauseUsed = qLogResultData.PauseUsed,
+                FirstMatchTime = qLogResultData.FirstMatchTime,
+                Helper = new List<bool>(qLogResultData.Helper),
+                Phase = new List<int>(qLogResultData.Phase),
+                HelperSeq = new List<string>(qLogResultData.HelperSeq),
+                Result = qLogResultData.Result,
+                LogText = qLogResultData.LogText,
+                PhaseSuccessPercent = qLogResultData.PhaseSuccessPercent,
+                PhaseDataList = qLogResultData.PhaseDataList.Select(s=> new PhaseData
+                {
+                    Phase = (PhaseEnum)s.Phase,
+                    ClockTime = s.ClockTime,
+                    TimeUsed = s.TimeUsed
+                }).ToList()
+        
+            };
+        }
     }
     
     public class PhaseData
@@ -154,6 +139,7 @@ namespace Model
         [FirestoreProperty] public float TimeUsed { get; set; }
         [FirestoreProperty] public int FalseMatch { get; set; }
         [FirestoreProperty] public int TotalMatch { get; set; }
+        [FirestoreProperty] public int ClickCount { get; set; }
         [FirestoreProperty] public bool PauseUsed { get; set; }
         [FirestoreProperty] public float FirstMatchTime { get; set; }
         [FirestoreProperty] public List<float> PhaseSuccessPercent { get; set; }

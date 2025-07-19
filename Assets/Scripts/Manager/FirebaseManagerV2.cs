@@ -17,6 +17,7 @@ using System.Data.OleDb;
 using System.Configuration;
 using UniRx;
 using System.Linq;
+using Experiment;
 using Random = UnityEngine.Random;
 using UnityEngine.UIElements;
 using UnityEngine.TestTools;
@@ -106,6 +107,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             week_day.Add((i + 1).ToString(), new List<string>());
         }
         FuzzyBrain.Instance.ClearParameter();
+        QBrain.Instance.ClearParameter();
 
         //FIX
     }
@@ -290,7 +292,9 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     Dictionary<string, object> fieldVal = documentSnapshot.ToDictionary();
                     int dp = 0;
                     List<int> FuzzyProperties = new List<int>();
+                    List<int> QProperties = new List<int>();
                     List<int> CompleteGameID = new List<int>();
+                    List<int> QCompleteGameID = new List<int>();
                     curr_username = fieldVal["Username"].ToString();
                     dp = Convert.ToInt32(fieldVal["DayPassed"]);
                     isFirstLogin = Convert.ToBoolean(fieldVal["IsFirstLogin"]);
@@ -327,6 +331,22 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
                         }
                         FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
+                    }
+                    if (documentSnapshot.TryGetValue("QProperties", out QProperties))
+                    {
+                        if (documentSnapshot.TryGetValue("QCompleteGameID", out QCompleteGameID))
+                        {
+                            if (QCompleteGameID.Count > 0)
+                            {
+                                GetQGameData(QCompleteGameID, QProperties[2]);
+                            }
+                            else
+                            {
+                                QCompleteGameID = new List<int>();
+                            }
+
+                        }
+                        QBrain.Instance.SetGameProperties(QProperties, QCompleteGameID, dp);
                     }
                     GetSpecialGameData();
                     GameRuleTimeChecker(success);
@@ -377,6 +397,72 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                 foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
                 {
                     FuzzyBrain.Instance.UserFuzzyData.Add(new FuzzyGameData().ConvertToGameData(documentSnapshot.ConvertTo<FuzzyGameDataFs>()));
+                }
+                return;
+            }
+            else
+            {
+                Debug.Log("Something went wrong");
+                return;
+            }
+
+        });
+        return;
+    }
+    
+    public void GetQGameData(List<int> CompleteGameID,int lastGameID)
+    {
+        List<object> _tempIDList = new List<object>();
+        if (CompleteGameID.Count >= 3)
+        {
+            for (int i = CompleteGameID.Count - 3; i < CompleteGameID.Count; i++)
+            {
+                _tempIDList.Add(CompleteGameID[i].ToString());
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < CompleteGameID.Count; i++)
+            {
+                _tempIDList.Add(CompleteGameID[i].ToString());
+            }
+
+        }
+        Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/QLog").WhereIn("GameID", _tempIDList);
+        GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot capitalQuerySnapshot = task.Result;
+
+            if (capitalQuerySnapshot.Count == _tempIDList.Count)
+            {
+                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+                {
+                    QBrain.Instance.UserQLogCompleteData.Add(new QLogResult().ConvertToGameData(documentSnapshot.ConvertTo<QLogResultFs>()));
+                }
+                return;
+            }
+            else
+            {
+                Debug.Log("Something went wrong");
+                return;
+            }
+
+        });
+        Query LastGameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/QLog").WhereEqualTo("GameID", lastGameID.ToString());
+        LastGameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot capitalQuerySnapshot = task.Result;
+
+            if (capitalQuerySnapshot != null && capitalQuerySnapshot.Count > 0)
+            {
+                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+                {
+                    var data = new QLogResult().ConvertToGameData(documentSnapshot.ConvertTo<QLogResultFs>());
+                    if (QBrain.Instance.LastUserQLogResult == null || data.GameID == lastGameID.ToString())
+                    {
+                        QBrain.Instance.LastUserQLogResult = data;
+                    }
                 }
                 return;
             }
@@ -882,6 +968,17 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
+    
+    public void UpdateQPostGameStage(List<int> qProp, List<int> completeGameID)
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"QProperties",qProp},
+            {"QCompleteGameID",completeGameID}
+        };
+        docRef.UpdateAsync(updates);
+    }
+    
     public void UpdateFirstLogin(bool val)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);

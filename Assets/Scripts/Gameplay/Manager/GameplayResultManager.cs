@@ -2,6 +2,7 @@ using Manager;
 using Model;
 using System.Collections;
 using System.Collections.Generic;
+using Experiment;
 using UnityEngine;
 
 public class GameplayResultManager : MonoInstance<GameplayResultManager>
@@ -61,7 +62,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
         
         // TODO : Temp call, Have To Call When Complete Calculate
-        FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
+        QBrain.Instance.ComputeQResult(_qlogResult);
     }
 
     public void OnEndMiniGame()

@@ -2,6 +2,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using Enum;
+using Experiment;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -326,39 +327,24 @@ namespace MatchingGame.Gameplay
                 var timeUsed = phaseDataLength == 0
                     ? timeClock
                     : timeClock - _gameplayPhaseData[phaseDataLength - 1].ClockTime;
-                    Debug.Log("====== Add =======");
                 if (ccOpen)
                 {
                     CardPhase[0]++;
                     PhaseData p = new PhaseData(PhaseEnum.IRM,timeClock, timeUsed);
-                    
-                    
-                    Debug.Log($"Clock : {p.ClockTime}");
-                    Debug.Log($"Phase : {p.Phase}");
-                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
                 else if (!allCardOpen)
                 {
                     CardPhase[1]++;
                     PhaseData p = new PhaseData(PhaseEnum.SPM,timeClock, timeUsed);
-                    
-                    Debug.Log($"Clock : {p.ClockTime}");
-                    Debug.Log($"Phase : {p.Phase}");
-                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
                 else
                 {
                     CardPhase[2]++;
                     PhaseData p = new PhaseData(PhaseEnum.ESM,timeClock, timeUsed);
-                    
-                    Debug.Log($"Clock : {p.ClockTime}");
-                    Debug.Log($"Phase : {p.Phase}");
-                    Debug.Log($"TimeUsed : {p.TimeUsed}");
                     _gameplayPhaseData.Add(p);
                 }
-                Debug.Log("====== End Add =======");
                 AllCardOpen();
 
                 GameplayResultManager.Instance.GameplayClickLogList[_selectedCardList[1].IndexClick].ClickResult = GameplayClickResultEnum.MATCHED;
@@ -892,7 +878,7 @@ namespace MatchingGame.Gameplay
         
         public void PrepareQData(bool IsGameComplete)
         {
-            GameplayResultManager.Instance.QLogResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
+            GameplayResultManager.Instance.QLogResult.GameID = QBrain.Instance.gameCount.ToString();
             GameplayResultManager.Instance.QLogResult.Phase = CardPhase;
             GameplayResultManager.Instance.QLogResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
             GameplayResultManager.Instance.QLogResult.Complete = IsGameComplete;
@@ -902,18 +888,8 @@ namespace MatchingGame.Gameplay
             GameplayResultManager.Instance.QLogResult.TotalMatch = (int)_cardList.Count;
             GameplayResultManager.Instance.QLogResult.FirstMatchTime = firstMatchTime;
             GameplayResultManager.Instance.QLogResult.PhaseDataList = _gameplayPhaseData;
-            
-            Debug.Log("============== Check Model ========");
-            var index = 0;
-            foreach (var phaseData in _gameplayPhaseData)
-            {
-                Debug.Log(index);
-                Debug.Log($"Clock : {phaseData.ClockTime}");
-                Debug.Log($"Phase : {phaseData.Phase}");
-                Debug.Log($"TimeUsed : {phaseData.TimeUsed}");
-                index++;
-            }
-            Debug.Log("============== End Check Model ========");
+            GameplayResultManager.Instance.QLogResult.ClickCount = clickCount;
+
             // TODO : Call Function to Set value
             // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
             // GameplayResultManager.Instance.QLogResult.GridMode = gm;
