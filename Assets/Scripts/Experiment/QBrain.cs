@@ -96,9 +96,9 @@ namespace Experiment
             
             if (gameCount > 2)
             {
+                var state = CalState(_qlogResult);
+                _qlogResult.GameplayState = state;
                 // TODO : Calculate
-                //var state = CalState(_qlogResult);
-                
             }
 
 
@@ -114,8 +114,17 @@ namespace Experiment
             FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
         }
 
-        public QGameplaySate CalState(QLogResult _qlogResult)
+        public QGameplayState CalState(QLogResult _qlogResult)
         {
+            #region Use Helper
+
+            bool isAllHelperNotUsed = _qlogResult.Helper.All(a => a == false);
+            bool isAddTimeOrFlipUsed = _qlogResult.Helper.Take(2).Any(a=> a == true);
+            bool isPassiveUsed = _qlogResult.Helper[2];
+
+            #endregion
+
+            
             UserQLogCompleteData.OrderBy(o => o.GameID);
 
             #region SpeedCategory
@@ -146,7 +155,6 @@ namespace Experiment
             }
 
             #endregion
-           
             FailMatchResultEnum failMatchResult = CalPerformanceFailMatchResultWithBound(curGameFMD, previousGameFMD);
 
             #region MemoryPhase
@@ -193,13 +201,96 @@ namespace Experiment
             
             
             #endregion
-
             MemoryPhase selectMemoryPhase = memoryPhaseList.First(f => f.Phase == phaseMax);
-            
-            
+            _qlogResult.SelectMemoryPhase = selectMemoryPhase;
+            _qlogResult.SpeedCatIRM = speedCatIRM;
+            _qlogResult.SpeedCatSPM = speedCatSPM;
+            _qlogResult.FailMatchResult = failMatchResult;
 
+            #region Condition Return State
+
+            if (isPassiveUsed || _qlogResult.Complete == false)
+                return QGameplayState.State7;
+
+            if (_qlogResult.PauseUsed)
+                return QGameplayState.State6;
             
-            return QGameplaySate.None;
+            #region State 1
+
+            if ((speedCatIRM == SpeedCategoryEnum.Maintain || speedCatIRM == SpeedCategoryEnum.Slow ||
+                 speedCatIRM == SpeedCategoryEnum.None) 
+                && selectMemoryPhase.Phase == PhaseEnum.SPM 
+                && failMatchResult != FailMatchResultEnum.High)
+                return QGameplayState.State1;
+
+            #endregion
+            
+            #region State 2
+
+            if (speedCatIRM == SpeedCategoryEnum.Fast
+                && selectMemoryPhase.Phase != PhaseEnum.ESM
+                && (failMatchResult == FailMatchResultEnum.Low || failMatchResult == FailMatchResultEnum.Maintain))
+            {
+                if (selectMemoryPhase.Phase == PhaseEnum.SPM)
+                    return QGameplayState.State2;
+                
+                if (selectMemoryPhase.Phase == PhaseEnum.IRM 
+                    && (failMatchResult == FailMatchResultEnum.Maintain 
+                    || isAddTimeOrFlipUsed == true
+                    || speedCatSPM != SpeedCategoryEnum.None))
+                    return QGameplayState.State2;
+            }
+
+            #endregion
+
+            #region State 3
+
+            if (speedCatIRM == SpeedCategoryEnum.Fast
+                && selectMemoryPhase.Phase == PhaseEnum.IRM
+                && speedCatSPM == SpeedCategoryEnum.None
+                && failMatchResult == FailMatchResultEnum.Low
+                && isAllHelperNotUsed == true)
+                return QGameplayState.State3;
+
+            #endregion
+            
+            #region State 4
+
+            if ((speedCatIRM == SpeedCategoryEnum.Maintain ||  speedCatIRM == SpeedCategoryEnum.Slow)
+                && selectMemoryPhase.Phase == PhaseEnum.IRM
+                && failMatchResult != FailMatchResultEnum.High)
+                return QGameplayState.State4;
+
+            #endregion
+            
+            #region State 5
+
+            bool case1 = selectMemoryPhase.Phase == PhaseEnum.ESM
+                         && speedCatSPM != SpeedCategoryEnum.Slow
+                         && failMatchResult != FailMatchResultEnum.None;
+            bool case2 = speedCatSPM != SpeedCategoryEnum.Slow
+                         && failMatchResult == FailMatchResultEnum.High;
+            bool case3 = selectMemoryPhase.Phase == PhaseEnum.ESM
+                         && speedCatSPM == SpeedCategoryEnum.Slow
+                         && (failMatchResult == FailMatchResultEnum.Low 
+                             || failMatchResult == FailMatchResultEnum.Maintain);
+            
+            if (case1 || case2 || case3)
+                return QGameplayState.State5;
+            
+          
+            #endregion
+            
+            #region State 6
+            
+            if (speedCatSPM == SpeedCategoryEnum.Slow && failMatchResult == FailMatchResultEnum.High)
+                return QGameplayState.State6;
+          
+            #endregion
+            
+            #endregion
+            
+            return QGameplayState.None;
         }
 
         public void GetPhaseMedian(QLogResult _qlogResult,PhaseEnum targetPhase, out float curGameMedian, out List<float> previousGameMedianList)

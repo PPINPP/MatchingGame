@@ -1,6 +1,6 @@
 ﻿namespace Enum
 {
-    public enum QGameplaySate
+    public enum QGameplayState
     {
         None = 0,
         State1 = 1,

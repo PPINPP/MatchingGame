@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Enum;
+using Experiment.QModel;
 using UnityEngine;
 using Firebase.Firestore;
 using Utils;
@@ -29,12 +30,18 @@ namespace Model
         public List<bool> Helper { get; set; }
         public List<int> Phase { get; set; }
         public List<string> HelperSeq { get; set; }
-        public int Result { get; set;}
+        public int Result { get; set; }
         public string LogText { get; set; }
+
+        public MemoryPhase SelectMemoryPhase { get; set; }
+        public QGameplayState GameplayState { get; set; }
+        public SpeedCategoryEnum SpeedCatIRM { get; set; }
+        public SpeedCategoryEnum SpeedCatSPM { get; set; }
+        public FailMatchResultEnum FailMatchResult { get; set; }
+
 
         public QLogResult() : base()
         {
-
         }
 
         public QLogResultFs ConvertToFirestoreModel()
@@ -56,7 +63,7 @@ namespace Model
                 PauseUsed = PauseUsed,
                 FirstMatchTime = FirstMatchTime,
                 PhaseSuccessPercent = PhaseSuccessPercent,
-                PhaseDataList = PhaseDataList.Select(s=> new PhaseDataFs
+                PhaseDataList = PhaseDataList.Select(s => new PhaseDataFs
                     {
                         Phase = (int)s.Phase,
                         ClockTime = s.ClockTime,
@@ -68,12 +75,20 @@ namespace Model
                 HelperSeq = HelperSeq,
                 Result = Result,
                 LogText = LogText,
-
+                SelectMemoryPhase = new MemoryPhaseFs
+                {
+                    Phase = SelectMemoryPhase.Phase.ToString(),
+                    InPhasePercentage = SelectMemoryPhase.InPhasePercentage
+                },
+                GameplayState = GameplayState.ToString(),
+                SpeedCatIRM = SpeedCatIRM.ToString(),
+                SpeedCatSPM = SpeedCatSPM.ToString(),
+                FailMatchResult =  FailMatchResult.ToString()
             };
 
             return firestoreModel;
         }
-        
+
         public QLogResult ConvertToGameData(QLogResultFs qLogResultData)
         {
             return new QLogResult
@@ -96,30 +111,38 @@ namespace Model
                 Result = qLogResultData.Result,
                 LogText = qLogResultData.LogText,
                 PhaseSuccessPercent = qLogResultData.PhaseSuccessPercent,
-                PhaseDataList = qLogResultData.PhaseDataList.Select(s=> new PhaseData
+                PhaseDataList = qLogResultData.PhaseDataList.Select(s => new PhaseData
                 {
                     Phase = (PhaseEnum)s.Phase,
                     ClockTime = s.ClockTime,
                     TimeUsed = s.TimeUsed
-                }).ToList()
-        
+                }).ToList(),
+                SelectMemoryPhase = new MemoryPhase
+                {
+                    Phase = (PhaseEnum)System.Enum.Parse(typeof(PhaseEnum), qLogResultData.SelectMemoryPhase.Phase),
+                    InPhasePercentage = qLogResultData.SelectMemoryPhase.InPhasePercentage
+                },
+                GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), qLogResultData.GameplayState),
+                SpeedCatIRM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatIRM),
+                SpeedCatSPM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatSPM),
+                FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum), qLogResultData.FailMatchResult),
             };
         }
     }
-    
+
     public class PhaseData
     {
         public PhaseData()
         {
-            
         }
-        
+
         public PhaseData(PhaseEnum phase, float clockTime, float timeUsed)
         {
             Phase = phase;
             ClockTime = clockTime;
             TimeUsed = timeUsed;
         }
+
         public PhaseEnum Phase { get; set; }
         public float ClockTime { get; set; }
         public float TimeUsed { get; set; }
@@ -147,8 +170,14 @@ namespace Model
         [FirestoreProperty] public List<bool> Helper { get; set; }
         [FirestoreProperty] public List<int> Phase { get; set; }
         [FirestoreProperty] public List<string> HelperSeq { get; set; }
-        [FirestoreProperty] public int Result { get; set;}
+        [FirestoreProperty] public int Result { get; set; }
         [FirestoreProperty] public string LogText { get; set; }
+
+        [FirestoreProperty] public MemoryPhaseFs SelectMemoryPhase { get; set; }
+        [FirestoreProperty] public string GameplayState { get; set; }
+        [FirestoreProperty] public string SpeedCatIRM { get; set; }
+        [FirestoreProperty] public string SpeedCatSPM { get; set; }
+        [FirestoreProperty] public string FailMatchResult { get; set; }
 
         public override string ToString()
         {
@@ -163,5 +192,11 @@ namespace Model
         [FirestoreProperty] public float ClockTime { get; set; }
         [FirestoreProperty] public float TimeUsed { get; set; }
     }
-   
+
+    [FirestoreData]
+    public struct MemoryPhaseFs
+    {
+        [FirestoreProperty] public string Phase { get; set; }
+        [FirestoreProperty] public float InPhasePercentage { get; set; }
+    }
 }
