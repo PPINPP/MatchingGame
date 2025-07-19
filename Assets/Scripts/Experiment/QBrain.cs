@@ -331,12 +331,30 @@ namespace Experiment
         
         public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(FailMatchData curPhase,List<FailMatchData> pastPhase)
         {
-            float curPhasePercent = (curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2)) * 100;
+            float curPhasePercent;
+            if (curPhase.FalseMatch == 0)
+            {
+                curPhasePercent = 0;
+            }
+            else
+            {
+                curPhasePercent = (curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2f)) * 100f;
+            }
             
             List<float> pastPhasePercent = new List<float>();
             foreach (FailMatchData failMatchData in pastPhase)
             {
-                pastPhasePercent.Add((curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2)) * 100);
+                float percent;
+                if (failMatchData.FalseMatch == 0)
+                {
+                    percent = 0;
+                }
+                else
+                {
+                    percent = failMatchData.FalseMatch / (failMatchData.FalseMatch + failMatchData.TotalMatch / 2f) *
+                              100f;
+                }
+                pastPhasePercent.Add(percent);
             }
             
             float pastPhasePercentMedian = pastPhasePercent.Median();
