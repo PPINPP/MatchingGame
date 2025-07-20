@@ -2205,6 +2205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92720259dee546ce97135771342d34b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IRMWeight: 0.3
+  SPMWeight: 0.2
+  ESMWeight: 0.5
+  FMWeight: 0.1
+  DiffWeight: 0.1
+  PerformanceWeight: 0.8
   debugMode: 0
   UserQLogCompleteData: []
   LastUserQLogResult:

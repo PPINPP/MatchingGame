@@ -17,14 +17,26 @@ namespace Experiment
     // 4. Set Q Result For Decision Next Stage Difficulty, PairType, Layout
     public class QBrain: MonoSingleton<QBrain>
     {
+
+        [Header("Configuration Weight")] 
+        public float IRMWeight = 0.3f;
+        public float SPMWeight = 0.2f;
+        public float ESMWeight = 0.5f;
+        public float FMWeight = 0.1f;
+        public float DiffWeight = 0.1f;
+        public float PerformanceWeight = 0.8f;
+        
+        [Header("Configuration Data")] 
         public bool debugMode;
         public List<QLogResult> UserQLogCompleteData = new List<QLogResult>();
         public QLogResult LastUserQLogResult;
         public int gameCount;
-        int gameCompleteCount;
-        private int lastGameId;
         public TMP_Text vrbBox;
-        List<int> CompleteGameID = new List<int>();
+        
+        
+        private List<int> CompleteGameID = new List<int>();
+        private int gameCompleteCount;
+        private int lastGameId;
         
         public override void Init()
         {
@@ -96,8 +108,13 @@ namespace Experiment
             
             if (gameCount > 2)
             {
+                UserQLogCompleteData.OrderBy(o => o.GameID);
+                
                 var state = CalState(_qlogResult);
                 _qlogResult.GameplayState = state;
+
+                var percentDiff = CheckPercentDiff(_qlogResult);
+
                 // TODO : Calculate
             }
 
@@ -124,9 +141,6 @@ namespace Experiment
 
             #endregion
 
-            
-            UserQLogCompleteData.OrderBy(o => o.GameID);
-
             #region SpeedCategory
             GetPhaseMedian(_qlogResult,PhaseEnum.IRM,out float curGameIrmPhaseMedian,out List<float> previousGameIrmMedianList);
             GetPhaseMedian(_qlogResult,PhaseEnum.SPM,out float curGameSPMPhaseMedian,out List<float> previousGameSPMMedianList);
@@ -137,16 +151,16 @@ namespace Experiment
 
             #region FailMatch
 
-            FailMatchData curGameFMD = new FailMatchData
+            FalseMatchData curGameFMD = new FalseMatchData
             {
                 FalseMatch = _qlogResult.FalseMatch,
                 TotalMatch = _qlogResult.TotalMatch
             };
-            List<FailMatchData> previousGameFMD = new List<FailMatchData>();
+            List<FalseMatchData> previousGameFMD = new List<FalseMatchData>();
             for (int i = UserQLogCompleteData.Count - 3 < 0 ? 0 : UserQLogCompleteData.Count - 3;
                  i < UserQLogCompleteData.Count; i++)
             {
-                FailMatchData fmd = new FailMatchData
+                FalseMatchData fmd = new FalseMatchData
                 {
                     FalseMatch = UserQLogCompleteData[i].FalseMatch,
                     TotalMatch = UserQLogCompleteData[i].TotalMatch
@@ -293,6 +307,41 @@ namespace Experiment
             return QGameplayState.None;
         }
 
+        public float CheckPercentDiff(QLogResult _qLogResult)
+        {
+            float percentDiff = 0;
+
+            #region Performance
+            
+            List<float> phasePercentDiffList = new List<float>();
+            for (int i = 0; i < _qLogResult.PhaseSuccessPercent.Count; i++)
+            {
+                var diff = (_qLogResult.PhaseSuccessPercent[i] - LastUserQLogResult.PhaseSuccessPercent[i]) / 100;
+                phasePercentDiffList.Add(diff);
+            }
+            
+            float irm = (IRMWeight * phasePercentDiffList[0]);
+            float spm = (SPMWeight* phasePercentDiffList[1]);
+            float esm = (ESMWeight* phasePercentDiffList[2]);
+            
+            #endregion
+            
+            float performance = irm + spm - esm;
+
+            #region FalseMatch
+
+            float falseMatchDiff = _qLogResult.FalseMatch - LastUserQLogResult.FalseMatch;
+
+            #endregion
+            
+            
+            
+            
+            
+
+            return percentDiff;
+        }
+
         public void GetPhaseMedian(QLogResult _qlogResult,PhaseEnum targetPhase, out float curGameMedian, out List<float> previousGameMedianList)
         {
             var curGameIrmPhase = _qlogResult.PhaseDataList.Where(w => w.Phase == targetPhase).ToList();
@@ -313,8 +362,6 @@ namespace Experiment
             }
         }
         
-        
-        
         public SpeedCategoryEnum CalPerformancePlaySpeedWithBound(float curPhaseTimeUsed, List<float> pastPhaseTimeUsed)
         {
             if (curPhaseTimeUsed == 0)
@@ -334,20 +381,20 @@ namespace Experiment
                 return SpeedCategoryEnum.Maintain;
         }
         
-        public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(FailMatchData curPhase,List<FailMatchData> pastPhase)
+        public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(FalseMatchData curGameFalseData,List<FalseMatchData> previousGameFalseData)
         {
             float curPhasePercent;
-            if (curPhase.FalseMatch == 0)
+            if (curGameFalseData.FalseMatch == 0)
             {
                 curPhasePercent = 0;
             }
             else
             {
-                curPhasePercent = (curPhase.FalseMatch / (curPhase.FalseMatch + curPhase.TotalMatch / 2f)) * 100f;
+                curPhasePercent = (curGameFalseData.FalseMatch / (curGameFalseData.FalseMatch + curGameFalseData.TotalMatch / 2f)) * 100f;
             }
             
             List<float> pastPhasePercent = new List<float>();
-            foreach (FailMatchData failMatchData in pastPhase)
+            foreach (FalseMatchData failMatchData in previousGameFalseData)
             {
                 float percent;
                 if (failMatchData.FalseMatch == 0)
