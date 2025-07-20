@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Enum;
 using Experiment.QModel;
@@ -296,8 +296,12 @@ namespace Experiment
         public void GetPhaseMedian(QLogResult _qlogResult,PhaseEnum targetPhase, out float curGameMedian, out List<float> previousGameMedianList)
         {
             var curGameIrmPhase = _qlogResult.PhaseDataList.Where(w => w.Phase == targetPhase).ToList();
-            curGameMedian = curGameIrmPhase.Select(s => s.TimeUsed).Median();
-
+            
+            if (curGameIrmPhase.Count == 0)
+                curGameMedian = 0;
+            else
+                curGameMedian = curGameIrmPhase.Select(s => s.TimeUsed).Median();
+            
             previousGameMedianList = new List<float>();
             for (int i = UserQLogCompleteData.Count - 3 < 0 ? 0 : UserQLogCompleteData.Count - 3;
                  i < UserQLogCompleteData.Count; i++)
@@ -315,6 +319,7 @@ namespace Experiment
         {
             if (curPhaseTimeUsed == 0)
                 return SpeedCategoryEnum.None;
+            
             
             float pastPhaseMedian = pastPhaseTimeUsed.Median();
             float bound = 0.1f * pastPhaseMedian;
