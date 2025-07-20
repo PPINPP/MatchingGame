@@ -37,10 +37,12 @@ namespace Model
         public float Reward { get; set; }
 
         public MemoryPhase SelectMemoryPhase { get; set; }
+        public float QValue { get; set; }
         public QGameplayState GameplayState { get; set; }
         public SpeedCategoryEnum SpeedCatIRM { get; set; }
         public SpeedCategoryEnum SpeedCatSPM { get; set; }
         public FailMatchResultEnum FailMatchResult { get; set; }
+        public List<QTable> QTableList { get; set; }
 
 
         public QLogResult() : base()
@@ -90,6 +92,16 @@ namespace Model
                 SpeedCatSPM = SpeedCatSPM.ToString(),
                 FailMatchResult =  FailMatchResult.ToString(),
                 Reward = Reward,
+                QValue = QValue,
+                QTableList = QTableList.Select(s=> new QTableFs
+                {
+                    GameplayState = s.GameplayState.ToString(),
+                    CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                    CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                    CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                    ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                    ChangeGridModeQValue = s.ChangeGridModeQValue
+                }).ToList()
             };
 
             return firestoreModel;
@@ -135,6 +147,16 @@ namespace Model
                 SpeedCatSPM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatSPM),
                 FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum), qLogResultData.FailMatchResult),
                 Reward = qLogResultData.Reward,
+                QValue = qLogResultData.QValue,
+                QTableList = qLogResultData.QTableList.Select(s=> new QTable()
+                {
+                    GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), s.GameplayState),
+                    CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                    CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                    CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                    ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                    ChangeGridModeQValue = s.ChangeGridModeQValue
+                }).ToList()
             };
         }
     }
@@ -184,12 +206,14 @@ namespace Model
         [FirestoreProperty] public int Result { get; set; }
         [FirestoreProperty] public string LogText { get; set; }
         [FirestoreProperty] public float Reward { get; set; }
+        [FirestoreProperty] public float QValue { get; set; }
 
         [FirestoreProperty] public MemoryPhaseFs SelectMemoryPhase { get; set; }
         [FirestoreProperty] public string GameplayState { get; set; }
         [FirestoreProperty] public string SpeedCatIRM { get; set; }
         [FirestoreProperty] public string SpeedCatSPM { get; set; }
         [FirestoreProperty] public string FailMatchResult { get; set; }
+        [FirestoreProperty] public List<QTableFs> QTableList { get; set; }
 
         public override string ToString()
         {
@@ -210,5 +234,26 @@ namespace Model
     {
         [FirestoreProperty] public string Phase { get; set; }
         [FirestoreProperty] public float InPhasePercentage { get; set; }
+    }
+    
+    public class QTable
+    {
+        public QGameplayState GameplayState { get; set; }
+        public float CardNumberIncreaseQValue { get; set; }
+        public float CardNumberMaintainQValue { get; set; }
+        public float CardNumberDecreaseQValue { get; set; }
+        public float ChangeGameDifficultQValue { get; set; }
+        public float ChangeGridModeQValue { get; set; }
+    }
+    
+    [FirestoreData]
+    public struct QTableFs
+    {
+        public string GameplayState { get; set; }
+        public float CardNumberIncreaseQValue { get; set; }
+        public float CardNumberMaintainQValue { get; set; }
+        public float CardNumberDecreaseQValue { get; set; }
+        public float ChangeGameDifficultQValue { get; set; }
+        public float ChangeGridModeQValue { get; set; }
     }
 }
