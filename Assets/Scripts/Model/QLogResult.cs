@@ -16,11 +16,13 @@ namespace Model
     {
         public string GameID { get; set; }
         public bool Complete { get; set; }
-        public int Difficulty { get; set; }
+        public float Difficulty { get; set; }
+        public string DifficultyMeaning { get; set; }
         public bool GridMode { get; set; }
         public int GameLevel { get; set; }
         public float TimeUsed { get; set; }
         public int FalseMatch { get; set; }
+        public float FalseMatchPercent { get; set; }
         public int TotalMatch { get; set; }
         public int ClickCount { get; set; }
         public bool PauseUsed { get; set; }
@@ -32,6 +34,7 @@ namespace Model
         public List<string> HelperSeq { get; set; }
         public int Result { get; set; }
         public string LogText { get; set; }
+        public float Reward { get; set; }
 
         public MemoryPhase SelectMemoryPhase { get; set; }
         public QGameplayState GameplayState { get; set; }
@@ -54,10 +57,12 @@ namespace Model
                 GameID = GameID,
                 Complete = Complete,
                 Difficulty = Difficulty,
+                DifficultyMeaning = DifficultyMeaning,
                 GridMode = GridMode,
                 GameLevel = GameLevel,
                 TimeUsed = TimeUsed,
                 FalseMatch = FalseMatch,
+                FalseMatchPercent = FalseMatchPercent,
                 TotalMatch = TotalMatch,
                 ClickCount = ClickCount,
                 PauseUsed = PauseUsed,
@@ -83,7 +88,8 @@ namespace Model
                 GameplayState = GameplayState.ToString(),
                 SpeedCatIRM = SpeedCatIRM.ToString(),
                 SpeedCatSPM = SpeedCatSPM.ToString(),
-                FailMatchResult =  FailMatchResult.ToString()
+                FailMatchResult =  FailMatchResult.ToString(),
+                Reward = Reward,
             };
 
             return firestoreModel;
@@ -97,10 +103,12 @@ namespace Model
                 GameID = qLogResultData.GameID,
                 Complete = qLogResultData.Complete,
                 Difficulty = qLogResultData.Difficulty,
+                DifficultyMeaning = qLogResultData.DifficultyMeaning,
                 GridMode = qLogResultData.GridMode,
                 TimeUsed = qLogResultData.TimeUsed,
                 GameLevel = qLogResultData.GameLevel,
                 FalseMatch = qLogResultData.FalseMatch,
+                FalseMatchPercent = qLogResultData.FalseMatchPercent,
                 TotalMatch = qLogResultData.TotalMatch,
                 ClickCount = qLogResultData.ClickCount,
                 PauseUsed = qLogResultData.PauseUsed,
@@ -126,6 +134,7 @@ namespace Model
                 SpeedCatIRM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatIRM),
                 SpeedCatSPM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatSPM),
                 FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum), qLogResultData.FailMatchResult),
+                Reward = qLogResultData.Reward,
             };
         }
     }
@@ -156,11 +165,13 @@ namespace Model
         [FirestoreProperty] public string DateUpdated { get; set; }
         [FirestoreProperty] public string GameID { get; set; }
         [FirestoreProperty] public bool Complete { get; set; }
-        [FirestoreProperty] public int Difficulty { get; set; }
+        [FirestoreProperty] public float Difficulty { get; set; }
+        [FirestoreProperty] public string DifficultyMeaning { get; set; }
         [FirestoreProperty] public bool GridMode { get; set; }
         [FirestoreProperty] public int GameLevel { get; set; }
         [FirestoreProperty] public float TimeUsed { get; set; }
         [FirestoreProperty] public int FalseMatch { get; set; }
+        [FirestoreProperty] public float FalseMatchPercent { get; set; }
         [FirestoreProperty] public int TotalMatch { get; set; }
         [FirestoreProperty] public int ClickCount { get; set; }
         [FirestoreProperty] public bool PauseUsed { get; set; }
@@ -172,6 +183,7 @@ namespace Model
         [FirestoreProperty] public List<string> HelperSeq { get; set; }
         [FirestoreProperty] public int Result { get; set; }
         [FirestoreProperty] public string LogText { get; set; }
+        [FirestoreProperty] public float Reward { get; set; }
 
         [FirestoreProperty] public MemoryPhaseFs SelectMemoryPhase { get; set; }
         [FirestoreProperty] public string GameplayState { get; set; }

@@ -105,19 +105,35 @@ namespace Experiment
                 gameCompleteCount++;
                 CompleteGameID.Add(int.Parse(_qlogResult.GameID));
             }
+
+            if (gameCount > 1)
+            {
+                _qlogResult.Difficulty = CalDifficulty(_qlogResult);
+                if (_qlogResult.Difficulty > 0)
+                {
+                    _qlogResult.DifficultyMeaning = "Harder";
+                }
+                else if (_qlogResult.Difficulty < 0)
+                {
+                    _qlogResult.DifficultyMeaning = "Easier";
+                }
+                else
+                {
+                    _qlogResult.DifficultyMeaning = "Maintain";
+                }
+            }
             
             if (gameCount > 2)
             {
-                UserQLogCompleteData.OrderBy(o => o.GameID);
-                
-                var state = CalState(_qlogResult);
+                QGameplayState state = CalState(_qlogResult);
                 _qlogResult.GameplayState = state;
 
-                var percentDiff = CheckPercentDiff(_qlogResult);
+                float rewardResult = CalReward(_qlogResult);
+                _qlogResult.Reward = rewardResult;
+                
 
                 // TODO : Calculate
             }
-
 
 
             if (_qlogResult.Complete)
@@ -130,6 +146,60 @@ namespace Experiment
             FirebaseManagerV2.Instance.UpdateQPostGameStage(new List<int>() { gameCount , gameCompleteCount , lastGameId }, CompleteGameID);
             FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
         }
+
+        public float CalDifficulty(QLogResult _qlogResult)
+        {
+            float difficulty;
+            QLogResult LastCompleteQLogResult = UserQLogCompleteData.OrderByDescending(o => o.GameID).First();
+            int curGamePoint = 0;
+            int lastGamePoint = 0;
+
+            #region Calculate Point
+
+            switch (_qlogResult.TotalMatch / 2)
+            {
+                case 4:
+                    curGamePoint = _qlogResult.GridMode ? 1 : 2;
+                    break;
+                case 6:
+                    curGamePoint = _qlogResult.GridMode ? 2 : 3;
+                    break;
+                case 8:
+                    curGamePoint = _qlogResult.GridMode ? 3 : 4;
+                    break;
+            }
+            
+            switch (LastCompleteQLogResult.TotalMatch / 2)
+            {
+                case 4:
+                    lastGamePoint = LastCompleteQLogResult.GridMode ? 1 : 2;
+                    break;
+                case 6:
+                    lastGamePoint = LastCompleteQLogResult.GridMode ? 2 : 3;
+                    break;
+                case 8:
+                    lastGamePoint = LastCompleteQLogResult.GridMode ? 3 : 4;
+                    break;
+            }
+
+            #endregion
+
+            if (curGamePoint > lastGamePoint)
+            {
+                difficulty = 1;
+            }
+            else if (curGamePoint < lastGamePoint)
+            {
+                difficulty = -1;
+            }
+            else 
+            {
+                difficulty = 0;
+            }
+
+            return difficulty;
+        }
+        
 
         public QGameplayState CalState(QLogResult _qlogResult)
         {
@@ -157,19 +227,29 @@ namespace Experiment
                 TotalMatch = _qlogResult.TotalMatch
             };
             List<FalseMatchData> previousGameFMD = new List<FalseMatchData>();
-            for (int i = UserQLogCompleteData.Count - 3 < 0 ? 0 : UserQLogCompleteData.Count - 3;
-                 i < UserQLogCompleteData.Count; i++)
+            var last3GameComplete = UserQLogCompleteData.OrderByDescending(o => o.GameID).Take(3).ToList();
+            foreach (var qLogResult in last3GameComplete)
             {
                 FalseMatchData fmd = new FalseMatchData
                 {
-                    FalseMatch = UserQLogCompleteData[i].FalseMatch,
-                    TotalMatch = UserQLogCompleteData[i].TotalMatch
+                    FalseMatch = qLogResult.FalseMatch,
+                    TotalMatch = qLogResult.TotalMatch
                 };
                 previousGameFMD.Add(fmd);
             }
 
+            float curGameFalseMatchPercent;
+            if (curGameFMD.FalseMatch == 0)
+            {
+                curGameFalseMatchPercent = 0;
+            }
+            else
+            {
+                curGameFalseMatchPercent = (curGameFMD.FalseMatch / (curGameFMD.FalseMatch + curGameFMD.TotalMatch / 2f)) * 100f;
+            }
+            
             #endregion
-            FailMatchResultEnum failMatchResult = CalPerformanceFailMatchResultWithBound(curGameFMD, previousGameFMD);
+            FailMatchResultEnum failMatchResult = CalPerformanceFailMatchResultWithBound(curGameFalseMatchPercent, previousGameFMD);
 
             #region MemoryPhase
             List<MemoryPhase> memoryPhaseList = new List<MemoryPhase>();
@@ -220,6 +300,7 @@ namespace Experiment
             _qlogResult.SpeedCatIRM = speedCatIRM;
             _qlogResult.SpeedCatSPM = speedCatSPM;
             _qlogResult.FailMatchResult = failMatchResult;
+            _qlogResult.FalseMatchPercent = curGameFalseMatchPercent;
 
             #region Condition Return State
 
@@ -307,9 +388,10 @@ namespace Experiment
             return QGameplayState.None;
         }
 
-        public float CheckPercentDiff(QLogResult _qLogResult)
+        public float CalReward(QLogResult _qLogResult)
         {
-            float percentDiff = 0;
+            float reward = 0;
+            QLogResult LastCompleteQLogResult = UserQLogCompleteData.OrderByDescending(o => o.GameID).First();
 
             #region Performance
             
@@ -326,20 +408,19 @@ namespace Experiment
             
             #endregion
             
-            float performance = irm + spm - esm;
+            float performance = (irm + spm - esm) * PerformanceWeight;
 
             #region FalseMatch
 
-            float falseMatchDiff = _qLogResult.FalseMatch - LastUserQLogResult.FalseMatch;
+            float falseMatchDiff = ((_qLogResult.FalseMatchPercent - LastCompleteQLogResult.FalseMatchPercent) / 100 ) * FMWeight;
 
             #endregion
-            
-            
-            
-            
-            
 
-            return percentDiff;
+            float difficulty = _qLogResult.Difficulty * DiffWeight;
+            
+            reward = performance + difficulty - falseMatchDiff;
+
+            return reward;
         }
 
         public void GetPhaseMedian(QLogResult _qlogResult,PhaseEnum targetPhase, out float curGameMedian, out List<float> previousGameMedianList)
@@ -381,18 +462,8 @@ namespace Experiment
                 return SpeedCategoryEnum.Maintain;
         }
         
-        public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(FalseMatchData curGameFalseData,List<FalseMatchData> previousGameFalseData)
+        public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(float curGameFalseMatchPercent,List<FalseMatchData> previousGameFalseData)
         {
-            float curPhasePercent;
-            if (curGameFalseData.FalseMatch == 0)
-            {
-                curPhasePercent = 0;
-            }
-            else
-            {
-                curPhasePercent = (curGameFalseData.FalseMatch / (curGameFalseData.FalseMatch + curGameFalseData.TotalMatch / 2f)) * 100f;
-            }
-            
             List<float> pastPhasePercent = new List<float>();
             foreach (FalseMatchData failMatchData in previousGameFalseData)
             {
@@ -414,9 +485,9 @@ namespace Experiment
             float upper = pastPhasePercentMedian + bound;
             float lower = pastPhasePercentMedian - bound;
 
-            if (curPhasePercent > upper)
+            if (curGameFalseMatchPercent > upper)
                 return FailMatchResultEnum.High;
-            else if (curPhasePercent < lower)
+            else if (curGameFalseMatchPercent < lower)
                 return FailMatchResultEnum.Low;
             else
                 return FailMatchResultEnum.Maintain;
