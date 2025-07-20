@@ -249,11 +249,11 @@ namespace Model
     [FirestoreData]
     public struct QTableFs
     {
-        public string GameplayState { get; set; }
-        public float CardNumberIncreaseQValue { get; set; }
-        public float CardNumberMaintainQValue { get; set; }
-        public float CardNumberDecreaseQValue { get; set; }
-        public float ChangeGameDifficultQValue { get; set; }
-        public float ChangeGridModeQValue { get; set; }
+        [FirestoreProperty] public string GameplayState { get; set; }
+        [FirestoreProperty] public float CardNumberIncreaseQValue { get; set; }
+        [FirestoreProperty] public float CardNumberMaintainQValue { get; set; }
+        [FirestoreProperty] public float CardNumberDecreaseQValue { get; set; }
+        [FirestoreProperty] public float ChangeGameDifficultQValue { get; set; }
+        [FirestoreProperty] public float ChangeGridModeQValue { get; set; }
     }
 }

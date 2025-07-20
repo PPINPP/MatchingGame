@@ -32,7 +32,7 @@ namespace Experiment
         public QLogResult LastUserQLogResult;
         public int gameCount;
         public TMP_Text vrbBox;
-        
+        public List<QTable>  QTableList = new List<QTable>();
         
         private List<int> CompleteGameID = new List<int>();
         private int gameCompleteCount;
@@ -99,6 +99,7 @@ namespace Experiment
         public void ComputeQResult(QLogResult _qlogResult)
         {
             _qlogResult.GameID = (gameCount).ToString();
+            _qlogResult.QTableList = new List<QTable>(QTableList);
             gameCount++;
             if (_qlogResult.Complete)
             {
@@ -132,7 +133,7 @@ namespace Experiment
                 _qlogResult.Reward = rewardResult;
                 
 
-                // TODO : Calculate
+                // TODO : Calculate Sequence 3
             }
 
 

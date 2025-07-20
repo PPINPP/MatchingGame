@@ -891,6 +891,7 @@ namespace MatchingGame.Gameplay
             GameplayResultManager.Instance.QLogResult.ClickCount = clickCount;
 
             // TODO : Call Function to Set value
+            // var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
             // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
             // GameplayResultManager.Instance.QLogResult.GridMode = gm;
             // GameplayResultManager.Instance.QLogResult.GameLevel = cl;

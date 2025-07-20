@@ -17,6 +17,7 @@ using System.Data.OleDb;
 using System.Configuration;
 using UniRx;
 using System.Linq;
+using Enum;
 using Experiment;
 using Random = UnityEngine.Random;
 using UnityEngine.UIElements;
@@ -348,6 +349,21 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                         }
                         QBrain.Instance.SetGameProperties(QProperties, QCompleteGameID, dp);
                     }
+                    if (documentSnapshot.TryGetValue<List<QTableFs>>("QTable", out var QTableList))
+                    {
+                        if (QTableList.Count > 0)
+                            QBrain.Instance.QTableList = QTableList.Select(s => new QTable()
+                            {
+                                GameplayState =
+                                    (QGameplayState)System.Enum.Parse(typeof(QGameplayState), s.GameplayState),
+                                CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                                CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                                CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                                ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                                ChangeGridModeQValue = s.ChangeGridModeQValue
+                            }).ToList();
+                    }
+                    
                     GetSpecialGameData();
                     GameRuleTimeChecker(success);
                 }
@@ -462,9 +478,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                     if (QBrain.Instance.LastUserQLogResult == null || data.GameID == lastGameID.ToString())
                     {
                         QBrain.Instance.LastUserQLogResult = data;
-                        // TODO : TEMP Check CalState is correct
-                        // var state = QBrain.Instance.
-                        //     CalState(QBrain.Instance.LastUserQLogResult);
                     }
                 }
                 return;
@@ -1017,6 +1030,26 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         };
         docRef.UpdateAsync(updates);
     }
+    
+    public void UpdateQTable(List<QTable> QTableList)
+    {
+        List<QTableFs> QTableFs = QTableList.Select(s => new QTableFs
+        {
+            GameplayState = s.GameplayState.ToString(),
+            CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+            CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+            CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+            ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+            ChangeGridModeQValue = s.ChangeGridModeQValue
+        }).ToList();
+        
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"QTable", QTableFs},
+        };
+        docRef.UpdateAsync(updates);
+    }
+    
     public void SyncData()
     {
         DocumentReference docRef = db.Collection("sync").Document(curr_id);

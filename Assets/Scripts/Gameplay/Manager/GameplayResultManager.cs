@@ -61,7 +61,6 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         //FuzzyBrain
         FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
         
-        // TODO : Temp call, Have To Call When Complete Calculate
         QBrain.Instance.ComputeQResult(_qlogResult);
     }
 
