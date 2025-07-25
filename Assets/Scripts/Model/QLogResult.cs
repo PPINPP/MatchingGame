@@ -38,6 +38,7 @@ namespace Model
 
         public MemoryPhase SelectMemoryPhase { get; set; }
         public float QValue { get; set; }
+        public string QValueAction { get; set; }
         public QGameplayState GameplayState { get; set; }
         public SpeedCategoryEnum SpeedCatIRM { get; set; }
         public SpeedCategoryEnum SpeedCatSPM { get; set; }
@@ -93,6 +94,7 @@ namespace Model
                 FailMatchResult =  FailMatchResult.ToString(),
                 Reward = Reward,
                 QValue = QValue,
+                QValueAction = QValueAction,
                 QTableList = QTableList.Select(s=> new QTableFs
                 {
                     GameplayState = s.GameplayState.ToString(),
@@ -148,6 +150,7 @@ namespace Model
                 FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum), qLogResultData.FailMatchResult),
                 Reward = qLogResultData.Reward,
                 QValue = qLogResultData.QValue,
+                QValueAction = qLogResultData.QValueAction,
                 QTableList = qLogResultData.QTableList.Select(s=> new QTable()
                 {
                     GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), s.GameplayState),
@@ -207,6 +210,7 @@ namespace Model
         [FirestoreProperty] public string LogText { get; set; }
         [FirestoreProperty] public float Reward { get; set; }
         [FirestoreProperty] public float QValue { get; set; }
+        [FirestoreProperty] public string QValueAction { get; set; }
 
         [FirestoreProperty] public MemoryPhaseFs SelectMemoryPhase { get; set; }
         [FirestoreProperty] public string GameplayState { get; set; }

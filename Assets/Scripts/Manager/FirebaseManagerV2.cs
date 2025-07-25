@@ -975,6 +975,16 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
         _ = docRef.SetAsync(qLog.ConvertToFirestoreModel());
     }
+    
+    public void UpdateQValue(QLogResult qLog)
+    {
+        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
+        Dictionary<string, object> updates = new Dictionary<string, object>{
+            {"QValue",qLog.QValue},
+        };
+        _ = docRef.UpdateAsync(updates);
+    }
+    
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id);
