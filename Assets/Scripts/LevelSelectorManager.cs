@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Experiment;
+
 public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
 {
     [SerializeField] List<Sprite> state_pics = new List<Sprite>(); //0-lock 1-unlock 2-minigame 3-played1 4-played2 5-played3
@@ -110,8 +112,8 @@ public class LevelSelectorManager : MonoSingleton<LevelSelectorManager>
         }
         else if (game_role[levelnum] == 4)
         {
-            // TODO : 4. Change To Call QBrain To Get Next Stage Difficulty, PairType, Layout
-            var (pt,gl,gd) = FuzzyBrain.Instance.DLS.GetDifficulty();
+            // var (pt,gl,gd) = FuzzyBrain.Instance.DLS.GetDifficulty();
+            var (pt, gd, gl) = QBrain.Instance.GetDifficulty();
             
             GameplaySequenceSetting gameplaySequenceSetting = new GameplaySequenceSetting();
             gameplaySequenceSetting.isTutorial = false;

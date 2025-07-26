@@ -451,7 +451,7 @@ namespace MatchingGame.Gameplay
                                                 GameplayResultManager.Instance.GamePlayResult.OutareaCount = outCard;
                                                 GameplayResultManager.Instance.GamePlayResult.RepeatCount = repeatCount;
                                                 //FuzzyGameData
-                                                PrepareFuzzyData(true);
+                                                //PrepareFuzzyData(true);
                                                 PrepareQData(true);
 
                                                 // GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool>{addedTime,flipped,passiveUsed};
@@ -840,7 +840,7 @@ namespace MatchingGame.Gameplay
                     GameplayResultManager.Instance.GamePlayResult.MatchFalseCount = matchFalseCount;
                     GameplayResultManager.Instance.GamePlayResult.CompletedAt = DateTime.Now;
                     //FuzzyGameData
-                    PrepareFuzzyData(false);
+                    //PrepareFuzzyData(false);
                     PrepareQData(false);
                     
                     GameplayResultManager.Instance.OnEndGame();
@@ -889,12 +889,10 @@ namespace MatchingGame.Gameplay
             GameplayResultManager.Instance.QLogResult.FirstMatchTime = firstMatchTime;
             GameplayResultManager.Instance.QLogResult.PhaseDataList = _gameplayPhaseData;
             GameplayResultManager.Instance.QLogResult.ClickCount = clickCount;
-
-            // TODO : Call Function to Set value
-            // var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
-            // GameplayResultManager.Instance.QLogResult.Difficulty = cd;
-            // GameplayResultManager.Instance.QLogResult.GridMode = gm;
-            // GameplayResultManager.Instance.QLogResult.GameLevel = cl;
+            var (gl, di, gm) = QBrain.Instance.GetLevelData();
+            GameplayResultManager.Instance.QLogResult.Difficulty = di;
+            GameplayResultManager.Instance.QLogResult.GridMode = gm;
+            GameplayResultManager.Instance.QLogResult.GameLevel = gl;
         } 
     }
 }

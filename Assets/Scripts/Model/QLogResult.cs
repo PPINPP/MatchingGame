@@ -71,96 +71,111 @@ namespace Model
                 PauseUsed = PauseUsed,
                 FirstMatchTime = FirstMatchTime,
                 PhaseSuccessPercent = PhaseSuccessPercent,
-                PhaseDataList = PhaseDataList.Select(s => new PhaseDataFs
-                    {
-                        Phase = (int)s.Phase,
-                        ClockTime = s.ClockTime,
-                        TimeUsed = s.TimeUsed
-                    }
-                ).ToList(),
                 Helper = Helper,
                 Phase = Phase,
                 HelperSeq = HelperSeq,
                 Result = Result,
                 LogText = LogText,
-                SelectMemoryPhase = new MemoryPhaseFs
+            };
+            firestoreModel.PhaseDataList = PhaseDataList.Select(s => new PhaseDataFs
+                {
+                    Phase = (int)s.Phase,
+                    ClockTime = s.ClockTime,
+                    TimeUsed = s.TimeUsed
+                }
+            ).ToList();
+            firestoreModel.SelectMemoryPhase = SelectMemoryPhase != null
+                ? new MemoryPhaseFs
                 {
                     Phase = SelectMemoryPhase.Phase.ToString(),
                     InPhasePercentage = SelectMemoryPhase.InPhasePercentage
-                },
-                GameplayState = GameplayState.ToString(),
-                SpeedCatIRM = SpeedCatIRM.ToString(),
-                SpeedCatSPM = SpeedCatSPM.ToString(),
-                FailMatchResult =  FailMatchResult.ToString(),
-                Reward = Reward,
-                QValue = QValue,
-                QValueAction = QValueAction,
-                QTableList = QTableList.Select(s=> new QTableFs
-                {
-                    GameplayState = s.GameplayState.ToString(),
-                    CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
-                    CardNumberMaintainQValue = s.CardNumberMaintainQValue,
-                    CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
-                    ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
-                    ChangeGridModeQValue = s.ChangeGridModeQValue
-                }).ToList()
-            };
+                }
+                : new MemoryPhaseFs();
+            firestoreModel.Reward = Reward;
+            firestoreModel.QValue = QValue;
+            firestoreModel.QValueAction = QValueAction;
+            firestoreModel.GameplayState = GameplayState.ToString();
+            firestoreModel.SpeedCatIRM = SpeedCatIRM.ToString();
+            firestoreModel.SpeedCatSPM = SpeedCatSPM.ToString();
+            firestoreModel.FailMatchResult = FailMatchResult.ToString();
+            firestoreModel.QTableList = QTableList.Select(s => new QTableFs
+            {
+                GameplayState = s.GameplayState.ToString(),
+                CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                ChangeGridModeQValue = s.ChangeGridModeQValue
+            }).ToList();
 
             return firestoreModel;
         }
 
         public QLogResult ConvertToGameData(QLogResultFs qLogResultData)
         {
-            return new QLogResult
+            try
             {
-                Uuid = qLogResultData.Uuid,
-                GameID = qLogResultData.GameID,
-                Complete = qLogResultData.Complete,
-                Difficulty = qLogResultData.Difficulty,
-                DifficultyMeaning = qLogResultData.DifficultyMeaning,
-                GridMode = qLogResultData.GridMode,
-                TimeUsed = qLogResultData.TimeUsed,
-                GameLevel = qLogResultData.GameLevel,
-                FalseMatch = qLogResultData.FalseMatch,
-                FalseMatchPercent = qLogResultData.FalseMatchPercent,
-                TotalMatch = qLogResultData.TotalMatch,
-                ClickCount = qLogResultData.ClickCount,
-                PauseUsed = qLogResultData.PauseUsed,
-                FirstMatchTime = qLogResultData.FirstMatchTime,
-                Helper = new List<bool>(qLogResultData.Helper),
-                Phase = new List<int>(qLogResultData.Phase),
-                HelperSeq = new List<string>(qLogResultData.HelperSeq),
-                Result = qLogResultData.Result,
-                LogText = qLogResultData.LogText,
-                PhaseSuccessPercent = qLogResultData.PhaseSuccessPercent,
-                PhaseDataList = qLogResultData.PhaseDataList.Select(s => new PhaseData
+                QLogResult data = new QLogResult
                 {
-                    Phase = (PhaseEnum)s.Phase,
-                    ClockTime = s.ClockTime,
-                    TimeUsed = s.TimeUsed
-                }).ToList(),
-                SelectMemoryPhase = new MemoryPhase
-                {
-                    Phase = (PhaseEnum)System.Enum.Parse(typeof(PhaseEnum), qLogResultData.SelectMemoryPhase.Phase),
-                    InPhasePercentage = qLogResultData.SelectMemoryPhase.InPhasePercentage
-                },
-                GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), qLogResultData.GameplayState),
-                SpeedCatIRM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatIRM),
-                SpeedCatSPM = (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatSPM),
-                FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum), qLogResultData.FailMatchResult),
-                Reward = qLogResultData.Reward,
-                QValue = qLogResultData.QValue,
-                QValueAction = qLogResultData.QValueAction,
-                QTableList = qLogResultData.QTableList.Select(s=> new QTable()
-                {
-                    GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), s.GameplayState),
-                    CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
-                    CardNumberMaintainQValue = s.CardNumberMaintainQValue,
-                    CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
-                    ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
-                    ChangeGridModeQValue = s.ChangeGridModeQValue
-                }).ToList()
-            };
+                    Uuid = qLogResultData.Uuid,
+                    GameID = qLogResultData.GameID,
+                    Complete = qLogResultData.Complete,
+                    Difficulty = qLogResultData.Difficulty,
+                    DifficultyMeaning = qLogResultData.DifficultyMeaning,
+                    GridMode = qLogResultData.GridMode,
+                    TimeUsed = qLogResultData.TimeUsed,
+                    GameLevel = qLogResultData.GameLevel,
+                    FalseMatch = qLogResultData.FalseMatch,
+                    FalseMatchPercent = qLogResultData.FalseMatchPercent,
+                    TotalMatch = qLogResultData.TotalMatch,
+                    ClickCount = qLogResultData.ClickCount,
+                    PauseUsed = qLogResultData.PauseUsed,
+                    FirstMatchTime = qLogResultData.FirstMatchTime,
+                    Helper = new List<bool>(qLogResultData.Helper),
+                    Phase = new List<int>(qLogResultData.Phase),
+                    HelperSeq = new List<string>(qLogResultData.HelperSeq),
+                    Result = qLogResultData.Result,
+                    LogText = qLogResultData.LogText,
+                    PhaseSuccessPercent = qLogResultData.PhaseSuccessPercent,
+                    PhaseDataList = qLogResultData.PhaseDataList.Select(s => new PhaseData
+                    {
+                        Phase = (PhaseEnum)s.Phase,
+                        ClockTime = s.ClockTime,
+                        TimeUsed = s.TimeUsed
+                    }).ToList(),
+                    SelectMemoryPhase = new MemoryPhase
+                    {
+                        Phase = (PhaseEnum)System.Enum.Parse(typeof(PhaseEnum), qLogResultData.SelectMemoryPhase.Phase),
+                        InPhasePercentage = qLogResultData.SelectMemoryPhase.InPhasePercentage
+                    },
+                    GameplayState =
+                        (QGameplayState)System.Enum.Parse(typeof(QGameplayState), qLogResultData.GameplayState),
+                    SpeedCatIRM =
+                        (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatIRM),
+                    SpeedCatSPM =
+                        (SpeedCategoryEnum)System.Enum.Parse(typeof(SpeedCategoryEnum), qLogResultData.SpeedCatSPM),
+                    FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum),
+                        qLogResultData.FailMatchResult),
+                    Reward = qLogResultData.Reward,
+                    QValue = qLogResultData.QValue,
+                    QValueAction = qLogResultData.QValueAction,
+                    QTableList = qLogResultData.QTableList.Select(s => new QTable()
+                    {
+                        GameplayState = (QGameplayState)System.Enum.Parse(typeof(QGameplayState), s.GameplayState),
+                        CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                        CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                        CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                        ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                        ChangeGridModeQValue = s.ChangeGridModeQValue
+                    }).ToList()
+                };
+                return data;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
         }
     }
 
@@ -239,7 +254,7 @@ namespace Model
         [FirestoreProperty] public string Phase { get; set; }
         [FirestoreProperty] public float InPhasePercentage { get; set; }
     }
-    
+
     public class QTable
     {
         public QGameplayState GameplayState { get; set; }
@@ -249,7 +264,7 @@ namespace Model
         public float ChangeGameDifficultQValue { get; set; }
         public float ChangeGridModeQValue { get; set; }
     }
-    
+
     [FirestoreData]
     public struct QTableFs
     {

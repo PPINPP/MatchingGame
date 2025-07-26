@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfeddce5eca42b64ea9bfd5e10099281, type: 3}
+  m_Name: QTableValue
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  QTableList:
+  - GameplayState: 1
+    CardNumberIncreaseQValue: 0.017729
+    CardNumberMaintainQValue: 0.000942
+    CardNumberDecreaseQValue: 0
+    ChangeGameDifficultQValue: -0.000046
+    ChangeGridModeQValue: 0.006753
+  - GameplayState: 2
+    CardNumberIncreaseQValue: -0.016098
+    CardNumberMaintainQValue: -0.023207
+    CardNumberDecreaseQValue: -0.024688
+    ChangeGameDifficultQValue: -0.000384
+    ChangeGridModeQValue: -0.01418
+  - GameplayState: 3
+    CardNumberIncreaseQValue: -0.006285
+    CardNumberMaintainQValue: -0.006111
+    CardNumberDecreaseQValue: -0.005668
+    ChangeGameDifficultQValue: -0.004076
+    ChangeGridModeQValue: 0.00272
+  - GameplayState: 4
+    CardNumberIncreaseQValue: -0.086379
+    CardNumberMaintainQValue: -0.028303
+    CardNumberDecreaseQValue: -0.027953
+    ChangeGameDifficultQValue: -0.024281
+    ChangeGridModeQValue: 0.010696
+  - GameplayState: 5
+    CardNumberIncreaseQValue: -0.021681
+    CardNumberMaintainQValue: -0.016761
+    CardNumberDecreaseQValue: -0.01582
+    ChangeGameDifficultQValue: 0.002807
+    ChangeGridModeQValue: -0.01945

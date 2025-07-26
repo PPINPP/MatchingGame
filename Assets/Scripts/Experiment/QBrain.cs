@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Enum;
 using Experiment.QModel;
+using Gameplay.Scriptables;
+using MatchingGame.Gameplay;
 using Model;
 using MathNet.Numerics.Statistics;
 using TMPro;
@@ -29,6 +31,7 @@ namespace Experiment
         public float Epsilon = 0.01f;
 
         [Header("Configuration Data")] public bool debugMode;
+        public QTableValueSO QTableDefaultValue;
         public List<QLogResult> UserQLogCompleteData = new List<QLogResult>();
         public QLogResult LastUserQLogResult;
         public int gameCount;
@@ -38,6 +41,9 @@ namespace Experiment
         private List<int> CompleteGameID = new List<int>();
         private int gameCompleteCount;
         private int lastGameId;
+        private PairType currentPairType;
+        private GameDifficult currentGameDifficult;
+        private GameLayout currentGameLayout;
 
         public override void Init()
         {
@@ -62,6 +68,9 @@ namespace Experiment
             gameCompleteCount = 0;
             lastGameId = 0;
             LastUserQLogResult = null;
+            currentPairType = PairType.FOUR;
+            currentGameDifficult = GameDifficult.EASY;
+            currentGameLayout = GameLayout.GRID;
             CompleteGameID = new List<int>();
         }
 
@@ -70,6 +79,9 @@ namespace Experiment
             gameCount = qProperties[0];
             gameCompleteCount = qProperties[1];
             lastGameId = qProperties[2];
+            currentPairType = (PairType)qProperties[3];
+            currentGameDifficult = (GameDifficult)qProperties[4];
+            currentGameLayout = (GameLayout)qProperties[5];
             if (completeGameID != null)
             {
                 CompleteGameID = completeGameID;
@@ -78,6 +90,19 @@ namespace Experiment
             {
                 CompleteGameID = new List<int>();
             }
+        }
+
+        public void SetDefaultQTable()
+        {
+            QTableList = QTableDefaultValue.QTableList.Select(s => new QTable
+            {
+                GameplayState = s.GameplayState,
+                CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+                CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+                CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+                ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+                ChangeGridModeQValue = s.ChangeGridModeQValue
+            }).ToList();
         }
 
         public void StartRuntimeText()
@@ -108,7 +133,7 @@ namespace Experiment
                 CompleteGameID.Add(int.Parse(_qlogResult.GameID));
             }
 
-            if (gameCount > 1)
+            if (gameCompleteCount > 1)
             {
                 _qlogResult.Difficulty = CalDifficulty(_qlogResult);
                 if (_qlogResult.Difficulty > 0)
@@ -125,66 +150,90 @@ namespace Experiment
                 }
             }
 
-            if (gameCount >= 3)
+            if (_qlogResult.Complete)
             {
-                QGameplayState state = CalState(_qlogResult);
-                _qlogResult.GameplayState = state;
-
-                Dictionary<string, float> currentGameQTableData  = new Dictionary<string, float>();
-                KeyValuePair<string,float> qSaValue = new KeyValuePair<string, float>();
-
-                if (_qlogResult.GameplayState != QGameplayState.State6
-                    && _qlogResult.GameplayState != QGameplayState.State7
-                    && _qlogResult.GameplayState != QGameplayState.None)
+                if (UserQLogCompleteData.Count >= 3)
                 {
-                    currentGameQTableData = GetQTable(_qlogResult.GameplayState);
-                    qSaValue = currentGameQTableData.Max();
+                    _qlogResult.GameplayState = CalState(_qlogResult);
                 }
-
-                if (gameCount >= 4)
+                else
                 {
-                    float rewardResult = CalReward(_qlogResult);
-                    _qlogResult.Reward = rewardResult;
+                    _qlogResult.GameplayState = QGameplayState.State1;
+                }
+            }
+            else
+            {
+                _qlogResult.GameplayState = QGameplayState.State7;
+            }
 
+            if (gameCompleteCount >= 3 && _qlogResult.Complete)
+            {
+                Dictionary<string, float> currentGameQTableData = new Dictionary<string, float>();
+                KeyValuePair<string, float> qSaValue = new KeyValuePair<string, float>();
+
+                if (gameCompleteCount >= 4)
+                {
+                    QLogResult lastGameComplete = UserQLogCompleteData.OrderByDescending(o => o.GameID).First();
+                    float updateLastGameQValue;
+                    
                     if (_qlogResult.GameplayState != QGameplayState.State6
                         && _qlogResult.GameplayState != QGameplayState.State7
                         && _qlogResult.GameplayState != QGameplayState.None)
                     {
-                        QLogResult lastGameComplete = UserQLogCompleteData.OrderByDescending(o => o.GameID).First();
-                        float updateLastGameQValue = lastGameComplete.QValue + LearningRate * (lastGameComplete.Reward +
-                            (DiscountFactor * qSaValue.Value) - lastGameComplete.QValue);
-                        
-                        foreach (var qTable in QTableList)
+                        currentGameQTableData = GetQTable(_qlogResult.GameplayState);
+                        var list = currentGameQTableData.Select(s=>s.Value).ToList();
+                        float max = list.Max();
+                        foreach (var keyValuePair in currentGameQTableData)
                         {
-                            if (qTable.GameplayState == lastGameComplete.GameplayState)
+                            if (Mathf.Approximately(keyValuePair.Value, max))
                             {
-                                if (nameof(qTable.CardNumberIncreaseQValue) == lastGameComplete.QValueAction)
-                                {
-                                    qTable.CardNumberIncreaseQValue = updateLastGameQValue;
-                                } 
-                                else if (nameof(qTable.CardNumberDecreaseQValue) == lastGameComplete.QValueAction)
-                                {
-                                    qTable.CardNumberDecreaseQValue = updateLastGameQValue;
-                                }
-                                else if (nameof(qTable.CardNumberMaintainQValue) == lastGameComplete.QValueAction)
-                                {
-                                    qTable.CardNumberMaintainQValue = updateLastGameQValue;
-                                }
-                                else if (nameof(qTable.ChangeGameDifficultQValue) == lastGameComplete.QValueAction)
-                                {
-                                    qTable.ChangeGameDifficultQValue = updateLastGameQValue;
-                                }
-                                else if (nameof(qTable.ChangeGridModeQValue) == lastGameComplete.QValueAction)
-                                {
-                                    qTable.ChangeGridModeQValue = updateLastGameQValue;
-                                }
+                                qSaValue = keyValuePair;
                                 break;
                             }
                         }
-                        
-                        lastGameComplete.QValue = updateLastGameQValue;
-                        FirebaseManagerV2.Instance.UpdateQValue(lastGameComplete);
+
+                        float rewardResult = CalReward(_qlogResult);
+                        _qlogResult.Reward = rewardResult;
+                       
+                        updateLastGameQValue = lastGameComplete.QValue + LearningRate * (lastGameComplete.Reward +
+                            (DiscountFactor * qSaValue.Value) - lastGameComplete.QValue);
                     }
+                    else
+                    {
+                        updateLastGameQValue = lastGameComplete.QValue - 0.025f;
+                    }
+                    
+                    foreach (var qTable in QTableList)
+                    {
+                        if (qTable.GameplayState == lastGameComplete.GameplayState)
+                        {
+                            if (nameof(qTable.CardNumberIncreaseQValue) == lastGameComplete.QValueAction)
+                            {
+                                qTable.CardNumberIncreaseQValue = updateLastGameQValue;
+                            }
+                            else if (nameof(qTable.CardNumberDecreaseQValue) == lastGameComplete.QValueAction)
+                            {
+                                qTable.CardNumberDecreaseQValue = updateLastGameQValue;
+                            }
+                            else if (nameof(qTable.CardNumberMaintainQValue) == lastGameComplete.QValueAction)
+                            {
+                                qTable.CardNumberMaintainQValue = updateLastGameQValue;
+                            }
+                            else if (nameof(qTable.ChangeGameDifficultQValue) == lastGameComplete.QValueAction)
+                            {
+                                qTable.ChangeGameDifficultQValue = updateLastGameQValue;
+                            }
+                            else if (nameof(qTable.ChangeGridModeQValue) == lastGameComplete.QValueAction)
+                            {
+                                qTable.ChangeGridModeQValue = updateLastGameQValue;
+                            }
+
+                            break;
+                        }
+                    }
+
+                    lastGameComplete.QValue = updateLastGameQValue;
+                    FirebaseManagerV2.Instance.UpdateQValue(lastGameComplete);
                 }
 
                 if (_qlogResult.GameplayState != QGameplayState.State6
@@ -204,6 +253,71 @@ namespace Experiment
                         _qlogResult.QValue = qSaValue.Value;
                         _qlogResult.QValueAction = qSaValue.Key;
                     }
+                    
+                    // NOTE : IF Change QTable Variable Change Text To Compare Because Variable Name Is Key Value
+                    if (_qlogResult.QValueAction == "CardNumberIncreaseQValue")
+                    {
+                        if (currentPairType == PairType.FOUR)
+                        {
+                            currentPairType = PairType.SIX;
+                        } 
+                        else if (currentPairType == PairType.SIX)
+                        {
+                            currentPairType = PairType.EIGHT;
+                        }
+                    } 
+                    else if (_qlogResult.QValueAction == "CardNumberDecreaseQValue")
+                    {
+                        if (currentPairType == PairType.EIGHT)
+                        {
+                            currentPairType = PairType.SIX;
+                        } 
+                        else if (currentPairType == PairType.SIX)
+                        {
+                            currentPairType = PairType.FOUR;
+                        }
+                    }
+                    else if (_qlogResult.QValueAction == "ChangeGameDifficultQValue")
+                    {
+                        if (currentGameDifficult == GameDifficult.EASY)
+                        {
+                            currentGameDifficult = GameDifficult.NORMAL;
+                        }
+                        else if (currentGameDifficult == GameDifficult.NORMAL)
+                        {
+                            currentGameDifficult = GameDifficult.HARD;
+                        }
+                        else if (currentGameDifficult == GameDifficult.HARD)
+                        {
+                            currentGameDifficult = GameDifficult.ADVANCE;
+                        }
+                        else if (currentGameDifficult == GameDifficult.ADVANCE)
+                        {
+                            currentGameDifficult = GameDifficult.EASY;
+                        }
+                    }
+                    else if (_qlogResult.QValueAction == "ChangeGridModeQValue")
+                    {
+                        if (currentGameLayout == GameLayout.GRID)
+                        {
+                            currentGameLayout = GameLayout.RANDOM;
+                        }
+                        else if (currentGameLayout == GameLayout.RANDOM)
+                        {
+                            currentGameLayout = GameLayout.GRID;
+                        }
+                    }
+                }
+                else if (_qlogResult.GameplayState == QGameplayState.State7)
+                {
+                    if (currentPairType == PairType.EIGHT)
+                    {
+                        currentPairType = PairType.SIX;
+                    } 
+                    else if (currentPairType == PairType.SIX)
+                    {
+                        currentPairType = PairType.FOUR;
+                    }
                 }
             }
 
@@ -215,7 +329,7 @@ namespace Experiment
             LastUserQLogResult = _qlogResult;
             lastGameId = int.Parse(_qlogResult.GameID);
             FirebaseManagerV2.Instance.UpdateQPostGameStage(
-                new List<int>() { gameCount, gameCompleteCount, lastGameId }, CompleteGameID);
+                new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout }, CompleteGameID);
             FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
         }
 
@@ -271,7 +385,6 @@ namespace Experiment
 
             return difficulty;
         }
-
 
         public QGameplayState CalState(QLogResult _qlogResult)
         {
@@ -361,6 +474,7 @@ namespace Experiment
 
             #endregion
 
+            // TODO : Check It Null
             foreach (PhaseEnum phase in System.Enum.GetValues(typeof(PhaseEnum)))
             {
                 phaseCounts.TryGetValue(phase, out int countForPhase);
@@ -387,7 +501,7 @@ namespace Experiment
 
             #region Condition Return State
 
-            if (isPassiveUsed || _qlogResult.Complete == false)
+            if (isPassiveUsed)
                 return QGameplayState.State7;
 
             if (_qlogResult.PauseUsed)
@@ -584,12 +698,22 @@ namespace Experiment
         {
             var qTable = QTableList.First(w => w.GameplayState == gameplayState);
             Dictionary<string, float> TableData = new Dictionary<string, float>();
-            TableData.Add(nameof(qTable.CardNumberDecreaseQValue) , qTable.CardNumberDecreaseQValue);
+            TableData.Add(nameof(qTable.CardNumberDecreaseQValue), qTable.CardNumberDecreaseQValue);
             TableData.Add(nameof(qTable.CardNumberIncreaseQValue), qTable.CardNumberIncreaseQValue);
             TableData.Add(nameof(qTable.CardNumberMaintainQValue), qTable.CardNumberMaintainQValue);
             TableData.Add(nameof(qTable.ChangeGameDifficultQValue), qTable.ChangeGameDifficultQValue);
             TableData.Add(nameof(qTable.ChangeGridModeQValue), qTable.ChangeGridModeQValue);
             return TableData;
+        }
+
+        public (PairType, GameDifficult, GameLayout) GetDifficulty()
+        {
+            return (currentPairType, currentGameDifficult, currentGameLayout);
+        }
+        
+        public (int, int, bool) GetLevelData()
+        {
+            return ((int)currentPairType, (int)currentGameDifficult, currentGameLayout == GameLayout.GRID);
         }
     }
 }

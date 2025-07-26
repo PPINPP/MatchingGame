@@ -2211,12 +2211,17 @@ MonoBehaviour:
   FMWeight: 0.1
   DiffWeight: 0.1
   PerformanceWeight: 0.8
+  LearningRate: 0.1
+  DiscountFactor: 0.1
+  Epsilon: 0.01
   debugMode: 0
+  QTableDefaultValue: {fileID: 11400000, guid: e11b3504cf3398d449eb337e5f99cbbc, type: 2}
   UserQLogCompleteData: []
   LastUserQLogResult:
     Uuid: d67f626f-a151-4a47-9308-c091fa9d1af9
   gameCount: 0
   vrbBox: {fileID: 846020471}
+  QTableList: []
 --- !u!114 &1309062320
 MonoBehaviour:
   m_ObjectHideFlags: 0
