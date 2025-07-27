@@ -242,6 +242,7 @@ namespace Experiment
                     && _qlogResult.GameplayState != QGameplayState.None)
                 {
                     var random = Random.Range(0f, 1f);
+                    _qlogResult.CompareEpsilonValue = random;
                     if (random <= Epsilon)
                     {
                         int randomAction = Random.Range(0, 5);

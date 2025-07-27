@@ -35,6 +35,7 @@ namespace Model
         public int Result { get; set; }
         public string LogText { get; set; }
         public float Reward { get; set; }
+        public float CompareEpsilonValue { get; set; }
 
         public MemoryPhase SelectMemoryPhase { get; set; }
         public float QValue { get; set; }
@@ -92,6 +93,7 @@ namespace Model
                 }
                 : new MemoryPhaseFs();
             firestoreModel.Reward = Reward;
+            firestoreModel.CompareEpsilonValue = CompareEpsilonValue;
             firestoreModel.QValue = QValue;
             firestoreModel.QValueAction = QValueAction;
             firestoreModel.GameplayState = GameplayState.ToString();
@@ -157,6 +159,7 @@ namespace Model
                     FailMatchResult = (FailMatchResultEnum)System.Enum.Parse(typeof(FailMatchResultEnum),
                         qLogResultData.FailMatchResult),
                     Reward = qLogResultData.Reward,
+                    CompareEpsilonValue = qLogResultData.CompareEpsilonValue,
                     QValue = qLogResultData.QValue,
                     QValueAction = qLogResultData.QValueAction,
                     QTableList = qLogResultData.QTableList.Select(s => new QTable()
@@ -224,6 +227,7 @@ namespace Model
         [FirestoreProperty] public int Result { get; set; }
         [FirestoreProperty] public string LogText { get; set; }
         [FirestoreProperty] public float Reward { get; set; }
+        [FirestoreProperty] public float CompareEpsilonValue { get; set; }
         [FirestoreProperty] public float QValue { get; set; }
         [FirestoreProperty] public string QValueAction { get; set; }
 
