@@ -73,6 +73,6 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         //FuzzyBrain
         // FuzzyBrain.Instance.PostSpecialTaskStage(_specialgameResult);
         FuzzyBrain.Instance.UserSpecialData.Add(_specialgameResult);
-        FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameResult);
+        QBrain.Instance.UploadSpecialGameData(_specialgameResult);
     }
 }

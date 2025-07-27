@@ -508,7 +508,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             QuerySnapshot capitalQuerySnapshot = task.Result;
             foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                FuzzyBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
+                //FuzzyBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
+                QBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
 
             }
             return;

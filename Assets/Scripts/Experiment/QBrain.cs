@@ -33,8 +33,10 @@ namespace Experiment
         [Header("Configuration Data")] public bool debugMode;
         public QTableValueSO QTableDefaultValue;
         public List<QLogResult> UserQLogCompleteData = new List<QLogResult>();
+        public List<SpecialFuzzyData> UserSpecialData = new List<SpecialFuzzyData>();
         public QLogResult LastUserQLogResult;
         public int gameCount;
+        public int minigameCount;
         public TMP_Text vrbBox;
         public List<QTable> QTableList = new List<QTable>();
 
@@ -65,6 +67,7 @@ namespace Experiment
         {
             UserQLogCompleteData.Clear();
             gameCount = 0;
+            minigameCount = 0;
             gameCompleteCount = 0;
             lastGameId = 0;
             LastUserQLogResult = null;
@@ -82,6 +85,7 @@ namespace Experiment
             currentPairType = (PairType)qProperties[3];
             currentGameDifficult = (GameDifficult)qProperties[4];
             currentGameLayout = (GameLayout)qProperties[5];
+            minigameCount = qProperties[6];
             if (completeGameID != null)
             {
                 CompleteGameID = completeGameID;
@@ -331,7 +335,7 @@ namespace Experiment
             LastUserQLogResult = _qlogResult;
             lastGameId = int.Parse(_qlogResult.GameID);
             FirebaseManagerV2.Instance.UpdateQPostGameStage(
-                new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout }, CompleteGameID);
+                new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout , minigameCount }, CompleteGameID );
             FirebaseManagerV2.Instance.UploadGameQLearningData(_qlogResult);
         }
 
@@ -726,6 +730,17 @@ namespace Experiment
         public (int, int, bool) GetLevelData()
         {
             return ((int)currentPairType, (int)currentGameDifficult, currentGameLayout == GameLayout.GRID);
+        }
+
+        public void UploadSpecialGameData(SpecialFuzzyData _specialgameResult)
+        {
+            _specialgameResult.GameID = minigameCount.ToString();
+            UserSpecialData.Add(_specialgameResult);
+            minigameCount++;
+            FirebaseManagerV2.Instance.UpdateQPostGameStage(
+                new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout , minigameCount }, CompleteGameID );
+
+            FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameResult);
         }
     }
 }
