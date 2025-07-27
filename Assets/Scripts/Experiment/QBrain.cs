@@ -618,6 +618,11 @@ namespace Experiment
         public FailMatchResultEnum CalPerformanceFailMatchResultWithBound(float curGameFalseMatchPercent,
             List<FalseMatchData> previousGameFalseData)
         {
+            if (curGameFalseMatchPercent == 0)
+            {
+                return FailMatchResultEnum.Low;
+            }
+            
             List<float> pastPhasePercent = new List<float>();
             foreach (FalseMatchData failMatchData in previousGameFalseData)
             {
