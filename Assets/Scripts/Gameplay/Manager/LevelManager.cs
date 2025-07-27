@@ -859,22 +859,22 @@ namespace MatchingGame.Gameplay
             settingPage.interactable = true;
         }
 
-        public void PrepareFuzzyData(bool IsGameComplete)
-        {
-            GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
-            GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
-            GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
-            GameplayResultManager.Instance.FuzzyGameResult.Complete = IsGameComplete;
-            GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
-            GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
-            GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
-            GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
-            GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
-            var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
-            GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
-            GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
-            GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
-        }
+        // public void PrepareFuzzyData(bool IsGameComplete)
+        // {
+        //     GameplayResultManager.Instance.FuzzyGameResult.GameID = FuzzyBrain.Instance.gameCount.ToString();
+        //     GameplayResultManager.Instance.FuzzyGameResult.Phase = CardPhase;
+        //     GameplayResultManager.Instance.FuzzyGameResult.TimeUsed = addedTime ? 210 - UIManager.Instance.Timer : 180 - UIManager.Instance.Timer;
+        //     GameplayResultManager.Instance.FuzzyGameResult.Complete = IsGameComplete;
+        //     GameplayResultManager.Instance.FuzzyGameResult.Helper = new List<bool> { addedTime, flipped, passiveUsed };
+        //     GameplayResultManager.Instance.FuzzyGameResult.HelperSeq = this.HelperSeq;
+        //     GameplayResultManager.Instance.FuzzyGameResult.FalseMatch = matchFalseCount;
+        //     GameplayResultManager.Instance.FuzzyGameResult.TotalMatch = (int)_cardList.Count;
+        //     GameplayResultManager.Instance.FuzzyGameResult.FirstMatchTime = firstMatchTime;
+        //     var (gm, cl, cd) = FuzzyBrain.Instance.DLS.GetLevelData();
+        //     GameplayResultManager.Instance.FuzzyGameResult.Difficulty = cd;
+        //     GameplayResultManager.Instance.FuzzyGameResult.GridMode = gm;
+        //     GameplayResultManager.Instance.FuzzyGameResult.GameLevel = cl;
+        // }
         
         public void PrepareQData(bool IsGameComplete)
         {

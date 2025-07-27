@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Linq;
+using Experiment;
 
 public class MinigameManager : MonoInstance<MinigameManager>
 {
@@ -189,12 +190,12 @@ public class MinigameManager : MonoInstance<MinigameManager>
             clickObjImg.gameObject.SetActive(false);
             finishUIObj.SetActive(true);
             AudioController.SetVolume();
-            // GameplayResultManager.Instance.SpecialFuzzyData.GameID = FuzzyBrain.Instance.minigameCount.ToString();
-            // GameplayResultManager.Instance.SpecialFuzzyData.GameScore = game_score;
-            // GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use.ToList();
-            // for(int i=time_use.Count();i<10;i++){
-            //     GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed.Add(1.5f);
-            // }
+            GameplayResultManager.Instance.SpecialFuzzyData.GameID = QBrain.Instance.minigameCount.ToString();
+            GameplayResultManager.Instance.SpecialFuzzyData.GameScore = game_score;
+            GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed = time_use.ToList();
+            for(int i=time_use.Count();i<10;i++){
+                GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed.Add(1.5f);
+            }
             // Debug.Log(GameplayResultManager.Instance.SpecialFuzzyData.TimeUsed.Count());
             for (int i = 0; i < 20; i++)
             {

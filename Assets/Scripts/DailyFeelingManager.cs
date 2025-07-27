@@ -3,6 +3,7 @@ using MatchingGame.Gameplay;
 using Model;
 using System.Collections.Generic;
 using System.Linq;
+using Experiment;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -110,6 +111,7 @@ public class DailyFeelingManager : MonoBehaviour
         DailyFeelingResult dailyFeelingResult = new DailyFeelingResult(_state);
         DataManager.Instance.DailyFeelingResultList.Add(dailyFeelingResult);
         // FuzzyBrain.Instance.PostDailyStage();
+        QBrain.Instance.PostDailyStage();
         FirebaseManagerV2.Instance.UploadDailyFeelingResult(dailyFeelingResult);
         SequenceManager.Instance.NextSequence();
     }

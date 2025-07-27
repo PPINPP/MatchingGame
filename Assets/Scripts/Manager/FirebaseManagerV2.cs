@@ -392,47 +392,47 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         });
         return;
     }
-    public void GetFuzzyGameData(List<int> CompleteGameID)
-    {
-        List<object> _tempIDList = new List<object>();
-        if (CompleteGameID.Count >= 5)
-        {
-            for (int i = CompleteGameID.Count - 5; i < CompleteGameID.Count; i++)
-            {
-                _tempIDList.Add(CompleteGameID[i].ToString());
-            }
-
-        }
-        else
-        {
-            for (int i = 0; i < CompleteGameID.Count; i++)
-            {
-                _tempIDList.Add(CompleteGameID[i].ToString());
-            }
-
-        }
-        Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
-        GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            QuerySnapshot capitalQuerySnapshot = task.Result;
-
-            if (capitalQuerySnapshot.Count == _tempIDList.Count)
-            {
-                foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
-                {
-                    FuzzyBrain.Instance.UserFuzzyData.Add(new FuzzyGameData().ConvertToGameData(documentSnapshot.ConvertTo<FuzzyGameDataFs>()));
-                }
-                return;
-            }
-            else
-            {
-                Debug.Log("Something went wrong");
-                return;
-            }
-
-        });
-        return;
-    }
+    // public void GetFuzzyGameData(List<int> CompleteGameID)
+    // {
+    //     List<object> _tempIDList = new List<object>();
+    //     if (CompleteGameID.Count >= 5)
+    //     {
+    //         for (int i = CompleteGameID.Count - 5; i < CompleteGameID.Count; i++)
+    //         {
+    //             _tempIDList.Add(CompleteGameID[i].ToString());
+    //         }
+    //
+    //     }
+    //     else
+    //     {
+    //         for (int i = 0; i < CompleteGameID.Count; i++)
+    //         {
+    //             _tempIDList.Add(CompleteGameID[i].ToString());
+    //         }
+    //
+    //     }
+    //     Query GameDataQuery = db.Collection(prefix_locate + "/" + curr_id + "/FuzzyGameData").WhereIn("GameID", _tempIDList);
+    //     GameDataQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+    //     {
+    //         QuerySnapshot capitalQuerySnapshot = task.Result;
+    //
+    //         if (capitalQuerySnapshot.Count == _tempIDList.Count)
+    //         {
+    //             foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+    //             {
+    //                 FuzzyBrain.Instance.UserFuzzyData.Add(new FuzzyGameData().ConvertToGameData(documentSnapshot.ConvertTo<FuzzyGameDataFs>()));
+    //             }
+    //             return;
+    //         }
+    //         else
+    //         {
+    //             Debug.Log("Something went wrong");
+    //             return;
+    //         }
+    //
+    //     });
+    //     return;
+    // }
     
     public void GetQGameData(List<int> CompleteGameID,int lastGameID)
     {
@@ -510,7 +510,6 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             {
                 //FuzzyBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
                 QBrain.Instance.UserSpecialData.Add(new SpecialFuzzyData().ConvertToGameData(documentSnapshot.ConvertTo<SpecialFuzzyDataFs>()));
-
             }
             return;
         });

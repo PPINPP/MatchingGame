@@ -72,7 +72,6 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         FirebaseManagerV2.Instance.UploadMiniGameResult(_minigameResult,DataManager.Instance.MinigameResultList.Count-1);
         //FuzzyBrain
         // FuzzyBrain.Instance.PostSpecialTaskStage(_specialgameResult);
-        FuzzyBrain.Instance.UserSpecialData.Add(_specialgameResult);
         QBrain.Instance.UploadSpecialGameData(_specialgameResult);
     }
 }

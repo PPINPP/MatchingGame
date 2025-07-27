@@ -46,6 +46,7 @@ namespace Experiment
         private PairType currentPairType;
         private GameDifficult currentGameDifficult;
         private GameLayout currentGameLayout;
+        private int dayPassed;
 
         public override void Init()
         {
@@ -94,6 +95,8 @@ namespace Experiment
             {
                 CompleteGameID = new List<int>();
             }
+
+            dayPassed = dp;
         }
 
         public void SetDefaultQTable()
@@ -734,13 +737,21 @@ namespace Experiment
 
         public void UploadSpecialGameData(SpecialFuzzyData _specialgameResult)
         {
-            _specialgameResult.GameID = minigameCount.ToString();
             UserSpecialData.Add(_specialgameResult);
             minigameCount++;
             FirebaseManagerV2.Instance.UpdateQPostGameStage(
                 new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout , minigameCount }, CompleteGameID );
 
             FirebaseManagerV2.Instance.UploadSpecialGameData(_specialgameResult);
+        }
+        
+        public void PostDailyStage()
+        {
+            dayPassed++;
+            FirebaseManagerV2.Instance.UpdateDayPassed(dayPassed);
+            
+            FirebaseManagerV2.Instance.UpdateQPostGameStage(
+                new List<int>() { gameCount, gameCompleteCount, lastGameId , (int)currentPairType , (int)currentGameDifficult, (int)currentGameLayout , minigameCount }, CompleteGameID );
         }
     }
 }
