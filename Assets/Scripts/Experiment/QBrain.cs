@@ -152,6 +152,7 @@ namespace Experiment
 
             if (_qlogResult.Complete)
             {
+                CalMemoryPhase(_qlogResult);
                 if (UserQLogCompleteData.Count >= 3)
                 {
                     _qlogResult.GameplayState = CalState(_qlogResult);
@@ -445,55 +446,7 @@ namespace Experiment
             FailMatchResultEnum failMatchResult =
                 CalPerformanceFailMatchResultWithBound(curGameFalseMatchPercent, previousGameFMD);
 
-            #region MemoryPhase
-
-            List<MemoryPhase> memoryPhaseList = new List<MemoryPhase>();
-            PhaseEnum phaseMax;
-            Dictionary<PhaseEnum, int> phaseCounts = _qlogResult.PhaseDataList
-                .GroupBy(pd => pd.Phase)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            int totalCount = _qlogResult.PhaseDataList.Count;
-
-            #region Find Highest Count In Phase
-
-            int maxCount = phaseCounts.Values.Max();
-            List<PhaseEnum> phasesWithMaxCount = phaseCounts
-                .Where(pair => pair.Value == maxCount)
-                .Select(pair => pair.Key)
-                .OrderByDescending(phase => (int)phase)
-                .ToList();
-            if (maxCount * 3 == totalCount)
-            {
-                phaseMax = PhaseEnum.SPM;
-            }
-            else
-            {
-                phaseMax = phasesWithMaxCount.First();
-            }
-
-            #endregion
-
-            // TODO : Check It Null
-            foreach (PhaseEnum phase in System.Enum.GetValues(typeof(PhaseEnum)))
-            {
-                phaseCounts.TryGetValue(phase, out int countForPhase);
-                float percentage = ((float)countForPhase / totalCount) * 100.0f;
-
-                memoryPhaseList.Add(new MemoryPhase
-                {
-                    Phase = phase,
-                    InPhasePercentage = percentage
-                });
-            }
-
-            memoryPhaseList = memoryPhaseList.OrderBy(p => p.Phase).ToList();
-            _qlogResult.PhaseSuccessPercent = memoryPhaseList.Select(s => s.InPhasePercentage).ToList();
-
-            #endregion
-
-            MemoryPhase selectMemoryPhase = memoryPhaseList.First(f => f.Phase == phaseMax);
-            _qlogResult.SelectMemoryPhase = selectMemoryPhase;
+            
             _qlogResult.SpeedCatIRM = speedCatIRM;
             _qlogResult.SpeedCatSPM = speedCatSPM;
             _qlogResult.FailMatchResult = failMatchResult;
@@ -511,7 +464,7 @@ namespace Experiment
 
             if ((speedCatIRM == SpeedCategoryEnum.Maintain || speedCatIRM == SpeedCategoryEnum.Slow ||
                  speedCatIRM == SpeedCategoryEnum.None)
-                && selectMemoryPhase.Phase == PhaseEnum.SPM
+                && _qlogResult.SelectMemoryPhase.Phase == PhaseEnum.SPM
                 && failMatchResult != FailMatchResultEnum.High)
                 return QGameplayState.State1;
 
@@ -520,13 +473,13 @@ namespace Experiment
             #region State 2
 
             if (speedCatIRM == SpeedCategoryEnum.Fast
-                && selectMemoryPhase.Phase != PhaseEnum.ESM
+                && _qlogResult.SelectMemoryPhase.Phase != PhaseEnum.ESM
                 && (failMatchResult == FailMatchResultEnum.Low || failMatchResult == FailMatchResultEnum.Maintain))
             {
-                if (selectMemoryPhase.Phase == PhaseEnum.SPM)
+                if (_qlogResult.SelectMemoryPhase.Phase == PhaseEnum.SPM)
                     return QGameplayState.State2;
 
-                if (selectMemoryPhase.Phase == PhaseEnum.IRM
+                if (_qlogResult.SelectMemoryPhase.Phase == PhaseEnum.IRM
                     && (failMatchResult == FailMatchResultEnum.Maintain
                         || isAddTimeOrFlipUsed == true
                         || speedCatSPM != SpeedCategoryEnum.None))
@@ -538,7 +491,7 @@ namespace Experiment
             #region State 3
 
             if (speedCatIRM == SpeedCategoryEnum.Fast
-                && selectMemoryPhase.Phase == PhaseEnum.IRM
+                && _qlogResult.SelectMemoryPhase.Phase == PhaseEnum.IRM
                 && speedCatSPM == SpeedCategoryEnum.None
                 && failMatchResult == FailMatchResultEnum.Low
                 && isAllHelperNotUsed == true)
@@ -549,7 +502,7 @@ namespace Experiment
             #region State 4
 
             if ((speedCatIRM == SpeedCategoryEnum.Maintain || speedCatIRM == SpeedCategoryEnum.Slow)
-                && selectMemoryPhase.Phase == PhaseEnum.IRM
+                && _qlogResult.SelectMemoryPhase.Phase == PhaseEnum.IRM
                 && failMatchResult != FailMatchResultEnum.High)
                 return QGameplayState.State4;
 
@@ -557,12 +510,12 @@ namespace Experiment
 
             #region State 5
 
-            bool case1 = selectMemoryPhase.Phase == PhaseEnum.ESM
+            bool case1 = _qlogResult.SelectMemoryPhase.Phase == PhaseEnum.ESM
                          && speedCatSPM != SpeedCategoryEnum.Slow
                          && failMatchResult != FailMatchResultEnum.None;
             bool case2 = speedCatSPM != SpeedCategoryEnum.Slow
                          && failMatchResult == FailMatchResultEnum.High;
-            bool case3 = selectMemoryPhase.Phase == PhaseEnum.ESM
+            bool case3 = _qlogResult.SelectMemoryPhase.Phase == PhaseEnum.ESM
                          && speedCatSPM == SpeedCategoryEnum.Slow
                          && (failMatchResult == FailMatchResultEnum.Low
                              || failMatchResult == FailMatchResultEnum.Maintain);
@@ -692,6 +645,59 @@ namespace Experiment
                 return FailMatchResultEnum.Low;
             else
                 return FailMatchResultEnum.Maintain;
+        }
+
+        public void CalMemoryPhase(QLogResult _qlogResult)
+        {
+            #region MemoryPhase
+
+            List<MemoryPhase> memoryPhaseList = new List<MemoryPhase>();
+            PhaseEnum phaseMax;
+            Dictionary<PhaseEnum, int> phaseCounts = _qlogResult.PhaseDataList
+                .GroupBy(pd => pd.Phase)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            int totalCount = _qlogResult.PhaseDataList.Count;
+
+            #region Find Highest Count In Phase
+
+            int maxCount = phaseCounts.Values.Max();
+            List<PhaseEnum> phasesWithMaxCount = phaseCounts
+                .Where(pair => pair.Value == maxCount)
+                .Select(pair => pair.Key)
+                .OrderByDescending(phase => (int)phase)
+                .ToList();
+            if (maxCount * 3 == totalCount)
+            {
+                phaseMax = PhaseEnum.SPM;
+            }
+            else
+            {
+                phaseMax = phasesWithMaxCount.First();
+            }
+
+            #endregion
+
+            // TODO : Check It Null
+            foreach (PhaseEnum phase in System.Enum.GetValues(typeof(PhaseEnum)))
+            {
+                phaseCounts.TryGetValue(phase, out int countForPhase);
+                float percentage = ((float)countForPhase / totalCount) * 100.0f;
+
+                memoryPhaseList.Add(new MemoryPhase
+                {
+                    Phase = phase,
+                    InPhasePercentage = percentage
+                });
+            }
+
+            memoryPhaseList = memoryPhaseList.OrderBy(p => p.Phase).ToList();
+            _qlogResult.PhaseSuccessPercent = memoryPhaseList.Select(s => s.InPhasePercentage).ToList();
+
+            #endregion
+
+            MemoryPhase selectMemoryPhase = memoryPhaseList.First(f => f.Phase == phaseMax);
+            _qlogResult.SelectMemoryPhase = selectMemoryPhase;
         }
 
         public Dictionary<string, float> GetQTable(QGameplayState gameplayState)
