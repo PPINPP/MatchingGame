@@ -109,7 +109,7 @@ public class DailyFeelingManager : MonoBehaviour
         }
         DailyFeelingResult dailyFeelingResult = new DailyFeelingResult(_state);
         DataManager.Instance.DailyFeelingResultList.Add(dailyFeelingResult);
-        // FuzzyBrain.Instance.PostDailyStage();
+        FuzzyBrain.Instance.PostDailyStage();
         FirebaseManagerV2.Instance.UploadDailyFeelingResult(dailyFeelingResult);
         SequenceManager.Instance.NextSequence();
     }

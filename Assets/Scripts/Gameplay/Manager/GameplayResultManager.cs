@@ -59,7 +59,7 @@ public class GameplayResultManager : MonoInstance<GameplayResultManager>
         //FirebaseManagerV2 upload Data
         FirebaseManagerV2.Instance.UploadGamePlayResult(_gameplayResult);
         //FuzzyBrain
-        //FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
+        FuzzyBrain.Instance.PostGameStage(_fuzzygameResult);
         
         QBrain.Instance.ComputeQResult(_qlogResult);
     }

@@ -107,7 +107,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             week_day.Add((i + 1).ToString(), new List<string>());
         }
-        //FuzzyBrain.Instance.ClearParameter();
+        FuzzyBrain.Instance.ClearParameter();
         QBrain.Instance.ClearParameter();
 
         //FIX
@@ -317,22 +317,22 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
                             Debug.Log($"Key: {kvp.Key}, Value: {string.Join(", ", kvp.Value)}");
                         }
                     }
-                    // if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
-                    // {
-                    //     if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
-                    //     {
-                    //         if (CompleteGameID.Count > 0)
-                    //         {
-                    //             GetFuzzyGameData(CompleteGameID);
-                    //         }
-                    //         else
-                    //         {
-                    //             CompleteGameID = new List<int>();
-                    //         }
-                    //
-                    //     }
-                    //     FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
-                    // }
+                    if (documentSnapshot.TryGetValue("FuzzyProperties", out FuzzyProperties))
+                    {
+                        if (documentSnapshot.TryGetValue("CompleteGameID", out CompleteGameID))
+                        {
+                            if (CompleteGameID.Count > 0)
+                            {
+                                GetFuzzyGameData(CompleteGameID);
+                            }
+                            else
+                            {
+                                CompleteGameID = new List<int>();
+                            }
+                    
+                        }
+                        FuzzyBrain.Instance.SetGameProperties(FuzzyProperties, CompleteGameID, dp);
+                    }
                     if (documentSnapshot.TryGetValue("QProperties", out QProperties))
                     {
                         if (documentSnapshot.TryGetValue("QCompleteGameID", out QCompleteGameID))
