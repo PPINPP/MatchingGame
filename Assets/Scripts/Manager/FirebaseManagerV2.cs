@@ -37,7 +37,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "fuzzy_test";
+    string prefix_locate = "fuzzy_kmutt";
     // string prefix_locate = "Debug";
     string prefix_time_locate = "game_information_test";
     public string curr_username;
@@ -101,7 +101,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             gameScore["W" + i.ToString()] = new List<int>();
             gameState["W" + i.ToString()] = new List<int>();
         }
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++) //7
         {
             week_day.Add((i + 1).ToString(), new List<string>());
         }
@@ -415,7 +415,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
             }
         }
         int use_week = 0;
-        if (curr_week % 2 == 0)
+        if (curr_week % 7 == 0)
         {
             use_week = curr_week - 1;
         }
@@ -469,7 +469,10 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     }
     private IEnumerator GetCard()
     {
-        int use_week = 0;
+        //int use_week = ((curr_week - 1) / 3) * 3 + 2;
+        
+        int use_week = ((curr_week - 1) / 2);
+        
         if (curr_week % 2 == 0)
         {
             use_week = curr_week - 1;
@@ -478,6 +481,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         {
             use_week = curr_week;
         }
+        
         Query allCardQuery = db.Collection(prefix_locate + "/" + curr_id + "/GameDataInformation/W" + use_week.ToString() + "/CardLog");
 
         Task<QuerySnapshot> task = allCardQuery.GetSnapshotAsync();
@@ -679,6 +683,8 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
 
     public void checkTimeChange()
     {
+        UpdateLastLogin();
+        lastLogin = DateTime.Now.ToString("yyyyMMdd");
         if (lastLogin != DateTime.Now.ToString("yyyyMMdd"))
         {
             Debug.Log("End Testing Time or Time Change");

@@ -35,7 +35,7 @@ public class LevelSelectorUIManager : MonoBehaviour
         //Check
         if (LevelSelectorManager.Instance.AllCompleteCheck())
         {
-            if (FirebaseManagerV2.Instance.week_day[FirebaseManagerV2.Instance.curr_week.ToString()].Count == 3)
+            if (FirebaseManagerV2.Instance.week_day[FirebaseManagerV2.Instance.curr_week.ToString()].Count == 7)
             {
                 if (FirebaseManagerV2.Instance.curr_week != 8)
                 {
@@ -62,7 +62,7 @@ public class LevelSelectorUIManager : MonoBehaviour
         }
         else
         {
-            if (FirebaseManagerV2.Instance.week_day[FirebaseManagerV2.Instance.curr_week.ToString()].Count == 4)
+            if (FirebaseManagerV2.Instance.week_day[FirebaseManagerV2.Instance.curr_week.ToString()].Count >= 7)
             {
                 if (FirebaseManagerV2.Instance.curr_week != 8)
                 {

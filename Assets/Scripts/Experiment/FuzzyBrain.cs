@@ -46,7 +46,7 @@ public class FuzzyBrain : MonoSingleton<FuzzyBrain>
         }
         else
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 7; i++)
             {
                 this.transform.GetChild(i).gameObject.SetActive(false);
             }

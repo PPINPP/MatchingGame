@@ -332,6 +332,7 @@ public class RegisterManagerV2 : MonoBehaviour
                 {"6",new List<string>() },
                 {"7",new List<string>() },
                 {"8",new List<string>() },
+   
             },
 
         };
