@@ -203,7 +203,7 @@ namespace Experiment
                         float rewardResult = CalReward(_qlogResult);
                         _qlogResult.Reward = rewardResult;
                        
-                        updateLastGameQValue = lastGameComplete.QValue + LearningRate * (lastGameComplete.Reward +
+                        updateLastGameQValue = lastGameComplete.QValue + LearningRate * (_qlogResult.Reward +
                             (DiscountFactor * qSaValue.Value) - lastGameComplete.QValue);
                     }
                     else
