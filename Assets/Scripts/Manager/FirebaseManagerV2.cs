@@ -984,33 +984,33 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
         _ = docRef.SetAsync(qLog.ConvertToFirestoreModel());
     }
     
-    public void UpdateQValue(QLogResult qLog)
+    public void UpdateLastGameQValue(QLogResult qLog)
     {
         DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
         Dictionary<string, object> updates = new Dictionary<string, object>{
-            {"QValue",qLog.QValue},
+            {"QValueUpdated",qLog.QValueUpdated},
         };
         _ = docRef.UpdateAsync(updates);
     }
     
-    public void UpdateLastGameQTable(QLogResult qLog)
-    {
-        List<QTableFs> QTableFs = qLog.QTableList.Select(s => new QTableFs
-        {
-            GameplayState = s.GameplayState.ToString(),
-            CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
-            CardNumberMaintainQValue = s.CardNumberMaintainQValue,
-            CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
-            ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
-            ChangeGridModeQValue = s.ChangeGridModeQValue
-        }).ToList();
-        
-        DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
-        Dictionary<string, object> updates = new Dictionary<string, object>{
-            {"QTableList", QTableFs},
-        };
-        docRef.UpdateAsync(updates);
-    }
+    // public void UpdateLastGameQTable(QLogResult qLog)
+    // {
+    //     List<QTableFs> QTableFs = qLog.QTableList.Select(s => new QTableFs
+    //     {
+    //         GameplayState = s.GameplayState.ToString(),
+    //         CardNumberIncreaseQValue = s.CardNumberIncreaseQValue,
+    //         CardNumberMaintainQValue = s.CardNumberMaintainQValue,
+    //         CardNumberDecreaseQValue = s.CardNumberDecreaseQValue,
+    //         ChangeGameDifficultQValue = s.ChangeGameDifficultQValue,
+    //         ChangeGridModeQValue = s.ChangeGridModeQValue
+    //     }).ToList();
+    //     
+    //     DocumentReference docRef = db.Collection(prefix_locate).Document(curr_id + "/QLog/" + qLog.GameID);
+    //     Dictionary<string, object> updates = new Dictionary<string, object>{
+    //         {"QTableList", QTableFs},
+    //     };
+    //     docRef.UpdateAsync(updates);
+    // }
     
     public void UpdateFuzzyPostGameStage(List<int> fuzzyProp, List<int> completeGameID)
     {

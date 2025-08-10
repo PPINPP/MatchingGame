@@ -39,6 +39,7 @@ namespace Model
 
         public MemoryPhase SelectMemoryPhase { get; set; }
         public float QValue { get; set; }
+        public float QValueUpdated { get; set; }
         public string QValueAction { get; set; }
         public QGameplayState GameplayState { get; set; }
         public SpeedCategoryEnum SpeedCatIRM { get; set; }
@@ -95,6 +96,7 @@ namespace Model
             firestoreModel.Reward = Reward;
             firestoreModel.CompareEpsilonValue = CompareEpsilonValue;
             firestoreModel.QValue = QValue;
+            firestoreModel.QValueUpdated = QValueUpdated;
             firestoreModel.QValueAction = QValueAction;
             firestoreModel.GameplayState = GameplayState.ToString();
             firestoreModel.SpeedCatIRM = SpeedCatIRM.ToString();
@@ -161,6 +163,7 @@ namespace Model
                     Reward = qLogResultData.Reward,
                     CompareEpsilonValue = qLogResultData.CompareEpsilonValue,
                     QValue = qLogResultData.QValue,
+                    QValueUpdated = qLogResultData.QValueUpdated,
                     QValueAction = qLogResultData.QValueAction,
                     QTableList = qLogResultData.QTableList.Select(s => new QTable()
                     {
@@ -229,6 +232,7 @@ namespace Model
         [FirestoreProperty] public float Reward { get; set; }
         [FirestoreProperty] public float CompareEpsilonValue { get; set; }
         [FirestoreProperty] public float QValue { get; set; }
+        [FirestoreProperty] public float QValueUpdated { get; set; }
         [FirestoreProperty] public string QValueAction { get; set; }
 
         [FirestoreProperty] public MemoryPhaseFs SelectMemoryPhase { get; set; }
