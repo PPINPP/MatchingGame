@@ -240,8 +240,9 @@ namespace Experiment
                         }
                     }
 
-                    lastGameComplete.QValue = updateLastGameQValue;
-                    FirebaseManagerV2.Instance.UpdateQValue(lastGameComplete);
+                    lastGameComplete.QTableList = QTableList;
+                    FirebaseManagerV2.Instance.UpdateLastGameQTable(lastGameComplete);
+                    FirebaseManagerV2.Instance.UpdateQTable(QTableList);
                 }
 
                 if (_qlogResult.GameplayState != QGameplayState.State6
