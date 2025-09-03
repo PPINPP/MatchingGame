@@ -2205,23 +2205,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92720259dee546ce97135771342d34b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IRMWeight: 0.3
-  SPMWeight: 0.2
+  IRMWeight: 0.4
+  SPMWeight: 0.1
   ESMWeight: 0.5
-  FMWeight: 0.1
+  FMWeight: 0.3
   DiffWeight: 0.1
-  PerformanceWeight: 0.8
+  PerformanceWeight: 0.6
   LearningRate: 0.1
   DiscountFactor: 0.1
-  Epsilon: 0.01
+  Epsilon: 0.1
   debugMode: 0
   QTableDefaultValue: {fileID: 11400000, guid: e11b3504cf3398d449eb337e5f99cbbc, type: 2}
   UserQLogCompleteData: []
+  UserSpecialData: []
   LastUserQLogResult:
     Uuid: d67f626f-a151-4a47-9308-c091fa9d1af9
   gameCount: 0
+  minigameCount: 0
   vrbBox: {fileID: 846020471}
-  QTableList: []
 --- !u!114 &1309062320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2269,7 +2270,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309062318}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

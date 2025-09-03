@@ -39,7 +39,7 @@ public class FirebaseManagerV2 : MonoSingleton<FirebaseManagerV2>
     /// Profile Parameter ///
     private bool syncnetwork = true;
     string curr_id;
-    string prefix_locate = "q_test";
+    string prefix_locate = "qlearning_kmutt";
     // string prefix_locate = "Debug";
     string prefix_time_locate = "game_information_test";
     public string curr_username;
